@@ -48,6 +48,28 @@ Similar to how the brain grows new neural pathways between previously unconnecte
 
 ⚠️ **Important**: Creative links are exploratory hypotheses, not rigorous technical specifications. They help spark ideas for bridging seemingly unrelated systems and may be used to close gaps in system-of-systems architectures.
 
+### Correlation vs. Causation Analysis
+When linking architectures, users often observe that systems seem related (correlation). However, **correlation does not imply causation**.
+
+Chain Reflow helps distinguish between:
+- **Correlation**: Systems appear related (observed pattern)
+- **Causation**: One system actually affects the other (proven mechanism)
+- **Spurious Correlation**: Coincidental relationship (no real link)
+
+For each observed correlation, the system generates competing hypotheses:
+1. **A→B**: Architecture A causes changes in B
+2. **B→A**: Architecture B causes changes in A
+3. **A↔B**: Both affect each other (feedback loop)
+4. **Spurious**: No causal relationship exists
+
+The system then designs validation experiments to test these hypotheses:
+- **Observational studies**: Monitor temporal patterns
+- **Intervention tests**: Block proposed causal pathway
+- **Mechanism analysis**: Identify actual interfaces
+- **Temporal analysis**: Verify cause precedes effect
+
+⚠️ **Critical**: Only link architectures based on validated causal relationships or with clear exploratory disclaimers.
+
 ## Example Use Cases
 
 ### Component-Level Integration
@@ -73,9 +95,12 @@ Each level can be analyzed for orphans, gaps, and misalignments using reflow too
 
 - **Multiple Linking Strategies**: Automatic selection of standard vs. creative linking
 - **Orthogonality Assessment**: Determines how related/unrelated architectures are
+- **Correlation vs. Causation Analysis**: Distinguishes observed patterns from proven causal relationships
 - **Synesthetic Mappings**: Cross-domain metaphors for bridging different domains
 - **Structural Analogies**: Pattern-based connection discovery
 - **User Guidance**: Incorporates user expertise about relationships
+- **Causal Hypothesis Generation**: Creates testable hypotheses about system relationships
+- **Validation Frameworks**: Designs experiments to test causal claims
 - **Exploratory Marking**: Clear labeling of speculative vs. validated connections
 - **Validation Workflows**: Refine and validate discovered touchpoints
 - **Hierarchical Composition**: Support for multi-level architecture nesting

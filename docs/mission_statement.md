@@ -25,6 +25,19 @@ For architectures in related domains:
 - Protocol compatibility analysis
 - Data format alignment
 
+### Correlation vs. Causation Analysis
+Distinguishes observed patterns from proven causal relationships:
+- **Correlation Detection**: Identifies when systems appear related (observed patterns)
+- **Causal Hypothesis Generation**: Proposes potential causal mechanisms
+- **Validation Frameworks**: Designs experiments to test causal claims
+- **Scientific Rigor**: Ensures links are based on evidence, not assumptions
+
+**Fundamental Principle**: CORRELATION ≠ CAUSATION
+- Users may observe that systems seem related (correlation)
+- This does NOT mean one causes the other (causation)
+- Chain Reflow generates competing hypotheses and validation plans
+- Only validated causal relationships or clearly marked exploratory links are used
+
 ### Creative Linking
 For architectures in orthogonal (unrelated) domains:
 - **Synesthetic Mapping**: Cross-domain metaphors (e.g., biological signal transduction → software event propagation)
