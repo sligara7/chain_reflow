@@ -1,0 +1,482 @@
+{
+  "workflow_metadata": {
+    "workflow_id": "chain-01",
+    "name": "Architecture Chaining Workflow",
+    "version": "1.1.0",
+    "description": "Link two or more system_of_systems_graph.json files together, including creative linking for orthogonal architectures and correlation/causation analysis",
+    "created_from": "chain_reflow concept - linking independent architectures",
+    "last_updated": "2025-10-28",
+    "purpose": "Discover and establish touchpoints between independently developed system architectures while distinguishing correlation from causation"
+  },
+  "entry_points": {
+    "link_two_systems": {
+      "id": "link_two_systems",
+      "description": "Link two system architectures together",
+      "trigger": "User wants to integrate two system_of_systems_graph.json files",
+      "first_step": "C-01"
+    },
+    "link_multiple_systems": {
+      "id": "link_multiple_systems",
+      "description": "Link multiple system architectures in a hierarchy",
+      "trigger": "User wants to create system-of-systems from multiple architectures",
+      "first_step": "C-01"
+    }
+  },
+  "workflow_steps": [
+    {
+      "step_id": "C-01",
+      "name": "Architecture Loading and Analysis",
+      "description": "Load the architectures to be linked and perform initial analysis",
+      "phase": "initialization",
+      "actions": [
+        {
+          "action_id": "C-01-A01",
+          "description": "Load architecture files",
+          "purpose": "Load all system_of_systems_graph.json files to be linked",
+          "llm_instructions": [
+            "Ask user for paths to architecture files",
+            "Load each architecture file",
+            "Validate JSON structure",
+            "Extract metadata: system name, framework, domain"
+          ],
+          "store_in": "context/loaded_architectures.json"
+        },
+        {
+          "action_id": "C-01-A02",
+          "description": "Analyze architecture domains and frameworks",
+          "purpose": "Understand what types of architectures we're linking",
+          "llm_instructions": [
+            "Extract domain from each architecture (software, biological, mechanical, etc.)",
+            "Extract framework from each architecture (UAF, Decision Flow, etc.)",
+            "Identify which architectural patterns are used",
+            "Document in analysis report"
+          ],
+          "output": "context/architecture_analysis.json"
+        },
+        {
+          "action_id": "C-01-A03",
+          "description": "Assess orthogonality between architectures",
+          "purpose": "Determine how related or unrelated the architectures are",
+          "command_pattern": "python3 {system_root}/src/creative_linking.py assess-orthogonality arch1.json arch2.json",
+          "llm_instructions": [
+            "Use CreativeLinkingEngine.assess_orthogonality() for each pair",
+            "Classify as: ALIGNED, RELATED, DIVERGENT, or ORTHOGONAL",
+            "Document reasoning for each classification"
+          ],
+          "output": "context/orthogonality_assessment.json"
+        }
+      ],
+      "next_step": "C-01A"
+    },
+    {
+      "step_id": "C-01A",
+      "name": "Correlation and Causality Analysis",
+      "description": "Analyze potential correlations between architectures and generate causal hypotheses",
+      "phase": "analysis",
+      "important_principle": "CORRELATION ≠ CAUSATION - Users may observe that systems seem related (correlation) without understanding if one causes the other (causation). This step helps distinguish between the two.",
+      "actions": [
+        {
+          "action_id": "C-01A-A01",
+          "description": "Ask user about observed correlations",
+          "purpose": "Gather user observations about how architectures might be related",
+          "user_prompt": {
+            "message_format": "Have you observed any correlations or relationships between these architectures?\n\nFor example:\n• When one system is busy, does the other also become busy?\n• Do changes in one system seem to affect the other?\n• Do the systems seem related in any way?\n\n⚠️  NOTE: Correlation does not imply causation. We'll explore whether observed correlations represent actual causal relationships.\n\nDescribe any observed correlations (or press Enter to skip):",
+            "optional": true
+          },
+          "store_in": "context/user_observations.txt"
+        },
+        {
+          "action_id": "C-01A-A02",
+          "description": "Detect correlations between architectures",
+          "purpose": "Identify potential correlations using system analysis and user observations",
+          "command_pattern": "python3 {system_root}/src/causality_analysis.py detect-correlations arch1.json arch2.json --user-observation '{user_observation}'",
+          "llm_instructions": [
+            "Use CausalityAnalyzer.detect_correlation() for each architecture pair",
+            "Include user observations if provided",
+            "Detect temporal, structural, and behavioral correlations",
+            "Document all observed correlations with evidence"
+          ],
+          "output": "context/observed_correlations.json"
+        },
+        {
+          "action_id": "C-01A-A03",
+          "description": "Generate causal hypotheses",
+          "purpose": "For each correlation, generate competing hypotheses about causation",
+          "llm_instructions": [
+            "For each observed correlation, generate 4 hypotheses:",
+            "  1. A causes B (unidirectional)",
+            "  2. B causes A (reverse direction)",
+            "  3. Bidirectional causation (feedback loop)",
+            "  4. Spurious correlation (no causation)",
+            "Propose mechanism for each causal hypothesis",
+            "Identify alternative explanations",
+            "Suggest validation methods"
+          ],
+          "output": "context/causal_hypotheses.json",
+          "note": "These are HYPOTHESES, not facts. They require validation."
+        },
+        {
+          "action_id": "C-01A-A04",
+          "description": "Present correlation vs. causation analysis to user",
+          "purpose": "Educate user about the distinction and get input on hypotheses",
+          "user_prompt": {
+            "message_format": "⚠️  CORRELATION VS. CAUSATION ⚠️\n\nWe detected {num_correlations} correlation(s) between the architectures.\n\n⚠️  IMPORTANT: Correlation does NOT imply causation!\n\nJust because systems appear related does NOT mean:\n• One causes the other\n• They should be linked\n• Changes in one will affect the other\n\nFor each correlation, we generated hypotheses about potential causal relationships. These are EXPLORATORY hypotheses that require validation.\n\nWould you like to:\n1. Review correlation and causation analysis report\n2. Skip to touchpoint discovery (treat as exploratory)\n\nChoice:",
+            "interactive": true
+          }
+        },
+        {
+          "action_id": "C-01A-A05",
+          "description": "Generate correlation vs. causation report",
+          "command_pattern": "python3 {system_root}/src/causality_analysis.py generate-report --correlations context/observed_correlations.json --hypotheses context/causal_hypotheses.json",
+          "output": "docs/correlation_causation_report_{timestamp}.md",
+          "purpose": "Create detailed report explaining correlations, hypotheses, and validation methods"
+        },
+        {
+          "action_id": "C-01A-A06",
+          "description": "Ask user if they want to validate causal hypotheses",
+          "purpose": "Determine if user wants to test causation before linking",
+          "user_prompt": {
+            "message_format": "Would you like to validate causal hypotheses before proceeding with linking?\n\nValidation options:\n1. Generate validation plans (we'll design experiments to test hypotheses)\n2. Skip validation and proceed with exploratory linking\n3. User provides domain knowledge about causal relationships\n\nIf you skip validation, all touchpoints will be marked as EXPLORATORY\nand will require validation before production use.\n\nChoice:",
+            "blocking": true
+          },
+          "user_response_handling": {
+            "if_generate_plans": "Execute C-01A-A07 to design validation experiments",
+            "if_skip": "Mark all touchpoints as exploratory, proceed to C-02",
+            "if_domain_knowledge": "Collect user input about known causal mechanisms, proceed to C-02"
+          }
+        },
+        {
+          "action_id": "C-01A-A07",
+          "description": "Design validation experiments for causal hypotheses",
+          "condition": "user_choice == 'generate_plans'",
+          "command_pattern": "python3 {system_root}/src/causality_analysis.py design-validation hypothesis_id",
+          "purpose": "Create detailed validation plans for testing causation",
+          "llm_instructions": [
+            "For each high-confidence hypothesis:",
+            "  - Design observational study",
+            "  - Design intervention test",
+            "  - Specify mechanism analysis approach",
+            "  - Define success criteria",
+            "  - Estimate resources and timeline"
+          ],
+          "output": "specs/causality_validation_plans.json",
+          "note": "These plans can be executed later to validate hypotheses"
+        }
+      ],
+      "important_notes": [
+        "Correlation is an observed pattern - worth exploring but not proof of causation",
+        "Users may incorrectly assume causation from correlation",
+        "All causal hypotheses are exploratory until validated",
+        "This step adds scientific rigor to architecture linking",
+        "Validation can be done before or after initial linking"
+      ],
+      "next_step": "C-02"
+    },
+    {
+      "step_id": "C-02",
+      "name": "Touchpoint Discovery Strategy Selection",
+      "description": "Determine which linking strategy to use based on orthogonality",
+      "phase": "strategy",
+      "actions": [
+        {
+          "action_id": "C-02-A01",
+          "description": "Select linking strategy based on orthogonality",
+          "purpose": "Different linking strategies for different orthogonality levels",
+          "strategy_selection": {
+            "ALIGNED": {
+              "strategy": "standard_technical_linking",
+              "description": "Use direct technical interface discovery",
+              "next_step": "C-03",
+              "creative_linking_needed": false
+            },
+            "RELATED": {
+              "strategy": "enhanced_technical_linking",
+              "description": "Use technical linking with some analogical mapping",
+              "next_step": "C-03",
+              "creative_linking_needed": false
+            },
+            "DIVERGENT": {
+              "strategy": "hybrid_linking",
+              "description": "Combine technical and creative linking approaches",
+              "next_step": "C-03A",
+              "creative_linking_needed": true,
+              "user_consent_required": true
+            },
+            "ORTHOGONAL": {
+              "strategy": "creative_linking_only",
+              "description": "Use synesthetic and metaphorical linking exclusively",
+              "next_step": "C-03A",
+              "creative_linking_needed": true,
+              "user_consent_required": true
+            }
+          }
+        },
+        {
+          "action_id": "C-02-A02",
+          "description": "Get user consent for creative linking if needed",
+          "condition": "orthogonality == DIVERGENT or ORTHOGONAL",
+          "user_prompt": {
+            "message_format": "⚠️  CREATIVE LINKING CONSENT ⚠️\n\nThe architectures you're trying to link appear to be {orthogonality_level}.\n\nStandard technical interface discovery may not find connections between them.\nWould you like to use CREATIVE LINKING?\n\nCreative linking uses:\n- Synesthetic mapping (cross-domain metaphors)\n- Structural analogies (neural plasticity-inspired)\n- Metaphorical reasoning\n\n❗ IMPORTANT DISCLAIMER:\nCreative links are EXPLORATORY and SPECULATIVE.\nThey represent potential connections that require validation.\nThey are NOT scientifically rigorous technical interfaces.\n\nThink of them as:\n- Hypotheses about how systems might connect\n- Creative insights to spark design ideas\n- Starting points for interface design\n\nProceed with creative linking? [Y/N]\n\nAlternatively, provide context on how you think the systems relate:",
+            "required": true,
+            "blocking": true
+          },
+          "user_response_handling": {
+            "if_yes": "Proceed to C-03A with user_consent=true",
+            "if_no": "Skip creative linking, only do standard technical linking in C-03",
+            "if_context_provided": "Store user context and proceed to C-03A with enhanced guidance"
+          }
+        }
+      ],
+      "next_step": "C-03 or C-03A depending on strategy"
+    },
+    {
+      "step_id": "C-03",
+      "name": "Standard Touchpoint Discovery",
+      "description": "Find technical touchpoints using standard interface analysis",
+      "phase": "linking",
+      "condition": "orthogonality == ALIGNED or RELATED",
+      "actions": [
+        {
+          "action_id": "C-03-A01",
+          "description": "Analyze component interfaces",
+          "purpose": "Find components that have compatible interfaces",
+          "llm_instructions": [
+            "For each component in arch1, examine its interfaces (APIs, events, data flows)",
+            "For each component in arch2, examine its interfaces",
+            "Match interfaces by type, data format, protocol",
+            "Identify direct connection opportunities"
+          ]
+        },
+        {
+          "action_id": "C-03-A02",
+          "description": "Identify data flow touchpoints",
+          "purpose": "Find where data flows from one architecture to another",
+          "llm_instructions": [
+            "Trace data flows in arch1 to find outputs",
+            "Trace data flows in arch2 to find inputs",
+            "Match compatible data types and formats",
+            "Document data transformation requirements"
+          ]
+        },
+        {
+          "action_id": "C-03-A03",
+          "description": "Generate standard touchpoint list",
+          "output": "context/standard_touchpoints.json",
+          "format": {
+            "touchpoints": [
+              {
+                "id": "string",
+                "source_architecture": "string",
+                "target_architecture": "string",
+                "source_component": "string",
+                "target_component": "string",
+                "interface_type": "api | event | data_flow | shared_resource",
+                "confidence": "number 0.0-1.0",
+                "technical_details": "object"
+              }
+            ]
+          }
+        }
+      ],
+      "next_step": "C-04"
+    },
+    {
+      "step_id": "C-03A",
+      "name": "Creative Touchpoint Discovery",
+      "description": "Find creative/exploratory touchpoints for orthogonal architectures",
+      "phase": "creative_linking",
+      "condition": "user_consent == true AND (orthogonality == DIVERGENT or ORTHOGONAL)",
+      "important_notes": [
+        "This step uses synesthetic mapping and metaphorical reasoning",
+        "All touchpoints generated are marked as EXPLORATORY",
+        "User must validate and refine these connections",
+        "Similar to neural plasticity - growing new connections where none existed"
+      ],
+      "actions": [
+        {
+          "action_id": "C-03A-A01",
+          "description": "Load synesthetic mappings for domains",
+          "purpose": "Get cross-domain metaphors applicable to these architectures",
+          "command_pattern": "python3 {system_root}/src/creative_linking.py load-mappings --domain1 {domain1} --domain2 {domain2}",
+          "llm_instructions": [
+            "Identify domains of both architectures",
+            "Load applicable synesthetic mappings",
+            "Review metaphors and examples"
+          ]
+        },
+        {
+          "action_id": "C-03A-A02",
+          "description": "Apply synesthetic mapping to find cross-domain connections",
+          "purpose": "Use metaphors to bridge different domains (like synesthesia bridges senses)",
+          "llm_instructions": [
+            "For each synesthetic mapping:",
+            "  - Find components in arch1 that match source property",
+            "  - Find components in arch2 that match target property",
+            "  - Create creative touchpoint with metaphor as reasoning",
+            "Example: 'signal transduction' in biology maps to 'event propagation' in software",
+            "Mark all touchpoints as exploratory=true"
+          ]
+        },
+        {
+          "action_id": "C-03A-A03",
+          "description": "Find structural analogies (neural plasticity approach)",
+          "purpose": "Discover connections based on structural similarity, not domain knowledge",
+          "llm_instructions": [
+            "Analyze structural properties of each component:",
+            "  - Has inputs? Has outputs? Both (transformer)?",
+            "  - Central/hub role? Peripheral role?",
+            "  - State management? Stateless?",
+            "Find components with analogous structures",
+            "Create touchpoints based on structural similarity",
+            "Reasoning: 'Both components transform inputs to outputs, suggesting analogous roles'"
+          ]
+        },
+        {
+          "action_id": "C-03A-A04",
+          "description": "Incorporate user context if provided",
+          "condition": "user_context != null",
+          "purpose": "Use user's domain expertise to guide creative linking",
+          "llm_instructions": [
+            "Parse user's description of how systems relate",
+            "Identify components mentioned by user",
+            "Create touchpoints for user-suggested connections",
+            "Higher confidence for user-suggested links (0.7 vs 0.3-0.6)"
+          ]
+        },
+        {
+          "action_id": "C-03A-A05",
+          "description": "Generate creative touchpoint list with full disclaimers",
+          "output": "context/creative_touchpoints.json",
+          "format": {
+            "disclaimer": "All touchpoints below are EXPLORATORY and require validation",
+            "orthogonality_level": "string",
+            "creative_linking_rationale": "string",
+            "touchpoints": [
+              {
+                "id": "string",
+                "source_architecture": "string",
+                "target_architecture": "string",
+                "source_component": "string",
+                "target_component": "string",
+                "link_type": "synesthetic | analogical | exploratory",
+                "metaphor": "string - the metaphor/analogy used",
+                "reasoning": "string - why this connection makes sense",
+                "confidence": "number 0.0-1.0",
+                "exploratory": true,
+                "validation_needed": true,
+                "proposed_interface": "object - suggested interface design"
+              }
+            ]
+          }
+        },
+        {
+          "action_id": "C-03A-A06",
+          "description": "Generate creative linking report",
+          "command_pattern": "python3 {system_root}/src/creative_linking.py generate-report --touchpoints context/creative_touchpoints.json",
+          "output": "docs/creative_linking_report_{timestamp}.md",
+          "purpose": "Create human-readable report with disclaimers and next steps"
+        }
+      ],
+      "quality_gates": [
+        {
+          "gate_id": "user_review_creative_links",
+          "description": "User must review creative touchpoints before proceeding",
+          "required": true,
+          "prompt": "Review creative touchpoints in docs/creative_linking_report_{timestamp}.md. Accept, reject, or refine each touchpoint."
+        }
+      ],
+      "next_step": "C-04"
+    },
+    {
+      "step_id": "C-04",
+      "name": "Touchpoint Refinement and Validation",
+      "description": "Refine discovered touchpoints and validate with user",
+      "phase": "validation",
+      "actions": [
+        {
+          "action_id": "C-04-A01",
+          "description": "Consolidate all touchpoints (standard + creative)",
+          "purpose": "Merge touchpoint lists from C-03 and C-03A",
+          "output": "context/all_touchpoints.json"
+        },
+        {
+          "action_id": "C-04-A02",
+          "description": "User review and refinement",
+          "user_prompt": {
+            "message_format": "Please review discovered touchpoints:\n\n{touchpoint_list}\n\nFor each touchpoint:\n- Accept (keep as-is)\n- Reject (remove)\n- Refine (modify details)\n- Add context (explain why this connection makes sense)",
+            "interactive": true
+          }
+        },
+        {
+          "action_id": "C-04-A03",
+          "description": "Design concrete interfaces for accepted touchpoints",
+          "purpose": "Convert conceptual touchpoints into technical specifications",
+          "llm_instructions": [
+            "For each accepted touchpoint:",
+            "  - If standard: Define API contract, data schema, protocol",
+            "  - If creative: Propose interface design based on metaphor",
+            "  - Document data transformations needed",
+            "  - Specify synchronization requirements"
+          ],
+          "output": "specs/touchpoint_interfaces.json"
+        }
+      ],
+      "next_step": "C-05"
+    },
+    {
+      "step_id": "C-05",
+      "name": "Generate Integrated Architecture",
+      "description": "Create system_of_systems_graph.json representing the linked architectures",
+      "phase": "integration",
+      "actions": [
+        {
+          "action_id": "C-05-A01",
+          "description": "Merge architectures into system-of-systems graph",
+          "purpose": "Create unified architecture representation",
+          "llm_instructions": [
+            "Include all components from both architectures",
+            "Add touchpoint connections as edges",
+            "Mark creative/exploratory connections with metadata",
+            "Preserve original architecture boundaries"
+          ],
+          "output": "architectures/integrated_system_of_systems_graph.json"
+        },
+        {
+          "action_id": "C-05-A02",
+          "description": "Run reflow analysis tools on integrated architecture",
+          "purpose": "Analyze the combined system for gaps, orphans, inconsistencies",
+          "command_pattern": "python3 {reflow_root}/tools/analyze_architecture.py {system_root}/architectures/integrated_system_of_systems_graph.json",
+          "success_criteria": "Identify any remaining gaps or issues in the integration"
+        },
+        {
+          "action_id": "C-05-A03",
+          "description": "Generate integration documentation",
+          "output": "docs/architecture_integration_report.md",
+          "contents": [
+            "Overview of linked architectures",
+            "Touchpoint catalog (standard + creative)",
+            "Interface specifications",
+            "Validation status",
+            "Known gaps and future work",
+            "Creative linking rationale (if applicable)"
+          ]
+        }
+      ],
+      "next_step": null
+    }
+  ],
+  "creative_linking_philosophy": {
+    "description": "Creative linking is inspired by synesthesia and neural plasticity",
+    "when_to_use": "Only when architectures are DIVERGENT or ORTHOGONAL (not obviously related)",
+    "requires_consent": true,
+    "nature": "Exploratory and speculative, not scientifically rigorous",
+    "purpose": "Generate hypotheses about how systems might connect, spark design ideas, close gaps creatively",
+    "analogies": {
+      "synesthesia": "Just as synesthetes experience cross-sensory connections (seeing sounds, hearing colors), creative linking finds cross-domain connections",
+      "neural_plasticity": "Like the brain growing new neural pathways between previously unconnected regions, creative linking discovers structural analogies",
+      "metaphorical_reasoning": "Uses metaphors to bridge semantic gaps between domains"
+    },
+    "validation_required": true,
+    "marking": "All creative touchpoints must be clearly marked as exploratory/speculative"
+  }
+}

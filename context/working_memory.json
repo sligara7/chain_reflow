@@ -1,0 +1,26 @@
+{
+  "system_name": "Chain Reflow System",
+  "workflow_id": "00-setup",
+  "workflow_version": "1.0.0",
+  "started_at": "2025-10-28T01:29:38.242664",
+  "paths": {
+    "system_root": "/home/user/chain_reflow",
+    "reflow_root": "/home/user/reflow",
+    "tools_path": "/home/user/reflow/tools",
+    "templates_path": "/home/user/reflow/templates",
+    "workflow_steps_path": "/home/user/reflow/workflow_steps",
+    "definitions_path": "/home/user/reflow/definitions"
+  },
+  "current_step": "S-01",
+  "operations_since_refresh": 0,
+  "framework_configuration": {
+    "framework_id": "decision_flow",
+    "framework_name": "Decision Flow Framework",
+    "component_term": "state",
+    "connection_term": "transition",
+    "architecture_file_type": "decision_flow_graph.json",
+    "selected_framework_rationale": "Chain reflow orchestrates workflows and manages state transitions across multiple system architectures",
+    "user_confirmed": true,
+    "confirmation_timestamp": "2025-10-28T01:29:38.243158"
+  }
+}
