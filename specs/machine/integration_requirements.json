@@ -1,0 +1,379 @@
+{
+  "integration_requirements": {
+    "system_name": "Chain Reflow System",
+    "version": "1.0.0",
+    "created": "2025-10-28",
+    "workflow_id": "01b-bottom_up_integration",
+    "step_id": "BU-02",
+
+    "integration_goal": {
+      "primary_goal": "Integrate 5 independent production-ready components into a cohesive architecture linking and workflow execution system",
+      "description": "Chain Reflow integrates three independent analysis engines (creative linking, causality analysis, matryoshka hierarchical analysis) with two orchestration components (workflow runner, interactive executor) to enable discovery, analysis, and linking of system-of-systems architectures.",
+      "approach": "bottom_up",
+      "current_state": "Components exist independently with no formal integration architecture",
+      "target_state": "Unified system with formal interfaces, orchestration patterns, and machine-readable architecture specifications"
+    },
+
+    "target_capabilities": [
+      {
+        "capability_id": "C01",
+        "name": "Workflow Orchestration",
+        "description": "Execute multi-step reflow workflows with state management and step routing",
+        "priority": "critical",
+        "scope": "system"
+      },
+      {
+        "capability_id": "C02",
+        "name": "Interactive Setup",
+        "description": "Guide users through system setup with questionnaires and document generation",
+        "priority": "high",
+        "scope": "system"
+      },
+      {
+        "capability_id": "C03",
+        "name": "Creative Architecture Linking",
+        "description": "Discover synesthetic mappings and structural analogies between orthogonal architectures",
+        "priority": "high",
+        "scope": "analysis"
+      },
+      {
+        "capability_id": "C04",
+        "name": "Causality Analysis",
+        "description": "Distinguish correlation from causation and generate validation experiments",
+        "priority": "high",
+        "scope": "analysis"
+      },
+      {
+        "capability_id": "C05",
+        "name": "Hierarchical Nesting Analysis",
+        "description": "Discover matryoshka relationships and identify hierarchical gaps",
+        "priority": "high",
+        "scope": "analysis"
+      },
+      {
+        "capability_id": "C06",
+        "name": "Architecture Linking",
+        "description": "Combine multiple analysis approaches to discover touchpoints between architectures",
+        "priority": "critical",
+        "scope": "system"
+      },
+      {
+        "capability_id": "C07",
+        "name": "State Management",
+        "description": "Maintain working memory and context across workflow execution",
+        "priority": "critical",
+        "scope": "system"
+      },
+      {
+        "capability_id": "C08",
+        "name": "Document Generation",
+        "description": "Generate machine-readable and human-readable architecture documentation",
+        "priority": "high",
+        "scope": "system"
+      }
+    ],
+
+    "component_to_capability_mapping": [
+      {
+        "component_id": "workflow_runner",
+        "component_name": "Workflow Execution Engine",
+        "provides_capabilities": ["C01", "C07"],
+        "role": "orchestrator",
+        "tier": "orchestration"
+      },
+      {
+        "component_id": "interactive_executor",
+        "component_name": "Interactive Workflow Executor",
+        "provides_capabilities": ["C02", "C07", "C08"],
+        "role": "orchestrator",
+        "tier": "orchestration"
+      },
+      {
+        "component_id": "creative_linking",
+        "component_name": "Creative Linking Engine",
+        "provides_capabilities": ["C03", "C06"],
+        "role": "analysis_engine",
+        "tier": "analysis"
+      },
+      {
+        "component_id": "causality_analysis",
+        "component_name": "Causality Analysis Engine",
+        "provides_capabilities": ["C04", "C06"],
+        "role": "analysis_engine",
+        "tier": "analysis"
+      },
+      {
+        "component_id": "matryoshka_analysis",
+        "component_name": "Matryoshka Hierarchical Analysis Engine",
+        "provides_capabilities": ["C05", "C06"],
+        "role": "analysis_engine",
+        "tier": "analysis"
+      }
+    ],
+
+    "required_interactions": [
+      {
+        "interaction_id": "I01",
+        "name": "Workflow invokes Creative Linking",
+        "source_component": "workflow_runner",
+        "target_component": "creative_linking",
+        "interaction_type": "invocation",
+        "description": "Workflow runner invokes creative linking engine when architectures are orthogonal",
+        "trigger": "Step C-03A in chain-01-link-architectures workflow",
+        "data_flow": "architectures → creative_touchpoints",
+        "current_state": "missing",
+        "required_interface": "Function call with architecture dictionaries as input"
+      },
+      {
+        "interaction_id": "I02",
+        "name": "Workflow invokes Causality Analysis",
+        "source_component": "workflow_runner",
+        "target_component": "causality_analysis",
+        "interaction_type": "invocation",
+        "description": "Workflow runner invokes causality analyzer when correlation detected",
+        "trigger": "Step C-01A in chain-01-link-architectures workflow",
+        "data_flow": "architectures → correlation_patterns → causal_hypotheses",
+        "current_state": "missing",
+        "required_interface": "Function call with architecture dictionaries as input"
+      },
+      {
+        "interaction_id": "I03",
+        "name": "Workflow invokes Matryoshka Analysis",
+        "source_component": "workflow_runner",
+        "target_component": "matryoshka_analysis",
+        "interaction_type": "invocation",
+        "description": "Workflow runner invokes matryoshka analyzer to detect hierarchical relationships",
+        "trigger": "Step C-01B in chain-01-link-architectures workflow",
+        "data_flow": "architectures → hierarchy_metadata → nesting_relationships → gaps",
+        "current_state": "missing",
+        "required_interface": "Function call with architecture dictionaries as input"
+      },
+      {
+        "interaction_id": "I04",
+        "name": "Workflow manages Working Memory",
+        "source_component": "workflow_runner",
+        "target_component": "file_system",
+        "interaction_type": "data_persistence",
+        "description": "Workflow runner reads and writes working_memory.json to maintain state",
+        "trigger": "Every workflow step",
+        "data_flow": "workflow_state → working_memory.json",
+        "current_state": "implemented",
+        "required_interface": "JSON file read/write"
+      },
+      {
+        "interaction_id": "I05",
+        "name": "Interactive Executor manages Context",
+        "source_component": "interactive_executor",
+        "target_component": "file_system",
+        "interaction_type": "data_persistence",
+        "description": "Interactive executor saves workflow context and configuration",
+        "trigger": "Setup workflow execution",
+        "data_flow": "framework_config → working_memory.json",
+        "current_state": "implemented",
+        "required_interface": "JSON file read/write"
+      },
+      {
+        "interaction_id": "I06",
+        "name": "Analysis Engines generate Reports",
+        "source_component": "creative_linking, causality_analysis, matryoshka_analysis",
+        "target_component": "file_system",
+        "interaction_type": "report_generation",
+        "description": "Analysis engines generate markdown reports for human consumption",
+        "trigger": "After analysis completion",
+        "data_flow": "analysis_results → markdown_report",
+        "current_state": "implemented",
+        "required_interface": "Markdown file write"
+      },
+      {
+        "interaction_id": "I07",
+        "name": "User provides Consent",
+        "source_component": "user",
+        "target_component": "creative_linking",
+        "interaction_type": "user_input",
+        "description": "User must provide explicit consent before creative linking is performed",
+        "trigger": "When architectures are DIVERGENT or ORTHOGONAL",
+        "data_flow": "user_consent_flag → creative_linking_engine",
+        "current_state": "implemented",
+        "required_interface": "Boolean parameter in function call"
+      },
+      {
+        "interaction_id": "I08",
+        "name": "User provides Context",
+        "source_component": "user",
+        "target_component": "creative_linking, causality_analysis, matryoshka_analysis",
+        "interaction_type": "user_input",
+        "description": "User can provide domain expertise and observations to improve analysis",
+        "trigger": "Optional during analysis",
+        "data_flow": "user_context_string → analysis_engine",
+        "current_state": "implemented",
+        "required_interface": "Optional string parameter in function calls"
+      }
+    ],
+
+    "non_functional_requirements": [
+      {
+        "category": "modularity",
+        "requirement": "Analysis engines must remain independent and reusable",
+        "rationale": "Engines should be usable standalone or via workflow orchestration",
+        "priority": "critical",
+        "current_status": "satisfied"
+      },
+      {
+        "category": "extensibility",
+        "requirement": "New analysis engines can be added without modifying orchestration layer",
+        "rationale": "System should support future analysis capabilities",
+        "priority": "high",
+        "current_status": "needs_architecture"
+      },
+      {
+        "category": "traceability",
+        "requirement": "All analysis results must include confidence scores and reasoning",
+        "rationale": "Users need to understand and validate analysis outputs",
+        "priority": "critical",
+        "current_status": "satisfied"
+      },
+      {
+        "category": "transparency",
+        "requirement": "Exploratory/speculative results must include clear disclaimers",
+        "rationale": "Prevent users from treating hypotheses as proven facts",
+        "priority": "critical",
+        "current_status": "satisfied"
+      },
+      {
+        "category": "usability",
+        "requirement": "Both interactive and automated execution modes must be supported",
+        "rationale": "Support both guided setup and scripted automation",
+        "priority": "high",
+        "current_status": "satisfied"
+      },
+      {
+        "category": "maintainability",
+        "requirement": "Machine-readable architecture specifications must be generated",
+        "rationale": "Enable tooling, validation, and automated integration",
+        "priority": "critical",
+        "current_status": "missing"
+      },
+      {
+        "category": "performance",
+        "requirement": "Analysis engines should complete in under 1 second for typical inputs",
+        "rationale": "Interactive workflow execution requires responsive analysis",
+        "priority": "medium",
+        "current_status": "unknown"
+      },
+      {
+        "category": "robustness",
+        "requirement": "System must gracefully handle missing or malformed architecture data",
+        "rationale": "Real-world architectures may be incomplete",
+        "priority": "high",
+        "current_status": "needs_validation"
+      },
+      {
+        "category": "documentation",
+        "requirement": "Both human and machine-readable outputs must be generated",
+        "rationale": "Support both human understanding and automated processing",
+        "priority": "critical",
+        "current_status": "partially_satisfied"
+      }
+    ],
+
+    "integration_patterns": {
+      "primary_pattern": "layered_architecture",
+      "description": "Two-tier architecture with orchestration layer invoking analysis layer",
+      "tiers": [
+        {
+          "tier_name": "orchestration",
+          "components": ["workflow_runner", "interactive_executor"],
+          "responsibilities": ["Workflow execution", "State management", "Step routing"],
+          "dependencies": "Analysis tier (invokes engines as needed)"
+        },
+        {
+          "tier_name": "analysis",
+          "components": ["creative_linking", "causality_analysis", "matryoshka_analysis"],
+          "responsibilities": ["Architecture analysis", "Touchpoint discovery", "Report generation"],
+          "dependencies": "None (independent engines)"
+        }
+      ],
+      "cross_cutting_concerns": [
+        {
+          "concern": "working_memory",
+          "description": "Shared state management via working_memory.json",
+          "components_affected": ["workflow_runner", "interactive_executor"]
+        },
+        {
+          "concern": "user_interaction",
+          "description": "User consent and context gathering",
+          "components_affected": ["creative_linking", "causality_analysis", "matryoshka_analysis"]
+        },
+        {
+          "concern": "report_generation",
+          "description": "Markdown report generation for human consumption",
+          "components_affected": ["creative_linking", "causality_analysis", "matryoshka_analysis"]
+        }
+      ]
+    },
+
+    "success_criteria": [
+      {
+        "criterion_id": "SC01",
+        "description": "All components have formal service_architecture.json files",
+        "measurable": true,
+        "target": "5 service_architecture.json files created",
+        "current_status": "0/5"
+      },
+      {
+        "criterion_id": "SC02",
+        "description": "All interfaces between components are formally specified",
+        "measurable": true,
+        "target": "8 interfaces defined in interface_registry.json",
+        "current_status": "0/8"
+      },
+      {
+        "criterion_id": "SC03",
+        "description": "System-of-systems graph is generated and validates successfully",
+        "measurable": true,
+        "target": "1 system_of_systems_graph.json with no orphans",
+        "current_status": "not_created"
+      },
+      {
+        "criterion_id": "SC04",
+        "description": "Workflow can successfully invoke all three analysis engines",
+        "measurable": true,
+        "target": "chain-01-link-architectures workflow executes end-to-end",
+        "current_status": "not_tested"
+      },
+      {
+        "criterion_id": "SC05",
+        "description": "Analysis engines remain independently usable",
+        "measurable": true,
+        "target": "Each engine can be imported and called without workflow runner",
+        "current_status": "satisfied"
+      },
+      {
+        "criterion_id": "SC06",
+        "description": "All exploratory results include appropriate disclaimers",
+        "measurable": true,
+        "target": "100% of creative/causal/hierarchical results include disclaimers",
+        "current_status": "satisfied"
+      },
+      {
+        "criterion_id": "SC07",
+        "description": "Documentation is complete for both humans and machines",
+        "measurable": true,
+        "target": "All components have human guides and machine specs",
+        "current_status": "human_docs_complete, machine_specs_missing"
+      }
+    ],
+
+    "integration_roadmap": {
+      "current_step": "BU-02",
+      "next_steps": [
+        "BU-03: Identify integration gaps (missing interfaces, specs)",
+        "BU-04: Analyze component deltas (what code changes are needed)",
+        "BU-05: Design integration architecture (adapters, mediators)",
+        "BU-06: Validate and generate system graph"
+      ],
+      "estimated_complexity": "medium",
+      "rationale": "Components are well-designed and independent. Main work is creating formal interface specifications and integration adapters."
+    }
+  }
+}

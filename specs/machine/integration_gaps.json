@@ -1,0 +1,587 @@
+{
+  "integration_gaps": {
+    "system_name": "Chain Reflow System",
+    "version": "1.0.0",
+    "created": "2025-10-28",
+    "workflow_id": "01b-bottom_up_integration",
+    "step_id": "BU-03",
+    "analysis_date": "2025-10-28",
+
+    "gap_summary": {
+      "total_gaps": 15,
+      "critical_gaps": 5,
+      "high_priority_gaps": 6,
+      "medium_priority_gaps": 3,
+      "low_priority_gaps": 1
+    },
+
+    "gaps": [
+      {
+        "gap_id": "GAP-001",
+        "category": "interface_specification",
+        "severity": "critical",
+        "title": "No formal interface for workflow_runner → creative_linking",
+        "description": "Workflow runner needs to invoke creative_linking.find_creative_touchpoints() but there is no formal interface specification defining parameters, return types, or error handling.",
+        "affected_components": ["workflow_runner", "creative_linking"],
+        "affected_interaction": "I01",
+        "current_state": "Undefined function call in workflow",
+        "required_state": "Formal interface specification with parameter schemas and return types",
+        "impact": "Cannot validate integration, unclear API contract, potential runtime errors",
+        "blocking": ["SC02", "SC04"],
+        "recommendation": {
+          "solution_type": "create_interface_specification",
+          "steps": [
+            "Define interface in specs/machine/interfaces/creative_linking_interface.json",
+            "Specify input schema (arch1, arch2, user_consent, user_context)",
+            "Specify output schema (List[CreativeTouchpoint])",
+            "Document error conditions and exceptions",
+            "Add interface to interface_registry.json"
+          ],
+          "estimated_effort": "medium",
+          "priority": 1
+        }
+      },
+      {
+        "gap_id": "GAP-002",
+        "category": "interface_specification",
+        "severity": "critical",
+        "title": "No formal interface for workflow_runner → causality_analysis",
+        "description": "Workflow runner needs to invoke causality_analysis methods but there is no formal interface specification.",
+        "affected_components": ["workflow_runner", "causality_analysis"],
+        "affected_interaction": "I02",
+        "current_state": "Undefined function call in workflow",
+        "required_state": "Formal interface specification for detect_correlation and generate_causal_hypotheses",
+        "impact": "Cannot validate integration, unclear API contract, potential runtime errors",
+        "blocking": ["SC02", "SC04"],
+        "recommendation": {
+          "solution_type": "create_interface_specification",
+          "steps": [
+            "Define interface in specs/machine/interfaces/causality_analysis_interface.json",
+            "Specify input/output schemas for detect_correlation()",
+            "Specify input/output schemas for generate_causal_hypotheses()",
+            "Document error conditions and exceptions",
+            "Add interface to interface_registry.json"
+          ],
+          "estimated_effort": "medium",
+          "priority": 1
+        }
+      },
+      {
+        "gap_id": "GAP-003",
+        "category": "interface_specification",
+        "severity": "critical",
+        "title": "No formal interface for workflow_runner → matryoshka_analysis",
+        "description": "Workflow runner needs to invoke matryoshka_analysis methods but there is no formal interface specification.",
+        "affected_components": ["workflow_runner", "matryoshka_analysis"],
+        "affected_interaction": "I03",
+        "current_state": "Undefined function call in workflow",
+        "required_state": "Formal interface specification for analyze_relationship and discover_hierarchical_gaps",
+        "impact": "Cannot validate integration, unclear API contract, potential runtime errors",
+        "blocking": ["SC02", "SC04"],
+        "recommendation": {
+          "solution_type": "create_interface_specification",
+          "steps": [
+            "Define interface in specs/machine/interfaces/matryoshka_analysis_interface.json",
+            "Specify input/output schemas for analyze_relationship()",
+            "Specify input/output schemas for discover_hierarchical_gaps()",
+            "Document error conditions and exceptions",
+            "Add interface to interface_registry.json"
+          ],
+          "estimated_effort": "medium",
+          "priority": 1
+        }
+      },
+      {
+        "gap_id": "GAP-004",
+        "category": "service_architecture",
+        "severity": "critical",
+        "title": "No service_architecture.json for creative_linking",
+        "description": "creative_linking.py has no machine-readable architecture specification file.",
+        "affected_components": ["creative_linking"],
+        "affected_interaction": "N/A",
+        "current_state": "Component exists but has no service_architecture.json",
+        "required_state": "specs/machine/service_arch/creative_linking_architecture.json created",
+        "impact": "Cannot generate system graph, no automated validation, unclear component capabilities",
+        "blocking": ["SC01", "SC03", "SC07"],
+        "recommendation": {
+          "solution_type": "create_service_architecture",
+          "steps": [
+            "Create specs/machine/service_arch/creative_linking_architecture.json",
+            "Document component metadata (name, version, type)",
+            "List provided capabilities (C03, C06)",
+            "Define input/output interfaces",
+            "Specify dependencies (none for this component)",
+            "Document internal structure (classes, functions)"
+          ],
+          "estimated_effort": "high",
+          "priority": 2
+        }
+      },
+      {
+        "gap_id": "GAP-005",
+        "category": "service_architecture",
+        "severity": "critical",
+        "title": "No service_architecture.json files for remaining components",
+        "description": "causality_analysis, matryoshka_analysis, workflow_runner, and interactive_executor have no service_architecture.json files.",
+        "affected_components": ["causality_analysis", "matryoshka_analysis", "workflow_runner", "interactive_executor"],
+        "affected_interaction": "N/A",
+        "current_state": "0 of 4 service_architecture.json files exist",
+        "required_state": "4 service_architecture.json files created",
+        "impact": "Cannot generate system graph, no automated validation",
+        "blocking": ["SC01", "SC03", "SC07"],
+        "recommendation": {
+          "solution_type": "create_service_architecture",
+          "steps": [
+            "Create service_architecture.json for causality_analysis",
+            "Create service_architecture.json for matryoshka_analysis",
+            "Create service_architecture.json for workflow_runner",
+            "Create service_architecture.json for interactive_executor",
+            "Ensure consistency across all architecture files"
+          ],
+          "estimated_effort": "high",
+          "priority": 2
+        }
+      },
+      {
+        "gap_id": "GAP-006",
+        "category": "integration_infrastructure",
+        "severity": "high",
+        "title": "No interface registry",
+        "description": "No central interface_registry.json file exists to catalog all component interfaces.",
+        "affected_components": ["all"],
+        "affected_interaction": "I01, I02, I03",
+        "current_state": "No interface_registry.json file",
+        "required_state": "specs/machine/interface_registry.json with all 8 interfaces",
+        "impact": "Cannot discover interfaces, no central contract documentation",
+        "blocking": ["SC02"],
+        "recommendation": {
+          "solution_type": "create_interface_registry",
+          "steps": [
+            "Create specs/machine/interface_registry.json",
+            "Register all 8 interfaces identified in integration requirements",
+            "Link each interface to source and target components",
+            "Provide interface metadata (type, protocol, schema)"
+          ],
+          "estimated_effort": "medium",
+          "priority": 3
+        }
+      },
+      {
+        "gap_id": "GAP-007",
+        "category": "integration_infrastructure",
+        "severity": "high",
+        "title": "No system-of-systems graph",
+        "description": "No system_of_systems_graph.json exists showing complete system integration.",
+        "affected_components": ["all"],
+        "affected_interaction": "all",
+        "current_state": "No system graph",
+        "required_state": "specs/machine/graphs/system_of_systems_graph.json",
+        "impact": "Cannot detect orphans, circular dependencies, or validate architecture completeness",
+        "blocking": ["SC03"],
+        "recommendation": {
+          "solution_type": "generate_system_graph",
+          "steps": [
+            "Create system_of_systems_graph.json",
+            "Add all 5 components as nodes",
+            "Add all interactions as edges",
+            "Validate graph completeness (no orphans)",
+            "Check for circular dependencies"
+          ],
+          "estimated_effort": "medium",
+          "priority": 4,
+          "prerequisite_gaps": ["GAP-004", "GAP-005", "GAP-006"]
+        }
+      },
+      {
+        "gap_id": "GAP-008",
+        "category": "integration_code",
+        "severity": "high",
+        "title": "workflow_runner has no analysis engine invocation code",
+        "description": "workflow_runner.py can load and execute workflows but has no code to invoke creative_linking, causality_analysis, or matryoshka_analysis.",
+        "affected_components": ["workflow_runner"],
+        "affected_interaction": "I01, I02, I03",
+        "current_state": "Workflow runner executes steps but doesn't invoke analysis engines",
+        "required_state": "Workflow runner imports and invokes analysis engines based on step configuration",
+        "impact": "chain-01-link-architectures workflow cannot execute end-to-end",
+        "blocking": ["SC04"],
+        "recommendation": {
+          "solution_type": "add_integration_code",
+          "steps": [
+            "Add imports for all 3 analysis engines to workflow_runner.py",
+            "Create _invoke_creative_linking() method",
+            "Create _invoke_causality_analysis() method",
+            "Create _invoke_matryoshka_analysis() method",
+            "Update step execution logic to call appropriate engine based on step_id",
+            "Handle engine outputs and save to working_memory"
+          ],
+          "estimated_effort": "medium",
+          "priority": 5,
+          "prerequisite_gaps": ["GAP-001", "GAP-002", "GAP-003"]
+        }
+      },
+      {
+        "gap_id": "GAP-009",
+        "category": "integration_testing",
+        "severity": "high",
+        "title": "No integration tests",
+        "description": "No test harness exists to validate that workflow_runner can successfully invoke analysis engines.",
+        "affected_components": ["workflow_runner", "creative_linking", "causality_analysis", "matryoshka_analysis"],
+        "affected_interaction": "I01, I02, I03",
+        "current_state": "No integration tests",
+        "required_state": "Integration test suite validates end-to-end workflow execution",
+        "impact": "Unknown whether integration actually works",
+        "blocking": ["SC04"],
+        "recommendation": {
+          "solution_type": "create_integration_tests",
+          "steps": [
+            "Create tests/integration/ directory",
+            "Create sample architecture files for testing",
+            "Write test_workflow_creative_linking.py",
+            "Write test_workflow_causality_analysis.py",
+            "Write test_workflow_matryoshka_analysis.py",
+            "Write test_chain_01_end_to_end.py"
+          ],
+          "estimated_effort": "high",
+          "priority": 6,
+          "prerequisite_gaps": ["GAP-008"]
+        }
+      },
+      {
+        "gap_id": "GAP-010",
+        "category": "error_handling",
+        "severity": "high",
+        "title": "No error handling framework",
+        "description": "No consistent error handling strategy across components. Analysis engines may throw exceptions that workflow_runner doesn't catch.",
+        "affected_components": ["all"],
+        "affected_interaction": "I01, I02, I03",
+        "current_state": "Ad-hoc error handling in individual components",
+        "required_state": "Consistent error handling with defined exception hierarchy",
+        "impact": "Workflow execution may crash on errors instead of gracefully handling them",
+        "blocking": ["NFR: Robustness"],
+        "recommendation": {
+          "solution_type": "add_error_handling",
+          "steps": [
+            "Define ChainReflowException base class",
+            "Define specific exceptions (AnalysisError, WorkflowError, ValidationError)",
+            "Update all analysis engines to raise appropriate exceptions",
+            "Update workflow_runner to catch and handle exceptions",
+            "Add error reporting to working_memory"
+          ],
+          "estimated_effort": "medium",
+          "priority": 7
+        }
+      },
+      {
+        "gap_id": "GAP-011",
+        "category": "configuration",
+        "severity": "medium",
+        "title": "No configuration management",
+        "description": "No centralized configuration for analysis engine parameters (e.g., confidence thresholds, timeout limits).",
+        "affected_components": ["creative_linking", "causality_analysis", "matryoshka_analysis"],
+        "affected_interaction": "N/A",
+        "current_state": "Hard-coded parameters in analysis engines",
+        "required_state": "config.json with configurable parameters",
+        "impact": "Cannot tune analysis behavior without code changes",
+        "blocking": ["NFR: Extensibility"],
+        "recommendation": {
+          "solution_type": "add_configuration",
+          "steps": [
+            "Create config/default_config.json",
+            "Define configurable parameters for each engine",
+            "Update analysis engines to read from config",
+            "Allow config override via environment variables",
+            "Document configuration options"
+          ],
+          "estimated_effort": "low",
+          "priority": 8
+        }
+      },
+      {
+        "gap_id": "GAP-012",
+        "category": "logging",
+        "severity": "medium",
+        "title": "No logging infrastructure",
+        "description": "No structured logging for debugging workflow execution or analysis engine behavior.",
+        "affected_components": ["all"],
+        "affected_interaction": "all",
+        "current_state": "No logging (or ad-hoc print statements)",
+        "required_state": "Structured logging with configurable log levels",
+        "impact": "Difficult to debug issues, no audit trail of workflow execution",
+        "blocking": ["NFR: Maintainability"],
+        "recommendation": {
+          "solution_type": "add_logging",
+          "steps": [
+            "Add logging configuration to config.json",
+            "Import Python logging module in all components",
+            "Add log statements at key points (step start/end, engine invocation, errors)",
+            "Configure log output to file and console",
+            "Use structured logging with context (workflow_id, step_id)"
+          ],
+          "estimated_effort": "low",
+          "priority": 9
+        }
+      },
+      {
+        "gap_id": "GAP-013",
+        "category": "data_schema",
+        "severity": "high",
+        "title": "No standardized architecture input schema",
+        "description": "Analysis engines accept arbitrary Dict[str, Any] for architectures. No validation or schema enforcement.",
+        "affected_components": ["creative_linking", "causality_analysis", "matryoshka_analysis"],
+        "affected_interaction": "I01, I02, I03",
+        "current_state": "Undefined architecture schema",
+        "required_state": "JSON schema for architecture format with validation",
+        "impact": "Analysis engines may fail on unexpected input, unclear what architecture data is required",
+        "blocking": ["NFR: Robustness"],
+        "recommendation": {
+          "solution_type": "define_data_schema",
+          "steps": [
+            "Create specs/schemas/architecture_schema.json",
+            "Define required fields (name, domain, components, etc.)",
+            "Add schema validation to analysis engine inputs",
+            "Document architecture format in user guide",
+            "Create example architectures following schema"
+          ],
+          "estimated_effort": "medium",
+          "priority": 10
+        }
+      },
+      {
+        "gap_id": "GAP-014",
+        "category": "adapter_layer",
+        "severity": "medium",
+        "title": "No adapter for workflow → analysis engine invocation",
+        "description": "Workflow runner will need to transform workflow step parameters into analysis engine function calls. No adapter layer exists for this transformation.",
+        "affected_components": ["workflow_runner"],
+        "affected_interaction": "I01, I02, I03",
+        "current_state": "No adapter layer",
+        "required_state": "Adapter pattern to map workflow steps to engine invocations",
+        "impact": "Tight coupling between workflow format and engine APIs",
+        "blocking": ["NFR: Extensibility"],
+        "recommendation": {
+          "solution_type": "create_adapter",
+          "steps": [
+            "Create src/adapters/ directory",
+            "Implement AnalysisEngineAdapter base class",
+            "Implement CreativeLinkingAdapter",
+            "Implement CausalityAnalysisAdapter",
+            "Implement MatryoshkaAnalysisAdapter",
+            "Update workflow_runner to use adapters"
+          ],
+          "estimated_effort": "medium",
+          "priority": 11,
+          "prerequisite_gaps": ["GAP-008"]
+        }
+      },
+      {
+        "gap_id": "GAP-015",
+        "category": "documentation",
+        "severity": "low",
+        "title": "No API documentation for analysis engines",
+        "description": "Analysis engines have human-readable guides but no API reference documentation.",
+        "affected_components": ["creative_linking", "causality_analysis", "matryoshka_analysis"],
+        "affected_interaction": "N/A",
+        "current_state": "Concept guides exist, API docs missing",
+        "required_state": "API reference documentation generated from code",
+        "impact": "Developers must read source code to understand APIs",
+        "blocking": ["SC07"],
+        "recommendation": {
+          "solution_type": "generate_api_docs",
+          "steps": [
+            "Add comprehensive docstrings to all public methods",
+            "Set up Sphinx or similar documentation generator",
+            "Generate API reference from docstrings",
+            "Publish API docs to docs/api/",
+            "Link API docs from main README"
+          ],
+          "estimated_effort": "low",
+          "priority": 12
+        }
+      }
+    ],
+
+    "gap_dependencies": {
+      "description": "Some gaps must be resolved before others can be addressed",
+      "dependency_chain": [
+        {
+          "step": 1,
+          "gaps": ["GAP-001", "GAP-002", "GAP-003"],
+          "description": "Create interface specifications first"
+        },
+        {
+          "step": 2,
+          "gaps": ["GAP-004", "GAP-005"],
+          "description": "Create service architecture files (depends on interfaces)"
+        },
+        {
+          "step": 3,
+          "gaps": ["GAP-006", "GAP-013"],
+          "description": "Create interface registry and data schemas"
+        },
+        {
+          "step": 4,
+          "gaps": ["GAP-008", "GAP-010", "GAP-014"],
+          "description": "Add integration code with error handling and adapters"
+        },
+        {
+          "step": 5,
+          "gaps": ["GAP-007", "GAP-009"],
+          "description": "Generate system graph and add integration tests"
+        },
+        {
+          "step": 6,
+          "gaps": ["GAP-011", "GAP-012", "GAP-015"],
+          "description": "Add supporting infrastructure (config, logging, docs)"
+        }
+      ]
+    },
+
+    "resolution_roadmap": {
+      "phase_1_critical_interfaces": {
+        "description": "Create formal interface specifications",
+        "gaps_addressed": ["GAP-001", "GAP-002", "GAP-003"],
+        "estimated_effort": "3-5 days",
+        "deliverables": [
+          "specs/machine/interfaces/creative_linking_interface.json",
+          "specs/machine/interfaces/causality_analysis_interface.json",
+          "specs/machine/interfaces/matryoshka_analysis_interface.json"
+        ],
+        "success_criteria": "All 3 analysis engine interfaces formally specified"
+      },
+      "phase_2_service_architectures": {
+        "description": "Create service architecture files for all components",
+        "gaps_addressed": ["GAP-004", "GAP-005"],
+        "estimated_effort": "5-7 days",
+        "deliverables": [
+          "specs/machine/service_arch/creative_linking_architecture.json",
+          "specs/machine/service_arch/causality_analysis_architecture.json",
+          "specs/machine/service_arch/matryoshka_analysis_architecture.json",
+          "specs/machine/service_arch/workflow_runner_architecture.json",
+          "specs/machine/service_arch/interactive_executor_architecture.json"
+        ],
+        "success_criteria": "All 5 components have service_architecture.json (SC01 satisfied)"
+      },
+      "phase_3_integration_infrastructure": {
+        "description": "Create interface registry and data schemas",
+        "gaps_addressed": ["GAP-006", "GAP-013"],
+        "estimated_effort": "2-3 days",
+        "deliverables": [
+          "specs/machine/interface_registry.json",
+          "specs/schemas/architecture_schema.json"
+        ],
+        "success_criteria": "Interface registry complete, architecture schema validated (SC02 satisfied)"
+      },
+      "phase_4_integration_code": {
+        "description": "Implement workflow-to-engine integration",
+        "gaps_addressed": ["GAP-008", "GAP-010", "GAP-014"],
+        "estimated_effort": "5-7 days",
+        "deliverables": [
+          "src/workflow_runner.py (updated with engine invocation)",
+          "src/adapters/ (adapter layer)",
+          "src/exceptions.py (error handling framework)"
+        ],
+        "success_criteria": "Workflow can invoke all 3 analysis engines"
+      },
+      "phase_5_validation": {
+        "description": "Generate system graph and add integration tests",
+        "gaps_addressed": ["GAP-007", "GAP-009"],
+        "estimated_effort": "3-5 days",
+        "deliverables": [
+          "specs/machine/graphs/system_of_systems_graph.json",
+          "tests/integration/ (test suite)"
+        ],
+        "success_criteria": "System graph validates, integration tests pass (SC03, SC04 satisfied)"
+      },
+      "phase_6_polish": {
+        "description": "Add configuration, logging, and documentation",
+        "gaps_addressed": ["GAP-011", "GAP-012", "GAP-015"],
+        "estimated_effort": "2-4 days",
+        "deliverables": [
+          "config/default_config.json",
+          "Logging infrastructure",
+          "docs/api/ (API reference)"
+        ],
+        "success_criteria": "System is production-ready with full documentation (SC07 satisfied)"
+      },
+      "total_estimated_effort": "20-31 days",
+      "critical_path": [
+        "Phase 1 → Phase 2 → Phase 3 → Phase 4 → Phase 5"
+      ]
+    },
+
+    "risk_assessment": {
+      "risks": [
+        {
+          "risk_id": "R01",
+          "description": "Analysis engine APIs may need refactoring to support workflow invocation",
+          "probability": "medium",
+          "impact": "high",
+          "mitigation": "Review APIs early in Phase 1, plan refactoring if needed"
+        },
+        {
+          "risk_id": "R02",
+          "description": "Architecture schema may not cover all real-world architecture formats",
+          "probability": "high",
+          "impact": "medium",
+          "mitigation": "Design flexible schema with extension points, validate against examples"
+        },
+        {
+          "risk_id": "R03",
+          "description": "Integration tests may reveal unexpected incompatibilities",
+          "probability": "medium",
+          "impact": "medium",
+          "mitigation": "Start integration testing early (don't wait for Phase 5)"
+        },
+        {
+          "risk_id": "R04",
+          "description": "Performance may be inadequate for large architectures",
+          "probability": "low",
+          "impact": "medium",
+          "mitigation": "Add performance tests, optimize if needed, document performance characteristics"
+        }
+      ]
+    },
+
+    "validation_checkpoints": {
+      "description": "Validation gates to ensure quality at each phase",
+      "checkpoints": [
+        {
+          "checkpoint_id": "V01",
+          "phase": "phase_1",
+          "validation": "All interface specifications follow consistent schema",
+          "method": "Schema validation tool"
+        },
+        {
+          "checkpoint_id": "V02",
+          "phase": "phase_2",
+          "validation": "All service architectures reference valid interfaces",
+          "method": "validate_architecture.py tool"
+        },
+        {
+          "checkpoint_id": "V03",
+          "phase": "phase_3",
+          "validation": "Interface registry contains all expected interfaces",
+          "method": "Manual review against BU-02 requirements"
+        },
+        {
+          "checkpoint_id": "V04",
+          "phase": "phase_4",
+          "validation": "Integration code successfully invokes all engines",
+          "method": "Unit tests for each invocation method"
+        },
+        {
+          "checkpoint_id": "V05",
+          "phase": "phase_5",
+          "validation": "System graph has no orphans or circular dependencies",
+          "method": "Graph validation tool"
+        },
+        {
+          "checkpoint_id": "V06",
+          "phase": "phase_5",
+          "validation": "chain-01-link-architectures workflow executes end-to-end",
+          "method": "Integration test suite"
+        }
+      ]
+    }
+  }
+}
