@@ -271,7 +271,50 @@ E-commerce Platform (SoS)
 The gap isn't between Login and E-commerce.
 The gap is the missing Authentication Module that should contain both Login and Session Manager.
 
-### Example 3: Nested Through Unknown Intermediate
+### Example 3: Carburetor to Body of Car (The Classic Mistake)
+
+**Scenario**: User wants to link Carburetor to Body of Car. "These need to connect somehow."
+
+**Flat Thinking**:
+```
+Carburetor ??? Body of Car
+```
+"They're both car parts. Let's create a link."
+
+**Hierarchical Thinking**:
+```
+Carburetor: component level (4 components)
+Body of Car: system level (10+ components)
+
+They are NOT peers! Different levels!
+
+Correct hierarchy:
+Vehicle (system-of-systems)
+  ├─ Body System (system level)  ← Peer to Engine System
+  └─ Engine System (system level) ← KNOWLEDGE GAP! This is missing!
+      └─ Carburetor (component level)
+```
+
+**The Revelation**:
+The gap isn't a missing link between Carburetor and Body.
+The gap is the **missing Engine System**!
+
+- Engine System is the PEER to Body System (both at system level)
+- Carburetor is PART OF Engine System (parent-child)
+- Don't link Carburetor to Body - link Engine System to Body!
+
+**Integration Decision**:
+❌ WRONG: Link Carburetor directly to Body (skips two levels)
+
+✓ CORRECT:
+1. Document the missing Engine System
+2. Link Carburetor to Engine System (parent-child)
+3. Link Engine System to Body System (peers)
+4. Both contained by Vehicle
+
+**Key Insight**: When you try to link a component to a system, the gap is often a **missing peer system** that contains the component, not a direct link!
+
+### Example 4: Nested Through Unknown Intermediate
 
 **Scenario**: User reports "System A and System B seem related, but I don't know how."
 

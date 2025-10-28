@@ -110,6 +110,32 @@ Don't link Axle directly to Vehicle - that skips two levels. Instead, identify a
 - Wrong hierarchy level (metadata incorrect)
 - The actual integration point (where systems connect)
 
+### The Carburetor-to-Body Problem
+
+**Classic mistake**: "I need to link Carburetor to Body of Car."
+
+**Problem**: They're at different hierarchical levels!
+- Carburetor: component level
+- Body of Car: system level
+
+**The revelation**: The gap isn't a missing link between them. The gap is the **missing Engine System**!
+
+```
+Correct Hierarchy:
+Vehicle
+  ├─ Body System ← Peer to Engine System
+  └─ Engine System ← THIS IS THE KNOWLEDGE GAP!
+      └─ Carburetor
+```
+
+**Integration decision**:
+- ❌ Don't link Carburetor directly to Body (wrong level)
+- ✓ Document the missing Engine System
+- ✓ Link Engine System to Body System (peers)
+- ✓ Link Carburetor to Engine System (parent-child)
+
+The "gap" is often a **missing peer system** that contains the component, not a direct component-to-system link!
+
 ## Example Use Cases
 
 ### Component-Level Integration
