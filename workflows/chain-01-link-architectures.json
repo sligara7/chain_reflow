@@ -2,11 +2,11 @@
   "workflow_metadata": {
     "workflow_id": "chain-01",
     "name": "Architecture Chaining Workflow",
-    "version": "1.1.0",
-    "description": "Link two or more system_of_systems_graph.json files together, including creative linking for orthogonal architectures and correlation/causation analysis",
+    "version": "1.2.0",
+    "description": "Link two or more system_of_systems_graph.json files together with hierarchical nesting analysis, creative linking for orthogonal architectures, and correlation/causation analysis",
     "created_from": "chain_reflow concept - linking independent architectures",
     "last_updated": "2025-10-28",
-    "purpose": "Discover and establish touchpoints between independently developed system architectures while distinguishing correlation from causation"
+    "purpose": "Discover and establish touchpoints between independently developed system architectures while understanding hierarchical relationships, distinguishing correlation from causation, and identifying missing intermediate levels"
   },
   "entry_points": {
     "link_two_systems": {
@@ -169,6 +169,96 @@
         "All causal hypotheses are exploratory until validated",
         "This step adds scientific rigor to architecture linking",
         "Validation can be done before or after initial linking"
+      ],
+      "next_step": "C-01B"
+    },
+    {
+      "step_id": "C-01B",
+      "name": "Matryoshka (Hierarchical) Analysis",
+      "description": "Analyze hierarchical nesting relationships between architectures",
+      "phase": "analysis",
+      "important_principle": "Architectures are often nested hierarchically (like Russian nesting dolls), not just linked peer-to-peer. Don't assume all architectures are at the same level.",
+      "actions": [
+        {
+          "action_id": "C-01B-A01",
+          "description": "Infer hierarchy levels for all architectures",
+          "purpose": "Determine if architectures are at component, subsystem, system, system-of-systems, or enterprise level",
+          "command_pattern": "python3 {system_root}/src/matryoshka_analysis.py infer-levels arch1.json arch2.json",
+          "llm_instructions": [
+            "Use MatryoshkaAnalyzer.infer_hierarchy_level() for each architecture",
+            "Consider: component count, name keywords, scope, domain",
+            "Classify as: component, subsystem, system, system-of-systems, enterprise",
+            "Document confidence level and evidence"
+          ],
+          "output": "context/hierarchy_levels.json"
+        },
+        {
+          "action_id": "C-01B-A02",
+          "description": "Analyze hierarchical relationships",
+          "purpose": "Determine if architectures are peers, parent-child, or nested through intermediates",
+          "llm_instructions": [
+            "Use MatryoshkaAnalyzer.analyze_relationship() for each pair",
+            "Classify relationships as:",
+            "  • Peer: Same hierarchical level",
+            "  • Parent-child: One level apart (direct containment)",
+            "  • Nested indirect: Multiple levels apart (intermediates exist)",
+            "Document evidence for each relationship"
+          ],
+          "output": "context/hierarchical_relationships.json"
+        },
+        {
+          "action_id": "C-01B-A03",
+          "description": "Discover hierarchical gaps",
+          "purpose": "Identify missing intermediate levels that should exist",
+          "llm_instructions": [
+            "Use MatryoshkaAnalyzer.discover_hierarchical_gaps()",
+            "Look for:",
+            "  • Architectures with no parent (missing parent gap)",
+            "  • Peers with no common parent (missing common parent)",
+            "  • Non-adjacent levels (missing intermediate levels)",
+            "Generate hypothesis for each gap: what's missing?"
+          ],
+          "output": "context/hierarchical_gaps.json",
+          "note": "Gaps might be the actual integration points!"
+        },
+        {
+          "action_id": "C-01B-A04",
+          "description": "Present matryoshka analysis to user",
+          "purpose": "Educate user about hierarchical relationships and gaps",
+          "user_prompt": {
+            "message_format": "⚠️  MATRYOSHKA (HIERARCHICAL) ANALYSIS ⚠️\n\n⚠️  IMPORTANT: Architectures may be nested hierarchically, not just linked peer-to-peer!\n\nDetected Hierarchy Levels:\n{hierarchy_levels}\n\nRelationships:\n{relationships}\n\nHierarchical Gaps (missing levels):\n{gaps}\n\n⚠️  Don't assume peer-to-peer links!\nGaps might indicate:\n• Missing documentation (intermediate exists but not documented)\n• Missing design (intermediate should exist but doesn't)\n• Wrong hierarchy level (metadata incorrect)\n• Actual integration point (gap is where systems connect)\n\nWould you like to:\n1. Review detailed matryoshka analysis report\n2. Investigate hierarchical gaps\n3. Proceed with linking (aware of hierarchy)\n\nChoice:",
+            "interactive": true
+          }
+        },
+        {
+          "action_id": "C-01B-A05",
+          "description": "Generate matryoshka analysis report",
+          "command_pattern": "python3 {system_root}/src/matryoshka_analysis.py generate-report",
+          "output": "docs/matryoshka_analysis_report_{timestamp}.md",
+          "purpose": "Create detailed report showing hierarchy levels, relationships, and gaps"
+        },
+        {
+          "action_id": "C-01B-A06",
+          "description": "Ask user about gap resolution",
+          "purpose": "Determine how to handle hierarchical gaps before linking",
+          "user_prompt": {
+            "message_format": "How would you like to handle hierarchical gaps?\n\nOptions:\n1. Document missing intermediates (they exist but aren't documented)\n2. Design missing intermediates (they should exist, need to create them)\n3. Correct hierarchy levels (the levels are wrong, not the architecture)\n4. Proceed with gaps as-is (mark as knowledge gaps for future work)\n\nChoice:",
+            "blocking": true
+          },
+          "user_response_handling": {
+            "if_document": "Create architecture stubs for missing intermediates",
+            "if_design": "Add design tasks for missing intermediates to backlog",
+            "if_correct": "Re-run hierarchy inference with corrected metadata",
+            "if_proceed": "Mark gaps as known issues, continue with linking"
+          }
+        }
+      ],
+      "important_notes": [
+        "Hierarchy matters - don't link components directly to systems-of-systems",
+        "Missing levels might be where actual integration happens",
+        "Gaps can indicate knowledge gaps, not just missing architectures",
+        "Parent-child relationships are different from peer-to-peer",
+        "Always check hierarchy before selecting linking strategy"
       ],
       "next_step": "C-02"
     },

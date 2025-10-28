@@ -70,6 +70,46 @@ The system then designs validation experiments to test these hypotheses:
 
 ⚠️ **Critical**: Only link architectures based on validated causal relationships or with clear exploratory disclaimers.
 
+### Matryoshka (Hierarchical Nesting) Analysis
+Like Russian nesting dolls (matryoshka), system architectures are often **nested hierarchically**, not just linked peer-to-peer.
+
+Chain Reflow recognizes that when linking architectures, **don't assume they're peers at the same level**:
+- **Peer relationships**: Both architectures at the same level (component ↔ component)
+- **Parent-child relationships**: One contains the other (system ⊃ subsystem)
+- **Nested indirect**: Related through intermediate levels (system-of-systems ⊃ ... ⊃ component)
+
+**Hierarchy Levels**:
+1. **Component**: Individual parts (axle, API endpoint)
+2. **Subsystem**: Groups of components (suspension, auth module)
+3. **System**: Complete functional systems (vehicle chassis, microservice)
+4. **System-of-Systems**: Multiple integrated systems (vehicle, cloud platform)
+5. **Enterprise**: Organization-level (product portfolio, fleet)
+
+**Hierarchical Gaps** - Missing intermediate levels:
+When two architectures seem unrelated, the gap might not be a missing peer connection - it might be a **missing intermediate level**!
+
+Example:
+```
+Component: Axle Component
+System: Vehicle Platform
+
+Gap: Missing Subsystem (Suspension) and System (Chassis) levels!
+
+Correct hierarchy:
+Vehicle Platform (system-of-systems)
+  ⊃ Chassis System
+    ⊃ Suspension Subsystem
+      ⊃ Axle Component
+```
+
+Don't link Axle directly to Vehicle - that skips two levels. Instead, identify and document the missing intermediates.
+
+⚠️ **Key Insight**: When you see a gap, it might actually be:
+- Missing documentation (intermediate exists but not documented)
+- Missing design (intermediate should exist but doesn't)
+- Wrong hierarchy level (metadata incorrect)
+- The actual integration point (where systems connect)
+
 ## Example Use Cases
 
 ### Component-Level Integration
@@ -93,6 +133,7 @@ Each level can be analyzed for orphans, gaps, and misalignments using reflow too
 
 ## Key Features
 
+- **Matryoshka (Hierarchical) Analysis**: Detects hierarchy levels (component → subsystem → system → system-of-systems → enterprise) and identifies missing intermediate levels
 - **Multiple Linking Strategies**: Automatic selection of standard vs. creative linking
 - **Orthogonality Assessment**: Determines how related/unrelated architectures are
 - **Correlation vs. Causation Analysis**: Distinguishes observed patterns from proven causal relationships
@@ -101,9 +142,10 @@ Each level can be analyzed for orphans, gaps, and misalignments using reflow too
 - **User Guidance**: Incorporates user expertise about relationships
 - **Causal Hypothesis Generation**: Creates testable hypotheses about system relationships
 - **Validation Frameworks**: Designs experiments to test causal claims
+- **Hierarchical Gap Detection**: Identifies missing parent, intermediate, or peer architectures
 - **Exploratory Marking**: Clear labeling of speculative vs. validated connections
 - **Validation Workflows**: Refine and validate discovered touchpoints
-- **Hierarchical Composition**: Support for multi-level architecture nesting
+- **Multi-level Nesting**: Support for nested architectures through intermediates
 
 ## Getting Started
 

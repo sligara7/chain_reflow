@@ -19,6 +19,18 @@ As described in the README, chain_reflow treats each system_of_systems_graph.jso
 
 ## Core Capabilities
 
+### Matryoshka (Hierarchical Nesting) Analysis
+Recognizes that architectures are nested hierarchically, not just linked peer-to-peer:
+- **Hierarchy Level Detection**: Identifies whether architectures are at component, subsystem, system, system-of-systems, or enterprise level
+- **Relationship Analysis**: Determines peer, parent-child, or nested-indirect relationships
+- **Gap Detection**: Identifies missing intermediate levels that should exist
+- **Integration Point Discovery**: Finds where systems actually connect in the hierarchy
+
+**Fundamental Principle**: Don't assume peer-to-peer. Architectures may be:
+- At the same level (peers)
+- At different levels (parent-child)
+- Nested through intermediate levels (unknown intermediates may exist)
+
 ### Standard Technical Linking
 For architectures in related domains:
 - Direct interface matching (APIs, events, data flows)
