@@ -1,2 +1,12 @@
 # chain_reflow
 Chain together reflow systems
+
+concept is that system_of_systems_graph.json created by the systems engineering workflows of https://github.com/sligara7/reflow.git could be linked or chained together or put together in structured or hierarchical manner.  basically, treat each system_of_systems_graph.json as an object.  this allows independent development of various components/individual components of a system (each of which may be composed of individual service_architecture.json files). then they can be linked together (either specified by user how they are related or an AI agent determining their relationship to each other).  then basically follow the workflows of reflow on the larger/combined architectures.  each individual system_of_systems_graph.json should have its own GitHub repo.  the purpose of this system is to create a workflow that chains/links two or more system_of_systems_graph.json together into in some structure (find their touch points of how the two architectures are linked).  the user may be able to shed light on how they are related, but may AI agent may also have to speculate or investigate figure out their two architectures relationship to each other.  
+
+as with reflow, probably need to have repo of the chained architectures.  this might be good to use GitHub's gitmodule to organize the individual architectures, but I'm unsure if this is realistic.  
+
+basically, it'd allow teams to build their sections somewhat independently, then when they need to interface with each other, they can run "chain reflow" to figure out how their systems come together.  may have to insert "touchpoints" into the system_of_systems_graph.json developed by the reflow architecture (which can be left unknown).  this could be like if a team was responsible for developing the axel of a car, it would have touchpoints for how it bolts to the structure of the car or touch points for how the drive train connects to it.  
+
+basically, this could be done at multiple levels of hierarchy.  basically, a system_of_systems_graph.json could be built at the component level, then multiple system_of_systems_graph.json at the component level could be chained to create the system. then multiple system level system_of_systems_graph.json could be chained together at the system of system level (like a nested structure).  then the reflow tools can be run at these higher levels.  
+
+when the reflow and associated tools are run at the higher level, you ahould again find where things may be orphaned or edges don't line up or their are gaps. 
