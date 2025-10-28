@@ -1,0 +1,379 @@
+{
+  "component_delta": {
+    "component_id": "infrastructure",
+    "component_name": "Configuration and Schemas",
+    "source_files": [
+      "config/default_config.json",
+      "specs/schemas/architecture_schema.json"
+    ],
+    "delta_version": "1.0.0",
+    "created": "2025-10-28",
+    "workflow_step": "BU-04",
+    "gaps_addressed": ["GAP-011", "GAP-013"],
+
+    "summary": {
+      "change_type": "new_infrastructure",
+      "description": "Create configuration management and data schemas",
+      "total_changes": 2,
+      "breaking_changes": false,
+      "backward_compatible": true
+    },
+
+    "code_changes": {
+      "new_files": [
+        {
+          "change_id": "INF-001",
+          "type": "create_file",
+          "file_path": "config/default_config.json",
+          "description": "Default configuration for Chain Reflow system",
+          "content_type": "json",
+          "estimated_lines": 100
+        },
+        {
+          "change_id": "INF-002",
+          "type": "create_file",
+          "file_path": "specs/schemas/architecture_schema.json",
+          "description": "JSON schema for architecture input validation",
+          "content_type": "json_schema",
+          "estimated_lines": 150
+        }
+      ]
+    },
+
+    "configuration_structure": {
+      "file": "config/default_config.json",
+      "description": "Centralized configuration for all components",
+      "sections": [
+        {
+          "section": "system",
+          "settings": [
+            {
+              "key": "system_root",
+              "type": "string",
+              "default": ".",
+              "description": "Root directory for the system"
+            },
+            {
+              "key": "context_dir",
+              "type": "string",
+              "default": "context",
+              "description": "Directory for working memory and context files"
+            },
+            {
+              "key": "specs_dir",
+              "type": "string",
+              "default": "specs/machine",
+              "description": "Directory for machine-readable specifications"
+            },
+            {
+              "key": "docs_dir",
+              "type": "string",
+              "default": "docs",
+              "description": "Directory for human-readable documentation"
+            }
+          ]
+        },
+        {
+          "section": "workflow",
+          "settings": [
+            {
+              "key": "default_timeout",
+              "type": "integer",
+              "default": 300,
+              "description": "Default timeout for workflow steps (seconds)"
+            },
+            {
+              "key": "save_working_memory",
+              "type": "boolean",
+              "default": true,
+              "description": "Whether to save working memory after each step"
+            },
+            {
+              "key": "log_level",
+              "type": "string",
+              "default": "INFO",
+              "description": "Logging level for workflow execution"
+            }
+          ]
+        },
+        {
+          "section": "creative_linking",
+          "settings": [
+            {
+              "key": "min_confidence",
+              "type": "float",
+              "default": 0.3,
+              "description": "Minimum confidence for creative touchpoints"
+            },
+            {
+              "key": "max_touchpoints",
+              "type": "integer",
+              "default": 10,
+              "description": "Maximum number of touchpoints to generate"
+            },
+            {
+              "key": "require_user_consent",
+              "type": "boolean",
+              "default": true,
+              "description": "Require explicit user consent for creative linking"
+            },
+            {
+              "key": "user_context_weight",
+              "type": "float",
+              "default": 0.3,
+              "description": "Weight increase for user-suggested touchpoints"
+            }
+          ]
+        },
+        {
+          "section": "causality_analysis",
+          "settings": [
+            {
+              "key": "min_correlation_confidence",
+              "type": "float",
+              "default": 0.4,
+              "description": "Minimum confidence for correlation patterns"
+            },
+            {
+              "key": "generate_validation_experiments",
+              "type": "boolean",
+              "default": true,
+              "description": "Generate validation experiments for causal hypotheses"
+            },
+            {
+              "key": "max_hypotheses_per_correlation",
+              "type": "integer",
+              "default": 4,
+              "description": "Maximum causal hypotheses per correlation (typically 4: A→B, B→A, bidirectional, spurious)"
+            }
+          ]
+        },
+        {
+          "section": "matryoshka_analysis",
+          "settings": [
+            {
+              "key": "component_threshold_low",
+              "type": "integer",
+              "default": 3,
+              "description": "Max components for 'component' level"
+            },
+            {
+              "key": "component_threshold_medium",
+              "type": "integer",
+              "default": 10,
+              "description": "Max components for 'subsystem' level"
+            },
+            {
+              "key": "component_threshold_high",
+              "type": "integer",
+              "default": 50,
+              "description": "Max components for 'system' level"
+            },
+            {
+              "key": "detect_missing_parents",
+              "type": "boolean",
+              "default": true,
+              "description": "Detect architectures missing parent systems"
+            },
+            {
+              "key": "detect_missing_intermediates",
+              "type": "boolean",
+              "default": true,
+              "description": "Detect missing intermediate levels in hierarchy"
+            }
+          ]
+        },
+        {
+          "section": "logging",
+          "settings": [
+            {
+              "key": "enabled",
+              "type": "boolean",
+              "default": true,
+              "description": "Enable logging"
+            },
+            {
+              "key": "log_file",
+              "type": "string",
+              "default": "logs/chain_reflow.log",
+              "description": "Log file path"
+            },
+            {
+              "key": "log_level",
+              "type": "string",
+              "default": "INFO",
+              "description": "Log level (DEBUG, INFO, WARNING, ERROR, CRITICAL)"
+            },
+            {
+              "key": "log_format",
+              "type": "string",
+              "default": "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+              "description": "Log message format"
+            },
+            {
+              "key": "console_logging",
+              "type": "boolean",
+              "default": true,
+              "description": "Also log to console"
+            }
+          ]
+        }
+      ]
+    },
+
+    "architecture_schema": {
+      "file": "specs/schemas/architecture_schema.json",
+      "description": "JSON Schema for validating architecture inputs",
+      "schema_version": "draft-07",
+      "structure": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "title": "Architecture",
+        "description": "Schema for system architecture inputs to Chain Reflow",
+        "type": "object",
+        "required_properties": ["name", "components"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Name of the architecture"
+          },
+          "domain": {
+            "type": "string",
+            "description": "Domain of the architecture",
+            "enum": ["software", "mechanical", "biological", "electrical", "social", "ecological", "hybrid", "other"]
+          },
+          "framework": {
+            "type": "string",
+            "description": "Architecture framework used",
+            "examples": ["UAF", "TOGAF", "Zachman", "DoDAF", "Custom"]
+          },
+          "description": {
+            "type": "string",
+            "description": "Human-readable description of the architecture"
+          },
+          "components": {
+            "type": "array",
+            "minItems": 1,
+            "description": "List of components in this architecture",
+            "items": {
+              "type": "object",
+              "required": ["name"],
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "minLength": 1,
+                  "description": "Name of the component"
+                },
+                "type": {
+                  "type": "string",
+                  "description": "Type of component"
+                },
+                "description": {
+                  "type": "string",
+                  "description": "Component description"
+                },
+                "inputs": {
+                  "type": "array",
+                  "description": "Component inputs",
+                  "items": {"type": "string"}
+                },
+                "outputs": {
+                  "type": "array",
+                  "description": "Component outputs",
+                  "items": {"type": "string"}
+                },
+                "properties": {
+                  "type": "object",
+                  "description": "Additional component properties",
+                  "additionalProperties": true
+                }
+              }
+            }
+          },
+          "metadata": {
+            "type": "object",
+            "description": "Additional metadata",
+            "additionalProperties": true
+          }
+        }
+      }
+    },
+
+    "usage": {
+      "configuration": {
+        "loading": [
+          "Components should load config/default_config.json at initialization",
+          "Allow environment variables to override config values",
+          "Format: CHAIN_REFLOW_<SECTION>_<KEY> (e.g., CHAIN_REFLOW_WORKFLOW_LOG_LEVEL)"
+        ],
+        "access_pattern": [
+          "import json",
+          "with open('config/default_config.json') as f:",
+          "    config = json.load(f)",
+          "min_confidence = config['creative_linking']['min_confidence']"
+        ]
+      },
+      "schema_validation": {
+        "validation": [
+          "Use jsonschema library to validate architecture inputs",
+          "from jsonschema import validate, ValidationError",
+          "with open('specs/schemas/architecture_schema.json') as f:",
+          "    schema = json.load(f)",
+          "validate(instance=architecture, schema=schema)"
+        ],
+        "error_handling": [
+          "Catch jsonschema.ValidationError",
+          "Extract validation errors from exception",
+          "Wrap in src.exceptions.ValidationError",
+          "Provide clear error message to user"
+        ]
+      }
+    },
+
+    "dependencies": {
+      "new_dependencies": [
+        {
+          "package": "jsonschema",
+          "version": ">=4.0.0",
+          "purpose": "JSON schema validation",
+          "install": "pip install jsonschema"
+        }
+      ]
+    },
+
+    "integration_with_components": {
+      "workflow_runner": [
+        "Load config at __init__",
+        "Use workflow.default_timeout for step timeouts",
+        "Use workflow.log_level for logging configuration"
+      ],
+      "analysis_engines": [
+        "Load config at __init__",
+        "Use engine-specific settings (min_confidence, thresholds, etc.)",
+        "Load architecture_schema and validate inputs before analysis"
+      ],
+      "adapters": [
+        "Access config via engine instances",
+        "No direct config access needed"
+      ]
+    },
+
+    "testing_requirements": {
+      "unit_tests": [
+        "test_load_config() - verify config loads correctly",
+        "test_config_override_env_var() - verify env var override",
+        "test_architecture_schema_valid() - verify valid architecture passes",
+        "test_architecture_schema_invalid() - verify invalid architecture fails",
+        "test_architecture_schema_missing_required() - verify required field check"
+      ]
+    },
+
+    "estimated_effort": {
+      "configuration_creation": "0.5 days",
+      "schema_creation": "0.5 days",
+      "integration_with_components": "1 day",
+      "testing": "0.5 days",
+      "total": "2.5 days"
+    }
+  }
+}

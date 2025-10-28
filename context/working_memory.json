@@ -1,8 +1,8 @@
 {
   "system_name": "Chain Reflow System",
-  "workflow_id": "00-setup",
+  "workflow_id": "01b-bottom_up_integration",
   "workflow_version": "1.0.0",
-  "started_at": "2025-10-28T01:29:38.242664",
+  "started_at": "2025-10-28T03:00:00.000000",
   "paths": {
     "system_root": "/home/user/chain_reflow",
     "reflow_root": "/home/user/reflow",
@@ -11,7 +11,8 @@
     "workflow_steps_path": "/home/user/reflow/workflow_steps",
     "definitions_path": "/home/user/reflow/definitions"
   },
-  "current_step": "S-01",
+  "current_step": "BU-04",
+  "current_workflow": "01b-bottom_up_integration",
   "operations_since_refresh": 0,
   "framework_configuration": {
     "framework_id": "decision_flow",
@@ -22,5 +23,88 @@
     "selected_framework_rationale": "Chain reflow orchestrates workflows and manages state transitions across multiple system architectures",
     "user_confirmed": true,
     "confirmation_timestamp": "2025-10-28T01:29:38.243158"
+  },
+  "detected_approach": {
+    "approach": "bottom_up",
+    "confidence": "high",
+    "detected_at": "2025-10-28T02:35:00.000000",
+    "next_workflow": "01b-bottom_up_integration",
+    "rationale": "Existing Python modules need architectural documentation. Bottom-up integration will reverse-engineer architecture from code."
+  },
+  "workflow_history": [
+    {
+      "workflow_id": "00-setup",
+      "completed_at": "2025-10-28T01:29:38.242664",
+      "status": "completed"
+    },
+    {
+      "workflow_id": "01a-approach_detection",
+      "started_at": "2025-10-28T02:35:00.000000",
+      "completed_at": "2025-10-28T02:45:00.000000",
+      "status": "completed"
+    },
+    {
+      "workflow_id": "01b-bottom_up_integration",
+      "started_at": "2025-10-28T03:00:00.000000",
+      "status": "in_progress"
+    }
+  ],
+  "bottom_up_integration_progress": {
+    "completed_steps": [
+      {
+        "step_id": "BU-01",
+        "name": "Component Inventory & Discovery",
+        "completed_at": "2025-10-28T03:15:00.000000",
+        "outputs": [
+          "specs/machine/component_inventory.json",
+          "docs/COMPONENT_INVENTORY_SUMMARY.md"
+        ],
+        "components_discovered": 5,
+        "total_loc": 2875
+      },
+      {
+        "step_id": "BU-02",
+        "name": "Integration Requirements Definition",
+        "completed_at": "2025-10-28T03:30:00.000000",
+        "outputs": [
+          "specs/machine/integration_requirements.json",
+          "docs/INTEGRATION_REQUIREMENTS_SUMMARY.md"
+        ],
+        "capabilities_identified": 8,
+        "interactions_identified": 8,
+        "nfrs_identified": 9
+      },
+      {
+        "step_id": "BU-03",
+        "name": "Integration Gap Analysis",
+        "completed_at": "2025-10-28T03:45:00.000000",
+        "outputs": [
+          "specs/machine/integration_gaps.json",
+          "docs/INTEGRATION_GAPS_SUMMARY.md"
+        ],
+        "gaps_identified": 15,
+        "critical_gaps": 5,
+        "high_priority_gaps": 6
+      },
+      {
+        "step_id": "BU-04",
+        "name": "Component Delta Analysis",
+        "completed_at": "2025-10-28T04:00:00.000000",
+        "outputs": [
+          "specs/machine/component_deltas/workflow_runner_delta.json",
+          "specs/machine/component_deltas/adapters_delta.json",
+          "specs/machine/component_deltas/exceptions_delta.json",
+          "specs/machine/component_deltas/analysis_engines_delta.json",
+          "specs/machine/component_deltas/infrastructure_delta.json",
+          "docs/COMPONENT_DELTAS_SUMMARY.md"
+        ],
+        "deltas_generated": 5,
+        "total_lines_to_add": 700,
+        "estimated_effort_days": "14-19",
+        "gaps_addressed": ["GAP-008", "GAP-010", "GAP-011", "GAP-013", "GAP-014"]
+      }
+    ],
+    "next_step": "BU-05",
+    "next_step_name": "Integration Architecture Design"
   }
 }

@@ -1,0 +1,273 @@
+{
+  "inventory_metadata": {
+    "created_at": "2025-10-28T02:40:00.000000",
+    "system_name": "Chain Reflow System",
+    "workflow_id": "01b-bottom_up_integration",
+    "workflow_step": "BU-01",
+    "approach": "bottom_up",
+    "framework": "decision_flow"
+  },
+  "components": [
+    {
+      "component_id": "creative_linking",
+      "name": "Creative Linking Engine",
+      "type": "analysis_service",
+      "source_location": "src/creative_linking.py",
+      "lines_of_code": 655,
+      "hierarchical_tier": "system",
+      "description": "Discovers connections between orthogonal (unrelated) architectures using synesthetic mapping, neural plasticity-inspired structural analogies, and metaphorical reasoning",
+      "capabilities": [
+        "Assess orthogonality between architectures (ALIGNED, RELATED, DIVERGENT, ORTHOGONAL)",
+        "Generate synesthetic mappings (biological→software, mechanical→software, etc.)",
+        "Find structural analogies between components",
+        "Incorporate user-guided discovery",
+        "Generate creative touchpoints with confidence scores",
+        "Produce creative linking reports with disclaimers"
+      ],
+      "exposed_interfaces": {
+        "classes": [
+          "CreativeLinkingEngine"
+        ],
+        "key_methods": [
+          "assess_orthogonality(arch1, arch2) -> OrthogonalityLevel",
+          "find_creative_touchpoints(arch1, arch2, user_consent, user_context) -> List[CreativeTouchpoint]",
+          "generate_linking_report(touchpoints, arch1_name, arch2_name, orthogonality) -> str"
+        ],
+        "data_structures": [
+          "SynestheticMapping",
+          "CreativeTouchpoint",
+          "OrthogonalityLevel (enum)",
+          "LinkType (enum)"
+        ]
+      },
+      "dependencies": {
+        "internal": [],
+        "external": [
+          "json",
+          "pathlib",
+          "typing",
+          "dataclasses",
+          "enum",
+          "datetime"
+        ]
+      },
+      "integration_readiness": "production_ready",
+      "integration_notes": "Fully functional, tested, well-documented. Can be invoked independently or as part of workflow."
+    },
+    {
+      "component_id": "causality_analysis",
+      "name": "Causality Analysis Engine",
+      "type": "analysis_service",
+      "source_location": "src/causality_analysis.py",
+      "lines_of_code": 779,
+      "hierarchical_tier": "system",
+      "description": "Distinguishes between correlation and causation when linking architectures, generates testable hypotheses, and designs validation experiments",
+      "capabilities": [
+        "Detect correlations (user-reported, temporal, structural, behavioral)",
+        "Generate causal hypotheses (A→B, B→A, bidirectional, spurious)",
+        "Design validation experiments (observational, intervention, mechanism, temporal, counterfactual)",
+        "Classify relationships (correlation, causal_hypothesis, validated_causal, spurious)",
+        "Generate correlation vs causation reports with disclaimers"
+      ],
+      "exposed_interfaces": {
+        "classes": [
+          "CausalityAnalyzer"
+        ],
+        "key_methods": [
+          "detect_correlation(arch1, arch2, user_observation) -> List[CorrelationPattern]",
+          "generate_causal_hypotheses(correlation, user_causal_claim) -> List[CausalHypothesis]",
+          "design_validation_experiment(hypothesis) -> Dict",
+          "generate_causality_report(correlations, hypotheses) -> str"
+        ],
+        "data_structures": [
+          "CorrelationPattern",
+          "CausalHypothesis",
+          "SpuriousCorrelation",
+          "RelationshipType (enum)",
+          "CausalDirection (enum)",
+          "ValidationMethod (enum)"
+        ]
+      },
+      "dependencies": {
+        "internal": [],
+        "external": [
+          "json",
+          "pathlib",
+          "typing",
+          "dataclasses",
+          "enum",
+          "datetime"
+        ]
+      },
+      "integration_readiness": "production_ready",
+      "integration_notes": "Fully functional, tested, well-documented. Can be invoked independently or as part of workflow."
+    },
+    {
+      "component_id": "matryoshka_analysis",
+      "name": "Matryoshka Hierarchical Analysis Engine",
+      "type": "analysis_service",
+      "source_location": "src/matryoshka_analysis.py",
+      "lines_of_code": 715,
+      "hierarchical_tier": "system",
+      "description": "Analyzes hierarchical nesting relationships between architectures, detects hierarchy levels, and identifies missing intermediate levels",
+      "capabilities": [
+        "Infer hierarchy levels (component, subsystem, system, system-of-systems, enterprise)",
+        "Analyze relationships (peer, parent-child, nested-indirect)",
+        "Discover hierarchical gaps (missing parents, intermediates, common parents)",
+        "Generate gap hypotheses",
+        "Produce matryoshka analysis reports"
+      ],
+      "exposed_interfaces": {
+        "classes": [
+          "MatryoshkaAnalyzer"
+        ],
+        "key_methods": [
+          "infer_hierarchy_level(arch) -> HierarchyMetadata",
+          "analyze_relationship(arch_a, arch_b, metadata_a, metadata_b) -> NestingRelationship",
+          "discover_hierarchical_gaps(architectures, relationships) -> List[HierarchicalGap]",
+          "generate_matryoshka_report(architectures, hierarchy_metadata, relationships, gaps) -> str"
+        ],
+        "data_structures": [
+          "HierarchyMetadata",
+          "NestingRelationship",
+          "HierarchicalGap",
+          "HierarchyLevel (enum)",
+          "RelationshipType (enum)"
+        ]
+      },
+      "dependencies": {
+        "internal": [],
+        "external": [
+          "json",
+          "pathlib",
+          "typing",
+          "dataclasses",
+          "enum",
+          "datetime"
+        ]
+      },
+      "integration_readiness": "production_ready",
+      "integration_notes": "Fully functional, tested, well-documented. Can be invoked independently or as part of workflow."
+    },
+    {
+      "component_id": "workflow_runner",
+      "name": "Workflow Execution Engine",
+      "type": "orchestration_service",
+      "source_location": "src/workflow_runner.py",
+      "lines_of_code": 243,
+      "hierarchical_tier": "system",
+      "description": "Core workflow execution engine that loads and executes reflow workflow JSON files, manages working memory, and tracks step progress",
+      "capabilities": [
+        "Load workflow JSON files",
+        "Initialize and manage context/working_memory",
+        "Execute workflow steps sequentially",
+        "Track step progress",
+        "Update operations counter",
+        "Save working memory state",
+        "Handle step routing and transitions"
+      ],
+      "exposed_interfaces": {
+        "classes": [
+          "WorkflowRunner"
+        ],
+        "key_methods": [
+          "__init__(workflow_file, system_root)",
+          "run(entry_point='new_system')",
+          "get_status() -> Dict"
+        ],
+        "data_structures": [
+          "working_memory (dict)",
+          "workflow_data (dict)"
+        ]
+      },
+      "dependencies": {
+        "internal": [],
+        "external": [
+          "json",
+          "os",
+          "sys",
+          "pathlib",
+          "typing",
+          "datetime"
+        ]
+      },
+      "integration_readiness": "production_ready",
+      "integration_notes": "Core orchestration component. Manages workflow lifecycle and state."
+    },
+    {
+      "component_id": "interactive_executor",
+      "name": "Interactive Workflow Executor",
+      "type": "orchestration_service",
+      "source_location": "src/interactive_executor.py",
+      "lines_of_code": 483,
+      "hierarchical_tier": "system",
+      "description": "Interactive workflow executor with user prompts and guided execution for the setup workflow",
+      "capabilities": [
+        "Execute setup workflow interactively",
+        "Collect user input for path configuration",
+        "Guide framework selection with questionnaires",
+        "Create directory structures",
+        "Generate foundational documents",
+        "Save working memory and context"
+      ],
+      "exposed_interfaces": {
+        "classes": [
+          "InteractiveExecutor"
+        ],
+        "key_methods": [
+          "run()",
+          "run_step_s01_path_configuration()",
+          "run_step_s01a_framework_selection()",
+          "run_step_s02_directory_structure()",
+          "run_step_s03_foundational_documents()"
+        ],
+        "data_structures": [
+          "working_memory (dict)",
+          "workflow_data (dict)"
+        ]
+      },
+      "dependencies": {
+        "internal": [],
+        "external": [
+          "json",
+          "os",
+          "sys",
+          "pathlib",
+          "typing",
+          "datetime"
+        ]
+      },
+      "integration_readiness": "production_ready",
+      "integration_notes": "Specialized for setup workflow. Provides user interaction layer."
+    }
+  ],
+  "component_summary": {
+    "total_components": 5,
+    "by_tier": {
+      "system": 5
+    },
+    "by_type": {
+      "analysis_service": 3,
+      "orchestration_service": 2
+    },
+    "total_loc": 2875,
+    "integration_readiness": {
+      "production_ready": 5,
+      "needs_work": 0,
+      "prototype": 0
+    }
+  },
+  "architectural_insights": {
+    "system_architecture": "Modular analysis pipeline with orchestration layer",
+    "component_relationships": "Three independent analysis engines (creative_linking, causality_analysis, matryoshka_analysis) orchestrated by workflow_runner/interactive_executor",
+    "integration_pattern": "Each analysis engine can be invoked independently or as part of a workflow",
+    "key_strength": "High modularity - each analysis engine is self-contained",
+    "missing_elements": [
+      "Formal service_architecture.json files for each module",
+      "Interface definitions between modules",
+      "System-level decision_flow_graph.json",
+      "Integration testing harness",
+      "API layer for external invocation"
+    ]
+  }
+}

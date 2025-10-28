@@ -1,0 +1,321 @@
+{
+  "component_delta": {
+    "component_id": "exceptions",
+    "component_name": "Chain Reflow Exception Framework",
+    "source_file": "src/exceptions.py",
+    "delta_version": "1.0.0",
+    "created": "2025-10-28",
+    "workflow_step": "BU-04",
+    "gaps_addressed": ["GAP-010"],
+
+    "summary": {
+      "change_type": "new_module",
+      "description": "Create consistent exception hierarchy for error handling across all components",
+      "total_changes": 7,
+      "breaking_changes": false,
+      "backward_compatible": true
+    },
+
+    "code_changes": {
+      "new_modules": [
+        {
+          "change_id": "EXC-001",
+          "type": "create_module",
+          "module_path": "src/exceptions.py",
+          "description": "Exception classes for Chain Reflow system",
+          "estimated_lines": 100
+        }
+      ],
+
+      "new_classes": [
+        {
+          "change_id": "EXC-010",
+          "type": "add_class",
+          "class_name": "ChainReflowError",
+          "base_classes": ["Exception"],
+          "description": "Base exception for all Chain Reflow errors",
+          "attributes": [
+            {
+              "name": "message",
+              "type": "str",
+              "description": "Error message"
+            },
+            {
+              "name": "context",
+              "type": "Optional[Dict[str, Any]]",
+              "description": "Additional context about the error"
+            }
+          ],
+          "methods": [
+            {
+              "method_name": "__init__",
+              "signature": "__init__(self, message: str, context: Optional[Dict[str, Any]] = None)",
+              "description": "Initialize error with message and optional context"
+            },
+            {
+              "method_name": "__str__",
+              "signature": "__str__(self) -> str",
+              "description": "Format error message with context"
+            }
+          ],
+          "justification": "Base class for all Chain Reflow exceptions",
+          "estimated_lines": 15
+        },
+        {
+          "change_id": "EXC-011",
+          "type": "add_class",
+          "class_name": "WorkflowError",
+          "base_classes": ["ChainReflowError"],
+          "description": "Error during workflow execution",
+          "additional_attributes": [
+            {
+              "name": "workflow_id",
+              "type": "Optional[str]",
+              "description": "ID of workflow that failed"
+            },
+            {
+              "name": "step_id",
+              "type": "Optional[str]",
+              "description": "ID of step that failed"
+            }
+          ],
+          "methods": [
+            {
+              "method_name": "__init__",
+              "signature": "__init__(self, message: str, workflow_id: Optional[str] = None, step_id: Optional[str] = None, context: Optional[Dict[str, Any]] = None)",
+              "description": "Initialize workflow error with workflow and step context"
+            }
+          ],
+          "use_cases": [
+            "Workflow file not found",
+            "Invalid workflow JSON",
+            "Step execution failure",
+            "Missing required step inputs"
+          ],
+          "estimated_lines": 15
+        },
+        {
+          "change_id": "EXC-012",
+          "type": "add_class",
+          "class_name": "AnalysisError",
+          "base_classes": ["ChainReflowError"],
+          "description": "Error during analysis engine execution",
+          "additional_attributes": [
+            {
+              "name": "engine_name",
+              "type": "Optional[str]",
+              "description": "Name of analysis engine that failed"
+            },
+            {
+              "name": "analysis_type",
+              "type": "Optional[str]",
+              "description": "Type of analysis being performed"
+            }
+          ],
+          "methods": [
+            {
+              "method_name": "__init__",
+              "signature": "__init__(self, message: str, engine_name: Optional[str] = None, analysis_type: Optional[str] = None, context: Optional[Dict[str, Any]] = None)",
+              "description": "Initialize analysis error with engine context"
+            }
+          ],
+          "use_cases": [
+            "Invalid architecture input",
+            "Analysis timeout",
+            "Unexpected data format",
+            "Engine internal error"
+          ],
+          "estimated_lines": 15
+        },
+        {
+          "change_id": "EXC-013",
+          "type": "add_class",
+          "class_name": "ValidationError",
+          "base_classes": ["ChainReflowError"],
+          "description": "Error during data validation",
+          "additional_attributes": [
+            {
+              "name": "schema",
+              "type": "Optional[str]",
+              "description": "Schema that validation failed against"
+            },
+            {
+              "name": "validation_errors",
+              "type": "Optional[List[str]]",
+              "description": "List of specific validation failures"
+            }
+          ],
+          "methods": [
+            {
+              "method_name": "__init__",
+              "signature": "__init__(self, message: str, schema: Optional[str] = None, validation_errors: Optional[List[str]] = None, context: Optional[Dict[str, Any]] = None)",
+              "description": "Initialize validation error with schema and errors"
+            }
+          ],
+          "use_cases": [
+            "Architecture data doesn't match schema",
+            "Invalid workflow step configuration",
+            "Missing required fields",
+            "Type mismatch"
+          ],
+          "estimated_lines": 15
+        },
+        {
+          "change_id": "EXC-014",
+          "type": "add_class",
+          "class_name": "ConfigurationError",
+          "base_classes": ["ChainReflowError"],
+          "description": "Error in system configuration",
+          "additional_attributes": [
+            {
+              "name": "config_key",
+              "type": "Optional[str]",
+              "description": "Configuration key that is invalid"
+            }
+          ],
+          "methods": [
+            {
+              "method_name": "__init__",
+              "signature": "__init__(self, message: str, config_key: Optional[str] = None, context: Optional[Dict[str, Any]] = None)",
+              "description": "Initialize configuration error"
+            }
+          ],
+          "use_cases": [
+            "Missing configuration file",
+            "Invalid configuration value",
+            "Required configuration missing"
+          ],
+          "estimated_lines": 10
+        },
+        {
+          "change_id": "EXC-015",
+          "type": "add_class",
+          "class_name": "IntegrationError",
+          "base_classes": ["ChainReflowError"],
+          "description": "Error during component integration",
+          "additional_attributes": [
+            {
+              "name": "source_component",
+              "type": "Optional[str]",
+              "description": "Component that initiated the integration"
+            },
+            {
+              "name": "target_component",
+              "type": "Optional[str]",
+              "description": "Component that failed to integrate"
+            }
+          ],
+          "methods": [
+            {
+              "method_name": "__init__",
+              "signature": "__init__(self, message: str, source_component: Optional[str] = None, target_component: Optional[str] = None, context: Optional[Dict[str, Any]] = None)",
+              "description": "Initialize integration error with component context"
+            }
+          ],
+          "use_cases": [
+            "Adapter invocation failure",
+            "Interface mismatch",
+            "Communication failure between components"
+          ],
+          "estimated_lines": 15
+        }
+      ]
+    },
+
+    "exception_hierarchy": {
+      "root": "ChainReflowError (base for all Chain Reflow exceptions)",
+      "children": [
+        {
+          "exception": "WorkflowError",
+          "description": "Workflow execution errors",
+          "when_to_use": "Raised by workflow_runner when workflow execution fails"
+        },
+        {
+          "exception": "AnalysisError",
+          "description": "Analysis engine errors",
+          "when_to_use": "Raised by analysis engines when analysis fails"
+        },
+        {
+          "exception": "ValidationError",
+          "description": "Data validation errors",
+          "when_to_use": "Raised when input data doesn't match expected schema"
+        },
+        {
+          "exception": "ConfigurationError",
+          "description": "Configuration errors",
+          "when_to_use": "Raised when system configuration is invalid or missing"
+        },
+        {
+          "exception": "IntegrationError",
+          "description": "Component integration errors",
+          "when_to_use": "Raised when components fail to integrate properly"
+        }
+      ]
+    },
+
+    "usage_guidelines": {
+      "workflow_runner": [
+        "Catch AnalysisError from engines and wrap in WorkflowError",
+        "Raise WorkflowError for workflow-specific failures",
+        "Include workflow_id and step_id in all WorkflowError instances"
+      ],
+      "analysis_engines": [
+        "Raise AnalysisError for analysis-specific failures",
+        "Include engine_name and analysis_type in all AnalysisError instances",
+        "Use ValidationError for input validation failures"
+      ],
+      "adapters": [
+        "Catch engine exceptions and re-raise as IntegrationError if integration fails",
+        "Include source_component and target_component in IntegrationError"
+      ],
+      "general": [
+        "Always include descriptive message",
+        "Use context dict to provide debugging information",
+        "Log exceptions before raising when appropriate"
+      ]
+    },
+
+    "integration_with_existing_code": {
+      "workflow_runner_changes": [
+        "Import exceptions at top of file",
+        "Wrap engine invocations in try-except blocks",
+        "Catch AnalysisError and wrap in WorkflowError",
+        "Add workflow_id and step_id to error context"
+      ],
+      "analysis_engine_changes": [
+        "Import AnalysisError and ValidationError",
+        "Replace generic exceptions with specific ones",
+        "Add engine_name and analysis_type to errors",
+        "Validate inputs and raise ValidationError for invalid data"
+      ],
+      "adapter_changes": [
+        "Import IntegrationError",
+        "Catch exceptions from engines",
+        "Wrap in IntegrationError if integration-specific",
+        "Otherwise propagate engine exceptions"
+      ]
+    },
+
+    "testing_requirements": {
+      "unit_tests": [
+        "test_chain_reflow_error() - verify base exception",
+        "test_workflow_error() - verify workflow-specific context",
+        "test_analysis_error() - verify engine-specific context",
+        "test_validation_error() - verify validation context",
+        "test_configuration_error() - verify config context",
+        "test_integration_error() - verify component context"
+      ],
+      "integration_tests": [
+        "test_error_propagation() - verify errors propagate correctly through layers",
+        "test_error_context() - verify context is preserved across components"
+      ]
+    },
+
+    "estimated_effort": {
+      "development": "1 day",
+      "integration": "1 day (updating existing code to use new exceptions)",
+      "testing": "0.5 days",
+      "total": "2.5 days"
+    }
+  }
+}

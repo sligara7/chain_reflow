@@ -1,0 +1,272 @@
+{
+  "component_delta": {
+    "component_id": "analysis_engines",
+    "component_name": "Analysis Engines (Creative, Causality, Matryoshka)",
+    "source_files": [
+      "src/creative_linking.py",
+      "src/causality_analysis.py",
+      "src/matryoshka_analysis.py"
+    ],
+    "delta_version": "1.0.0",
+    "created": "2025-10-28",
+    "workflow_step": "BU-04",
+    "gaps_addressed": ["GAP-010", "GAP-013"],
+
+    "summary": {
+      "change_type": "enhancement",
+      "description": "Add error handling and input validation to all analysis engines",
+      "total_changes": 9,
+      "breaking_changes": false,
+      "backward_compatible": true
+    },
+
+    "common_changes": {
+      "description": "Changes that apply to all three analysis engines",
+
+      "new_imports": [
+        {
+          "change_id": "AE-001",
+          "type": "add_import",
+          "module": "exceptions",
+          "from_module": "src.exceptions",
+          "import_items": ["AnalysisError", "ValidationError"],
+          "justification": "Consistent error handling across engines"
+        }
+      ],
+
+      "new_methods": [
+        {
+          "change_id": "AE-010",
+          "type": "add_method",
+          "applies_to": "all_engines",
+          "method_name": "validate_architecture",
+          "signature": "validate_architecture(self, arch: Dict[str, Any], arch_name: str = 'architecture') -> None",
+          "description": "Validate that architecture has required fields",
+          "implementation_notes": [
+            "Check that 'name' field exists and is non-empty string",
+            "Check that 'components' field exists and is a list",
+            "Check that each component has a 'name' field",
+            "Raise ValidationError with specific message if validation fails",
+            "Include architecture name in error message for debugging"
+          ],
+          "justification": "Addresses GAP-013: standardized architecture input validation",
+          "estimated_lines": 20
+        }
+      ],
+
+      "error_handling_updates": [
+        {
+          "change_id": "AE-020",
+          "type": "add_error_handling",
+          "applies_to": "all_public_methods",
+          "description": "Wrap error-prone code in try-except blocks",
+          "changes": [
+            "Catch KeyError when accessing dict fields and raise ValidationError",
+            "Catch TypeError when type assumptions fail and raise ValidationError",
+            "Catch unexpected exceptions and wrap in AnalysisError",
+            "Include original exception in error context"
+          ],
+          "justification": "Addresses GAP-010: consistent error handling"
+        }
+      ]
+    },
+
+    "creative_linking_changes": {
+      "component": "creative_linking.py",
+      "changes": [
+        {
+          "change_id": "CL-001",
+          "type": "modify_method",
+          "method_name": "find_creative_touchpoints",
+          "modification": "Add input validation at start of method",
+          "changes": [
+            "Call self.validate_architecture(arch1, 'arch1')",
+            "Call self.validate_architecture(arch2, 'arch2')",
+            "Validate user_consent is boolean",
+            "Wrap main logic in try-except to catch unexpected errors",
+            "Raise AnalysisError with engine_name='creative_linking' on failure"
+          ],
+          "estimated_lines_added": 10
+        },
+        {
+          "change_id": "CL-002",
+          "type": "modify_method",
+          "method_name": "assess_orthogonality",
+          "modification": "Add error handling",
+          "changes": [
+            "Wrap in try-except block",
+            "Raise ValidationError if architecture fields are missing",
+            "Include both architecture names in error context"
+          ],
+          "estimated_lines_added": 5
+        }
+      ]
+    },
+
+    "causality_analysis_changes": {
+      "component": "causality_analysis.py",
+      "changes": [
+        {
+          "change_id": "CA-001",
+          "type": "modify_method",
+          "method_name": "detect_correlation",
+          "modification": "Add input validation",
+          "changes": [
+            "Call self.validate_architecture(arch1, 'arch1')",
+            "Call self.validate_architecture(arch2, 'arch2')",
+            "Validate user_observation is string if provided",
+            "Wrap main logic in try-except",
+            "Raise AnalysisError with engine_name='causality_analysis' on failure"
+          ],
+          "estimated_lines_added": 10
+        },
+        {
+          "change_id": "CA-002",
+          "type": "modify_method",
+          "method_name": "generate_causal_hypotheses",
+          "modification": "Add error handling",
+          "changes": [
+            "Validate correlation parameter has required fields",
+            "Wrap in try-except block",
+            "Raise AnalysisError on unexpected failures"
+          ],
+          "estimated_lines_added": 5
+        }
+      ]
+    },
+
+    "matryoshka_analysis_changes": {
+      "component": "matryoshka_analysis.py",
+      "changes": [
+        {
+          "change_id": "MA-001",
+          "type": "modify_method",
+          "method_name": "analyze_relationship",
+          "modification": "Add input validation",
+          "changes": [
+            "Call self.validate_architecture(arch_a, 'arch_a')",
+            "Call self.validate_architecture(arch_b, 'arch_b')",
+            "Validate metadata_a and metadata_b are HierarchyMetadata instances",
+            "Wrap main logic in try-except",
+            "Raise AnalysisError with engine_name='matryoshka_analysis' on failure"
+          ],
+          "estimated_lines_added": 10
+        },
+        {
+          "change_id": "MA-002",
+          "type": "modify_method",
+          "method_name": "discover_hierarchical_gaps",
+          "modification": "Add error handling",
+          "changes": [
+            "Validate architectures is a non-empty list",
+            "Validate relationships is a list",
+            "Wrap in try-except block",
+            "Raise AnalysisError on unexpected failures"
+          ],
+          "estimated_lines_added": 5
+        },
+        {
+          "change_id": "MA-003",
+          "type": "modify_method",
+          "method_name": "infer_hierarchy_level",
+          "modification": "Add input validation",
+          "changes": [
+            "Call self.validate_architecture(arch, 'architecture')",
+            "Wrap in try-except block",
+            "Raise AnalysisError on unexpected failures"
+          ],
+          "estimated_lines_added": 5
+        }
+      ]
+    },
+
+    "validation_rules": {
+      "architecture_schema": {
+        "description": "Minimum required fields for architecture input",
+        "required_fields": [
+          {
+            "field": "name",
+            "type": "str",
+            "validation": "Non-empty string"
+          },
+          {
+            "field": "components",
+            "type": "List[Dict]",
+            "validation": "Non-empty list of component dictionaries"
+          }
+        ],
+        "optional_fields": [
+          {
+            "field": "domain",
+            "type": "str",
+            "description": "Domain of the architecture (mechanical, software, biological, etc.)"
+          },
+          {
+            "field": "description",
+            "type": "str",
+            "description": "Human-readable description"
+          },
+          {
+            "field": "framework",
+            "type": "str",
+            "description": "Architecture framework used (UAF, TOGAF, etc.)"
+          }
+        ],
+        "component_required_fields": [
+          {
+            "field": "name",
+            "type": "str",
+            "validation": "Non-empty string"
+          }
+        ]
+      }
+    },
+
+    "error_messages": {
+      "missing_architecture_name": "Architecture missing required 'name' field",
+      "missing_components": "Architecture missing required 'components' field",
+      "empty_components": "Architecture 'components' list is empty",
+      "invalid_component": "Component at index {index} missing required 'name' field",
+      "invalid_type": "Architecture field '{field}' has invalid type. Expected {expected}, got {actual}",
+      "analysis_failed": "Analysis failed for {engine_name}: {error_message}"
+    },
+
+    "backward_compatibility": {
+      "breaking_changes": false,
+      "notes": "All changes are additive. Existing code that provides valid architectures will continue to work. Code that provides invalid architectures will now receive clear error messages instead of cryptic failures."
+    },
+
+    "testing_requirements": {
+      "unit_tests_per_engine": [
+        "test_validate_architecture_valid() - verify valid architectures pass",
+        "test_validate_architecture_missing_name() - verify error raised",
+        "test_validate_architecture_missing_components() - verify error raised",
+        "test_validate_architecture_empty_components() - verify error raised",
+        "test_validate_architecture_invalid_component() - verify error raised",
+        "test_analysis_with_invalid_input() - verify AnalysisError raised",
+        "test_error_context() - verify error context includes helpful info"
+      ],
+      "integration_tests": [
+        "test_engines_with_valid_architectures() - verify engines still work with valid input",
+        "test_engines_with_invalid_architectures() - verify graceful error handling"
+      ]
+    },
+
+    "migration_guide": {
+      "for_existing_code": [
+        "No changes required if architectures are already valid",
+        "If receiving ValidationError, check that architectures have 'name' and 'components' fields",
+        "If receiving AnalysisError, check error context for details about what went wrong",
+        "All errors now include helpful error messages and context"
+      ]
+    },
+
+    "estimated_effort": {
+      "development_per_engine": "0.5 days",
+      "total_development": "1.5 days (3 engines)",
+      "testing_per_engine": "0.5 days",
+      "total_testing": "1.5 days",
+      "total": "3 days"
+    }
+  }
+}

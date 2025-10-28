@@ -1,0 +1,252 @@
+{
+  "component_delta": {
+    "component_id": "workflow_runner",
+    "component_name": "Workflow Execution Engine",
+    "source_file": "src/workflow_runner.py",
+    "delta_version": "1.0.0",
+    "created": "2025-10-28",
+    "workflow_step": "BU-04",
+    "gaps_addressed": ["GAP-008"],
+
+    "summary": {
+      "change_type": "enhancement",
+      "description": "Add analysis engine invocation capabilities to workflow runner",
+      "total_changes": 7,
+      "breaking_changes": false,
+      "backward_compatible": true
+    },
+
+    "code_changes": {
+      "new_imports": [
+        {
+          "change_id": "WR-001",
+          "type": "add_import",
+          "module": "creative_linking",
+          "from_module": "src.creative_linking",
+          "import_items": ["CreativeLinkingEngine"],
+          "justification": "Needed to invoke creative linking analysis from workflow steps"
+        },
+        {
+          "change_id": "WR-002",
+          "type": "add_import",
+          "module": "causality_analysis",
+          "from_module": "src.causality_analysis",
+          "import_items": ["CausalityAnalyzer"],
+          "justification": "Needed to invoke causality analysis from workflow steps"
+        },
+        {
+          "change_id": "WR-003",
+          "type": "add_import",
+          "module": "matryoshka_analysis",
+          "from_module": "src.matryoshka_analysis",
+          "import_items": ["MatryoshkaAnalyzer"],
+          "justification": "Needed to invoke matryoshka analysis from workflow steps"
+        },
+        {
+          "change_id": "WR-004",
+          "type": "add_import",
+          "module": "adapters",
+          "from_module": "src.adapters.engine_adapter",
+          "import_items": ["CreativeLinkingAdapter", "CausalityAnalysisAdapter", "MatryoshkaAnalysisAdapter"],
+          "justification": "Use adapter pattern for loose coupling"
+        },
+        {
+          "change_id": "WR-005",
+          "type": "add_import",
+          "module": "exceptions",
+          "from_module": "src.exceptions",
+          "import_items": ["WorkflowError", "AnalysisError"],
+          "justification": "Handle errors consistently"
+        }
+      ],
+
+      "new_methods": [
+        {
+          "change_id": "WR-010",
+          "type": "add_method",
+          "class": "WorkflowRunner",
+          "method_name": "_invoke_creative_linking",
+          "signature": "_invoke_creative_linking(self, step_data: Dict[str, Any]) -> Dict[str, Any]",
+          "description": "Invoke creative linking engine and return results",
+          "implementation_notes": [
+            "Extract arch1 and arch2 from step_data['inputs']",
+            "Get user_consent from step_data.get('user_consent', False)",
+            "Get user_context from step_data.get('user_context')",
+            "Use CreativeLinkingAdapter to invoke engine",
+            "Catch AnalysisError and convert to WorkflowError",
+            "Return touchpoints as dict",
+            "Save results to working_memory['creative_linking_results']"
+          ],
+          "justification": "Addresses GAP-008: workflow needs to invoke creative linking",
+          "estimated_lines": 25
+        },
+        {
+          "change_id": "WR-011",
+          "type": "add_method",
+          "class": "WorkflowRunner",
+          "method_name": "_invoke_causality_analysis",
+          "signature": "_invoke_causality_analysis(self, step_data: Dict[str, Any]) -> Dict[str, Any]",
+          "description": "Invoke causality analyzer and return results",
+          "implementation_notes": [
+            "Extract arch1 and arch2 from step_data['inputs']",
+            "Get user_observation from step_data.get('user_observation')",
+            "Use CausalityAnalysisAdapter to invoke detect_correlation",
+            "Generate causal hypotheses for each correlation",
+            "Catch AnalysisError and convert to WorkflowError",
+            "Return correlations and hypotheses as dict",
+            "Save results to working_memory['causality_results']"
+          ],
+          "justification": "Addresses GAP-008: workflow needs to invoke causality analysis",
+          "estimated_lines": 30
+        },
+        {
+          "change_id": "WR-012",
+          "type": "add_method",
+          "class": "WorkflowRunner",
+          "method_name": "_invoke_matryoshka_analysis",
+          "signature": "_invoke_matryoshka_analysis(self, step_data: Dict[str, Any]) -> Dict[str, Any]",
+          "description": "Invoke matryoshka analyzer and return results",
+          "implementation_notes": [
+            "Extract architectures list from step_data['inputs']",
+            "Use MatryoshkaAnalysisAdapter to invoke analyze_relationship",
+            "Invoke discover_hierarchical_gaps on relationships",
+            "Catch AnalysisError and convert to WorkflowError",
+            "Return relationships and gaps as dict",
+            "Save results to working_memory['matryoshka_results']"
+          ],
+          "justification": "Addresses GAP-008: workflow needs to invoke matryoshka analysis",
+          "estimated_lines": 30
+        },
+        {
+          "change_id": "WR-013",
+          "type": "add_method",
+          "class": "WorkflowRunner",
+          "method_name": "_route_analysis_step",
+          "signature": "_route_analysis_step(self, step: Dict[str, Any]) -> Dict[str, Any]",
+          "description": "Route workflow step to appropriate analysis engine",
+          "implementation_notes": [
+            "Check step['step_id'] to determine which engine to invoke",
+            "C-03A → _invoke_creative_linking",
+            "C-01A → _invoke_causality_analysis",
+            "C-01B → _invoke_matryoshka_analysis",
+            "Return engine results",
+            "Log step routing decision"
+          ],
+          "justification": "Central routing logic for analysis engine invocation",
+          "estimated_lines": 20
+        }
+      ],
+
+      "modified_methods": [
+        {
+          "change_id": "WR-020",
+          "type": "modify_method",
+          "class": "WorkflowRunner",
+          "method_name": "execute_step",
+          "current_signature": "execute_step(self, step: Dict[str, Any]) -> None",
+          "modification_type": "enhancement",
+          "description": "Add analysis engine routing to step execution",
+          "changes": [
+            "After loading step, check if step_id matches analysis step pattern (C-01A, C-01B, C-03A)",
+            "If analysis step, call _route_analysis_step(step)",
+            "Update working_memory with analysis results",
+            "Continue with existing step execution logic"
+          ],
+          "justification": "Integrate analysis engine invocation into workflow execution",
+          "estimated_lines_added": 10
+        },
+        {
+          "change_id": "WR-021",
+          "type": "modify_method",
+          "class": "WorkflowRunner",
+          "method_name": "__init__",
+          "current_signature": "__init__(self, workflow_file: str, system_root: Optional[str] = None)",
+          "modification_type": "enhancement",
+          "description": "Initialize analysis engine adapters",
+          "changes": [
+            "Create self.creative_linking_adapter = CreativeLinkingAdapter()",
+            "Create self.causality_adapter = CausalityAnalysisAdapter()",
+            "Create self.matryoshka_adapter = MatryoshkaAnalysisAdapter()",
+            "Store adapters as instance variables"
+          ],
+          "justification": "Initialize adapters once at workflow start",
+          "estimated_lines_added": 5
+        }
+      ],
+
+      "new_attributes": [
+        {
+          "change_id": "WR-030",
+          "type": "add_attribute",
+          "class": "WorkflowRunner",
+          "attribute_name": "creative_linking_adapter",
+          "attribute_type": "CreativeLinkingAdapter",
+          "description": "Adapter for invoking creative linking engine"
+        },
+        {
+          "change_id": "WR-031",
+          "type": "add_attribute",
+          "class": "WorkflowRunner",
+          "attribute_name": "causality_adapter",
+          "attribute_type": "CausalityAnalysisAdapter",
+          "description": "Adapter for invoking causality analyzer"
+        },
+        {
+          "change_id": "WR-032",
+          "type": "add_attribute",
+          "class": "WorkflowRunner",
+          "attribute_name": "matryoshka_adapter",
+          "attribute_type": "MatryoshkaAnalysisAdapter",
+          "description": "Adapter for invoking matryoshka analyzer"
+        }
+      ]
+    },
+
+    "dependencies": {
+      "new_dependencies": [
+        {
+          "module": "src.adapters.engine_adapter",
+          "reason": "Adapter pattern for analysis engine invocation"
+        },
+        {
+          "module": "src.exceptions",
+          "reason": "Consistent error handling"
+        }
+      ],
+      "prerequisite_components": [
+        "src/adapters/engine_adapter.py must be created (see adapters_delta.json)",
+        "src/exceptions.py must be created (see exceptions_delta.json)"
+      ]
+    },
+
+    "testing_requirements": {
+      "unit_tests": [
+        "test_invoke_creative_linking() - verify creative linking invocation",
+        "test_invoke_causality_analysis() - verify causality invocation",
+        "test_invoke_matryoshka_analysis() - verify matryoshka invocation",
+        "test_route_analysis_step() - verify routing logic"
+      ],
+      "integration_tests": [
+        "test_workflow_with_creative_linking() - end-to-end workflow test",
+        "test_workflow_with_causality() - end-to-end workflow test",
+        "test_workflow_with_matryoshka() - end-to-end workflow test",
+        "test_chain_01_workflow() - full chain-01-link-architectures workflow"
+      ],
+      "error_scenarios": [
+        "test_analysis_error_handling() - verify AnalysisError is caught and handled",
+        "test_missing_inputs() - verify graceful handling of missing step inputs"
+      ]
+    },
+
+    "backward_compatibility": {
+      "breaking_changes": false,
+      "notes": "All changes are additive. Existing workflow steps continue to work. New analysis steps are opt-in via step_id routing."
+    },
+
+    "estimated_effort": {
+      "development": "2-3 days",
+      "testing": "1-2 days",
+      "total": "3-5 days"
+    }
+  }
+}

@@ -1,0 +1,256 @@
+{
+  "component_delta": {
+    "component_id": "adapters",
+    "component_name": "Analysis Engine Adapters",
+    "source_file": "src/adapters/engine_adapter.py",
+    "delta_version": "1.0.0",
+    "created": "2025-10-28",
+    "workflow_step": "BU-04",
+    "gaps_addressed": ["GAP-014"],
+
+    "summary": {
+      "change_type": "new_module",
+      "description": "Create adapter layer for decoupling workflow runner from analysis engines",
+      "total_changes": 4,
+      "breaking_changes": false,
+      "backward_compatible": true
+    },
+
+    "code_changes": {
+      "new_modules": [
+        {
+          "change_id": "ADP-001",
+          "type": "create_module",
+          "module_path": "src/adapters/__init__.py",
+          "description": "Adapters package initialization",
+          "content": "from .engine_adapter import (\n    AnalysisEngineAdapter,\n    CreativeLinkingAdapter,\n    CausalityAnalysisAdapter,\n    MatryoshkaAnalysisAdapter\n)"
+        },
+        {
+          "change_id": "ADP-002",
+          "type": "create_module",
+          "module_path": "src/adapters/engine_adapter.py",
+          "description": "Analysis engine adapter implementations",
+          "estimated_lines": 200
+        }
+      ],
+
+      "new_classes": [
+        {
+          "change_id": "ADP-010",
+          "type": "add_class",
+          "class_name": "AnalysisEngineAdapter",
+          "base_classes": ["ABC"],
+          "description": "Abstract base class for analysis engine adapters",
+          "methods": [
+            {
+              "method_name": "invoke",
+              "signature": "invoke(self, step_data: Dict[str, Any]) -> Dict[str, Any]",
+              "abstract": true,
+              "description": "Invoke the analysis engine with step data"
+            },
+            {
+              "method_name": "validate_inputs",
+              "signature": "validate_inputs(self, step_data: Dict[str, Any]) -> None",
+              "abstract": false,
+              "description": "Validate step inputs before invocation"
+            },
+            {
+              "method_name": "format_outputs",
+              "signature": "format_outputs(self, raw_results: Any) -> Dict[str, Any]",
+              "abstract": false,
+              "description": "Format engine outputs for workflow consumption"
+            }
+          ],
+          "justification": "Provides common interface for all engine adapters",
+          "estimated_lines": 30
+        },
+        {
+          "change_id": "ADP-011",
+          "type": "add_class",
+          "class_name": "CreativeLinkingAdapter",
+          "base_classes": ["AnalysisEngineAdapter"],
+          "description": "Adapter for creative linking engine",
+          "attributes": [
+            {
+              "name": "engine",
+              "type": "CreativeLinkingEngine",
+              "description": "Instance of creative linking engine"
+            }
+          ],
+          "methods": [
+            {
+              "method_name": "__init__",
+              "signature": "__init__(self)",
+              "description": "Initialize adapter with engine instance"
+            },
+            {
+              "method_name": "invoke",
+              "signature": "invoke(self, step_data: Dict[str, Any]) -> Dict[str, Any]",
+              "description": "Invoke creative linking with architectures from step_data",
+              "implementation_notes": [
+                "Extract arch1, arch2 from step_data['inputs']",
+                "Extract user_consent, user_context from step_data",
+                "Call engine.find_creative_touchpoints(arch1, arch2, user_consent, user_context)",
+                "Format results as dict with touchpoints list",
+                "Include metadata (timestamp, engine_version, confidence_scores)"
+              ]
+            },
+            {
+              "method_name": "validate_inputs",
+              "signature": "validate_inputs(self, step_data: Dict[str, Any]) -> None",
+              "description": "Validate that arch1 and arch2 are present and valid"
+            }
+          ],
+          "justification": "Decouples workflow_runner from creative_linking implementation",
+          "estimated_lines": 50
+        },
+        {
+          "change_id": "ADP-012",
+          "type": "add_class",
+          "class_name": "CausalityAnalysisAdapter",
+          "base_classes": ["AnalysisEngineAdapter"],
+          "description": "Adapter for causality analyzer",
+          "attributes": [
+            {
+              "name": "analyzer",
+              "type": "CausalityAnalyzer",
+              "description": "Instance of causality analyzer"
+            }
+          ],
+          "methods": [
+            {
+              "method_name": "__init__",
+              "signature": "__init__(self)",
+              "description": "Initialize adapter with analyzer instance"
+            },
+            {
+              "method_name": "invoke",
+              "signature": "invoke(self, step_data: Dict[str, Any]) -> Dict[str, Any]",
+              "description": "Invoke causality analysis with architectures from step_data",
+              "implementation_notes": [
+                "Extract arch1, arch2 from step_data['inputs']",
+                "Extract user_observation from step_data",
+                "Call analyzer.detect_correlation(arch1, arch2, user_observation)",
+                "For each correlation, call analyzer.generate_causal_hypotheses(correlation)",
+                "Format results as dict with correlations and hypotheses",
+                "Include validation experiments for each hypothesis"
+              ]
+            },
+            {
+              "method_name": "validate_inputs",
+              "signature": "validate_inputs(self, step_data: Dict[str, Any]) -> None",
+              "description": "Validate that arch1 and arch2 are present"
+            }
+          ],
+          "justification": "Decouples workflow_runner from causality_analysis implementation",
+          "estimated_lines": 60
+        },
+        {
+          "change_id": "ADP-013",
+          "type": "add_class",
+          "class_name": "MatryoshkaAnalysisAdapter",
+          "base_classes": ["AnalysisEngineAdapter"],
+          "description": "Adapter for matryoshka analyzer",
+          "attributes": [
+            {
+              "name": "analyzer",
+              "type": "MatryoshkaAnalyzer",
+              "description": "Instance of matryoshka analyzer"
+            }
+          ],
+          "methods": [
+            {
+              "method_name": "__init__",
+              "signature": "__init__(self)",
+              "description": "Initialize adapter with analyzer instance"
+            },
+            {
+              "method_name": "invoke",
+              "signature": "invoke(self, step_data: Dict[str, Any]) -> Dict[str, Any]",
+              "description": "Invoke matryoshka analysis with architectures from step_data",
+              "implementation_notes": [
+                "Extract architectures list from step_data['inputs']",
+                "For each architecture, call analyzer.infer_hierarchy_level(arch)",
+                "For each pair, call analyzer.analyze_relationship(arch_a, arch_b, meta_a, meta_b)",
+                "Call analyzer.discover_hierarchical_gaps(architectures, relationships)",
+                "Format results as dict with metadata, relationships, and gaps",
+                "Include gap hypotheses"
+              ]
+            },
+            {
+              "method_name": "validate_inputs",
+              "signature": "validate_inputs(self, step_data: Dict[str, Any]) -> None",
+              "description": "Validate that architectures list is present and non-empty"
+            }
+          ],
+          "justification": "Decouples workflow_runner from matryoshka_analysis implementation",
+          "estimated_lines": 60
+        }
+      ]
+    },
+
+    "dependencies": {
+      "new_dependencies": [
+        {
+          "module": "src.creative_linking",
+          "import": "CreativeLinkingEngine"
+        },
+        {
+          "module": "src.causality_analysis",
+          "import": "CausalityAnalyzer"
+        },
+        {
+          "module": "src.matryoshka_analysis",
+          "import": "MatryoshkaAnalyzer"
+        },
+        {
+          "module": "abc",
+          "import": "ABC, abstractmethod"
+        },
+        {
+          "module": "typing",
+          "import": "Dict, Any, List"
+        },
+        {
+          "module": "src.exceptions",
+          "import": "AnalysisError"
+        }
+      ]
+    },
+
+    "design_pattern": {
+      "pattern": "Adapter Pattern",
+      "intent": "Convert the interface of analysis engines into an interface expected by workflow_runner",
+      "participants": [
+        "AnalysisEngineAdapter (Target interface)",
+        "CreativeLinkingAdapter, CausalityAnalysisAdapter, MatryoshkaAnalysisAdapter (Adapters)",
+        "CreativeLinkingEngine, CausalityAnalyzer, MatryoshkaAnalyzer (Adaptees)"
+      ],
+      "benefits": [
+        "Loose coupling between workflow_runner and analysis engines",
+        "Easy to add new analysis engines without modifying workflow_runner",
+        "Consistent interface for all engine invocations",
+        "Can swap engine implementations without workflow changes"
+      ]
+    },
+
+    "testing_requirements": {
+      "unit_tests": [
+        "test_creative_linking_adapter_invoke() - verify adapter invokes engine correctly",
+        "test_causality_adapter_invoke() - verify adapter invokes analyzer correctly",
+        "test_matryoshka_adapter_invoke() - verify adapter invokes analyzer correctly",
+        "test_adapter_validate_inputs() - verify input validation",
+        "test_adapter_format_outputs() - verify output formatting"
+      ],
+      "integration_tests": [
+        "test_adapters_with_real_engines() - verify adapters work with actual engines"
+      ]
+    },
+
+    "estimated_effort": {
+      "development": "2-3 days",
+      "testing": "1 day",
+      "total": "3-4 days"
+    }
+  }
+}
