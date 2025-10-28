@@ -1,0 +1,416 @@
+{
+  "interface_specification": {
+    "metadata": {
+      "interface_id": "ICausalityAnalysis",
+      "interface_name": "Causality Analysis Interface",
+      "version": "1.0.0",
+      "created": "2025-10-28",
+      "protocol": "function_call",
+      "interaction_pattern": "request-response"
+    },
+
+    "description": {
+      "purpose": "Enable workflow_runner to invoke causality analyzer for distinguishing correlation from causation between architectures",
+      "scope": "Prevents false causal assumptions when linking architectures",
+      "provider": "causality_analysis.CausalityAnalyzer",
+      "consumer": "workflow_runner.WorkflowRunner (via CausalityAnalysisAdapter)"
+    },
+
+    "gap_addressed": {
+      "gap_id": "GAP-002",
+      "gap_title": "No formal interface for workflow_runner → causality_analysis"
+    },
+
+    "methods": [
+      {
+        "method_name": "detect_correlation",
+        "description": "Detect correlational patterns between two architectures",
+        "signature": "detect_correlation(arch1: Dict[str, Any], arch2: Dict[str, Any], user_observation: Optional[str] = None) -> List[CorrelationPattern]",
+
+        "parameters": [
+          {
+            "name": "arch1",
+            "type": "Dict[str, Any]",
+            "required": true,
+            "description": "First architecture",
+            "schema_ref": "specs/schemas/architecture_schema.json"
+          },
+          {
+            "name": "arch2",
+            "type": "Dict[str, Any]",
+            "required": true,
+            "description": "Second architecture",
+            "schema_ref": "specs/schemas/architecture_schema.json"
+          },
+          {
+            "name": "user_observation",
+            "type": "Optional[str]",
+            "required": false,
+            "default": null,
+            "description": "User-reported correlation observation",
+            "effect_when_provided": "Creates USER_REPORTED correlation with higher confidence"
+          }
+        ],
+
+        "returns": {
+          "type": "List[CorrelationPattern]",
+          "description": "List of detected correlation patterns",
+          "item_structure": {
+            "id": "str (unique identifier)",
+            "arch1_name": "str",
+            "arch2_name": "str",
+            "correlation_type": "CorrelationType (USER_REPORTED, TEMPORAL, STRUCTURAL, BEHAVIORAL)",
+            "description": "str (description of correlation)",
+            "evidence": "List[str] (evidence supporting correlation)",
+            "confidence": "float (0.0 to 1.0)"
+          },
+          "max_items": 20,
+          "sorted_by": "confidence (descending)"
+        },
+
+        "errors": [
+          {
+            "exception": "ValidationError",
+            "when": "Architecture missing required fields",
+            "handler": "Caller should report validation error to user"
+          },
+          {
+            "exception": "AnalysisError",
+            "when": "Unexpected error during correlation detection",
+            "handler": "Caller should catch and log"
+          }
+        ],
+
+        "preconditions": [
+          "Architectures conform to architecture_schema.json"
+        ],
+
+        "postconditions": [
+          "Returns list of 0-20 correlation patterns",
+          "All correlations have confidence between 0.0 and 1.0",
+          "If user_observation provided, at least one USER_REPORTED correlation is included"
+        ],
+
+        "example": {
+          "input": {
+            "arch1": {
+              "name": "Authentication Service",
+              "components": [{"name": "Login Handler"}, {"name": "Token Generator"}]
+            },
+            "arch2": {
+              "name": "Logging Service",
+              "components": [{"name": "Audit Logger"}, {"name": "Event Stream"}]
+            },
+            "user_observation": "Whenever auth service is updated, logging service also needs updates"
+          },
+          "output": [
+            {
+              "id": "corr_001",
+              "arch1_name": "Authentication Service",
+              "arch2_name": "Logging Service",
+              "correlation_type": "USER_REPORTED",
+              "description": "User observed that updates to auth service correlate with logging updates",
+              "evidence": ["User observation: Whenever auth service is updated..."],
+              "confidence": 0.7
+            }
+          ]
+        }
+      },
+
+      {
+        "method_name": "generate_causal_hypotheses",
+        "description": "Generate competing causal hypotheses for a correlation pattern",
+        "signature": "generate_causal_hypotheses(correlation: CorrelationPattern, user_causal_claim: Optional[str] = None) -> List[CausalHypothesis]",
+
+        "parameters": [
+          {
+            "name": "correlation",
+            "type": "CorrelationPattern",
+            "required": true,
+            "description": "Detected correlation pattern to analyze"
+          },
+          {
+            "name": "user_causal_claim",
+            "type": "Optional[str]",
+            "required": false,
+            "default": null,
+            "description": "User's claimed causal relationship (e.g., 'A causes B')",
+            "effect_when_provided": "Increases confidence of matching hypothesis"
+          }
+        ],
+
+        "returns": {
+          "type": "List[CausalHypothesis]",
+          "description": "ALWAYS returns exactly 4 hypotheses for scientific completeness",
+          "count": 4,
+          "hypotheses": [
+            {"direction": "A_CAUSES_B", "description": "Architecture A causes changes in Architecture B"},
+            {"direction": "B_CAUSES_A", "description": "Architecture B causes changes in Architecture A"},
+            {"direction": "BIDIRECTIONAL", "description": "A and B causally affect each other"},
+            {"direction": "SPURIOUS_CORRELATION", "description": "Correlation exists but no causal relationship"}
+          ],
+          "item_structure": {
+            "id": "str (unique identifier)",
+            "correlation_id": "str (reference to correlation)",
+            "direction": "CausalDirection (A_CAUSES_B, B_CAUSES_A, BIDIRECTIONAL, SPURIOUS_CORRELATION)",
+            "hypothesis_statement": "str (testable hypothesis)",
+            "rationale": "str (why this hypothesis is plausible)",
+            "alternative_explanations": "List[str] (other possible explanations)",
+            "testable_predictions": "List[str] (predictions if hypothesis is true)",
+            "confidence": "float (0.0 to 1.0)"
+          }
+        },
+
+        "errors": [
+          {
+            "exception": "ValidationError",
+            "when": "Correlation parameter missing required fields",
+            "handler": "Caller should report validation error"
+          },
+          {
+            "exception": "AnalysisError",
+            "when": "Unexpected error during hypothesis generation",
+            "handler": "Caller should catch and log"
+          }
+        ],
+
+        "preconditions": [
+          "Correlation is a valid CorrelationPattern"
+        ],
+
+        "postconditions": [
+          "ALWAYS returns exactly 4 hypotheses",
+          "Each hypothesis has unique CausalDirection",
+          "All hypotheses have confidence between 0.0 and 1.0",
+          "Sum of confidences is approximately 1.0"
+        ],
+
+        "invariants": [
+          "MUST return exactly 4 hypotheses (one for each direction)",
+          "This ensures scientific objectivity by presenting all alternatives"
+        ],
+
+        "example": {
+          "input": {
+            "correlation": {
+              "id": "corr_001",
+              "arch1_name": "Authentication Service",
+              "arch2_name": "Logging Service",
+              "correlation_type": "STRUCTURAL",
+              "description": "Both services update together frequently",
+              "evidence": ["Commit timestamps correlate", "Deployment windows overlap"],
+              "confidence": 0.8
+            },
+            "user_causal_claim": "Auth changes cause logging changes"
+          },
+          "output": [
+            {
+              "id": "hyp_001",
+              "correlation_id": "corr_001",
+              "direction": "A_CAUSES_B",
+              "hypothesis_statement": "Auth service changes cause logging service to change",
+              "rationale": "Logging needs to track auth events, so auth changes require logging updates",
+              "testable_predictions": ["Auth update without logging update should cause failures"],
+              "confidence": 0.5
+            },
+            {
+              "id": "hyp_002",
+              "correlation_id": "corr_001",
+              "direction": "B_CAUSES_A",
+              "hypothesis_statement": "Logging service changes cause auth service to change",
+              "rationale": "Auth may depend on logging for audit compliance",
+              "testable_predictions": ["Logging update without auth update should cause compliance issues"],
+              "confidence": 0.2
+            },
+            {
+              "id": "hyp_003",
+              "correlation_id": "corr_001",
+              "direction": "BIDIRECTIONAL",
+              "hypothesis_statement": "Auth and logging causally affect each other",
+              "rationale": "Tight integration means changes propagate both ways",
+              "testable_predictions": ["Updates to either require updates to both"],
+              "confidence": 0.2
+            },
+            {
+              "id": "hyp_004",
+              "correlation_id": "corr_001",
+              "direction": "SPURIOUS_CORRELATION",
+              "hypothesis_statement": "Correlation exists but no direct causal link",
+              "rationale": "Both may change due to common cause (compliance requirements)",
+              "testable_predictions": ["Can update either independently without affecting the other"],
+              "confidence": 0.1
+            }
+          ]
+        }
+      },
+
+      {
+        "method_name": "design_validation_experiment",
+        "description": "Design an experiment to validate a causal hypothesis",
+        "signature": "design_validation_experiment(hypothesis: CausalHypothesis) -> Dict[str, Any]",
+
+        "parameters": [
+          {
+            "name": "hypothesis",
+            "type": "CausalHypothesis",
+            "required": true,
+            "description": "Causal hypothesis to validate"
+          }
+        ],
+
+        "returns": {
+          "type": "Dict[str, Any]",
+          "description": "Experiment design with methodology and expected outcomes",
+          "structure": {
+            "experiment_id": "str (unique identifier)",
+            "hypothesis_id": "str (reference to hypothesis)",
+            "method": "ValidationMethod (OBSERVATIONAL_STUDY, TEMPORAL_ANALYSIS, INTERVENTION_TEST, etc.)",
+            "description": "str (what the experiment will do)",
+            "steps": "List[str] (ordered steps to execute)",
+            "expected_outcomes": "Dict[str, str] (if hypothesis true, if hypothesis false)",
+            "confidence_gain": "float (how much confidence increases if experiment succeeds)",
+            "feasibility": "str (easy, moderate, difficult)",
+            "estimated_effort": "str (time estimate)"
+          }
+        },
+
+        "errors": [
+          {
+            "exception": "AnalysisError",
+            "when": "Cannot design appropriate experiment for hypothesis",
+            "handler": "Caller should log and potentially try different validation method"
+          }
+        ],
+
+        "preconditions": [
+          "Hypothesis is a valid CausalHypothesis"
+        ],
+
+        "postconditions": [
+          "Returns well-defined experiment design",
+          "Steps are specific and actionable",
+          "Expected outcomes cover both true and false cases"
+        ],
+
+        "example": {
+          "input": {
+            "hypothesis": {
+              "id": "hyp_001",
+              "direction": "A_CAUSES_B",
+              "hypothesis_statement": "Auth service changes cause logging service to change"
+            }
+          },
+          "output": {
+            "experiment_id": "exp_001",
+            "hypothesis_id": "hyp_001",
+            "method": "INTERVENTION_TEST",
+            "description": "Make isolated change to auth service and observe if logging must change",
+            "steps": [
+              "1. Identify upcoming auth service change",
+              "2. Deploy auth change without updating logging",
+              "3. Monitor for failures, warnings, or compliance issues",
+              "4. Document whether logging update was required"
+            ],
+            "expected_outcomes": {
+              "if_true": "Logging failures or compliance issues occur",
+              "if_false": "System continues to function normally"
+            },
+            "confidence_gain": 0.3,
+            "feasibility": "moderate",
+            "estimated_effort": "2-3 days"
+          }
+        }
+      }
+    ],
+
+    "data_types": {
+      "CorrelationType": {
+        "type": "Enum",
+        "values": [
+          {"name": "USER_REPORTED", "description": "User observed and reported correlation"},
+          {"name": "TEMPORAL", "description": "Events happen at same time"},
+          {"name": "STRUCTURAL", "description": "Similar structure or patterns"},
+          {"name": "BEHAVIORAL", "description": "Similar behavior or outputs"}
+        ]
+      },
+      "CausalDirection": {
+        "type": "Enum",
+        "values": [
+          {"name": "A_CAUSES_B", "description": "A causes B"},
+          {"name": "B_CAUSES_A", "description": "B causes A"},
+          {"name": "BIDIRECTIONAL", "description": "A and B cause each other"},
+          {"name": "SPURIOUS_CORRELATION", "description": "No causal relationship"}
+        ]
+      },
+      "ValidationMethod": {
+        "type": "Enum",
+        "values": [
+          {"name": "OBSERVATIONAL_STUDY", "description": "Observe natural variations"},
+          {"name": "TEMPORAL_ANALYSIS", "description": "Analyze timing of changes"},
+          {"name": "INTERVENTION_TEST", "description": "Make controlled change"},
+          {"name": "MECHANISM_ANALYSIS", "description": "Study underlying mechanism"},
+          {"name": "EXPERIMENTAL_TEST", "description": "Controlled experiment"},
+          {"name": "COUNTERFACTUAL_ANALYSIS", "description": "What if analysis"}
+        ]
+      }
+    },
+
+    "quality_attributes": {
+      "scientific_rigor": {
+        "hypothesis_generation": "Always generates all 4 competing hypotheses",
+        "objectivity": "Prevents confirmation bias by presenting alternatives"
+      },
+      "performance": {
+        "typical_latency": "< 1 second per method",
+        "max_latency": "< 5 seconds"
+      },
+      "reliability": {
+        "error_handling": "All exceptions well-defined",
+        "validation": "Input validation via schema"
+      }
+    },
+
+    "adapter_implementation": {
+      "adapter_class": "CausalityAnalysisAdapter",
+      "adapter_location": "src/adapters/engine_adapter.py",
+      "adapter_methods": [
+        {
+          "method": "invoke",
+          "maps_to": "detect_correlation + generate_causal_hypotheses",
+          "input_transformation": "Extract arch1, arch2, user_observation from step_data",
+          "output_transformation": "Combine correlations and hypotheses into Dict for JSON serialization"
+        }
+      ]
+    },
+
+    "usage_pattern": {
+      "workflow_step": "C-01A in chain-01-link-architectures.json",
+      "typical_flow": [
+        "1. workflow_runner loads step C-01A",
+        "2. adapter calls detect_correlation()",
+        "3. For each correlation, adapter calls generate_causal_hypotheses()",
+        "4. adapter optionally calls design_validation_experiment() for top hypotheses",
+        "5. adapter formats all results as Dict",
+        "6. workflow_runner saves to working_memory"
+      ]
+    },
+
+    "testing": {
+      "unit_tests": [
+        "test_detect_correlation",
+        "test_user_observation_creates_correlation",
+        "test_generate_hypotheses_returns_4",
+        "test_hypothesis_confidences_sum_to_1",
+        "test_design_validation_experiment"
+      ],
+      "integration_tests": [
+        "test_workflow_invokes_causality",
+        "test_adapter_transforms_correctly"
+      ],
+      "contract_tests": [
+        "test_always_4_hypotheses",
+        "test_return_type_structure"
+      ]
+    }
+  }
+}

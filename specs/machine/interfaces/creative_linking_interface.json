@@ -1,0 +1,329 @@
+{
+  "interface_specification": {
+    "metadata": {
+      "interface_id": "ICreativeLinking",
+      "interface_name": "Creative Linking Interface",
+      "version": "1.0.0",
+      "created": "2025-10-28",
+      "protocol": "function_call",
+      "interaction_pattern": "request-response"
+    },
+
+    "description": {
+      "purpose": "Enable workflow_runner to invoke creative linking engine for discovering synesthetic touchpoints between orthogonal architectures",
+      "scope": "Used when architectures are DIVERGENT or ORTHOGONAL",
+      "provider": "creative_linking.CreativeLinkingEngine",
+      "consumer": "workflow_runner.WorkflowRunner (via CreativeLinkingAdapter)"
+    },
+
+    "gap_addressed": {
+      "gap_id": "GAP-001",
+      "gap_title": "No formal interface for workflow_runner → creative_linking"
+    },
+
+    "methods": [
+      {
+        "method_name": "assess_orthogonality",
+        "description": "Assess how orthogonal/unrelated two architectures are",
+        "signature": "assess_orthogonality(arch1: Dict[str, Any], arch2: Dict[str, Any]) -> Tuple[OrthogonalityLevel, str]",
+
+        "parameters": [
+          {
+            "name": "arch1",
+            "type": "Dict[str, Any]",
+            "required": true,
+            "description": "First architecture to compare",
+            "schema_ref": "specs/schemas/architecture_schema.json",
+            "required_fields": ["name", "components"],
+            "optional_fields": ["domain", "description", "framework"]
+          },
+          {
+            "name": "arch2",
+            "type": "Dict[str, Any]",
+            "required": true,
+            "description": "Second architecture to compare",
+            "schema_ref": "specs/schemas/architecture_schema.json",
+            "required_fields": ["name", "components"],
+            "optional_fields": ["domain", "description", "framework"]
+          }
+        ],
+
+        "returns": {
+          "type": "Tuple[OrthogonalityLevel, str]",
+          "description": "Tuple of (orthogonality level, reasoning)",
+          "components": [
+            {
+              "index": 0,
+              "name": "level",
+              "type": "OrthogonalityLevel",
+              "description": "Enum: ALIGNED, RELATED, DIVERGENT, or ORTHOGONAL"
+            },
+            {
+              "index": 1,
+              "name": "reasoning",
+              "type": "str",
+              "description": "Human-readable explanation of the assessment"
+            }
+          ]
+        },
+
+        "errors": [
+          {
+            "exception": "ValidationError",
+            "when": "Architecture missing required fields (name, components)",
+            "handler": "Caller should catch and report to user"
+          },
+          {
+            "exception": "AnalysisError",
+            "when": "Unexpected error during orthogonality assessment",
+            "handler": "Caller should catch and log"
+          }
+        ],
+
+        "preconditions": [
+          "arch1 and arch2 must conform to architecture_schema.json",
+          "arch1 and arch2 must have 'name' and 'components' fields"
+        ],
+
+        "postconditions": [
+          "Returns valid OrthogonalityLevel enum value",
+          "Reasoning string is non-empty"
+        ],
+
+        "example": {
+          "input": {
+            "arch1": {
+              "name": "Biological Neural Network",
+              "domain": "biological",
+              "components": [{"name": "Neuron"}, {"name": "Synapse"}]
+            },
+            "arch2": {
+              "name": "Microservices Architecture",
+              "domain": "software",
+              "components": [{"name": "API Gateway"}, {"name": "Service A"}]
+            }
+          },
+          "output": [
+            "OrthogonalityLevel.ORTHOGONAL",
+            "Different domains (biological vs software), no obvious shared terminology or structural patterns"
+          ]
+        }
+      },
+
+      {
+        "method_name": "find_creative_touchpoints",
+        "description": "Find creative/synesthetic touchpoints between orthogonal architectures",
+        "signature": "find_creative_touchpoints(arch1: Dict[str, Any], arch2: Dict[str, Any], user_consent: bool = False, user_context: Optional[str] = None) -> List[CreativeTouchpoint]",
+
+        "parameters": [
+          {
+            "name": "arch1",
+            "type": "Dict[str, Any]",
+            "required": true,
+            "description": "First architecture",
+            "schema_ref": "specs/schemas/architecture_schema.json"
+          },
+          {
+            "name": "arch2",
+            "type": "Dict[str, Any]",
+            "required": true,
+            "description": "Second architecture",
+            "schema_ref": "specs/schemas/architecture_schema.json"
+          },
+          {
+            "name": "user_consent",
+            "type": "bool",
+            "required": false,
+            "default": false,
+            "description": "Explicit user consent for creative/exploratory linking",
+            "validation": "Must be True for DIVERGENT/ORTHOGONAL architectures"
+          },
+          {
+            "name": "user_context",
+            "type": "Optional[str]",
+            "required": false,
+            "default": null,
+            "description": "User-provided domain context or suggested touchpoints",
+            "effect_when_provided": "Increases confidence of matching touchpoints by 0.3"
+          }
+        ],
+
+        "returns": {
+          "type": "List[CreativeTouchpoint]",
+          "description": "List of creative touchpoints with confidence scores",
+          "item_structure": {
+            "id": "str (unique identifier)",
+            "source_architecture": "str (arch1 name)",
+            "target_architecture": "str (arch2 name)",
+            "source_component": "str (component name from arch1)",
+            "target_component": "str (component name from arch2)",
+            "link_type": "str (synesthetic, analogical, or exploratory)",
+            "metaphor": "str (metaphorical connection)",
+            "reasoning": "str (why this touchpoint makes sense)",
+            "confidence": "float (0.0 to 1.0)",
+            "exploratory": "bool (True if speculative)",
+            "validation_needed": "bool (True if needs user validation)"
+          },
+          "max_items": 10,
+          "sorted_by": "confidence (descending)"
+        },
+
+        "errors": [
+          {
+            "exception": "ValidationError",
+            "when": "user_consent is False but architectures are DIVERGENT/ORTHOGONAL",
+            "handler": "Caller should prompt user for consent"
+          },
+          {
+            "exception": "ValidationError",
+            "when": "Architecture missing required fields",
+            "handler": "Caller should report validation error to user"
+          },
+          {
+            "exception": "AnalysisError",
+            "when": "Unexpected error during touchpoint generation",
+            "handler": "Caller should catch and log"
+          }
+        ],
+
+        "preconditions": [
+          "Architectures conform to architecture_schema.json",
+          "If orthogonality >= DIVERGENT, user_consent must be True"
+        ],
+
+        "postconditions": [
+          "Returns list of 0-10 touchpoints",
+          "All touchpoints have confidence between 0.0 and 1.0",
+          "Touchpoints are sorted by confidence (highest first)"
+        ],
+
+        "side_effects": [
+          "May generate markdown report file (optional)"
+        ],
+
+        "example": {
+          "input": {
+            "arch1": {
+              "name": "Neural Network",
+              "domain": "biological",
+              "components": [{"name": "Neuron"}, {"name": "Synapse"}]
+            },
+            "arch2": {
+              "name": "Microservices",
+              "domain": "software",
+              "components": [{"name": "Service"}, {"name": "Message Queue"}]
+            },
+            "user_consent": true,
+            "user_context": "Both systems involve signal transmission and network effects"
+          },
+          "output": [
+            {
+              "id": "tp_001",
+              "source_architecture": "Neural Network",
+              "target_architecture": "Microservices",
+              "source_component": "Synapse",
+              "target_component": "Message Queue",
+              "link_type": "synesthetic",
+              "metaphor": "Signal transmission → Message passing",
+              "reasoning": "Both facilitate communication between nodes with asynchronous signaling",
+              "confidence": 0.75,
+              "exploratory": true,
+              "validation_needed": true
+            }
+          ]
+        }
+      }
+    ],
+
+    "data_types": {
+      "OrthogonalityLevel": {
+        "type": "Enum",
+        "values": [
+          {"name": "ALIGNED", "description": "Directly related, same domain"},
+          {"name": "RELATED", "description": "Some shared concepts or patterns"},
+          {"name": "DIVERGENT", "description": "Different domains but potential analogies"},
+          {"name": "ORTHOGONAL", "description": "Completely unrelated, no obvious connection"}
+        ]
+      },
+      "CreativeTouchpoint": {
+        "type": "dataclass",
+        "fields": [
+          {"name": "id", "type": "str"},
+          {"name": "source_architecture", "type": "str"},
+          {"name": "target_architecture", "type": "str"},
+          {"name": "source_component", "type": "str"},
+          {"name": "target_component", "type": "str"},
+          {"name": "link_type", "type": "str"},
+          {"name": "metaphor", "type": "str"},
+          {"name": "reasoning", "type": "str"},
+          {"name": "confidence", "type": "float"},
+          {"name": "exploratory", "type": "bool"},
+          {"name": "validation_needed", "type": "bool"}
+        ]
+      }
+    },
+
+    "quality_attributes": {
+      "performance": {
+        "typical_latency": "< 1 second",
+        "max_latency": "< 5 seconds"
+      },
+      "reliability": {
+        "error_handling": "All exceptions are well-defined and documented",
+        "validation": "Input validation via architecture schema"
+      },
+      "usability": {
+        "consent_requirement": "Requires explicit user consent for exploratory analysis",
+        "disclaimers": "All outputs marked as exploratory with validation_needed flag"
+      }
+    },
+
+    "adapter_implementation": {
+      "adapter_class": "CreativeLinkingAdapter",
+      "adapter_location": "src/adapters/engine_adapter.py",
+      "adapter_methods": [
+        {
+          "method": "invoke",
+          "maps_to": "find_creative_touchpoints",
+          "input_transformation": "Extract arch1, arch2, user_consent, user_context from step_data",
+          "output_transformation": "Convert List[CreativeTouchpoint] to Dict for JSON serialization"
+        },
+        {
+          "method": "validate_inputs",
+          "validates": "Architecture schema compliance"
+        }
+      ]
+    },
+
+    "usage_pattern": {
+      "workflow_step": "C-03A in chain-01-link-architectures.json",
+      "typical_flow": [
+        "1. workflow_runner loads step C-03A",
+        "2. workflow_runner calls adapter.invoke(step_data)",
+        "3. adapter validates inputs",
+        "4. adapter calls engine.find_creative_touchpoints()",
+        "5. engine returns List[CreativeTouchpoint]",
+        "6. adapter formats output as Dict",
+        "7. workflow_runner saves results to working_memory"
+      ]
+    },
+
+    "testing": {
+      "unit_tests": [
+        "test_assess_orthogonality_aligned",
+        "test_assess_orthogonality_orthogonal",
+        "test_find_touchpoints_with_consent",
+        "test_find_touchpoints_without_consent_fails",
+        "test_user_context_increases_confidence"
+      ],
+      "integration_tests": [
+        "test_workflow_invokes_creative_linking",
+        "test_adapter_transforms_correctly"
+      ],
+      "contract_tests": [
+        "test_interface_schema_compliance",
+        "test_return_type_structure"
+      ]
+    }
+  }
+}

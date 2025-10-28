@@ -1,0 +1,317 @@
+{
+  "service_architecture": {
+    "metadata": {
+      "component_id": "interactive_executor",
+      "component_name": "Interactive Workflow Executor",
+      "version": "1.0.0",
+      "component_type": "orchestration_service",
+      "tier": "orchestration",
+      "created": "2025-10-28",
+      "source_file": "src/interactive_executor.py",
+      "lines_of_code": 483,
+      "framework": "decision_flow"
+    },
+
+    "description": {
+      "purpose": "Guide users through interactive workflow setup with questionnaires, explanations, and document generation",
+      "scope": "Primarily used for 00-setup workflow to initialize new systems",
+      "domain": "Interactive user guidance and system initialization"
+    },
+
+    "capabilities": [
+      {
+        "capability_id": "C02",
+        "name": "Interactive Setup",
+        "description": "Guide users through system setup with questionnaires and explanations",
+        "methods": ["run_step_s01_path_configuration", "run_step_s01a_framework_selection", "run_step_s02_directory_structure", "run_step_s03_foundational_documents"]
+      },
+      {
+        "capability_id": "C07",
+        "name": "State Management",
+        "description": "Save configuration and context to working memory",
+        "methods": ["save_configuration", "initialize_working_memory"]
+      },
+      {
+        "capability_id": "C08",
+        "name": "Document Generation",
+        "description": "Generate foundational documents (mission statement, user scenarios, success criteria)",
+        "methods": ["generate_mission_statement", "generate_user_scenarios", "generate_success_criteria"]
+      }
+    ],
+
+    "interfaces": {
+      "provided": [
+        {
+          "interface_id": "IInteractiveExecutor",
+          "interface_name": "Interactive Executor Interface",
+          "protocol": "function_call",
+          "methods": [
+            {
+              "method_name": "run_step_s01_path_configuration",
+              "signature": "run_step_s01_path_configuration() -> Dict[str, str]",
+              "inputs": [],
+              "outputs": {
+                "type": "Dict[str, str]",
+                "description": "Configured paths (system_root, reflow_root, tools_path, etc.)"
+              },
+              "errors": ["ConfigurationError"],
+              "user_interaction": true,
+              "side_effects": ["Updates working_memory with paths"]
+            },
+            {
+              "method_name": "run_step_s01a_framework_selection",
+              "signature": "run_step_s01a_framework_selection() -> Dict[str, Any]",
+              "inputs": [],
+              "outputs": {
+                "type": "Dict[str, Any]",
+                "description": "Selected framework configuration (framework_id, component_term, connection_term)"
+              },
+              "errors": ["ConfigurationError"],
+              "user_interaction": true,
+              "side_effects": ["Updates working_memory with framework configuration"]
+            },
+            {
+              "method_name": "run_step_s02_directory_structure",
+              "signature": "run_step_s02_directory_structure() -> None",
+              "inputs": [],
+              "outputs": {
+                "type": "None",
+                "description": "Creates directory structure as side effect"
+              },
+              "errors": ["ConfigurationError"],
+              "side_effects": ["Creates docs/, specs/, context/, workflows/ directories"]
+            },
+            {
+              "method_name": "run_step_s03_foundational_documents",
+              "signature": "run_step_s03_foundational_documents() -> None",
+              "inputs": [],
+              "outputs": {
+                "type": "None",
+                "description": "Generates foundational documents as side effect"
+              },
+              "errors": ["ConfigurationError"],
+              "user_interaction": true,
+              "side_effects": ["Creates mission_statement.md, user_scenarios.md, success_criteria.md"]
+            }
+          ]
+        }
+      ],
+      "required": [],
+      "optional": [
+        {
+          "interface_id": "IConfiguration",
+          "interface_name": "Configuration Interface",
+          "description": "Optional configuration loading",
+          "used_for": "Loading default paths, framework definitions"
+        }
+      ]
+    },
+
+    "internal_structure": {
+      "classes": [
+        {
+          "class_name": "InteractiveExecutor",
+          "responsibility": "Interactive workflow execution with user prompts",
+          "key_methods": [
+            "run_step_s01_path_configuration",
+            "run_step_s01a_framework_selection",
+            "run_step_s02_directory_structure",
+            "run_step_s03_foundational_documents",
+            "prompt_user",
+            "save_configuration"
+          ]
+        }
+      ],
+      "attributes": [
+        {
+          "name": "system_root",
+          "type": "Path",
+          "description": "Root directory of the system being initialized"
+        },
+        {
+          "name": "context_dir",
+          "type": "Path",
+          "description": "Directory for working memory"
+        },
+        {
+          "name": "working_memory",
+          "type": "Dict[str, Any]",
+          "description": "In-memory working state"
+        }
+      ]
+    },
+
+    "dependencies": {
+      "internal": [],
+      "external": [
+        {
+          "module": "pathlib",
+          "usage": "Path handling"
+        },
+        {
+          "module": "json",
+          "usage": "Working memory and configuration JSON"
+        },
+        {
+          "module": "typing",
+          "usage": "Type hints"
+        },
+        {
+          "module": "datetime",
+          "usage": "Timestamps"
+        }
+      ],
+      "future": [
+        {
+          "module": "src.exceptions",
+          "usage": "Error handling (from GAP-010 resolution)"
+        },
+        {
+          "module": "config",
+          "usage": "Configuration loading (from GAP-011 resolution)"
+        }
+      ]
+    },
+
+    "data_flow": {
+      "inputs": [
+        {
+          "name": "user_responses",
+          "source": "Interactive prompts (stdin or automated responses)",
+          "format": "str",
+          "examples": ["system name", "framework choice", "path confirmations"]
+        },
+        {
+          "name": "framework_definitions",
+          "source": "Hardcoded or future: config file",
+          "format": "Dict",
+          "purpose": "Available frameworks (Decision Flow, UAF, etc.)"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "working_memory",
+          "destination": "context/working_memory.json",
+          "format": "JSON",
+          "includes": "System name, paths, framework configuration"
+        },
+        {
+          "name": "foundational_documents",
+          "destination": "docs/ directory",
+          "format": "Markdown",
+          "files": ["mission_statement.md", "user_scenarios.md", "success_criteria.md"]
+        },
+        {
+          "name": "directory_structure",
+          "destination": "File system",
+          "creates": ["docs/", "specs/machine/", "specs/human/", "context/", "workflows/"]
+        }
+      ]
+    },
+
+    "non_functional_characteristics": {
+      "performance": {
+        "typical_execution_time": "2-5 minutes (depends on user input speed)",
+        "scalability": "Not applicable (single-user interactive)"
+      },
+      "reliability": {
+        "error_handling": "Future: Will use src.exceptions for consistent error handling",
+        "state_persistence": "Working memory saved after each step"
+      },
+      "usability": {
+        "user_guidance": "Provides explanations and examples at each step",
+        "validation": "Validates user inputs before proceeding"
+      },
+      "maintainability": {
+        "step_driven": "Each setup step is a separate method",
+        "extensibility": "New setup steps can be added as new methods"
+      }
+    },
+
+    "integration_points": {
+      "invoked_by": [
+        {
+          "component": "run_setup_demo.py or user script",
+          "method": "InteractiveExecutor().run_step_sXX()",
+          "when": "System initialization (00-setup workflow)",
+          "status": "current"
+        }
+      ],
+      "invokes": [],
+      "data_shared_with": [
+        {
+          "component": "workflow_runner",
+          "data": "working_memory.json (created by interactive_executor, read by workflow_runner)",
+          "direction": "output to workflow_runner"
+        }
+      ]
+    },
+
+    "user_interaction_patterns": {
+      "questionnaires": [
+        {
+          "step": "S-01",
+          "prompts": ["What is the name of your system?", "Where is your system root?"],
+          "validation": "Paths must exist, system name must be non-empty"
+        },
+        {
+          "step": "S-01A",
+          "prompts": ["Select architecture framework", "Confirm framework choice"],
+          "options": ["Decision Flow", "UAF", "SysML", "TOGAF", "Custom"],
+          "default": "Decision Flow"
+        },
+        {
+          "step": "S-03",
+          "prompts": ["Describe system mission", "List user scenarios", "Define success criteria"],
+          "generates": "Markdown documents"
+        }
+      ],
+      "automated_mode": {
+        "description": "Can run with predefined responses (no user interaction)",
+        "use_case": "Demo scripts, automated testing",
+        "example": "run_setup_demo.py"
+      }
+    },
+
+    "evolution": {
+      "current_state": "Production-ready for setup workflow",
+      "planned_enhancements": [
+        {
+          "enhancement": "Add error handling using src.exceptions",
+          "from_gap": "GAP-010",
+          "estimated_effort": "0.5 days"
+        },
+        {
+          "enhancement": "Add configuration loading from config/default_config.json",
+          "from_gap": "GAP-011",
+          "estimated_effort": "0.5 days"
+        },
+        {
+          "enhancement": "Add structured logging",
+          "from_gap": "GAP-012",
+          "estimated_effort": "0.5 days"
+        },
+        {
+          "enhancement": "Support additional workflows beyond setup",
+          "description": "Extend interactive mode to other workflows",
+          "estimated_effort": "1-2 weeks"
+        }
+      ]
+    },
+
+    "testing": {
+      "unit_tests": [
+        "test_path_configuration",
+        "test_framework_selection",
+        "test_directory_creation",
+        "test_document_generation"
+      ],
+      "integration_tests": [
+        "test_full_setup_workflow",
+        "test_automated_setup",
+        "test_working_memory_persistence"
+      ],
+      "test_coverage": "Future: Add coverage measurement"
+    }
+  }
+}

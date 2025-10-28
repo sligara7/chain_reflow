@@ -1,0 +1,320 @@
+{
+  "service_architecture": {
+    "metadata": {
+      "component_id": "causality_analysis",
+      "component_name": "Causality Analysis Engine",
+      "version": "1.0.0",
+      "component_type": "analysis_service",
+      "tier": "analysis",
+      "created": "2025-10-28",
+      "source_file": "src/causality_analysis.py",
+      "lines_of_code": 779,
+      "framework": "decision_flow"
+    },
+
+    "description": {
+      "purpose": "Distinguish correlation from causation when linking architectures, generate causal hypotheses, and design validation experiments",
+      "scope": "Prevents false assumptions about causal relationships between architectures",
+      "domain": "Causal inference and scientific validation for architecture relationships"
+    },
+
+    "capabilities": [
+      {
+        "capability_id": "C04",
+        "name": "Causality Analysis",
+        "description": "Detect correlations, generate competing causal hypotheses, design validation experiments",
+        "methods": ["detect_correlation", "generate_causal_hypotheses", "design_validation_experiment"]
+      },
+      {
+        "capability_id": "C06",
+        "name": "Architecture Linking (Contribution)",
+        "description": "Contributes validated causal relationships to overall architecture linking",
+        "methods": ["detect_correlation", "generate_causal_hypotheses"]
+      }
+    ],
+
+    "interfaces": {
+      "provided": [
+        {
+          "interface_id": "ICausalityAnalysis",
+          "interface_name": "Causality Analysis Interface",
+          "protocol": "function_call",
+          "methods": [
+            {
+              "method_name": "detect_correlation",
+              "signature": "detect_correlation(arch1: Dict, arch2: Dict, user_observation: Optional[str] = None) -> List[CorrelationPattern]",
+              "inputs": [
+                {
+                  "name": "arch1",
+                  "type": "Dict[str, Any]",
+                  "required": true,
+                  "description": "First architecture"
+                },
+                {
+                  "name": "arch2",
+                  "type": "Dict[str, Any]",
+                  "required": true,
+                  "description": "Second architecture"
+                },
+                {
+                  "name": "user_observation",
+                  "type": "Optional[str]",
+                  "required": false,
+                  "description": "User-reported observation about correlation"
+                }
+              ],
+              "outputs": {
+                "type": "List[CorrelationPattern]",
+                "description": "Detected correlational patterns with types and confidence scores"
+              },
+              "errors": ["ValidationError", "AnalysisError"]
+            },
+            {
+              "method_name": "generate_causal_hypotheses",
+              "signature": "generate_causal_hypotheses(correlation: CorrelationPattern, user_causal_claim: Optional[str] = None) -> List[CausalHypothesis]",
+              "inputs": [
+                {
+                  "name": "correlation",
+                  "type": "CorrelationPattern",
+                  "required": true,
+                  "description": "Detected correlation pattern"
+                },
+                {
+                  "name": "user_causal_claim",
+                  "type": "Optional[str]",
+                  "required": false,
+                  "description": "User's claimed causal relationship"
+                }
+              ],
+              "outputs": {
+                "type": "List[CausalHypothesis]",
+                "description": "4 competing hypotheses: A→B, B→A, bidirectional, spurious correlation"
+              },
+              "errors": ["ValidationError", "AnalysisError"],
+              "postconditions": ["Always generates exactly 4 hypotheses for scientific completeness"]
+            },
+            {
+              "method_name": "design_validation_experiment",
+              "signature": "design_validation_experiment(hypothesis: CausalHypothesis) -> Dict[str, Any]",
+              "inputs": [
+                {
+                  "name": "hypothesis",
+                  "type": "CausalHypothesis",
+                  "required": true,
+                  "description": "Causal hypothesis to validate"
+                }
+              ],
+              "outputs": {
+                "type": "Dict[str, Any]",
+                "description": "Experiment design with method, steps, expected_outcomes, confidence_gain"
+              },
+              "errors": ["AnalysisError"]
+            }
+          ]
+        }
+      ],
+      "required": [],
+      "optional": [
+        {
+          "interface_id": "IConfiguration",
+          "interface_name": "Configuration Interface",
+          "description": "Optional configuration loading",
+          "used_for": "Loading min_correlation_confidence, max_hypotheses from config"
+        }
+      ]
+    },
+
+    "internal_structure": {
+      "classes": [
+        {
+          "class_name": "CausalityAnalyzer",
+          "responsibility": "Main analyzer for causality vs correlation",
+          "key_methods": [
+            "detect_correlation",
+            "generate_causal_hypotheses",
+            "design_validation_experiment",
+            "generate_report"
+          ]
+        }
+      ],
+      "data_structures": [
+        {
+          "name": "CorrelationType",
+          "type": "Enum",
+          "values": ["USER_REPORTED", "TEMPORAL", "STRUCTURAL", "BEHAVIORAL"]
+        },
+        {
+          "name": "CausalDirection",
+          "type": "Enum",
+          "values": ["A_CAUSES_B", "B_CAUSES_A", "BIDIRECTIONAL", "SPURIOUS_CORRELATION"]
+        },
+        {
+          "name": "CorrelationPattern",
+          "type": "dataclass",
+          "fields": ["id", "arch1_name", "arch2_name", "correlation_type", "description", "evidence", "confidence"]
+        },
+        {
+          "name": "CausalHypothesis",
+          "type": "dataclass",
+          "fields": ["id", "correlation_id", "direction", "hypothesis_statement", "rationale", "alternative_explanations", "testable_predictions", "confidence"]
+        },
+        {
+          "name": "ValidationMethod",
+          "type": "Enum",
+          "values": ["OBSERVATIONAL_STUDY", "TEMPORAL_ANALYSIS", "INTERVENTION_TEST", "MECHANISM_ANALYSIS", "EXPERIMENTAL_TEST", "COUNTERFACTUAL_ANALYSIS"]
+        }
+      ]
+    },
+
+    "dependencies": {
+      "internal": [],
+      "external": [
+        {
+          "module": "typing",
+          "usage": "Type hints"
+        },
+        {
+          "module": "dataclasses",
+          "usage": "Data structures"
+        },
+        {
+          "module": "enum",
+          "usage": "Enumerations"
+        }
+      ],
+      "future": [
+        {
+          "module": "src.exceptions",
+          "usage": "Error handling (from GAP-010 resolution)"
+        },
+        {
+          "module": "config",
+          "usage": "Configuration loading (from GAP-011 resolution)"
+        }
+      ]
+    },
+
+    "data_flow": {
+      "inputs": [
+        {
+          "name": "architecture_pair",
+          "source": "workflow_runner or direct caller",
+          "format": "Dict[str, Any]",
+          "validation": "Must have 'name' and 'components' fields"
+        },
+        {
+          "name": "user_observation",
+          "source": "user via workflow_runner",
+          "format": "str",
+          "optional": true,
+          "purpose": "User-reported correlation increases detection confidence"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "correlation_patterns",
+          "destination": "workflow_runner or caller",
+          "format": "List[CorrelationPattern]",
+          "includes": "Type, evidence, confidence scores"
+        },
+        {
+          "name": "causal_hypotheses",
+          "destination": "workflow_runner or caller",
+          "format": "List[CausalHypothesis] (always 4 per correlation)",
+          "includes": "All 4 competing hypotheses with rationale"
+        },
+        {
+          "name": "validation_experiments",
+          "destination": "workflow_runner or caller",
+          "format": "Dict[str, Any]",
+          "includes": "Experiment design with steps and expected outcomes"
+        },
+        {
+          "name": "markdown_report",
+          "destination": "File system (docs/)",
+          "format": "Markdown",
+          "optional": true
+        }
+      ]
+    },
+
+    "non_functional_characteristics": {
+      "performance": {
+        "typical_execution_time": "< 1 second for typical architectures",
+        "scalability": "Linear in number of components"
+      },
+      "reliability": {
+        "error_handling": "Future: Will use src.exceptions for consistent error handling",
+        "validation": "Future: Will validate inputs against architecture_schema.json"
+      },
+      "scientific_rigor": {
+        "hypothesis_generation": "Always generates 4 competing hypotheses for objectivity",
+        "disclaimers": "All outputs clearly marked as requiring validation"
+      },
+      "maintainability": {
+        "modularity": "Self-contained, no dependencies on other analysis engines",
+        "extensibility": "New validation methods can be added easily"
+      }
+    },
+
+    "integration_points": {
+      "invoked_by": [
+        {
+          "component": "workflow_runner",
+          "method": "_invoke_causality_analysis",
+          "when": "Step C-01A in chain-01-link-architectures workflow",
+          "status": "future (from GAP-008 resolution)"
+        },
+        {
+          "component": "direct_caller",
+          "method": "CausalityAnalyzer(...)",
+          "when": "Standalone usage",
+          "status": "current"
+        }
+      ],
+      "invokes": [],
+      "data_shared_with": [
+        {
+          "component": "workflow_runner",
+          "data": "correlation_patterns, causal_hypotheses via working_memory",
+          "direction": "output"
+        }
+      ]
+    },
+
+    "evolution": {
+      "current_state": "Production-ready, standalone functionality",
+      "planned_enhancements": [
+        {
+          "enhancement": "Add error handling using src.exceptions",
+          "from_gap": "GAP-010",
+          "estimated_effort": "0.5 days"
+        },
+        {
+          "enhancement": "Add input validation using architecture_schema.json",
+          "from_gap": "GAP-013",
+          "estimated_effort": "0.5 days"
+        },
+        {
+          "enhancement": "Add configuration loading from config/default_config.json",
+          "from_gap": "GAP-011",
+          "estimated_effort": "0.5 days"
+        }
+      ]
+    },
+
+    "testing": {
+      "unit_tests": [
+        "test_detect_correlation",
+        "test_generate_causal_hypotheses",
+        "test_design_validation_experiment",
+        "test_hypothesis_count (always 4)"
+      ],
+      "integration_tests": [
+        "test_workflow_invocation (future)",
+        "test_with_real_architectures"
+      ],
+      "test_coverage": "Future: Add coverage measurement"
+    }
+  }
+}

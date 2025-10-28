@@ -1,0 +1,437 @@
+{
+  "interface_specification": {
+    "metadata": {
+      "interface_id": "IMatryoshkaAnalysis",
+      "interface_name": "Matryoshka Analysis Interface",
+      "version": "1.0.0",
+      "created": "2025-10-28",
+      "protocol": "function_call",
+      "interaction_pattern": "request-response"
+    },
+
+    "description": {
+      "purpose": "Enable workflow_runner to invoke matryoshka analyzer for detecting hierarchical relationships and gaps between architectures",
+      "scope": "Prevents peer-to-peer assumption errors when architectures are at different hierarchy levels",
+      "provider": "matryoshka_analysis.MatryoshkaAnalyzer",
+      "consumer": "workflow_runner.WorkflowRunner (via MatryoshkaAnalysisAdapter)"
+    },
+
+    "gap_addressed": {
+      "gap_id": "GAP-003",
+      "gap_title": "No formal interface for workflow_runner → matryoshka_analysis"
+    },
+
+    "methods": [
+      {
+        "method_name": "infer_hierarchy_level",
+        "description": "Infer the hierarchical level of an architecture",
+        "signature": "infer_hierarchy_level(arch: Dict[str, Any]) -> HierarchyMetadata",
+
+        "parameters": [
+          {
+            "name": "arch",
+            "type": "Dict[str, Any]",
+            "required": true,
+            "description": "Architecture to analyze",
+            "schema_ref": "specs/schemas/architecture_schema.json"
+          }
+        ],
+
+        "returns": {
+          "type": "HierarchyMetadata",
+          "description": "Inferred hierarchy level with metadata",
+          "structure": {
+            "arch_name": "str",
+            "inferred_level": "HierarchyLevel (COMPONENT, SUBSYSTEM, SYSTEM, SYSTEM_OF_SYSTEMS, ENTERPRISE)",
+            "component_count": "int",
+            "confidence": "float (0.0 to 1.0)",
+            "reasoning": "str (why this level was inferred)",
+            "indicators": "List[str] (evidence for this classification)"
+          }
+        },
+
+        "errors": [
+          {
+            "exception": "ValidationError",
+            "when": "Architecture missing required fields",
+            "handler": "Caller should report validation error"
+          },
+          {
+            "exception": "AnalysisError",
+            "when": "Unexpected error during level inference",
+            "handler": "Caller should catch and log"
+          }
+        ],
+
+        "preconditions": [
+          "Architecture conforms to architecture_schema.json"
+        ],
+
+        "postconditions": [
+          "Returns valid HierarchyLevel",
+          "Confidence is between 0.0 and 1.0",
+          "Reasoning is non-empty"
+        ],
+
+        "inference_heuristics": {
+          "component_count": {
+            "COMPONENT": "<= 3 components",
+            "SUBSYSTEM": "4-10 components",
+            "SYSTEM": "11-50 components",
+            "SYSTEM_OF_SYSTEMS": "51-200 components",
+            "ENTERPRISE": "> 200 components"
+          },
+          "keywords": {
+            "COMPONENT": ["component", "module", "part"],
+            "SUBSYSTEM": ["subsystem", "service", "unit"],
+            "SYSTEM": ["system", "platform", "application"],
+            "SYSTEM_OF_SYSTEMS": ["ecosystem", "infrastructure", "suite"],
+            "ENTERPRISE": ["enterprise", "organization-wide", "company"]
+          },
+          "scope": {
+            "COMPONENT": "Single responsibility",
+            "SUBSYSTEM": "Multiple related components",
+            "SYSTEM": "Complete functional unit",
+            "SYSTEM_OF_SYSTEMS": "Multiple interacting systems",
+            "ENTERPRISE": "Organization-spanning"
+          }
+        },
+
+        "example": {
+          "input": {
+            "arch": {
+              "name": "Carburetor",
+              "components": [
+                {"name": "Throttle Valve"},
+                {"name": "Venturi"},
+                {"name": "Float Chamber"},
+                {"name": "Jets"}
+              ]
+            }
+          },
+          "output": {
+            "arch_name": "Carburetor",
+            "inferred_level": "COMPONENT",
+            "component_count": 4,
+            "confidence": 0.85,
+            "reasoning": "Has 4 sub-components, single responsibility (fuel-air mixing)",
+            "indicators": ["Low component count", "Narrow scope", "Part of larger system"]
+          }
+        }
+      },
+
+      {
+        "method_name": "analyze_relationship",
+        "description": "Analyze hierarchical relationship between two architectures",
+        "signature": "analyze_relationship(arch_a: Dict[str, Any], arch_b: Dict[str, Any], metadata_a: HierarchyMetadata, metadata_b: HierarchyMetadata) -> NestingRelationship",
+
+        "parameters": [
+          {
+            "name": "arch_a",
+            "type": "Dict[str, Any]",
+            "required": true,
+            "description": "First architecture",
+            "schema_ref": "specs/schemas/architecture_schema.json"
+          },
+          {
+            "name": "arch_b",
+            "type": "Dict[str, Any]",
+            "required": true,
+            "description": "Second architecture",
+            "schema_ref": "specs/schemas/architecture_schema.json"
+          },
+          {
+            "name": "metadata_a",
+            "type": "HierarchyMetadata",
+            "required": true,
+            "description": "Hierarchy metadata for arch_a (from infer_hierarchy_level)"
+          },
+          {
+            "name": "metadata_b",
+            "type": "HierarchyMetadata",
+            "required": true,
+            "description": "Hierarchy metadata for arch_b (from infer_hierarchy_level)"
+          }
+        ],
+
+        "returns": {
+          "type": "NestingRelationship",
+          "description": "Relationship type and metadata",
+          "structure": {
+            "arch_a": "str (name)",
+            "arch_b": "str (name)",
+            "relationship_type": "RelationshipType (PEER, PARENT_CHILD, NESTED_INDIRECT)",
+            "level_difference": "int (levels between them)",
+            "confidence": "float (0.0 to 1.0)",
+            "reasoning": "str (why this relationship)"
+          }
+        },
+
+        "relationship_detection": {
+          "PEER": {
+            "condition": "Same hierarchy level",
+            "example": "Engine System ←→ Body System (both SYSTEM level)"
+          },
+          "PARENT_CHILD": {
+            "condition": "Adjacent hierarchy levels (diff = 1)",
+            "example": "Engine System (SYSTEM) ←→ Carburetor (COMPONENT)"
+          },
+          "NESTED_INDIRECT": {
+            "condition": "Non-adjacent hierarchy levels (diff > 1)",
+            "example": "Enterprise (ENTERPRISE) ←→ Component (COMPONENT)",
+            "implies": "Missing intermediate levels"
+          }
+        },
+
+        "errors": [
+          {
+            "exception": "ValidationError",
+            "when": "Architecture or metadata invalid",
+            "handler": "Caller should report validation error"
+          },
+          {
+            "exception": "AnalysisError",
+            "when": "Unexpected error during relationship analysis",
+            "handler": "Caller should catch and log"
+          }
+        ],
+
+        "preconditions": [
+          "Architectures conform to schema",
+          "Metadata matches architectures (metadata_a for arch_a, metadata_b for arch_b)"
+        ],
+
+        "postconditions": [
+          "Returns valid RelationshipType",
+          "Confidence is between 0.0 and 1.0",
+          "level_difference >= 0"
+        ],
+
+        "example": {
+          "input": {
+            "arch_a": {"name": "Carburetor", "components": [...]},
+            "arch_b": {"name": "Body of Car", "components": [...]},
+            "metadata_a": {"inferred_level": "COMPONENT", "component_count": 4},
+            "metadata_b": {"inferred_level": "SYSTEM", "component_count": 10}
+          },
+          "output": {
+            "arch_a": "Carburetor",
+            "arch_b": "Body of Car",
+            "relationship_type": "NESTED_INDIRECT",
+            "level_difference": 2,
+            "confidence": 0.8,
+            "reasoning": "Carburetor (COMPONENT) and Body (SYSTEM) are 2 levels apart, suggesting missing intermediate"
+          }
+        }
+      },
+
+      {
+        "method_name": "discover_hierarchical_gaps",
+        "description": "Discover missing intermediate levels in architecture hierarchy",
+        "signature": "discover_hierarchical_gaps(architectures: List[Dict[str, Any]], relationships: List[NestingRelationship]) -> List[HierarchicalGap]",
+
+        "parameters": [
+          {
+            "name": "architectures",
+            "type": "List[Dict[str, Any]]",
+            "required": true,
+            "description": "List of architectures to analyze",
+            "schema_ref": "specs/schemas/architecture_schema.json"
+          },
+          {
+            "name": "relationships",
+            "type": "List[NestingRelationship]",
+            "required": true,
+            "description": "Known relationships between architectures (from analyze_relationship)"
+          }
+        ],
+
+        "returns": {
+          "type": "List[HierarchicalGap]",
+          "description": "List of detected hierarchical gaps",
+          "item_structure": {
+            "gap_id": "str (unique identifier)",
+            "gap_type": "GapType (MISSING_PARENT, MISSING_INTERMEDIATE, MISSING_COMMON_PARENT)",
+            "affected_architectures": "List[str] (architecture names)",
+            "hypothesis": "str (hypothesis about missing system)",
+            "expected_level": "HierarchyLevel (level of missing system)",
+            "confidence": "float (0.0 to 1.0)",
+            "example": "str (concrete example, like 'Engine System for Carburetor-Body gap')"
+          }
+        },
+
+        "gap_detection_patterns": {
+          "MISSING_PARENT": {
+            "pattern": "Architecture at low level with no parent found",
+            "example": "Carburetor (COMPONENT) with no parent system identified",
+            "hypothesis": "Missing parent system that contains this component"
+          },
+          "MISSING_INTERMEDIATE": {
+            "pattern": "NESTED_INDIRECT relationship (level_difference > 1)",
+            "example": "Carburetor (COMPONENT) to Body (SYSTEM) with diff=2",
+            "hypothesis": "Missing intermediate level (likely Engine System at SYSTEM level)"
+          },
+          "MISSING_COMMON_PARENT": {
+            "pattern": "Multiple PEER architectures with no shared parent",
+            "example": "Engine System and Body System are peers but no Vehicle identified",
+            "hypothesis": "Missing common parent that contains both peers"
+          }
+        },
+
+        "errors": [
+          {
+            "exception": "ValidationError",
+            "when": "Architectures invalid or relationships inconsistent",
+            "handler": "Caller should report validation error"
+          },
+          {
+            "exception": "AnalysisError",
+            "when": "Unexpected error during gap discovery",
+            "handler": "Caller should catch and log"
+          }
+        ],
+
+        "preconditions": [
+          "All architectures conform to schema",
+          "Relationships reference architectures in the list"
+        ],
+
+        "postconditions": [
+          "Returns 0-N gaps",
+          "All gaps have confidence between 0.0 and 1.0",
+          "Each gap includes concrete hypothesis"
+        ],
+
+        "example": {
+          "input": {
+            "architectures": [
+              {"name": "Carburetor", "components": [...]},
+              {"name": "Body of Car", "components": [...]}
+            ],
+            "relationships": [
+              {
+                "arch_a": "Carburetor",
+                "arch_b": "Body of Car",
+                "relationship_type": "NESTED_INDIRECT",
+                "level_difference": 2
+              }
+            ]
+          },
+          "output": [
+            {
+              "gap_id": "gap_001",
+              "gap_type": "MISSING_INTERMEDIATE",
+              "affected_architectures": ["Carburetor", "Body of Car"],
+              "hypothesis": "Missing Engine System (SYSTEM level) that contains Carburetor and is peer to Body",
+              "expected_level": "SYSTEM",
+              "confidence": 0.85,
+              "example": "Engine System contains Carburetor and is peer to Body of Car"
+            }
+          ]
+        }
+      }
+    ],
+
+    "data_types": {
+      "HierarchyLevel": {
+        "type": "Enum",
+        "values": [
+          {"name": "COMPONENT", "description": "Lowest level, 1-3 parts"},
+          {"name": "SUBSYSTEM", "description": "Collection of components, 4-10 parts"},
+          {"name": "SYSTEM", "description": "Complete functional unit, 11-50 parts"},
+          {"name": "SYSTEM_OF_SYSTEMS", "description": "Multiple systems, 51-200 parts"},
+          {"name": "ENTERPRISE", "description": "Organization-wide, > 200 parts"}
+        ]
+      },
+      "RelationshipType": {
+        "type": "Enum",
+        "values": [
+          {"name": "PEER", "description": "Same hierarchy level"},
+          {"name": "PARENT_CHILD", "description": "Adjacent levels (parent contains child)"},
+          {"name": "NESTED_INDIRECT", "description": "Non-adjacent levels (missing intermediates)"}
+        ]
+      },
+      "GapType": {
+        "type": "Enum",
+        "values": [
+          {"name": "MISSING_PARENT", "description": "Architecture lacks parent system"},
+          {"name": "MISSING_INTERMEDIATE", "description": "Non-adjacent levels with missing intermediate"},
+          {"name": "MISSING_COMMON_PARENT", "description": "Peers lack common parent"}
+        ]
+      }
+    },
+
+    "quality_attributes": {
+      "accuracy": {
+        "hierarchy_inference": "Based on component count, keywords, and scope heuristics",
+        "gap_detection": "Identifies missing parents, intermediates, and common parents"
+      },
+      "performance": {
+        "typical_latency": "< 1 second per method",
+        "scalability": "O(n²) for relationship analysis of n architectures"
+      },
+      "reliability": {
+        "error_handling": "All exceptions well-defined",
+        "validation": "Input validation via schema"
+      }
+    },
+
+    "adapter_implementation": {
+      "adapter_class": "MatryoshkaAnalysisAdapter",
+      "adapter_location": "src/adapters/engine_adapter.py",
+      "adapter_methods": [
+        {
+          "method": "invoke",
+          "workflow": [
+            "1. Call infer_hierarchy_level() for each architecture",
+            "2. Call analyze_relationship() for each pair",
+            "3. Call discover_hierarchical_gaps() with all results",
+            "4. Format combined results as Dict"
+          ],
+          "input_transformation": "Extract architectures list from step_data",
+          "output_transformation": "Combine metadata, relationships, gaps into Dict for JSON"
+        }
+      ]
+    },
+
+    "usage_pattern": {
+      "workflow_step": "C-01B in chain-01-link-architectures.json",
+      "typical_flow": [
+        "1. workflow_runner loads step C-01B",
+        "2. adapter extracts architectures from step_data",
+        "3. adapter calls infer_hierarchy_level() for each",
+        "4. adapter calls analyze_relationship() for pairs",
+        "5. adapter calls discover_hierarchical_gaps()",
+        "6. adapter formats all results",
+        "7. workflow_runner saves to working_memory"
+      ]
+    },
+
+    "integration_with_neural_linking": {
+      "note": "Future enhancement: Neural intermediary layer approach (see neural_architecture_linking_concept.md)",
+      "synergy": "Matryoshka identifies THAT a gap exists, neural approach generates WHAT the missing system might be",
+      "example": "Matryoshka: 'Missing intermediate between Carburetor and Body', Neural: 'Engine System with components X, Y, Z'"
+    },
+
+    "testing": {
+      "unit_tests": [
+        "test_infer_component_level",
+        "test_infer_system_level",
+        "test_analyze_peer_relationship",
+        "test_analyze_nested_indirect",
+        "test_discover_missing_intermediate",
+        "test_carburetor_body_example"
+      ],
+      "integration_tests": [
+        "test_workflow_invokes_matryoshka",
+        "test_adapter_workflow",
+        "test_with_real_architectures"
+      ],
+      "contract_tests": [
+        "test_interface_schema_compliance",
+        "test_return_type_structure",
+        "test_gap_hypothesis_non_empty"
+      ]
+    }
+  }
+}

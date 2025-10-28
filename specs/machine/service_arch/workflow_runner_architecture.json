@@ -1,0 +1,380 @@
+{
+  "service_architecture": {
+    "metadata": {
+      "component_id": "workflow_runner",
+      "component_name": "Workflow Execution Engine",
+      "version": "1.0.0",
+      "component_type": "orchestration_service",
+      "tier": "orchestration",
+      "created": "2025-10-28",
+      "source_file": "src/workflow_runner.py",
+      "lines_of_code": 243,
+      "framework": "decision_flow"
+    },
+
+    "description": {
+      "purpose": "Execute multi-step reflow workflows with state management, step routing, and analysis engine invocation",
+      "scope": "Core workflow orchestration for all reflow workflows (setup, approach detection, bottom-up, top-down, architecture linking)",
+      "domain": "Workflow execution and orchestration"
+    },
+
+    "capabilities": [
+      {
+        "capability_id": "C01",
+        "name": "Workflow Orchestration",
+        "description": "Load workflows, execute steps, manage state transitions, route between steps",
+        "methods": ["run", "execute_step", "load_workflow"]
+      },
+      {
+        "capability_id": "C07",
+        "name": "State Management",
+        "description": "Maintain working memory across workflow execution",
+        "methods": ["save_working_memory", "load_working_memory", "update_context"]
+      }
+    ],
+
+    "interfaces": {
+      "provided": [
+        {
+          "interface_id": "IWorkflowRunner",
+          "interface_name": "Workflow Runner Interface",
+          "protocol": "function_call",
+          "methods": [
+            {
+              "method_name": "run",
+              "signature": "run(entry_point: str = 'new_system') -> None",
+              "inputs": [
+                {
+                  "name": "entry_point",
+                  "type": "str",
+                  "required": false,
+                  "default": "new_system",
+                  "description": "Workflow entry point (e.g., 'new_system', 'existing_system')"
+                }
+              ],
+              "outputs": {
+                "type": "None",
+                "description": "Executes workflow, updates working_memory.json as side effect"
+              },
+              "errors": ["WorkflowError", "ConfigurationError"],
+              "side_effects": [
+                "Updates context/working_memory.json",
+                "May invoke analysis engines",
+                "May generate reports and specifications"
+              ]
+            },
+            {
+              "method_name": "execute_step",
+              "signature": "execute_step(step: Dict[str, Any]) -> None",
+              "inputs": [
+                {
+                  "name": "step",
+                  "type": "Dict[str, Any]",
+                  "required": true,
+                  "description": "Step definition from workflow JSON"
+                }
+              ],
+              "outputs": {
+                "type": "None",
+                "description": "Executes single step"
+              },
+              "errors": ["WorkflowError", "AnalysisError"],
+              "side_effects": [
+                "May invoke analysis engines",
+                "Updates working memory"
+              ]
+            }
+          ]
+        }
+      ],
+      "required": [
+        {
+          "interface_id": "ICreativeLinking",
+          "interface_name": "Creative Linking Interface",
+          "component": "creative_linking",
+          "usage": "Invoke creative linking for orthogonal architectures",
+          "status": "future (via adapter from GAP-008 resolution)"
+        },
+        {
+          "interface_id": "ICausalityAnalysis",
+          "interface_name": "Causality Analysis Interface",
+          "component": "causality_analysis",
+          "usage": "Invoke causality analysis for correlation detection",
+          "status": "future (via adapter from GAP-008 resolution)"
+        },
+        {
+          "interface_id": "IMatryoshkaAnalysis",
+          "interface_name": "Matryoshka Analysis Interface",
+          "component": "matryoshka_analysis",
+          "usage": "Invoke matryoshka analysis for hierarchy detection",
+          "status": "future (via adapter from GAP-008 resolution)"
+        }
+      ],
+      "optional": [
+        {
+          "interface_id": "IConfiguration",
+          "interface_name": "Configuration Interface",
+          "description": "Optional configuration loading",
+          "used_for": "Loading workflow timeouts, log levels from config"
+        }
+      ]
+    },
+
+    "internal_structure": {
+      "classes": [
+        {
+          "class_name": "WorkflowRunner",
+          "responsibility": "Main orchestrator for workflow execution",
+          "key_methods": [
+            "run",
+            "load_workflow",
+            "execute_step",
+            "save_working_memory",
+            "load_working_memory"
+          ],
+          "future_methods": [
+            "_invoke_creative_linking",
+            "_invoke_causality_analysis",
+            "_invoke_matryoshka_analysis",
+            "_route_analysis_step"
+          ]
+        }
+      ],
+      "attributes": [
+        {
+          "name": "workflow_file",
+          "type": "Path",
+          "description": "Path to workflow JSON file"
+        },
+        {
+          "name": "system_root",
+          "type": "Path",
+          "description": "Root directory of the system"
+        },
+        {
+          "name": "context_dir",
+          "type": "Path",
+          "description": "Directory for working memory"
+        }
+      ],
+      "future_attributes": [
+        {
+          "name": "creative_linking_adapter",
+          "type": "CreativeLinkingAdapter",
+          "description": "Adapter for creative linking engine"
+        },
+        {
+          "name": "causality_adapter",
+          "type": "CausalityAnalysisAdapter",
+          "description": "Adapter for causality analyzer"
+        },
+        {
+          "name": "matryoshka_adapter",
+          "type": "MatryoshkaAnalysisAdapter",
+          "description": "Adapter for matryoshka analyzer"
+        }
+      ]
+    },
+
+    "dependencies": {
+      "internal": [],
+      "external": [
+        {
+          "module": "pathlib",
+          "usage": "Path handling"
+        },
+        {
+          "module": "json",
+          "usage": "Workflow and working memory JSON"
+        },
+        {
+          "module": "typing",
+          "usage": "Type hints"
+        }
+      ],
+      "future": [
+        {
+          "module": "src.creative_linking",
+          "usage": "Invoke creative linking engine (from GAP-008 resolution)"
+        },
+        {
+          "module": "src.causality_analysis",
+          "usage": "Invoke causality analyzer (from GAP-008 resolution)"
+        },
+        {
+          "module": "src.matryoshka_analysis",
+          "usage": "Invoke matryoshka analyzer (from GAP-008 resolution)"
+        },
+        {
+          "module": "src.adapters.engine_adapter",
+          "usage": "Adapters for analysis engines (from GAP-014 resolution)"
+        },
+        {
+          "module": "src.exceptions",
+          "usage": "Error handling (from GAP-010 resolution)"
+        },
+        {
+          "module": "config",
+          "usage": "Configuration loading (from GAP-011 resolution)"
+        }
+      ]
+    },
+
+    "data_flow": {
+      "inputs": [
+        {
+          "name": "workflow_file",
+          "source": "File system (workflows/*.json)",
+          "format": "JSON",
+          "examples": ["00-setup.json", "01a-approach_detection.json", "01b-bottom_up_integration.json"]
+        },
+        {
+          "name": "working_memory",
+          "source": "context/working_memory.json",
+          "format": "JSON",
+          "purpose": "Load current workflow state"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "updated_working_memory",
+          "destination": "context/working_memory.json",
+          "format": "JSON",
+          "includes": "Current step, workflow history, analysis results"
+        },
+        {
+          "name": "analysis_results",
+          "destination": "working_memory (in-memory), then context/working_memory.json",
+          "format": "Dict",
+          "purpose": "Results from analysis engine invocations"
+        }
+      ]
+    },
+
+    "non_functional_characteristics": {
+      "performance": {
+        "typical_execution_time": "Varies by workflow (seconds to minutes)",
+        "scalability": "Linear in number of workflow steps"
+      },
+      "reliability": {
+        "error_handling": "Future: Will use src.exceptions for consistent error handling",
+        "state_persistence": "Working memory saved after each step"
+      },
+      "maintainability": {
+        "workflow_driven": "Behavior driven by JSON workflow files",
+        "extensibility": "New workflow steps can be added without code changes"
+      },
+      "observability": {
+        "logging": "Future: Will add structured logging",
+        "state_tracking": "All state changes recorded in working_memory"
+      }
+    },
+
+    "integration_points": {
+      "invoked_by": [
+        {
+          "component": "user or script",
+          "method": "WorkflowRunner(workflow_file).run()",
+          "when": "Direct execution of workflows",
+          "status": "current"
+        }
+      ],
+      "invokes": [
+        {
+          "component": "creative_linking",
+          "method": "find_creative_touchpoints",
+          "when": "Step C-03A in chain-01-link-architectures",
+          "via": "CreativeLinkingAdapter",
+          "status": "future (from GAP-008 resolution)"
+        },
+        {
+          "component": "causality_analysis",
+          "method": "detect_correlation, generate_causal_hypotheses",
+          "when": "Step C-01A in chain-01-link-architectures",
+          "via": "CausalityAnalysisAdapter",
+          "status": "future (from GAP-008 resolution)"
+        },
+        {
+          "component": "matryoshka_analysis",
+          "method": "analyze_relationship, discover_hierarchical_gaps",
+          "when": "Step C-01B in chain-01-link-architectures",
+          "via": "MatryoshkaAnalysisAdapter",
+          "status": "future (from GAP-008 resolution)"
+        }
+      ],
+      "data_shared_with": [
+        {
+          "component": "all analysis engines",
+          "data": "Architecture inputs via step_data['inputs']",
+          "direction": "input to engines"
+        },
+        {
+          "component": "all analysis engines",
+          "data": "Analysis results stored in working_memory",
+          "direction": "output from engines"
+        }
+      ]
+    },
+
+    "state_management": {
+      "working_memory_structure": {
+        "system_name": "str",
+        "workflow_id": "str",
+        "current_step": "str",
+        "current_workflow": "str",
+        "paths": "Dict[str, str]",
+        "framework_configuration": "Dict",
+        "workflow_history": "List[Dict]",
+        "bottom_up_integration_progress": "Dict (for BU workflows)",
+        "analysis_results": "Dict (future, from engine invocations)"
+      },
+      "persistence_strategy": "Save to context/working_memory.json after each step",
+      "recovery": "Load from working_memory.json to resume workflows"
+    },
+
+    "evolution": {
+      "current_state": "Production-ready for basic workflow execution",
+      "planned_enhancements": [
+        {
+          "enhancement": "Add analysis engine invocation methods",
+          "from_gap": "GAP-008",
+          "estimated_effort": "2-3 days",
+          "adds_methods": ["_invoke_creative_linking", "_invoke_causality_analysis", "_invoke_matryoshka_analysis", "_route_analysis_step"],
+          "adds_attributes": ["creative_linking_adapter", "causality_adapter", "matryoshka_adapter"]
+        },
+        {
+          "enhancement": "Add error handling using src.exceptions",
+          "from_gap": "GAP-010",
+          "estimated_effort": "1 day"
+        },
+        {
+          "enhancement": "Add configuration loading from config/default_config.json",
+          "from_gap": "GAP-011",
+          "estimated_effort": "0.5 days"
+        },
+        {
+          "enhancement": "Add structured logging",
+          "from_gap": "GAP-012",
+          "estimated_effort": "0.5 days"
+        }
+      ]
+    },
+
+    "testing": {
+      "unit_tests": [
+        "test_load_workflow",
+        "test_execute_step",
+        "test_save_working_memory",
+        "test_load_working_memory"
+      ],
+      "integration_tests": [
+        "test_run_setup_workflow",
+        "test_run_approach_detection",
+        "test_run_bottom_up_integration",
+        "test_invoke_analysis_engines (future)",
+        "test_chain_01_end_to_end (future)"
+      ],
+      "test_coverage": "Future: Add coverage measurement"
+    }
+  }
+}
