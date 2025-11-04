@@ -1,0 +1,658 @@
+{
+  "workflow_metadata": {
+    "workflow_id": "chain-01",
+    "name": "Multi-Graph Analysis Workflow",
+    "version": "1.0.0",
+    "description": "Analyze multiple system_of_systems_graph.json files to understand their relationships, hierarchies, and determine optimal linking strategy",
+    "created_from": "reflow pattern + chain_reflow WORKFLOW_ARCHITECTURE.md",
+    "last_updated": "2025-11-04",
+    "purpose": "Prepare for linking by understanding domains, orthogonality, hierarchy levels, and network topology across ALL graphs",
+    "prerequisite": "chain-00-setup.json must be completed",
+    "next_workflow": "chain-01a-determine-strategy.json"
+  },
+
+  "entry_points": {
+    "standard_analysis": {
+      "id": "standard_analysis",
+      "description": "Analyze all loaded graphs",
+      "trigger": "chain-00-setup completed, ready to analyze",
+      "first_step": "CH01-01"
+    }
+  },
+
+  "workflow_steps": [
+    {
+      "step_id": "CH01-01",
+      "name": "Load Working Memory and Graph Inventory",
+      "description": "Load the graphs that were identified in chain-00-setup",
+      "phase": "initialization",
+      "actions": [
+        {
+          "action_id": "CH01-01-A01",
+          "description": "Load working memory",
+          "purpose": "Get current session state",
+          "llm_instructions": [
+            "Read context/working_memory.json",
+            "Verify status is 'ready' (from chain-00)",
+            "Verify workflow chain-00 is in completed_workflows",
+            "Extract session_id"
+          ],
+          "validation": {
+            "must_exist": "context/working_memory.json",
+            "must_have_completed": ["chain-00"],
+            "blocking": true
+          }
+        },
+        {
+          "action_id": "CH01-01-A02",
+          "description": "Load graph inventory",
+          "purpose": "Get list of all graphs to analyze",
+          "llm_instructions": [
+            "Read context/graph_inventory.json",
+            "Extract list of all valid graphs",
+            "Note: minimum 2 graphs (enforced by chain-00)",
+            "Load each graph file into memory"
+          ],
+          "input": "context/graph_inventory.json",
+          "output_variable": "loaded_graphs"
+        },
+        {
+          "action_id": "CH01-01-A03",
+          "description": "Update working memory for this workflow",
+          "purpose": "Track that we've started chain-01",
+          "llm_instructions": [
+            "Update context/working_memory.json:",
+            "  - current_workflow: 'chain-01'",
+            "  - current_step: 'CH01-01'",
+            "  - status: 'analyzing'",
+            "  - timestamp: current time"
+          ]
+        }
+      ],
+      "next_step": "CH01-02"
+    },
+
+    {
+      "step_id": "CH01-02",
+      "name": "Domain and Framework Analysis",
+      "description": "Analyze each graph's domain and framework to understand what we're linking",
+      "phase": "analysis",
+      "actions": [
+        {
+          "action_id": "CH01-02-A01",
+          "description": "Extract metadata from each graph",
+          "purpose": "Understand what type of systems these are",
+          "llm_instructions": [
+            "For each graph in loaded_graphs:",
+            "  - Extract metadata.framework (UAF, Decision Flow, Systems Biology, etc.)",
+            "  - Extract metadata.domain (software, biological, mechanical, social, etc.)",
+            "  - Infer domain if not explicit (from node types, edge types, etc.)",
+            "  - Note graph_type (component_integration, hierarchical, network, etc.)",
+            "  - Count nodes and edges",
+            "Create comprehensive analysis table"
+          ],
+          "output": "context/domain_framework_analysis.json",
+          "format": {
+            "graphs": [
+              {
+                "graph_id": "string",
+                "system_name": "string",
+                "framework": "string",
+                "domain": "string (inferred if not explicit)",
+                "graph_type": "string",
+                "node_count": "number",
+                "edge_count": "number",
+                "tiers": "array (if tiered architecture)",
+                "metadata": "object (full metadata)"
+              }
+            ],
+            "summary": {
+              "unique_frameworks": ["array of frameworks"],
+              "unique_domains": ["array of domains"],
+              "framework_diversity": "homogeneous | mixed",
+              "domain_diversity": "homogeneous | mixed"
+            }
+          }
+        },
+        {
+          "action_id": "CH01-02-A02",
+          "description": "Create domain compatibility matrix",
+          "purpose": "Identify which domains can naturally link",
+          "llm_instructions": [
+            "For each pair of domains:",
+            "  - Assess compatibility:",
+            "    * Same domain = HIGH compatibility",
+            "    * Related domains (e.g., software + network) = MEDIUM",
+            "    * Orthogonal domains (e.g., biological + mechanical) = LOW",
+            "  - Document reasoning",
+            "Create N x N compatibility matrix"
+          ],
+          "output": "context/domain_compatibility_matrix.json",
+          "format": {
+            "matrix": [
+              {
+                "domain1": "string",
+                "domain2": "string",
+                "compatibility": "HIGH | MEDIUM | LOW",
+                "reasoning": "string"
+              }
+            ]
+          }
+        }
+      ],
+      "next_step": "CH01-03"
+    },
+
+    {
+      "step_id": "CH01-03",
+      "name": "Pairwise Orthogonality Assessment",
+      "description": "Assess orthogonality between every pair of graphs using CreativeLinkingEngine",
+      "phase": "analysis",
+      "important_note": "This creates an N x N matrix. For N graphs, we analyze N*(N-1)/2 unique pairs.",
+      "actions": [
+        {
+          "action_id": "CH01-03-A01",
+          "description": "Generate all unique pairs",
+          "purpose": "Create list of all graph pairs to analyze",
+          "llm_instructions": [
+            "From N graphs, generate all unique pairs (combinations, not permutations)",
+            "For N=2: 1 pair",
+            "For N=3: 3 pairs",
+            "For N=5: 10 pairs",
+            "Store pair list"
+          ],
+          "output_variable": "graph_pairs"
+        },
+        {
+          "action_id": "CH01-03-A02",
+          "description": "Assess orthogonality for each pair",
+          "purpose": "Determine how related or unrelated each pair is",
+          "command_pattern": "python3 src/creative_linking.py assess-orthogonality {graph1_path} {graph2_path}",
+          "llm_instructions": [
+            "For each pair in graph_pairs:",
+            "  - Use CreativeLinkingEngine.assess_orthogonality()",
+            "  - Classify as: ALIGNED, RELATED, DIVERGENT, or ORTHOGONAL",
+            "  - Document reasoning (framework match, domain match, structural similarity)",
+            "  - Note confidence score",
+            "Store results in orthogonality matrix"
+          ],
+          "output": "context/orthogonality_matrix.json",
+          "format": {
+            "pairs": [
+              {
+                "pair_id": "string (e.g., 'graph1_graph2')",
+                "graph1_id": "string",
+                "graph2_id": "string",
+                "graph1_name": "string",
+                "graph2_name": "string",
+                "orthogonality_level": "ALIGNED | RELATED | DIVERGENT | ORTHOGONAL",
+                "reasoning": "string",
+                "confidence": "number 0.0-1.0",
+                "framework_match": "boolean",
+                "domain_match": "boolean",
+                "structural_similarity": "number 0.0-1.0"
+              }
+            ],
+            "summary": {
+              "total_pairs": "number",
+              "aligned_pairs": "number",
+              "related_pairs": "number",
+              "divergent_pairs": "number",
+              "orthogonal_pairs": "number",
+              "avg_orthogonality": "string (overall assessment)"
+            }
+          }
+        },
+        {
+          "action_id": "CH01-03-A03",
+          "description": "Identify intermediary needs",
+          "purpose": "Flag pairs that may need intermediary/transform systems",
+          "llm_instructions": [
+            "For pairs with orthogonality = DIVERGENT or ORTHOGONAL:",
+            "  - Mark as 'intermediary_candidate'",
+            "  - Suggest what kind of intermediary might be needed",
+            "  - Example: 'Transform system to convert biological signals to software events'",
+            "These will be important for chain-02 linking phase"
+          ],
+          "output": "context/intermediary_candidates.json",
+          "format": {
+            "candidates": [
+              {
+                "pair_id": "string",
+                "graph1_id": "string",
+                "graph2_id": "string",
+                "orthogonality": "DIVERGENT | ORTHOGONAL",
+                "needs_intermediary": "boolean",
+                "suggested_intermediary_type": "string",
+                "suggested_interfaces": "array of strings"
+              }
+            ]
+          }
+        }
+      ],
+      "next_step": "CH01-04"
+    },
+
+    {
+      "step_id": "CH01-04",
+      "name": "Hierarchical Level Inference (Matryoshka Analysis)",
+      "description": "Infer hierarchy level for each graph to understand nesting relationships",
+      "phase": "analysis",
+      "important_principle": "Graphs may be at different hierarchical levels (component, subsystem, system, system-of-systems, enterprise). This matters for linking strategy.",
+      "actions": [
+        {
+          "action_id": "CH01-04-A01",
+          "description": "Infer hierarchy level for each graph",
+          "purpose": "Classify each graph's hierarchical level",
+          "command_pattern": "python3 src/matryoshka_analysis.py infer-level {graph_path}",
+          "llm_instructions": [
+            "For each graph:",
+            "  - Use MatryoshkaAnalyzer.infer_hierarchy_level()",
+            "  - Consider:",
+            "    * Component count (more = higher level)",
+            "    * Name keywords ('enterprise', 'system-of-systems', 'component')",
+            "    * Scope (narrow vs broad)",
+            "    * Domain context",
+            "  - Classify as: COMPONENT, SUBSYSTEM, SYSTEM, SYSTEM_OF_SYSTEMS, ENTERPRISE",
+            "  - Document confidence and reasoning"
+          ],
+          "output": "context/hierarchy_map.json",
+          "format": {
+            "graphs": [
+              {
+                "graph_id": "string",
+                "system_name": "string",
+                "hierarchy_level": "COMPONENT | SUBSYSTEM | SYSTEM | SYSTEM_OF_SYSTEMS | ENTERPRISE",
+                "confidence": "number 0.0-1.0",
+                "reasoning": "string",
+                "node_count": "number",
+                "complexity_score": "number"
+              }
+            ],
+            "summary": {
+              "level_distribution": {
+                "component": "number",
+                "subsystem": "number",
+                "system": "number",
+                "system_of_systems": "number",
+                "enterprise": "number"
+              },
+              "hierarchy_diversity": "homogeneous | mixed"
+            }
+          }
+        },
+        {
+          "action_id": "CH01-04-A02",
+          "description": "Analyze hierarchical relationships between graphs",
+          "purpose": "Determine if graphs are peers, parent-child, or have gaps",
+          "command_pattern": "python3 src/matryoshka_analysis.py analyze-relationships {graphs}",
+          "llm_instructions": [
+            "For each pair of graphs:",
+            "  - Compare hierarchy levels",
+            "  - Classify relationship:",
+            "    * PEER: Same level (e.g., both SYSTEM)",
+            "    * PARENT_CHILD: Adjacent levels (e.g., SYSTEM contains SUBSYSTEM)",
+            "    * NESTED_INDIRECT: Multiple levels apart (e.g., SYSTEM_OF_SYSTEMS and COMPONENT)",
+            "  - Document evidence"
+          ],
+          "output": "context/hierarchical_relationships.json",
+          "format": {
+            "relationships": [
+              {
+                "graph1_id": "string",
+                "graph2_id": "string",
+                "graph1_level": "string",
+                "graph2_level": "string",
+                "relationship_type": "PEER | PARENT_CHILD | NESTED_INDIRECT",
+                "level_gap": "number (levels apart)",
+                "reasoning": "string"
+              }
+            ]
+          }
+        },
+        {
+          "action_id": "CH01-04-A03",
+          "description": "Discover hierarchical gaps",
+          "purpose": "Identify missing intermediate levels",
+          "llm_instructions": [
+            "Use MatryoshkaAnalyzer.discover_hierarchical_gaps()",
+            "Look for:",
+            "  - Graphs with no parent (missing_parent_gap)",
+            "  - Peers with no common parent (missing_common_parent)",
+            "  - Non-adjacent levels connected (missing_intermediate_levels)",
+            "For each gap:",
+            "  - Generate hypothesis: what intermediate level should exist?",
+            "  - Suggest name for intermediary system",
+            "  - Example: 'Need SUBSYSTEM layer between SYSTEM and COMPONENT'"
+          ],
+          "output": "context/hierarchical_gaps.json",
+          "format": {
+            "gaps": [
+              {
+                "gap_id": "string",
+                "gap_type": "missing_parent | missing_common_parent | missing_intermediate",
+                "affected_graphs": ["array of graph_ids"],
+                "missing_level": "string (suggested hierarchy level)",
+                "suggested_intermediary_name": "string",
+                "reasoning": "string"
+              }
+            ],
+            "summary": {
+              "total_gaps": "number",
+              "gaps_requiring_intermediaries": "number"
+            }
+          }
+        }
+      ],
+      "next_step": "CH01-05"
+    },
+
+    {
+      "step_id": "CH01-05",
+      "name": "Network Topology Analysis",
+      "description": "Analyze the network structure formed by all graphs (if N > 2)",
+      "phase": "analysis",
+      "condition": "N > 2 graphs",
+      "actions": [
+        {
+          "action_id": "CH01-05-A01",
+          "description": "Build preliminary connection graph",
+          "purpose": "Create network representing potential connections between graphs",
+          "llm_instructions": [
+            "Create network where:",
+            "  - Nodes = graphs",
+            "  - Edges = potential connections (based on orthogonality)",
+            "  - Edge weight = compatibility (inverse of orthogonality)",
+            "Example: ALIGNED pairs get weight 1.0, ORTHOGONAL pairs get weight 0.1"
+          ],
+          "output_variable": "preliminary_network"
+        },
+        {
+          "action_id": "CH01-05-A02",
+          "description": "Identify hub and peripheral graphs",
+          "purpose": "Find central vs peripheral systems in the network",
+          "llm_instructions": [
+            "Calculate degree centrality for each graph node",
+            "Hub graphs: High degree (connected to many others)",
+            "Peripheral graphs: Low degree (few connections)",
+            "Classify each graph as HUB, INTERMEDIATE, or PERIPHERAL"
+          ],
+          "output": "context/network_roles.json",
+          "format": {
+            "graphs": [
+              {
+                "graph_id": "string",
+                "role": "HUB | INTERMEDIATE | PERIPHERAL",
+                "degree_centrality": "number",
+                "connection_count": "number",
+                "reasoning": "string"
+              }
+            ]
+          }
+        },
+        {
+          "action_id": "CH01-05-A03",
+          "description": "Detect clusters/communities",
+          "purpose": "Find groups of related graphs",
+          "llm_instructions": [
+            "Use clustering algorithm (e.g., Louvain, label propagation)",
+            "Identify clusters of graphs that should be linked together",
+            "Example: All software systems in one cluster, biological systems in another",
+            "Document cluster membership"
+          ],
+          "output": "context/network_clusters.json",
+          "format": {
+            "clusters": [
+              {
+                "cluster_id": "string",
+                "graph_ids": ["array"],
+                "common_characteristics": "string (e.g., 'all software domain')",
+                "intra_cluster_orthogonality": "string (avg)",
+                "size": "number"
+              }
+            ],
+            "inter_cluster_connections": [
+              {
+                "cluster1_id": "string",
+                "cluster2_id": "string",
+                "connection_strength": "number",
+                "bridge_graphs": ["array of graph_ids that connect clusters"]
+              }
+            ]
+          }
+        },
+        {
+          "action_id": "CH01-05-A04",
+          "description": "Identify bridge graphs",
+          "purpose": "Find graphs that connect otherwise disconnected groups",
+          "llm_instructions": [
+            "Calculate betweenness centrality",
+            "Graphs with high betweenness are bridges",
+            "These are critical for integration (removing them disconnects the network)"
+          ],
+          "output_variable": "bridge_graphs"
+        }
+      ],
+      "next_step": "CH01-06"
+    },
+
+    {
+      "step_id": "CH01-06",
+      "name": "Optional Correlation Detection",
+      "description": "If user provides observations about relationships, detect correlations",
+      "phase": "analysis",
+      "optional": true,
+      "actions": [
+        {
+          "action_id": "CH01-06-A01",
+          "description": "Ask user about observed correlations",
+          "purpose": "Gather user insights about system relationships",
+          "user_prompt": {
+            "message_format": "📊 CORRELATION ANALYSIS (Optional)\n\nHave you observed any correlations or relationships between these systems?\n\nFor example:\n• When System A is busy, does System B also become busy?\n• Do changes in one system seem to affect others?\n• Do the systems seem related in any way?\n\n⚠️ NOTE: Correlation ≠ Causation\n\nDescribe any observed correlations (or press Enter to skip):",
+            "optional": true,
+            "multiline": true
+          },
+          "output_variable": "user_observations"
+        },
+        {
+          "action_id": "CH01-06-A02",
+          "description": "Detect correlations for relevant pairs",
+          "condition": "user_observations != null",
+          "purpose": "Analyze correlations using CausalityAnalyzer",
+          "command_pattern": "python3 src/causality_analysis.py detect-correlations {graph1} {graph2} --user-observation '{observation}'",
+          "llm_instructions": [
+            "For pairs mentioned in user observations:",
+            "  - Use CausalityAnalyzer.detect_correlation()",
+            "  - Detect temporal, structural, behavioral correlations",
+            "  - Generate causal hypotheses (A→B, B→A, bidirectional, spurious)",
+            "  - Mark as EXPLORATORY (requires validation)"
+          ],
+          "output": "context/observed_correlations.json"
+        }
+      ],
+      "next_step": "CH01-07"
+    },
+
+    {
+      "step_id": "CH01-07",
+      "name": "Generate Multi-Graph Analysis Report",
+      "description": "Consolidate all analysis results into comprehensive report",
+      "phase": "reporting",
+      "actions": [
+        {
+          "action_id": "CH01-07-A01",
+          "description": "Consolidate all analysis data",
+          "purpose": "Merge all analysis outputs into single structure",
+          "llm_instructions": [
+            "Collect data from:",
+            "  - domain_framework_analysis.json",
+            "  - orthogonality_matrix.json",
+            "  - hierarchy_map.json",
+            "  - hierarchical_relationships.json",
+            "  - hierarchical_gaps.json",
+            "  - network_roles.json (if N>2)",
+            "  - network_clusters.json (if N>2)",
+            "  - observed_correlations.json (if exists)",
+            "Create comprehensive analysis structure"
+          ],
+          "output": "context/multi_graph_analysis.json",
+          "format": {
+            "session_id": "string",
+            "analysis_timestamp": "string",
+            "graph_count": "number",
+            "graphs_analyzed": ["array of graph_ids"],
+            "domain_analysis": "object (from CH01-02)",
+            "orthogonality_analysis": "object (from CH01-03)",
+            "hierarchy_analysis": "object (from CH01-04)",
+            "network_analysis": "object (from CH01-05, if applicable)",
+            "correlation_analysis": "object (from CH01-06, if applicable)",
+            "key_findings": [
+              "array of important insights"
+            ],
+            "intermediary_needs": {
+              "from_orthogonality": "array (orthogonal pairs)",
+              "from_hierarchy": "array (hierarchical gaps)",
+              "total_intermediaries_suggested": "number"
+            }
+          }
+        },
+        {
+          "action_id": "CH01-07-A02",
+          "description": "Generate human-readable analysis report",
+          "purpose": "Create markdown report for user review",
+          "output": "docs/multi_graph_analysis_report_{timestamp}.md",
+          "contents": [
+            "# Multi-Graph Analysis Report",
+            "",
+            "## Executive Summary",
+            "- Total graphs analyzed: {N}",
+            "- Domain diversity: {homogeneous|mixed}",
+            "- Framework diversity: {homogeneous|mixed}",
+            "- Average orthogonality: {level}",
+            "- Hierarchy structure: {flat|hierarchical|mixed}",
+            "",
+            "## Graph Inventory",
+            "{table of all graphs with metadata}",
+            "",
+            "## Orthogonality Matrix",
+            "{NxN matrix showing all pairwise relationships}",
+            "",
+            "## Hierarchy Analysis",
+            "{hierarchy levels and gaps}",
+            "",
+            "## Network Topology (if N>2)",
+            "{clusters, hubs, bridges}",
+            "",
+            "## Intermediary Needs",
+            "{list of suggested intermediary systems}",
+            "",
+            "## Recommendations",
+            "{suggested linking strategy}"
+          ]
+        },
+        {
+          "action_id": "CH01-07-A03",
+          "description": "Present key findings to user",
+          "user_prompt": {
+            "message_format": "📊 MULTI-GRAPH ANALYSIS COMPLETE\n\n{graph_count} system graphs analyzed\n\n🔍 KEY FINDINGS:\n\n{key_findings_list}\n\n📋 INTERMEDIARY SYSTEMS SUGGESTED:\n{intermediary_count} intermediary/transform systems may be needed\n\n{intermediary_summary}\n\nFull report: docs/multi_graph_analysis_report_{timestamp}.md\n\nReady to proceed to strategy determination? [Y/N]",
+            "optional": true
+          }
+        }
+      ],
+      "next_step": "CH01-08"
+    },
+
+    {
+      "step_id": "CH01-08",
+      "name": "Update Working Memory and Complete",
+      "description": "Mark chain-01 as complete and prepare for next workflow",
+      "phase": "completion",
+      "actions": [
+        {
+          "action_id": "CH01-08-A01",
+          "description": "Update working memory",
+          "purpose": "Record completion of analysis phase",
+          "llm_instructions": [
+            "Update context/working_memory.json:",
+            "  - completed_workflows: add 'chain-01'",
+            "  - status: 'analyzed'",
+            "  - current_step: null",
+            "  - next_workflow: 'chain-01a-determine-strategy'",
+            "  - analysis_complete: true",
+            "  - timestamp_completed: current time"
+          ]
+        },
+        {
+          "action_id": "CH01-08-A02",
+          "description": "Create analysis summary for next workflow",
+          "purpose": "Prepare inputs for strategy determination",
+          "llm_instructions": [
+            "Create context/analysis_summary_for_strategy.json",
+            "Include:",
+            "  - Graph count",
+            "  - Overall orthogonality assessment",
+            "  - Hierarchy structure type",
+            "  - Network complexity (if N>2)",
+            "  - Intermediary needs count",
+            "This will be used by chain-01a to pick strategy"
+          ],
+          "output": "context/analysis_summary_for_strategy.json"
+        },
+        {
+          "action_id": "CH01-08-A03",
+          "description": "Recommend next steps",
+          "user_prompt": {
+            "message_format": "✅ ANALYSIS PHASE COMPLETE\n\nNext workflow: chain-01a-determine-strategy\n  - Will select optimal linking strategy based on analysis\n  - Options: Pairwise, Hierarchical, Network, Phased\n  - Will determine linking order\n\nProceed automatically? [Y to continue / N to pause]",
+            "optional": true
+          }
+        }
+      ],
+      "next_step": null,
+      "next_workflow": "chain-01a-determine-strategy.json"
+    }
+  ],
+
+  "quality_gates": [
+    {
+      "gate_id": "prerequisite_check",
+      "step": "CH01-01",
+      "description": "chain-00-setup must be completed",
+      "required": true,
+      "blocking": true
+    },
+    {
+      "gate_id": "orthogonality_complete",
+      "step": "CH01-03",
+      "description": "All pairs must have orthogonality assessed",
+      "required": true,
+      "blocking": true
+    },
+    {
+      "gate_id": "hierarchy_complete",
+      "step": "CH01-04",
+      "description": "All graphs must have hierarchy level inferred",
+      "required": true,
+      "blocking": true
+    }
+  ],
+
+  "error_handling": {
+    "missing_working_memory": {
+      "step": "CH01-01",
+      "action": "ERROR: Must run chain-00-setup first",
+      "retry": false
+    },
+    "analysis_engine_not_found": {
+      "step": "CH01-03 or CH01-04",
+      "action": "WARN: Analysis engine missing, skip that analysis",
+      "retry": false,
+      "fallback": "Use simplified heuristic analysis"
+    }
+  },
+
+  "scalability_notes": {
+    "small_N": "For N=2-3, all analyses are simple and fast",
+    "medium_N": "For N=4-10, pairwise analysis is N*(N-1)/2 = manageable",
+    "large_N": "For N>10, consider sampling or clustering before full pairwise analysis"
+  }
+}
