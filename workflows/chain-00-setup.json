@@ -1,0 +1,331 @@
+{
+  "workflow_metadata": {
+    "workflow_id": "chain-00",
+    "name": "Chain Reflow Setup Workflow",
+    "version": "1.0.0",
+    "description": "Initialize the chain_reflow system for linking multiple system_of_systems_graph.json files",
+    "created_from": "reflow 00-setup.json pattern",
+    "last_updated": "2025-11-04",
+    "purpose": "Configure paths, validate environment, initialize working memory for multi-graph linking",
+    "reflow_pattern": "setup_initialization"
+  },
+
+  "entry_points": {
+    "standard_setup": {
+      "id": "standard_setup",
+      "description": "Standard chain_reflow initialization",
+      "trigger": "User wants to link multiple system graphs",
+      "first_step": "CH00-01"
+    }
+  },
+
+  "workflow_steps": [
+    {
+      "step_id": "CH00-01",
+      "name": "Path Configuration",
+      "description": "Configure directory structure and paths for chain_reflow",
+      "phase": "initialization",
+      "actions": [
+        {
+          "action_id": "CH00-01-A01",
+          "description": "Verify chain_reflow root directory",
+          "purpose": "Ensure we're in the correct working directory",
+          "llm_instructions": [
+            "Check current working directory",
+            "Verify this is a chain_reflow repository (check for workflows/, src/, specs/)",
+            "Store root path in working memory"
+          ],
+          "validation": {
+            "must_exist": ["workflows/", "src/", "specs/", "context/"],
+            "blocking": true
+          }
+        },
+        {
+          "action_id": "CH00-01-A02",
+          "description": "Create/verify directory structure",
+          "purpose": "Ensure all required directories exist",
+          "llm_instructions": [
+            "Create context/ if missing",
+            "Create architectures/ if missing (for input graphs)",
+            "Create output/ if missing (for integrated graphs)",
+            "Create docs/ if missing",
+            "Create logs/ if missing"
+          ],
+          "directories_required": [
+            "context/",
+            "architectures/",
+            "output/",
+            "docs/",
+            "logs/"
+          ]
+        },
+        {
+          "action_id": "CH00-01-A03",
+          "description": "Configure reflow integration",
+          "purpose": "Set up connection to reflow tooling if available",
+          "user_prompt": {
+            "message_format": "Do you have reflow installed? Chain Reflow can use reflow's system_of_systems_graph_v2.py for analysis.\n\nOptions:\n1. Provide reflow installation path\n2. Skip reflow integration (chain_reflow will work standalone)\n\nChoice:",
+            "optional": true
+          },
+          "llm_instructions": [
+            "If reflow path provided, verify reflow/tools/system_of_systems_graph_v2.py exists",
+            "Store reflow_path in working memory",
+            "If not available, mark reflow_integrated=false"
+          ]
+        }
+      ],
+      "next_step": "CH00-02"
+    },
+
+    {
+      "step_id": "CH00-02",
+      "name": "Input Graph Discovery",
+      "description": "Locate system_of_systems_graph.json files to be linked",
+      "phase": "discovery",
+      "actions": [
+        {
+          "action_id": "CH00-02-A01",
+          "description": "Ask user for graph file paths",
+          "purpose": "Get list of architecture files to link",
+          "user_prompt": {
+            "message_format": "📊 SYSTEM GRAPH INPUT\n\nPlease provide paths to system_of_systems_graph.json files you want to link.\n\nYou can provide:\n1. Individual file paths (one per line)\n2. Directory path (we'll scan for *_graph.json files)\n3. Glob pattern (e.g., architectures/**/*_graph.json)\n\nMinimum: 2 graphs\nMaximum: No limit (performance depends on graph sizes)\n\nPaths:",
+            "required": true,
+            "multiline": true
+          },
+          "validation": {
+            "minimum_files": 2,
+            "must_be_valid_json": true,
+            "must_have_graph_structure": true
+          }
+        },
+        {
+          "action_id": "CH00-02-A02",
+          "description": "Validate and load graph files",
+          "purpose": "Ensure all provided files are valid system_of_systems_graph.json",
+          "llm_instructions": [
+            "For each path provided:",
+            "  - Verify file exists and is readable",
+            "  - Verify it's valid JSON",
+            "  - Verify it has 'system_of_systems_graph' root key",
+            "  - Extract metadata (system_name, framework, version)",
+            "  - Check file size (warn if >10MB)",
+            "Create inventory of all graphs"
+          ],
+          "output": "context/graph_inventory.json",
+          "format": {
+            "graphs": [
+              {
+                "graph_id": "string (unique identifier)",
+                "file_path": "string",
+                "system_name": "string",
+                "framework": "string",
+                "domain": "string",
+                "node_count": "number",
+                "edge_count": "number",
+                "file_size_bytes": "number",
+                "valid": "boolean"
+              }
+            ],
+            "summary": {
+              "total_graphs": "number",
+              "valid_graphs": "number",
+              "invalid_graphs": "number",
+              "total_nodes": "number",
+              "total_edges": "number"
+            }
+          }
+        },
+        {
+          "action_id": "CH00-02-A03",
+          "description": "Present graph inventory to user",
+          "purpose": "Confirm we loaded the correct graphs",
+          "user_prompt": {
+            "message_format": "📊 GRAPH INVENTORY\n\nLoaded {valid_graphs} valid system graphs:\n\n{graph_list}\n\nTotal nodes: {total_nodes}\nTotal edges: {total_edges}\n\nProceed with these graphs? [Y/N]",
+            "blocking": true
+          },
+          "quality_gate": {
+            "gate_id": "confirm_graphs",
+            "required": true,
+            "failure_action": "Return to CH00-02-A01"
+          }
+        }
+      ],
+      "next_step": "CH00-03"
+    },
+
+    {
+      "step_id": "CH00-03",
+      "name": "Working Memory Initialization",
+      "description": "Initialize context/working_memory.json for this linking session",
+      "phase": "initialization",
+      "actions": [
+        {
+          "action_id": "CH00-03-A01",
+          "description": "Create working memory structure",
+          "purpose": "Initialize state tracking for workflow execution",
+          "llm_instructions": [
+            "Create/update context/working_memory.json",
+            "Include:",
+            "  - session_id (timestamp-based)",
+            "  - workflow_id: 'chain-00'",
+            "  - status: 'initialized'",
+            "  - graphs: from graph_inventory.json",
+            "  - current_step: 'CH00-03'",
+            "  - reflow_integrated: true/false",
+            "  - timestamps (started, updated)"
+          ],
+          "output": "context/working_memory.json"
+        },
+        {
+          "action_id": "CH00-03-A02",
+          "description": "Initialize analysis cache",
+          "purpose": "Pre-create cache files for analysis results",
+          "llm_instructions": [
+            "Create context/analysis_cache.json (empty initially)",
+            "This will store intermediate results (orthogonality, hierarchy, etc.)",
+            "Enables resuming workflow if interrupted"
+          ],
+          "output": "context/analysis_cache.json"
+        }
+      ],
+      "next_step": "CH00-04"
+    },
+
+    {
+      "step_id": "CH00-04",
+      "name": "Environment Validation",
+      "description": "Validate Python environment and dependencies",
+      "phase": "validation",
+      "actions": [
+        {
+          "action_id": "CH00-04-A01",
+          "description": "Check Python version",
+          "purpose": "Ensure compatible Python version",
+          "command_pattern": "python3 --version",
+          "validation": {
+            "minimum_version": "3.8",
+            "recommended_version": "3.10+",
+            "blocking": true
+          }
+        },
+        {
+          "action_id": "CH00-04-A02",
+          "description": "Check required Python packages",
+          "purpose": "Verify dependencies are installed",
+          "llm_instructions": [
+            "Check for required packages:",
+            "  - json (standard library)",
+            "  - pathlib (standard library)",
+            "  - typing (standard library)",
+            "  - networkx (optional, for graph analysis)",
+            "Warn if networkx missing but don't block"
+          ]
+        },
+        {
+          "action_id": "CH00-04-A03",
+          "description": "Verify analysis engines are available",
+          "purpose": "Check that core chain_reflow components exist",
+          "llm_instructions": [
+            "Verify files exist:",
+            "  - src/creative_linking.py",
+            "  - src/causality_analysis.py",
+            "  - src/matryoshka_analysis.py",
+            "  - src/workflow_runner.py",
+            "If any missing, warn user but continue (may not need all engines)"
+          ],
+          "validation": {
+            "blocking": false,
+            "warn_only": true
+          }
+        }
+      ],
+      "next_step": "CH00-05"
+    },
+
+    {
+      "step_id": "CH00-05",
+      "name": "Setup Completion",
+      "description": "Finalize setup and prepare for analysis",
+      "phase": "completion",
+      "actions": [
+        {
+          "action_id": "CH00-05-A01",
+          "description": "Generate setup summary",
+          "purpose": "Document the configured system",
+          "output": "docs/setup_summary_{timestamp}.md",
+          "contents": [
+            "Session ID and timestamp",
+            "Graphs loaded (count, names, sizes)",
+            "Directory structure",
+            "Reflow integration status",
+            "Python environment details",
+            "Available analysis engines"
+          ]
+        },
+        {
+          "action_id": "CH00-05-A02",
+          "description": "Update working memory status",
+          "purpose": "Mark setup complete",
+          "llm_instructions": [
+            "Update context/working_memory.json:",
+            "  - status: 'ready'",
+            "  - completed_workflows: ['chain-00']",
+            "  - next_workflow: 'chain-01' (analyze-multi-graphs)"
+          ]
+        },
+        {
+          "action_id": "CH00-05-A03",
+          "description": "Present next steps to user",
+          "user_prompt": {
+            "message_format": "✅ SETUP COMPLETE\n\n📊 Loaded {graph_count} system graphs\n📁 Working directory: {root_path}\n🔧 Analysis engines: {engines_available}\n\nNext workflow: chain-01-analyze-multi-graphs\n  - Analyzes all graphs for domains, frameworks, orthogonality\n  - Determines optimal linking strategy\n\nReady to proceed? [Y to continue / N to exit]",
+            "optional": true
+          }
+        }
+      ],
+      "next_step": null,
+      "next_workflow": "chain-01-analyze-multi-graphs.json"
+    }
+  ],
+
+  "quality_gates": [
+    {
+      "gate_id": "minimum_graphs",
+      "step": "CH00-02",
+      "description": "Must have at least 2 valid graphs to link",
+      "required": true,
+      "blocking": true
+    },
+    {
+      "gate_id": "valid_json",
+      "step": "CH00-02",
+      "description": "All graph files must be valid JSON",
+      "required": true,
+      "blocking": true
+    },
+    {
+      "gate_id": "python_version",
+      "step": "CH00-04",
+      "description": "Python 3.8+ required",
+      "required": true,
+      "blocking": true
+    }
+  ],
+
+  "error_handling": {
+    "file_not_found": {
+      "step": "CH00-02",
+      "action": "Ask user to verify path or provide alternative",
+      "retry": true
+    },
+    "invalid_json": {
+      "step": "CH00-02",
+      "action": "Skip file and warn user",
+      "retry": false
+    },
+    "insufficient_graphs": {
+      "step": "CH00-02",
+      "action": "Request additional graph paths",
+      "retry": true
+    }
+  }
+}
