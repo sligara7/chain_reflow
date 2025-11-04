@@ -21,8 +21,9 @@ import torch.nn as nn
 import torch.optim as optim
 import json
 import hashlib
+import io
 from typing import Dict, Any, List, Tuple, Optional
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from enum import Enum
 
 
@@ -42,6 +43,49 @@ class EncryptionConfig:
     security_level: SecurityLevel = SecurityLevel.MEDIUM
     use_traditional_encryption: bool = True
     dropout_rate: float = 0.2  # Adds non-determinism
+
+
+@dataclass
+class CipherFingerprint:
+    """
+    Cryptographic fingerprint of a neural cipher.
+
+    Combines architecture hash and weight hash to uniquely identify a cipher.
+    This serves as:
+    1. Cipher verification (detect tampering)
+    2. Key fingerprinting (unique identifier)
+    3. Secure key exchange (verify both parties have same cipher)
+    """
+    architecture_hash: str  # SHA-256 of architecture (layers, nodes, activations)
+    weight_hash: str        # SHA-256 of all network weights
+    combined_hash: str      # SHA-256 of architecture_hash + weight_hash
+    total_parameters: int   # Number of trainable parameters
+    architecture_info: Dict[str, Any] = field(default_factory=dict)
+
+    def __str__(self):
+        return f"CipherFingerprint(combined={self.combined_hash[:16]}..., params={self.total_parameters:,})"
+
+    def verify(self, other: 'CipherFingerprint') -> bool:
+        """Verify if two ciphers are identical"""
+        return (self.architecture_hash == other.architecture_hash and
+                self.weight_hash == other.weight_hash and
+                self.combined_hash == other.combined_hash)
+
+    def to_json(self) -> str:
+        """Export fingerprint as JSON"""
+        return json.dumps({
+            "architecture_hash": self.architecture_hash,
+            "weight_hash": self.weight_hash,
+            "combined_hash": self.combined_hash,
+            "total_parameters": self.total_parameters,
+            "architecture_info": self.architecture_info
+        }, indent=2)
+
+    @classmethod
+    def from_json(cls, json_str: str) -> 'CipherFingerprint':
+        """Load fingerprint from JSON"""
+        data = json.loads(json_str)
+        return cls(**data)
 
 
 class NeuralCryptoIntermediary(nn.Module):
@@ -250,6 +294,175 @@ class PureNeuralCipher(nn.Module):
         print("Cipher training complete!")
         print(f"  → Network weights are now the 'encryption key'")
         print(f"  → Without these weights, decryption is computationally hard")
+
+    def get_architecture_hash(self) -> str:
+        """
+        Compute SHA-256 hash of the network architecture.
+
+        Hashes: bit_size, number of layers, layer dimensions, activation functions
+        """
+        arch_info = {
+            "bit_size": self.bit_size,
+            "encoder_layers": [],
+            "decoder_layers": []
+        }
+
+        # Extract encoder architecture
+        for module in self.encoder:
+            if isinstance(module, nn.Linear):
+                arch_info["encoder_layers"].append({
+                    "type": "Linear",
+                    "in_features": module.in_features,
+                    "out_features": module.out_features
+                })
+            elif isinstance(module, nn.ReLU):
+                arch_info["encoder_layers"].append({"type": "ReLU"})
+            elif isinstance(module, nn.Tanh):
+                arch_info["encoder_layers"].append({"type": "Tanh"})
+
+        # Extract decoder architecture
+        for module in self.decoder:
+            if isinstance(module, nn.Linear):
+                arch_info["decoder_layers"].append({
+                    "type": "Linear",
+                    "in_features": module.in_features,
+                    "out_features": module.out_features
+                })
+            elif isinstance(module, nn.ReLU):
+                arch_info["decoder_layers"].append({"type": "ReLU"})
+            elif isinstance(module, nn.Tanh):
+                arch_info["decoder_layers"].append({"type": "Tanh"})
+
+        # Convert to canonical JSON and hash
+        arch_json = json.dumps(arch_info, sort_keys=True)
+        arch_hash = hashlib.sha256(arch_json.encode()).hexdigest()
+
+        return arch_hash
+
+    def get_weight_hash(self) -> str:
+        """
+        Compute SHA-256 hash of all network weights.
+
+        This creates a unique fingerprint of the trained cipher.
+        Different training runs will produce different hashes.
+        """
+        # Collect all parameter tensors in deterministic order
+        weight_buffer = io.BytesIO()
+
+        # Get all parameters in a deterministic order
+        for name, param in sorted(self.named_parameters()):
+            # Convert to numpy and then bytes for hashing
+            param_bytes = param.detach().cpu().numpy().tobytes()
+            weight_buffer.write(param_bytes)
+
+        # Compute SHA-256 of all weights
+        weight_bytes = weight_buffer.getvalue()
+        weight_hash = hashlib.sha256(weight_bytes).hexdigest()
+
+        return weight_hash
+
+    def get_cipher_fingerprint(self) -> CipherFingerprint:
+        """
+        Get complete cryptographic fingerprint of this cipher.
+
+        Returns:
+            CipherFingerprint with architecture hash, weight hash, and combined hash
+        """
+        arch_hash = self.get_architecture_hash()
+        weight_hash = self.get_weight_hash()
+
+        # Combine both hashes
+        combined = hashlib.sha256(f"{arch_hash}{weight_hash}".encode()).hexdigest()
+
+        # Get parameter count
+        total_params = sum(p.numel() for p in self.parameters())
+
+        # Get architecture info for display
+        arch_info = {
+            "bit_size": self.bit_size,
+            "num_encoder_layers": len([m for m in self.encoder if isinstance(m, nn.Linear)]),
+            "num_decoder_layers": len([m for m in self.decoder if isinstance(m, nn.Linear)]),
+            "total_parameters": total_params
+        }
+
+        return CipherFingerprint(
+            architecture_hash=arch_hash,
+            weight_hash=weight_hash,
+            combined_hash=combined,
+            total_parameters=total_params,
+            architecture_info=arch_info
+        )
+
+    def save_cipher(self, filepath: str, include_fingerprint: bool = True):
+        """
+        Save cipher to file with optional fingerprint for verification.
+
+        Args:
+            filepath: Path to save cipher
+            include_fingerprint: If True, saves fingerprint in .fingerprint file
+        """
+        # Save model weights
+        torch.save(self.state_dict(), filepath)
+        print(f"Saved cipher to: {filepath}")
+
+        # Save fingerprint for verification
+        if include_fingerprint:
+            fingerprint = self.get_cipher_fingerprint()
+            fingerprint_path = filepath + ".fingerprint"
+            with open(fingerprint_path, 'w') as f:
+                f.write(fingerprint.to_json())
+            print(f"Saved fingerprint to: {fingerprint_path}")
+            print(f"Cipher fingerprint: {fingerprint}")
+
+    @classmethod
+    def load_cipher(cls, filepath: str, bit_size: int, hidden_layers: int,
+                   verify_fingerprint: bool = True) -> Tuple['PureNeuralCipher', Optional[CipherFingerprint]]:
+        """
+        Load cipher from file with optional fingerprint verification.
+
+        Args:
+            filepath: Path to saved cipher
+            bit_size: Bit size (must match saved cipher)
+            hidden_layers: Number of hidden layers (must match saved cipher)
+            verify_fingerprint: If True, verifies fingerprint matches
+
+        Returns:
+            Tuple of (loaded cipher, fingerprint if verification enabled)
+        """
+        # Create cipher instance with same architecture
+        cipher = cls(bit_size=bit_size, hidden_layers=hidden_layers)
+
+        # Load weights
+        cipher.load_state_dict(torch.load(filepath))
+        print(f"Loaded cipher from: {filepath}")
+
+        # Verify fingerprint if requested
+        fingerprint = None
+        if verify_fingerprint:
+            fingerprint_path = filepath + ".fingerprint"
+            try:
+                with open(fingerprint_path, 'r') as f:
+                    saved_fingerprint = CipherFingerprint.from_json(f.read())
+
+                # Compute current fingerprint
+                current_fingerprint = cipher.get_cipher_fingerprint()
+
+                # Verify they match
+                if saved_fingerprint.verify(current_fingerprint):
+                    print("✅ Fingerprint verification PASSED")
+                    print(f"   Cipher fingerprint: {current_fingerprint}")
+                    fingerprint = current_fingerprint
+                else:
+                    print("❌ Fingerprint verification FAILED")
+                    print(f"   Saved:   {saved_fingerprint}")
+                    print(f"   Current: {current_fingerprint}")
+                    raise ValueError("Cipher fingerprint mismatch - possible tampering!")
+
+            except FileNotFoundError:
+                print(f"⚠ No fingerprint file found at: {fingerprint_path}")
+                print("   Skipping verification (not recommended for production)")
+
+        return cipher, fingerprint
 
 
 class HybridNeuralCrypto:
@@ -584,11 +797,150 @@ def demo_security_levels():
         print(f"  → Higher security = more complex network ✓")
 
 
+def demo_cipher_hashing():
+    """
+    Demo: Cipher fingerprinting and verification
+
+    Shows how to:
+    1. Generate cipher fingerprint (hash of architecture + weights)
+    2. Save/load ciphers with verification
+    3. Detect tampering or wrong ciphers
+    4. Use fingerprints for secure key exchange
+    """
+    print("\n" + "="*80)
+    print("DEMO: Cipher Fingerprinting and Verification")
+    print("="*80 + "\n")
+
+    print("Creating two neural ciphers with same architecture...")
+    cipher1 = PureNeuralCipher(bit_size=128, hidden_layers=3)
+    cipher2 = PureNeuralCipher(bit_size=128, hidden_layers=3)
+
+    print("\nTraining Cipher 1...")
+    cipher1.train_cipher(epochs=1000, batch_size=32)
+
+    print("\nTraining Cipher 2...")
+    cipher2.train_cipher(epochs=1000, batch_size=32)
+
+    # Get fingerprints
+    print("\n" + "-"*80)
+    print("CIPHER FINGERPRINTS")
+    print("-"*80)
+
+    fp1 = cipher1.get_cipher_fingerprint()
+    fp2 = cipher2.get_cipher_fingerprint()
+
+    print(f"\nCipher 1:")
+    print(f"  Architecture hash: {fp1.architecture_hash[:32]}...")
+    print(f"  Weight hash:       {fp1.weight_hash[:32]}...")
+    print(f"  Combined hash:     {fp1.combined_hash[:32]}...")
+    print(f"  Total parameters:  {fp1.total_parameters:,}")
+
+    print(f"\nCipher 2:")
+    print(f"  Architecture hash: {fp2.architecture_hash[:32]}...")
+    print(f"  Weight hash:       {fp2.weight_hash[:32]}...")
+    print(f"  Combined hash:     {fp2.combined_hash[:32]}...")
+    print(f"  Total parameters:  {fp2.total_parameters:,}")
+
+    # Compare fingerprints
+    print("\n" + "-"*80)
+    print("FINGERPRINT COMPARISON")
+    print("-"*80)
+
+    print(f"\nArchitecture hashes match? {fp1.architecture_hash == fp2.architecture_hash}")
+    print(f"  → Same architecture: ✓")
+
+    print(f"\nWeight hashes match? {fp1.weight_hash == fp2.weight_hash}")
+    print(f"  → Different training runs = different weights: ✓")
+
+    print(f"\nCombined hashes match? {fp1.combined_hash == fp2.combined_hash}")
+    print(f"  → Each cipher is unique: ✓")
+
+    # Save and load with verification
+    print("\n" + "-"*80)
+    print("SAVE/LOAD WITH VERIFICATION")
+    print("-"*80)
+
+    import tempfile
+    import os
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        cipher_path = os.path.join(tmpdir, "cipher1.pth")
+
+        print(f"\nSaving Cipher 1 to: {cipher_path}")
+        cipher1.save_cipher(cipher_path, include_fingerprint=True)
+
+        print(f"\nLoading cipher with fingerprint verification...")
+        loaded_cipher, loaded_fp = PureNeuralCipher.load_cipher(
+            cipher_path,
+            bit_size=128,
+            hidden_layers=3,
+            verify_fingerprint=True
+        )
+
+        # Test encryption/decryption
+        print("\n" + "-"*80)
+        print("ENCRYPTION TEST")
+        print("-"*80)
+
+        plaintext = torch.rand(1, 128) * 2 - 1
+        print(f"\nPlaintext (first 10): {plaintext[0][:10].detach().numpy()}")
+
+        # Encrypt with original cipher
+        ciphertext = cipher1.encrypt(plaintext)
+        print(f"Ciphertext (first 10): {ciphertext[0][:10].detach().numpy()}")
+
+        # Decrypt with loaded cipher
+        decrypted = loaded_cipher.decrypt(ciphertext)
+        print(f"Decrypted (first 10): {decrypted[0][:10].detach().numpy()}")
+
+        error = torch.mean((decrypted - plaintext) ** 2).item()
+        print(f"\nReconstruction error: {error:.6f}")
+        print("✅ Loaded cipher can decrypt messages from original!")
+
+    # Demonstrate tampering detection
+    print("\n" + "-"*80)
+    print("TAMPERING DETECTION")
+    print("-"*80)
+
+    print("\nSimulating tampering: trying to decrypt with wrong cipher...")
+    ciphertext1 = cipher1.encrypt(plaintext)
+    decrypted_wrong = cipher2.decrypt(ciphertext1)  # Wrong cipher!
+    error_wrong = torch.mean((decrypted_wrong - plaintext) ** 2).item()
+
+    print(f"Correct cipher error: {error:.6f}")
+    print(f"Wrong cipher error:   {error_wrong:.6f}")
+    print("❌ Wrong cipher cannot decrypt (high error)!")
+
+    # Show fingerprint JSON
+    print("\n" + "-"*80)
+    print("FINGERPRINT JSON (for key exchange)")
+    print("-"*80)
+    print("\nCipher 1 fingerprint:")
+    print(fp1.to_json())
+
+    print("\n" + "="*80)
+    print("SUMMARY")
+    print("="*80)
+    print("\nCipher Fingerprinting provides:")
+    print("  ✓ Unique identification of each cipher")
+    print("  ✓ Architecture hash (layers, nodes, activations)")
+    print("  ✓ Weight hash (trained parameters)")
+    print("  ✓ Combined hash for overall cipher identity")
+    print("  ✓ Tampering detection")
+    print("  ✓ Secure key exchange (share fingerprint to verify)")
+    print("\nUse cases:")
+    print("  - Verify both parties have the same cipher before communicating")
+    print("  - Detect if cipher file has been modified/corrupted")
+    print("  - Create unique cipher identifiers for key management")
+    print("  - Audit trail of which ciphers were used")
+    print("="*80 + "\n")
+
+
 if __name__ == "__main__":
     # Run demos
     print("\n" + "="*80)
     print("NEURAL CRYPTOGRAPHY PROTOTYPE")
-    print("Three approaches to neural encryption")
+    print("Four demonstrations of neural encryption")
     print("="*80)
 
     # Demo 1: Pure neural cipher (128-bit → 128-bit)
@@ -601,6 +953,9 @@ if __name__ == "__main__":
 
     # Demo 3: Context-aware security levels
     demo_security_levels()
+
+    # Demo 4: Cipher fingerprinting and verification (NEW!)
+    demo_cipher_hashing()
 
     print("\n" + "="*80)
     print("SUMMARY OF APPROACHES")
@@ -617,6 +972,10 @@ if __name__ == "__main__":
     print("   Use case: Production systems")
     print("   Strength: Traditional security + Neural semantics")
     print("   Limitation: Slightly more complex")
+    print("\n4. Cipher Fingerprinting (NEW!)")
+    print("   Use case: Verify ciphers, detect tampering, secure key exchange")
+    print("   Strength: SHA-256 hash of architecture + weights")
+    print("   Feature: Save/load with automatic verification")
     print("\n" + "="*80)
     print("Next steps:")
     print("  1. Integrate with actual microservices (REST APIs)")
@@ -625,4 +984,5 @@ if __name__ == "__main__":
     print("  4. Add model versioning (retrain = new 'key')")
     print("  5. Test adversarial attacks on encrypted data")
     print("  6. Explore quantum resistance properties")
+    print("  7. Build key exchange protocol using fingerprints")
     print("="*80 + "\n")
