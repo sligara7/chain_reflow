@@ -1,0 +1,328 @@
+{
+  "service_architecture": {
+    "metadata": {
+      "component_id": "matryoshka_analysis",
+      "component_name": "Matryoshka Hierarchical Analysis Engine",
+      "version": "1.0.0",
+      "component_type": "analysis_service",
+      "tier": "analysis",
+      "created": "2025-10-28",
+      "source_file": "src/matryoshka_analysis.py",
+      "lines_of_code": 715,
+      "framework": "decision_flow"
+    },
+
+    "description": {
+      "purpose": "Analyze hierarchical (matryoshka/nesting) relationships between architectures, discover missing intermediate levels, and identify peer vs nested relationships",
+      "scope": "Prevents peer-to-peer assumption errors when architectures are at different hierarchy levels",
+      "domain": "Hierarchical architecture analysis and gap discovery"
+    },
+
+    "capabilities": [
+      {
+        "capability_id": "C05",
+        "name": "Hierarchical Nesting Analysis",
+        "description": "Infer hierarchy levels, analyze nesting relationships, discover hierarchical gaps",
+        "methods": ["infer_hierarchy_level", "analyze_relationship", "discover_hierarchical_gaps"]
+      },
+      {
+        "capability_id": "C06",
+        "name": "Architecture Linking (Contribution)",
+        "description": "Contributes hierarchical relationships and gap hypotheses to architecture linking",
+        "methods": ["analyze_relationship", "discover_hierarchical_gaps"]
+      }
+    ],
+
+    "interfaces": {
+      "provided": [
+        {
+          "interface_id": "IMatryoshkaAnalysis",
+          "interface_name": "Matryoshka Analysis Interface",
+          "protocol": "function_call",
+          "methods": [
+            {
+              "method_name": "infer_hierarchy_level",
+              "signature": "infer_hierarchy_level(arch: Dict) -> HierarchyMetadata",
+              "inputs": [
+                {
+                  "name": "arch",
+                  "type": "Dict[str, Any]",
+                  "required": true,
+                  "description": "Architecture to analyze"
+                }
+              ],
+              "outputs": {
+                "type": "HierarchyMetadata",
+                "description": "Inferred level (component, subsystem, system, SoS, enterprise) with confidence"
+              },
+              "errors": ["ValidationError", "AnalysisError"]
+            },
+            {
+              "method_name": "analyze_relationship",
+              "signature": "analyze_relationship(arch_a: Dict, arch_b: Dict, metadata_a: HierarchyMetadata, metadata_b: HierarchyMetadata) -> NestingRelationship",
+              "inputs": [
+                {
+                  "name": "arch_a",
+                  "type": "Dict[str, Any]",
+                  "required": true,
+                  "description": "First architecture"
+                },
+                {
+                  "name": "arch_b",
+                  "type": "Dict[str, Any]",
+                  "required": true,
+                  "description": "Second architecture"
+                },
+                {
+                  "name": "metadata_a",
+                  "type": "HierarchyMetadata",
+                  "required": true,
+                  "description": "Hierarchy metadata for arch_a"
+                },
+                {
+                  "name": "metadata_b",
+                  "type": "HierarchyMetadata",
+                  "required": true,
+                  "description": "Hierarchy metadata for arch_b"
+                }
+              ],
+              "outputs": {
+                "type": "NestingRelationship",
+                "description": "Relationship type (peer, parent_child, nested_indirect) with confidence"
+              },
+              "errors": ["ValidationError", "AnalysisError"]
+            },
+            {
+              "method_name": "discover_hierarchical_gaps",
+              "signature": "discover_hierarchical_gaps(architectures: List[Dict], relationships: List[NestingRelationship]) -> List[HierarchicalGap]",
+              "inputs": [
+                {
+                  "name": "architectures",
+                  "type": "List[Dict[str, Any]]",
+                  "required": true,
+                  "description": "List of architectures to analyze"
+                },
+                {
+                  "name": "relationships",
+                  "type": "List[NestingRelationship]",
+                  "required": true,
+                  "description": "Known relationships between architectures"
+                }
+              ],
+              "outputs": {
+                "type": "List[HierarchicalGap]",
+                "description": "Detected gaps (missing_parent, missing_intermediate, missing_common_parent)"
+              },
+              "errors": ["ValidationError", "AnalysisError"]
+            }
+          ]
+        }
+      ],
+      "required": [],
+      "optional": [
+        {
+          "interface_id": "IConfiguration",
+          "interface_name": "Configuration Interface",
+          "description": "Optional configuration loading",
+          "used_for": "Loading component thresholds for hierarchy inference"
+        }
+      ]
+    },
+
+    "internal_structure": {
+      "classes": [
+        {
+          "class_name": "MatryoshkaAnalyzer",
+          "responsibility": "Main analyzer for hierarchical relationships",
+          "key_methods": [
+            "infer_hierarchy_level",
+            "analyze_relationship",
+            "discover_hierarchical_gaps",
+            "generate_gap_hypothesis"
+          ]
+        }
+      ],
+      "data_structures": [
+        {
+          "name": "HierarchyLevel",
+          "type": "Enum",
+          "values": ["COMPONENT", "SUBSYSTEM", "SYSTEM", "SYSTEM_OF_SYSTEMS", "ENTERPRISE"]
+        },
+        {
+          "name": "RelationshipType",
+          "type": "Enum",
+          "values": ["PEER", "PARENT_CHILD", "NESTED_INDIRECT"]
+        },
+        {
+          "name": "GapType",
+          "type": "Enum",
+          "values": ["MISSING_PARENT", "MISSING_INTERMEDIATE", "MISSING_COMMON_PARENT"]
+        },
+        {
+          "name": "HierarchyMetadata",
+          "type": "dataclass",
+          "fields": ["arch_name", "inferred_level", "component_count", "confidence", "reasoning", "indicators"]
+        },
+        {
+          "name": "NestingRelationship",
+          "type": "dataclass",
+          "fields": ["arch_a", "arch_b", "relationship_type", "level_difference", "confidence", "reasoning"]
+        },
+        {
+          "name": "HierarchicalGap",
+          "type": "dataclass",
+          "fields": ["gap_id", "gap_type", "affected_architectures", "hypothesis", "expected_level", "confidence", "example"]
+        }
+      ]
+    },
+
+    "dependencies": {
+      "internal": [],
+      "external": [
+        {
+          "module": "typing",
+          "usage": "Type hints"
+        },
+        {
+          "module": "dataclasses",
+          "usage": "Data structures"
+        },
+        {
+          "module": "enum",
+          "usage": "Enumerations"
+        }
+      ],
+      "future": [
+        {
+          "module": "src.exceptions",
+          "usage": "Error handling (from GAP-010 resolution)"
+        },
+        {
+          "module": "config",
+          "usage": "Configuration loading (from GAP-011 resolution)"
+        }
+      ]
+    },
+
+    "data_flow": {
+      "inputs": [
+        {
+          "name": "architecture_or_list",
+          "source": "workflow_runner or direct caller",
+          "format": "Dict[str, Any] or List[Dict[str, Any]]",
+          "validation": "Must have 'name' and 'components' fields"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "hierarchy_metadata",
+          "destination": "workflow_runner or caller",
+          "format": "HierarchyMetadata",
+          "includes": "Level, component count, confidence, reasoning"
+        },
+        {
+          "name": "nesting_relationships",
+          "destination": "workflow_runner or caller",
+          "format": "List[NestingRelationship]",
+          "includes": "Relationship type, level difference, confidence"
+        },
+        {
+          "name": "hierarchical_gaps",
+          "destination": "workflow_runner or caller",
+          "format": "List[HierarchicalGap]",
+          "includes": "Gap type, hypothesis, expected level"
+        },
+        {
+          "name": "markdown_report",
+          "destination": "File system (docs/)",
+          "format": "Markdown",
+          "optional": true
+        }
+      ]
+    },
+
+    "non_functional_characteristics": {
+      "performance": {
+        "typical_execution_time": "< 1 second for typical architectures",
+        "scalability": "O(n²) for relationship analysis of n architectures"
+      },
+      "reliability": {
+        "error_handling": "Future: Will use src.exceptions for consistent error handling",
+        "validation": "Future: Will validate inputs against architecture_schema.json"
+      },
+      "accuracy": {
+        "hierarchy_inference": "Based on component count, keywords, and scope heuristics",
+        "gap_detection": "Identifies missing parents, intermediates, and common parents"
+      },
+      "maintainability": {
+        "modularity": "Self-contained, no dependencies on other analysis engines",
+        "extensibility": "New hierarchy levels or gap types can be added easily"
+      }
+    },
+
+    "integration_points": {
+      "invoked_by": [
+        {
+          "component": "workflow_runner",
+          "method": "_invoke_matryoshka_analysis",
+          "when": "Step C-01B in chain-01-link-architectures workflow",
+          "status": "future (from GAP-008 resolution)"
+        },
+        {
+          "component": "direct_caller",
+          "method": "MatryoshkaAnalyzer(...)",
+          "when": "Standalone usage",
+          "status": "current"
+        }
+      ],
+      "invokes": [],
+      "data_shared_with": [
+        {
+          "component": "workflow_runner",
+          "data": "hierarchy_metadata, relationships, gaps via working_memory",
+          "direction": "output"
+        }
+      ]
+    },
+
+    "evolution": {
+      "current_state": "Production-ready, standalone functionality",
+      "planned_enhancements": [
+        {
+          "enhancement": "Add error handling using src.exceptions",
+          "from_gap": "GAP-010",
+          "estimated_effort": "0.5 days"
+        },
+        {
+          "enhancement": "Add input validation using architecture_schema.json",
+          "from_gap": "GAP-013",
+          "estimated_effort": "0.5 days"
+        },
+        {
+          "enhancement": "Add configuration loading from config/default_config.json",
+          "from_gap": "GAP-011",
+          "estimated_effort": "0.5 days"
+        },
+        {
+          "enhancement": "Add neural intermediary layer integration",
+          "from_concept": "neural_architecture_linking_concept.md",
+          "estimated_effort": "2-3 weeks"
+        }
+      ]
+    },
+
+    "testing": {
+      "unit_tests": [
+        "test_infer_hierarchy_level",
+        "test_analyze_relationship",
+        "test_discover_hierarchical_gaps",
+        "test_carburetor_body_example"
+      ],
+      "integration_tests": [
+        "test_workflow_invocation (future)",
+        "test_with_real_architectures"
+      ],
+      "test_coverage": "Future: Add coverage measurement"
+    }
+  }
+}

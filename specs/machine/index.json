@@ -1,0 +1,154 @@
+{
+  "index": {
+    "metadata": {
+      "system_name": "Chain Reflow System",
+      "version": "1.0.0",
+      "created": "2025-10-28",
+      "framework": "decision_flow",
+      "approach": "bottom_up",
+      "workflow": "01b-bottom_up_integration"
+    },
+
+    "components": [
+      {
+        "component_id": "creative_linking",
+        "component_name": "Creative Linking Engine",
+        "type": "analysis_service",
+        "tier": "analysis",
+        "architecture_file": "specs/machine/service_arch/creative_linking_architecture.json",
+        "source_file": "src/creative_linking.py",
+        "lines_of_code": 655,
+        "status": "production_ready"
+      },
+      {
+        "component_id": "causality_analysis",
+        "component_name": "Causality Analysis Engine",
+        "type": "analysis_service",
+        "tier": "analysis",
+        "architecture_file": "specs/machine/service_arch/causality_analysis_architecture.json",
+        "source_file": "src/causality_analysis.py",
+        "lines_of_code": 779,
+        "status": "production_ready"
+      },
+      {
+        "component_id": "matryoshka_analysis",
+        "component_name": "Matryoshka Hierarchical Analysis Engine",
+        "type": "analysis_service",
+        "tier": "analysis",
+        "architecture_file": "specs/machine/service_arch/matryoshka_analysis_architecture.json",
+        "source_file": "src/matryoshka_analysis.py",
+        "lines_of_code": 715,
+        "status": "production_ready"
+      },
+      {
+        "component_id": "workflow_runner",
+        "component_name": "Workflow Execution Engine",
+        "type": "orchestration_service",
+        "tier": "orchestration",
+        "architecture_file": "specs/machine/service_arch/workflow_runner_architecture.json",
+        "source_file": "src/workflow_runner.py",
+        "lines_of_code": 243,
+        "status": "production_ready"
+      },
+      {
+        "component_id": "interactive_executor",
+        "component_name": "Interactive Workflow Executor",
+        "type": "orchestration_service",
+        "tier": "orchestration",
+        "architecture_file": "specs/machine/service_arch/interactive_executor_architecture.json",
+        "source_file": "src/interactive_executor.py",
+        "lines_of_code": 483,
+        "status": "production_ready"
+      }
+    ],
+
+    "interfaces": [
+      {
+        "interface_id": "ICreativeLinking",
+        "spec_file": "specs/machine/interfaces/creative_linking_interface.json",
+        "provider": "creative_linking",
+        "consumers": ["workflow_runner (future)"]
+      },
+      {
+        "interface_id": "ICausalityAnalysis",
+        "spec_file": "specs/machine/interfaces/causality_analysis_interface.json",
+        "provider": "causality_analysis",
+        "consumers": ["workflow_runner (future)"]
+      },
+      {
+        "interface_id": "IMatryoshkaAnalysis",
+        "spec_file": "specs/machine/interfaces/matryoshka_analysis_interface.json",
+        "provider": "matryoshka_analysis",
+        "consumers": ["workflow_runner (future)"]
+      },
+      {
+        "interface_id": "IWorkflowRunner",
+        "spec_file": "specs/machine/service_arch/workflow_runner_architecture.json",
+        "provider": "workflow_runner",
+        "consumers": ["external (user scripts)"]
+      },
+      {
+        "interface_id": "IInteractiveExecutor",
+        "spec_file": "specs/machine/service_arch/interactive_executor_architecture.json",
+        "provider": "interactive_executor",
+        "consumers": ["external (setup scripts)"]
+      },
+      {
+        "interface_id": "IConfiguration",
+        "spec_file": "future: config/default_config.json",
+        "provider": "configuration (future)",
+        "consumers": ["all components (future)"]
+      },
+      {
+        "interface_id": "IWorkingMemory",
+        "spec_file": "implicit: context/working_memory.json",
+        "provider": "file_system",
+        "consumers": ["workflow_runner", "interactive_executor"]
+      },
+      {
+        "interface_id": "IArchitectureSchema",
+        "spec_file": "specs/schemas/architecture_schema.json (future)",
+        "provider": "schema_validation (future)",
+        "consumers": ["all analysis engines (future)"]
+      }
+    ],
+
+    "specifications": {
+      "component_inventory": "specs/machine/component_inventory.json",
+      "integration_requirements": "specs/machine/integration_requirements.json",
+      "integration_gaps": "specs/machine/integration_gaps.json",
+      "component_deltas": "specs/machine/component_deltas/",
+      "service_architectures": "specs/machine/service_arch/",
+      "interface_specifications": "specs/machine/interfaces/",
+      "interface_registry": "specs/machine/interface_registry.json",
+      "validation_results": "specs/machine/validation_results.json",
+      "system_graph": "specs/machine/graphs/system_of_systems_graph.json"
+    },
+
+    "documentation": {
+      "mission_statement": "docs/mission_statement.md",
+      "component_inventory_summary": "docs/COMPONENT_INVENTORY_SUMMARY.md",
+      "integration_requirements_summary": "docs/INTEGRATION_REQUIREMENTS_SUMMARY.md",
+      "integration_gaps_summary": "docs/INTEGRATION_GAPS_SUMMARY.md",
+      "component_deltas_summary": "docs/COMPONENT_DELTAS_SUMMARY.md",
+      "creative_linking_guide": "docs/creative_linking_guide.md",
+      "correlation_vs_causation": "docs/correlation_vs_causation.md",
+      "matryoshka_hierarchical_nesting": "docs/matryoshka_hierarchical_nesting.md",
+      "neural_architecture_linking_concept": "docs/neural_architecture_linking_concept.md"
+    },
+
+    "statistics": {
+      "total_components": 5,
+      "total_interfaces": 8,
+      "total_loc": 2875,
+      "analysis_tier_components": 3,
+      "orchestration_tier_components": 2,
+      "capabilities_provided": 8,
+      "gaps_identified": 15,
+      "gaps_addressed_in_bu05": 6,
+      "remaining_gaps": 9,
+      "service_architectures_created": 5,
+      "interface_specifications_created": 3
+    }
+  }
+}

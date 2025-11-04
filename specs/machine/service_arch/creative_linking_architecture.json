@@ -1,0 +1,288 @@
+{
+  "service_architecture": {
+    "metadata": {
+      "component_id": "creative_linking",
+      "component_name": "Creative Linking Engine",
+      "version": "1.0.0",
+      "component_type": "analysis_service",
+      "tier": "analysis",
+      "created": "2025-10-28",
+      "source_file": "src/creative_linking.py",
+      "lines_of_code": 655,
+      "framework": "decision_flow"
+    },
+
+    "description": {
+      "purpose": "Discover creative/synesthetic links between orthogonal architectures using metaphorical mappings and structural analogies",
+      "scope": "Handles architectures with DIVERGENT or ORTHOGONAL relationship levels",
+      "domain": "Cross-domain architecture linking via creative exploration"
+    },
+
+    "capabilities": [
+      {
+        "capability_id": "C03",
+        "name": "Creative Architecture Linking",
+        "description": "Generate synesthetic mappings and structural analogies between orthogonal architectures",
+        "methods": ["find_creative_touchpoints", "generate_synesthetic_mappings"]
+      },
+      {
+        "capability_id": "C06",
+        "name": "Architecture Linking (Contribution)",
+        "description": "Contributes creative touchpoints to overall architecture linking capability",
+        "methods": ["assess_orthogonality", "find_creative_touchpoints"]
+      }
+    ],
+
+    "interfaces": {
+      "provided": [
+        {
+          "interface_id": "ICreativeLinking",
+          "interface_name": "Creative Linking Interface",
+          "protocol": "function_call",
+          "methods": [
+            {
+              "method_name": "assess_orthogonality",
+              "signature": "assess_orthogonality(arch1: Dict, arch2: Dict) -> Tuple[OrthogonalityLevel, str]",
+              "inputs": [
+                {
+                  "name": "arch1",
+                  "type": "Dict[str, Any]",
+                  "required": true,
+                  "description": "First architecture to compare"
+                },
+                {
+                  "name": "arch2",
+                  "type": "Dict[str, Any]",
+                  "required": true,
+                  "description": "Second architecture to compare"
+                }
+              ],
+              "outputs": {
+                "type": "Tuple[OrthogonalityLevel, str]",
+                "description": "Orthogonality level (ALIGNED, RELATED, DIVERGENT, ORTHOGONAL) and reasoning"
+              },
+              "errors": ["ValidationError", "AnalysisError"]
+            },
+            {
+              "method_name": "find_creative_touchpoints",
+              "signature": "find_creative_touchpoints(arch1: Dict, arch2: Dict, user_consent: bool = False, user_context: Optional[str] = None) -> List[CreativeTouchpoint]",
+              "inputs": [
+                {
+                  "name": "arch1",
+                  "type": "Dict[str, Any]",
+                  "required": true,
+                  "description": "First architecture"
+                },
+                {
+                  "name": "arch2",
+                  "type": "Dict[str, Any]",
+                  "required": true,
+                  "description": "Second architecture"
+                },
+                {
+                  "name": "user_consent",
+                  "type": "bool",
+                  "required": false,
+                  "default": false,
+                  "description": "Explicit user consent for creative/exploratory linking"
+                },
+                {
+                  "name": "user_context",
+                  "type": "Optional[str]",
+                  "required": false,
+                  "description": "User-provided domain context or observations"
+                }
+              ],
+              "outputs": {
+                "type": "List[CreativeTouchpoint]",
+                "description": "List of creative touchpoints with confidence scores and disclaimers"
+              },
+              "errors": ["ValidationError", "AnalysisError"],
+              "preconditions": ["user_consent must be True for DIVERGENT/ORTHOGONAL architectures"],
+              "side_effects": ["May generate markdown report file"]
+            }
+          ]
+        }
+      ],
+      "required": [],
+      "optional": [
+        {
+          "interface_id": "IConfiguration",
+          "interface_name": "Configuration Interface",
+          "description": "Optional configuration loading",
+          "used_for": "Loading min_confidence, max_touchpoints from config"
+        }
+      ]
+    },
+
+    "internal_structure": {
+      "classes": [
+        {
+          "class_name": "CreativeLinkingEngine",
+          "responsibility": "Main engine for creative linking",
+          "key_methods": [
+            "assess_orthogonality",
+            "find_creative_touchpoints",
+            "generate_synesthetic_mappings",
+            "find_structural_analogies"
+          ]
+        }
+      ],
+      "data_structures": [
+        {
+          "name": "OrthogonalityLevel",
+          "type": "Enum",
+          "values": ["ALIGNED", "RELATED", "DIVERGENT", "ORTHOGONAL"]
+        },
+        {
+          "name": "CreativeTouchpoint",
+          "type": "dataclass",
+          "fields": ["id", "source_architecture", "target_architecture", "source_component", "target_component", "link_type", "metaphor", "reasoning", "confidence", "exploratory", "validation_needed"]
+        },
+        {
+          "name": "SynestheticMapping",
+          "type": "dataclass",
+          "fields": ["source_domain", "target_domain", "source_property", "target_property", "metaphor", "examples"]
+        }
+      ]
+    },
+
+    "dependencies": {
+      "internal": [],
+      "external": [
+        {
+          "module": "typing",
+          "usage": "Type hints"
+        },
+        {
+          "module": "dataclasses",
+          "usage": "Data structures"
+        },
+        {
+          "module": "enum",
+          "usage": "OrthogonalityLevel enum"
+        }
+      ],
+      "future": [
+        {
+          "module": "src.exceptions",
+          "usage": "Error handling (from GAP-010 resolution)"
+        },
+        {
+          "module": "config",
+          "usage": "Configuration loading (from GAP-011 resolution)"
+        }
+      ]
+    },
+
+    "data_flow": {
+      "inputs": [
+        {
+          "name": "architecture_pair",
+          "source": "workflow_runner or direct caller",
+          "format": "Dict[str, Any]",
+          "validation": "Must have 'name' and 'components' fields"
+        },
+        {
+          "name": "user_consent",
+          "source": "workflow_runner or user",
+          "format": "bool",
+          "required_when": "Architectures are DIVERGENT or ORTHOGONAL"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "creative_touchpoints",
+          "destination": "workflow_runner or caller",
+          "format": "List[CreativeTouchpoint]",
+          "includes": "Confidence scores, disclaimers, metaphors"
+        },
+        {
+          "name": "markdown_report",
+          "destination": "File system (docs/)",
+          "format": "Markdown",
+          "optional": true
+        }
+      ]
+    },
+
+    "non_functional_characteristics": {
+      "performance": {
+        "typical_execution_time": "< 1 second for typical architectures (10-20 components each)",
+        "scalability": "Linear in number of components"
+      },
+      "reliability": {
+        "error_handling": "Future: Will use src.exceptions for consistent error handling",
+        "validation": "Future: Will validate inputs against architecture_schema.json"
+      },
+      "maintainability": {
+        "modularity": "Self-contained, no dependencies on other analysis engines",
+        "extensibility": "New synesthetic mappings can be added easily"
+      },
+      "usability": {
+        "consent_requirement": "Requires explicit user consent for exploratory linking",
+        "disclaimers": "All outputs include appropriate disclaimers"
+      }
+    },
+
+    "integration_points": {
+      "invoked_by": [
+        {
+          "component": "workflow_runner",
+          "method": "_invoke_creative_linking",
+          "when": "Step C-03A in chain-01-link-architectures workflow",
+          "status": "future (from GAP-008 resolution)"
+        },
+        {
+          "component": "direct_caller",
+          "method": "CreativeLinkingEngine(...)",
+          "when": "Standalone usage",
+          "status": "current"
+        }
+      ],
+      "invokes": [],
+      "data_shared_with": [
+        {
+          "component": "workflow_runner",
+          "data": "creative_touchpoints via working_memory",
+          "direction": "output"
+        }
+      ]
+    },
+
+    "evolution": {
+      "current_state": "Production-ready, standalone functionality",
+      "planned_enhancements": [
+        {
+          "enhancement": "Add error handling using src.exceptions",
+          "from_gap": "GAP-010",
+          "estimated_effort": "0.5 days"
+        },
+        {
+          "enhancement": "Add input validation using architecture_schema.json",
+          "from_gap": "GAP-013",
+          "estimated_effort": "0.5 days"
+        },
+        {
+          "enhancement": "Add configuration loading from config/default_config.json",
+          "from_gap": "GAP-011",
+          "estimated_effort": "0.5 days"
+        }
+      ]
+    },
+
+    "testing": {
+      "unit_tests": [
+        "test_assess_orthogonality",
+        "test_find_creative_touchpoints",
+        "test_synesthetic_mappings",
+        "test_structural_analogies"
+      ],
+      "integration_tests": [
+        "test_workflow_invocation (future)",
+        "test_with_real_architectures"
+      ],
+      "test_coverage": "Future: Add coverage measurement"
+    }
+  }
+}

@@ -1,0 +1,438 @@
+{
+  "interface_registry": {
+    "metadata": {
+      "registry_version": "1.0.0",
+      "created": "2025-10-28",
+      "system_name": "Chain Reflow System",
+      "total_interfaces": 8,
+      "total_components": 5
+    },
+
+    "description": {
+      "purpose": "Central registry of all interfaces between components in Chain Reflow system",
+      "scope": "Documents provided and required interfaces for all components",
+      "usage": "Used for validation, integration testing, and documentation generation"
+    },
+
+    "interfaces": [
+      {
+        "interface_id": "ICreativeLinking",
+        "interface_name": "Creative Linking Interface",
+        "version": "1.0.0",
+        "spec_file": "specs/machine/interfaces/creative_linking_interface.json",
+        "protocol": "function_call",
+        "provider": {
+          "component_id": "creative_linking",
+          "component_name": "Creative Linking Engine",
+          "module": "src.creative_linking",
+          "class": "CreativeLinkingEngine"
+        },
+        "consumers": [
+          {
+            "component_id": "workflow_runner",
+            "component_name": "Workflow Execution Engine",
+            "via_adapter": "CreativeLinkingAdapter",
+            "status": "future (from GAP-008 resolution)"
+          }
+        ],
+        "methods": [
+          "assess_orthogonality",
+          "find_creative_touchpoints"
+        ],
+        "gap_addressed": "GAP-001"
+      },
+
+      {
+        "interface_id": "ICausalityAnalysis",
+        "interface_name": "Causality Analysis Interface",
+        "version": "1.0.0",
+        "spec_file": "specs/machine/interfaces/causality_analysis_interface.json",
+        "protocol": "function_call",
+        "provider": {
+          "component_id": "causality_analysis",
+          "component_name": "Causality Analysis Engine",
+          "module": "src.causality_analysis",
+          "class": "CausalityAnalyzer"
+        },
+        "consumers": [
+          {
+            "component_id": "workflow_runner",
+            "component_name": "Workflow Execution Engine",
+            "via_adapter": "CausalityAnalysisAdapter",
+            "status": "future (from GAP-008 resolution)"
+          }
+        ],
+        "methods": [
+          "detect_correlation",
+          "generate_causal_hypotheses",
+          "design_validation_experiment"
+        ],
+        "gap_addressed": "GAP-002"
+      },
+
+      {
+        "interface_id": "IMatryoshkaAnalysis",
+        "interface_name": "Matryoshka Analysis Interface",
+        "version": "1.0.0",
+        "spec_file": "specs/machine/interfaces/matryoshka_analysis_interface.json",
+        "protocol": "function_call",
+        "provider": {
+          "component_id": "matryoshka_analysis",
+          "component_name": "Matryoshka Hierarchical Analysis Engine",
+          "module": "src.matryoshka_analysis",
+          "class": "MatryoshkaAnalyzer"
+        },
+        "consumers": [
+          {
+            "component_id": "workflow_runner",
+            "component_name": "Workflow Execution Engine",
+            "via_adapter": "MatryoshkaAnalysisAdapter",
+            "status": "future (from GAP-008 resolution)"
+          }
+        ],
+        "methods": [
+          "infer_hierarchy_level",
+          "analyze_relationship",
+          "discover_hierarchical_gaps"
+        ],
+        "gap_addressed": "GAP-003"
+      },
+
+      {
+        "interface_id": "IWorkflowRunner",
+        "interface_name": "Workflow Runner Interface",
+        "version": "1.0.0",
+        "spec_file": "specs/machine/service_arch/workflow_runner_architecture.json",
+        "protocol": "function_call",
+        "provider": {
+          "component_id": "workflow_runner",
+          "component_name": "Workflow Execution Engine",
+          "module": "src.workflow_runner",
+          "class": "WorkflowRunner"
+        },
+        "consumers": [
+          {
+            "component_id": "external",
+            "component_name": "User scripts or CLI",
+            "via_adapter": "None (direct invocation)",
+            "status": "current"
+          }
+        ],
+        "methods": [
+          "run",
+          "execute_step"
+        ],
+        "gap_addressed": "None (existing interface)"
+      },
+
+      {
+        "interface_id": "IInteractiveExecutor",
+        "interface_name": "Interactive Executor Interface",
+        "version": "1.0.0",
+        "spec_file": "specs/machine/service_arch/interactive_executor_architecture.json",
+        "protocol": "function_call",
+        "provider": {
+          "component_id": "interactive_executor",
+          "component_name": "Interactive Workflow Executor",
+          "module": "src.interactive_executor",
+          "class": "InteractiveExecutor"
+        },
+        "consumers": [
+          {
+            "component_id": "external",
+            "component_name": "Setup scripts (e.g., run_setup_demo.py)",
+            "via_adapter": "None (direct invocation)",
+            "status": "current"
+          }
+        ],
+        "methods": [
+          "run_step_s01_path_configuration",
+          "run_step_s01a_framework_selection",
+          "run_step_s02_directory_structure",
+          "run_step_s03_foundational_documents"
+        ],
+        "gap_addressed": "None (existing interface)"
+      },
+
+      {
+        "interface_id": "IConfiguration",
+        "interface_name": "Configuration Interface",
+        "version": "1.0.0",
+        "spec_file": "None (future)",
+        "protocol": "file_based",
+        "provider": {
+          "component_id": "configuration",
+          "component_name": "Configuration Management",
+          "module": "None (future)",
+          "file": "config/default_config.json"
+        },
+        "consumers": [
+          {
+            "component_id": "all",
+            "component_name": "All components",
+            "via_adapter": "Direct JSON read",
+            "status": "future (from GAP-011 resolution)"
+          }
+        ],
+        "methods": [
+          "load_config",
+          "get_config_value"
+        ],
+        "gap_addressed": "GAP-011"
+      },
+
+      {
+        "interface_id": "IWorkingMemory",
+        "interface_name": "Working Memory Interface",
+        "version": "1.0.0",
+        "spec_file": "None (implicit)",
+        "protocol": "file_based",
+        "provider": {
+          "component_id": "file_system",
+          "component_name": "File System (context/working_memory.json)",
+          "module": "None (JSON file)",
+          "file": "context/working_memory.json"
+        },
+        "consumers": [
+          {
+            "component_id": "workflow_runner",
+            "component_name": "Workflow Execution Engine",
+            "via_adapter": "JSON read/write",
+            "status": "current"
+          },
+          {
+            "component_id": "interactive_executor",
+            "component_name": "Interactive Workflow Executor",
+            "via_adapter": "JSON read/write",
+            "status": "current"
+          }
+        ],
+        "methods": [
+          "read (JSON load)",
+          "write (JSON save)"
+        ],
+        "gap_addressed": "None (existing, implicit interface)"
+      },
+
+      {
+        "interface_id": "IArchitectureSchema",
+        "interface_name": "Architecture Schema Validation Interface",
+        "version": "1.0.0",
+        "spec_file": "specs/schemas/architecture_schema.json",
+        "protocol": "schema_validation",
+        "provider": {
+          "component_id": "schema_validation",
+          "component_name": "JSON Schema Validator",
+          "module": "jsonschema (external library)",
+          "file": "specs/schemas/architecture_schema.json"
+        },
+        "consumers": [
+          {
+            "component_id": "creative_linking",
+            "component_name": "Creative Linking Engine",
+            "via_adapter": "jsonschema.validate()",
+            "status": "future (from GAP-013 resolution)"
+          },
+          {
+            "component_id": "causality_analysis",
+            "component_name": "Causality Analysis Engine",
+            "via_adapter": "jsonschema.validate()",
+            "status": "future (from GAP-013 resolution)"
+          },
+          {
+            "component_id": "matryoshka_analysis",
+            "component_name": "Matryoshka Analysis Engine",
+            "via_adapter": "jsonschema.validate()",
+            "status": "future (from GAP-013 resolution)"
+          }
+        ],
+        "methods": [
+          "validate (via jsonschema library)"
+        ],
+        "gap_addressed": "GAP-013"
+      }
+    ],
+
+    "interface_dependencies": {
+      "description": "Dependencies between interfaces (which interfaces depend on others)",
+      "dependencies": [
+        {
+          "interface": "ICreativeLinking",
+          "depends_on": ["IArchitectureSchema"],
+          "reason": "Validates architecture inputs before analysis"
+        },
+        {
+          "interface": "ICausalityAnalysis",
+          "depends_on": ["IArchitectureSchema"],
+          "reason": "Validates architecture inputs before analysis"
+        },
+        {
+          "interface": "IMatryoshkaAnalysis",
+          "depends_on": ["IArchitectureSchema"],
+          "reason": "Validates architecture inputs before analysis"
+        },
+        {
+          "interface": "IWorkflowRunner",
+          "depends_on": ["ICreativeLinking", "ICausalityAnalysis", "IMatryoshkaAnalysis", "IWorkingMemory"],
+          "reason": "Invokes analysis engines and manages state"
+        },
+        {
+          "interface": "IInteractiveExecutor",
+          "depends_on": ["IWorkingMemory"],
+          "reason": "Saves configuration to working memory"
+        }
+      ]
+    },
+
+    "adapter_mappings": {
+      "description": "Mapping of adapters to interfaces (from GAP-014 resolution)",
+      "adapters": [
+        {
+          "adapter_class": "CreativeLinkingAdapter",
+          "adapter_location": "src/adapters/engine_adapter.py",
+          "implements_interface": "ICreativeLinking",
+          "target_component": "creative_linking.CreativeLinkingEngine",
+          "status": "future (from GAP-014 resolution)"
+        },
+        {
+          "adapter_class": "CausalityAnalysisAdapter",
+          "adapter_location": "src/adapters/engine_adapter.py",
+          "implements_interface": "ICausalityAnalysis",
+          "target_component": "causality_analysis.CausalityAnalyzer",
+          "status": "future (from GAP-014 resolution)"
+        },
+        {
+          "adapter_class": "MatryoshkaAnalysisAdapter",
+          "adapter_location": "src/adapters/engine_adapter.py",
+          "implements_interface": "IMatryoshkaAnalysis",
+          "target_component": "matryoshka_analysis.MatryoshkaAnalyzer",
+          "status": "future (from GAP-014 resolution)"
+        }
+      ]
+    },
+
+    "interface_by_component": {
+      "creative_linking": {
+        "provides": ["ICreativeLinking"],
+        "requires": ["IArchitectureSchema (future)"]
+      },
+      "causality_analysis": {
+        "provides": ["ICausalityAnalysis"],
+        "requires": ["IArchitectureSchema (future)"]
+      },
+      "matryoshka_analysis": {
+        "provides": ["IMatryoshkaAnalysis"],
+        "requires": ["IArchitectureSchema (future)"]
+      },
+      "workflow_runner": {
+        "provides": ["IWorkflowRunner"],
+        "requires": [
+          "ICreativeLinking (future)",
+          "ICausalityAnalysis (future)",
+          "IMatryoshkaAnalysis (future)",
+          "IWorkingMemory (current)",
+          "IConfiguration (future)"
+        ]
+      },
+      "interactive_executor": {
+        "provides": ["IInteractiveExecutor"],
+        "requires": [
+          "IWorkingMemory (current)",
+          "IConfiguration (future)"
+        ]
+      }
+    },
+
+    "integration_status": {
+      "current": {
+        "description": "Interfaces that are currently implemented and in use",
+        "interfaces": [
+          "IWorkflowRunner",
+          "IInteractiveExecutor",
+          "IWorkingMemory"
+        ],
+        "count": 3
+      },
+      "future": {
+        "description": "Interfaces that will be added during gap resolution",
+        "interfaces": [
+          "ICreativeLinking (GAP-001)",
+          "ICausalityAnalysis (GAP-002)",
+          "IMatryoshkaAnalysis (GAP-003)",
+          "IConfiguration (GAP-011)",
+          "IArchitectureSchema (GAP-013)"
+        ],
+        "count": 5
+      }
+    },
+
+    "gap_resolution_tracking": {
+      "gap_001": {
+        "title": "No formal interface for workflow_runner → creative_linking",
+        "resolution": "ICreativeLinking interface specification created",
+        "spec_file": "specs/machine/interfaces/creative_linking_interface.json",
+        "status": "specification_complete",
+        "next_step": "Implement adapter and integration code (GAP-008, GAP-014)"
+      },
+      "gap_002": {
+        "title": "No formal interface for workflow_runner → causality_analysis",
+        "resolution": "ICausalityAnalysis interface specification created",
+        "spec_file": "specs/machine/interfaces/causality_analysis_interface.json",
+        "status": "specification_complete",
+        "next_step": "Implement adapter and integration code (GAP-008, GAP-014)"
+      },
+      "gap_003": {
+        "title": "No formal interface for workflow_runner → matryoshka_analysis",
+        "resolution": "IMatryoshkaAnalysis interface specification created",
+        "spec_file": "specs/machine/interfaces/matryoshka_analysis_interface.json",
+        "status": "specification_complete",
+        "next_step": "Implement adapter and integration code (GAP-008, GAP-014)"
+      },
+      "gap_006": {
+        "title": "No interface registry",
+        "resolution": "interface_registry.json created",
+        "spec_file": "specs/machine/interface_registry.json",
+        "status": "complete"
+      }
+    },
+
+    "validation": {
+      "schema_validation": {
+        "description": "All interface specifications follow consistent schema",
+        "method": "Manual review against interface specification template",
+        "status": "complete"
+      },
+      "completeness": {
+        "description": "All required interfaces are documented",
+        "required_interfaces": 8,
+        "documented_interfaces": 8,
+        "status": "complete"
+      },
+      "consistency": {
+        "description": "Interface dependencies are consistent",
+        "method": "Dependency graph validation",
+        "status": "validated"
+      }
+    },
+
+    "usage": {
+      "discovering_interfaces": {
+        "description": "How to find what interfaces a component provides or requires",
+        "method": "Look up component_id in interface_by_component section"
+      },
+      "implementing_integration": {
+        "description": "How to integrate a new component",
+        "steps": [
+          "1. Check interface_by_component for required interfaces",
+          "2. Implement required interfaces in your component",
+          "3. Register your component's provided interfaces in this registry",
+          "4. Update adapter_mappings if using adapter pattern"
+        ]
+      },
+      "generating_documentation": {
+        "description": "How to generate API documentation from interface registry",
+        "method": "Parse interface specs and generate markdown/HTML docs"
+      }
+    }
+  }
+}
