@@ -1,0 +1,437 @@
+{
+  "workflow_metadata": {
+    "workflow_id": "chain-01a",
+    "name": "Linking Strategy Determination Workflow",
+    "version": "1.0.0",
+    "description": "Determine optimal linking strategy based on multi-graph analysis results",
+    "created_from": "reflow pattern + chain_reflow WORKFLOW_ARCHITECTURE.md",
+    "last_updated": "2025-11-04",
+    "purpose": "Select the best approach for linking N graphs: pairwise, hierarchical, network, or phased",
+    "prerequisite": "chain-01-analyze-multi-graphs.json must be completed",
+    "next_workflow": "chain-02-{selected_strategy}.json"
+  },
+
+  "entry_points": {
+    "automatic_strategy": {
+      "id": "automatic_strategy",
+      "description": "Automatically determine best strategy",
+      "trigger": "chain-01 completed, proceed to strategy selection",
+      "first_step": "CH01A-01"
+    }
+  },
+
+  "workflow_steps": [
+    {
+      "step_id": "CH01A-01",
+      "name": "Load Analysis Results",
+      "description": "Load the comprehensive analysis from chain-01",
+      "phase": "initialization",
+      "actions": [
+        {
+          "action_id": "CH01A-01-A01",
+          "description": "Load multi-graph analysis",
+          "purpose": "Get all analysis data needed for strategy decision",
+          "llm_instructions": [
+            "Read context/multi_graph_analysis.json",
+            "Read context/analysis_summary_for_strategy.json",
+            "Extract key metrics:",
+            "  - graph_count (N)",
+            "  - orthogonality distribution",
+            "  - hierarchy structure",
+            "  - network complexity",
+            "  - intermediary needs count"
+          ],
+          "validation": {
+            "must_exist": "context/multi_graph_analysis.json",
+            "must_have_completed": ["chain-01"],
+            "blocking": true
+          }
+        },
+        {
+          "action_id": "CH01A-01-A02",
+          "description": "Update working memory",
+          "llm_instructions": [
+            "Update context/working_memory.json:",
+            "  - current_workflow: 'chain-01a'",
+            "  - current_step: 'CH01A-01'",
+            "  - status: 'determining_strategy'"
+          ]
+        }
+      ],
+      "next_step": "CH01A-02"
+    },
+
+    {
+      "step_id": "CH01A-02",
+      "name": "Strategy Decision Logic",
+      "description": "Apply decision rules to select optimal linking strategy",
+      "phase": "decision",
+      "actions": [
+        {
+          "action_id": "CH01A-02-A01",
+          "description": "Apply strategy selection rules",
+          "purpose": "Use decision matrix to pick strategy",
+          "decision_matrix": {
+            "rule_1_hierarchy": {
+              "condition": "All graphs form clear parent-child hierarchy (no orphans, no peers)",
+              "strategy": "HIERARCHICAL",
+              "workflow": "chain-02a-link-hierarchical.json",
+              "rationale": "Natural hierarchical containment structure exists",
+              "priority": 1
+            },
+            "rule_2_small_peer": {
+              "condition": "N <= 3 AND all graphs are PEERS (same hierarchy level) AND orthogonality mostly ALIGNED/RELATED",
+              "strategy": "PAIRWISE",
+              "workflow": "chain-02-link-pairwise.json",
+              "rationale": "Small number of peer systems with good compatibility",
+              "priority": 2
+            },
+            "rule_3_network_mesh": {
+              "condition": "All graphs at SAME level AND N >= 4 AND N <= 10 AND mostly ALIGNED/RELATED",
+              "strategy": "NETWORK",
+              "workflow": "chain-02b-link-network.json",
+              "rationale": "Medium-sized peer network, all-to-all linking feasible",
+              "priority": 3
+            },
+            "rule_4_large_network": {
+              "condition": "N > 10 AND clear clusters detected",
+              "strategy": "PHASED",
+              "workflow": "chain-02c-link-phased.json (future)",
+              "rationale": "Large graph count requires phased approach (link within clusters first)",
+              "priority": 4
+            },
+            "rule_5_mixed_hierarchy": {
+              "condition": "Mixed hierarchy levels (some peers, some parent-child) AND N <= 6",
+              "strategy": "PAIRWISE",
+              "workflow": "chain-02-link-pairwise.json",
+              "rationale": "Mixed structure, iterative pairwise handles complexity",
+              "priority": 5
+            },
+            "rule_6_high_orthogonality": {
+              "condition": "Many DIVERGENT or ORTHOGONAL pairs AND intermediary_needs > 0",
+              "strategy": "PAIRWISE_WITH_INTERMEDIARIES",
+              "workflow": "chain-02-link-pairwise.json",
+              "rationale": "High orthogonality requires intermediary systems, best handled iteratively",
+              "priority": 6,
+              "note": "Will create intermediary systems during pairwise linking"
+            },
+            "rule_7_default": {
+              "condition": "No other rule matches",
+              "strategy": "PAIRWISE",
+              "workflow": "chain-02-link-pairwise.json",
+              "rationale": "Default fallback - pairwise linking is most flexible",
+              "priority": 999
+            }
+          },
+          "llm_instructions": [
+            "Evaluate rules in priority order",
+            "For each rule:",
+            "  - Check if condition matches current analysis",
+            "  - If match, select that strategy and stop",
+            "  - If no match, continue to next rule",
+            "Rule 7 (default) always matches as fallback",
+            "Document which rule was selected and why"
+          ],
+          "output_variable": "selected_strategy"
+        },
+        {
+          "action_id": "CH01A-02-A02",
+          "description": "Identify alternative strategies",
+          "purpose": "Provide user with options if they disagree with recommendation",
+          "llm_instructions": [
+            "Identify 1-2 alternative strategies that could also work",
+            "For each alternative:",
+            "  - Explain when it would be better",
+            "  - Note trade-offs vs recommended strategy",
+            "Example alternatives:",
+            "  - If recommended PAIRWISE, consider HIERARCHICAL",
+            "  - If recommended NETWORK, consider PAIRWISE"
+          ],
+          "output_variable": "alternative_strategies"
+        }
+      ],
+      "next_step": "CH01A-03"
+    },
+
+    {
+      "step_id": "CH01A-03",
+      "name": "Determine Linking Order",
+      "description": "If sequential linking (pairwise/phased), determine optimal order",
+      "phase": "planning",
+      "condition": "selected_strategy IN ['PAIRWISE', 'PAIRWISE_WITH_INTERMEDIARIES', 'PHASED']",
+      "actions": [
+        {
+          "action_id": "CH01A-03-A01",
+          "description": "Sort pairs by linking priority",
+          "purpose": "Determine which pairs to link first",
+          "llm_instructions": [
+            "Priority factors (in order):",
+            "  1. Hierarchy: Link adjacent levels first (parent-child before peers)",
+            "  2. Orthogonality: Link ALIGNED pairs before RELATED before DIVERGENT",
+            "  3. Dependency: If one graph provides interfaces needed by another, link it first",
+            "  4. User priority: If user specified importance, honor it",
+            "  5. Network role: Link HUB graphs early (they connect to many others)",
+            "",
+            "Generate ordered list of pairs to link",
+            "For each pair, document:",
+            "  - Why this order?",
+            "  - What strategy for this specific pair? (standard vs creative linking)"
+          ],
+          "output": "context/linking_order.json",
+          "format": {
+            "strategy": "string (PAIRWISE | PAIRWISE_WITH_INTERMEDIARIES)",
+            "total_pairs": "number",
+            "pairs": [
+              {
+                "sequence": "number (1, 2, 3, ...)",
+                "graph1_id": "string",
+                "graph2_id": "string",
+                "graph1_name": "string",
+                "graph2_name": "string",
+                "orthogonality": "string",
+                "hierarchy_relation": "string",
+                "linking_approach": "standard_technical | enhanced_technical | hybrid | creative",
+                "needs_intermediary": "boolean",
+                "intermediary_type": "string (if applicable)",
+                "priority_score": "number",
+                "reasoning": "string"
+              }
+            ]
+          }
+        },
+        {
+          "action_id": "CH01A-03-A02",
+          "description": "Plan intermediary systems",
+          "condition": "intermediary_needs > 0",
+          "purpose": "Define intermediary/transform systems that will be created",
+          "llm_instructions": [
+            "For each pair needing intermediary:",
+            "  - Name the intermediary system",
+            "  - Define its purpose (transform, bridge, adapt)",
+            "  - Specify interfaces it provides/requires",
+            "  - Estimate complexity (simple, moderate, complex)",
+            "",
+            "Example:",
+            "  Pair: BiologicalSystem ↔ SoftwareSystem",
+            "  Intermediary: SignalTransformAdapter",
+            "  Purpose: Convert biological signals to software events",
+            "  Interfaces: IBiologicalSignalInput, ISoftwareEventOutput",
+            "  Complexity: moderate"
+          ],
+          "output": "context/planned_intermediaries.json",
+          "format": {
+            "intermediaries": [
+              {
+                "intermediary_id": "string",
+                "intermediary_name": "string",
+                "purpose": "string",
+                "connects_pair": {
+                  "graph1_id": "string",
+                  "graph2_id": "string"
+                },
+                "interfaces_provided": ["array"],
+                "interfaces_required": ["array"],
+                "complexity": "simple | moderate | complex",
+                "implementation_approach": "string",
+                "rationale": "string"
+              }
+            ],
+            "summary": {
+              "total_intermediaries": "number",
+              "simple": "number",
+              "moderate": "number",
+              "complex": "number"
+            }
+          }
+        }
+      ],
+      "next_step": "CH01A-04"
+    },
+
+    {
+      "step_id": "CH01A-04",
+      "name": "Present Strategy Recommendation to User",
+      "description": "Show user the recommended strategy and get approval",
+      "phase": "user_interaction",
+      "actions": [
+        {
+          "action_id": "CH01A-04-A01",
+          "description": "Present strategy recommendation",
+          "purpose": "Get user buy-in for the selected approach",
+          "user_prompt": {
+            "message_format": "📋 LINKING STRATEGY RECOMMENDATION\n\n{graph_count} system graphs to link\n\n🎯 RECOMMENDED STRATEGY: {strategy_name}\n\nRationale:\n{rationale}\n\n{strategy_details}\n\n{linking_order_summary}\n\n{intermediaries_summary}\n\nEstimated complexity: {complexity_level}\nEstimated touchpoints: {touchpoint_estimate}\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\nAlternative strategies:\n{alternatives_list}\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\nOptions:\n1. Proceed with recommended strategy\n2. Select alternative strategy (enter number)\n3. Modify linking order\n4. Cancel and re-analyze\n\nChoice:",
+            "required": true,
+            "blocking": true
+          },
+          "user_response_handling": {
+            "if_proceed": "Accept recommendation, go to CH01A-05",
+            "if_alternative": "Use selected alternative, update strategy, go to CH01A-05",
+            "if_modify": "Allow user to reorder pairs, go to CH01A-03",
+            "if_cancel": "Return to chain-01 for re-analysis"
+          }
+        }
+      ],
+      "next_step": "CH01A-05"
+    },
+
+    {
+      "step_id": "CH01A-05",
+      "name": "Finalize Strategy and Generate Execution Plan",
+      "description": "Create final strategy document and prepare for linking phase",
+      "phase": "finalization",
+      "actions": [
+        {
+          "action_id": "CH01A-05-A01",
+          "description": "Generate linking strategy document",
+          "purpose": "Comprehensive strategy specification",
+          "output": "context/linking_strategy.json",
+          "format": {
+            "session_id": "string",
+            "strategy_selected": "PAIRWISE | HIERARCHICAL | NETWORK | PHASED | PAIRWISE_WITH_INTERMEDIARIES",
+            "selected_workflow": "string (workflow file to execute)",
+            "rationale": "string",
+            "graph_count": "number",
+            "linking_order": "object (if sequential)",
+            "intermediaries_planned": "object (if applicable)",
+            "estimated_metrics": {
+              "total_pairs_to_link": "number",
+              "estimated_touchpoints": "number",
+              "estimated_intermediary_systems": "number",
+              "complexity_level": "low | medium | high",
+              "creative_linking_needed": "boolean"
+            },
+            "quality_expectations": {
+              "minimum_connectivity": "all graphs must be connected",
+              "acceptable_orthogonality": "allow creative links if needed",
+              "validation_required": "all exploratory links must be validated"
+            },
+            "next_workflow": "string",
+            "timestamp": "string"
+          }
+        },
+        {
+          "action_id": "CH01A-05-A02",
+          "description": "Generate execution plan document",
+          "output": "docs/linking_execution_plan_{timestamp}.md",
+          "contents": [
+            "# Linking Execution Plan",
+            "",
+            "## Strategy Summary",
+            "- **Selected Strategy**: {strategy}",
+            "- **Graphs to Link**: {N}",
+            "- **Approach**: {rationale}",
+            "",
+            "## Execution Steps",
+            "",
+            "{if PAIRWISE}",
+            "### Pairwise Linking Sequence",
+            "{ordered list of pairs}",
+            "",
+            "{if HIERARCHICAL}",
+            "### Hierarchical Linking Plan",
+            "{hierarchy tree diagram}",
+            "",
+            "{if NETWORK}",
+            "### Network Linking Plan",
+            "{network topology description}",
+            "",
+            "## Intermediary Systems",
+            "{if intermediaries_planned}",
+            "{list of intermediary systems to be created}",
+            "",
+            "## Expected Outcomes",
+            "- Total touchpoints: {estimate}",
+            "- Intermediary systems created: {count}",
+            "- Integration complexity: {level}",
+            "",
+            "## Success Criteria",
+            "- All graphs connected (no orphans)",
+            "- All required interfaces satisfied",
+            "- Validation score ≥ 70/100",
+            "",
+            "## Next Steps",
+            "Execute: {next_workflow}"
+          ]
+        },
+        {
+          "action_id": "CH01A-05-A03",
+          "description": "Update working memory",
+          "llm_instructions": [
+            "Update context/working_memory.json:",
+            "  - completed_workflows: add 'chain-01a'",
+            "  - current_workflow: null",
+            "  - status: 'strategy_determined'",
+            "  - next_workflow: {selected_workflow}",
+            "  - linking_strategy: {strategy}",
+            "  - timestamp_completed: current time"
+          ]
+        },
+        {
+          "action_id": "CH01A-05-A04",
+          "description": "Present execution plan",
+          "user_prompt": {
+            "message_format": "✅ STRATEGY FINALIZED\n\n📋 Strategy: {strategy}\n📁 Execution plan: docs/linking_execution_plan_{timestamp}.md\n\n{if intermediaries}\n🔧 Intermediary systems to create: {intermediary_count}\n{intermediary_list}\n{endif}\n\nNext workflow: {next_workflow}\n\nReady to begin linking phase? [Y to proceed / N to pause]",
+            "optional": true
+          }
+        }
+      ],
+      "next_step": null,
+      "next_workflow_variable": "selected_workflow"
+    }
+  ],
+
+  "quality_gates": [
+    {
+      "gate_id": "analysis_prerequisite",
+      "step": "CH01A-01",
+      "description": "chain-01 must be completed with valid analysis",
+      "required": true,
+      "blocking": true
+    },
+    {
+      "gate_id": "strategy_selected",
+      "step": "CH01A-02",
+      "description": "A strategy must be selected",
+      "required": true,
+      "blocking": true
+    },
+    {
+      "gate_id": "user_approval",
+      "step": "CH01A-04",
+      "description": "User must approve the strategy",
+      "required": true,
+      "blocking": true
+    }
+  ],
+
+  "strategy_selection_examples": {
+    "example_1_two_software_systems": {
+      "scenario": "2 software systems, both ALIGNED, both SYSTEM level",
+      "selected_strategy": "PAIRWISE",
+      "workflow": "chain-02-link-pairwise.json",
+      "rationale": "Simple 2-system case, direct pairwise linking"
+    },
+    "example_2_hierarchical_structure": {
+      "scenario": "Enterprise system + 3 subsystems + 5 components, clear containment",
+      "selected_strategy": "HIERARCHICAL",
+      "workflow": "chain-02a-link-hierarchical.json",
+      "rationale": "Clear parent-child relationships, hierarchical linking preserves structure"
+    },
+    "example_3_peer_network": {
+      "scenario": "6 systems, all SYSTEM level, mostly RELATED, forms mesh",
+      "selected_strategy": "NETWORK",
+      "workflow": "chain-02b-link-network.json",
+      "rationale": "Medium peer network, all-to-all feasible, mesh topology"
+    },
+    "example_4_orthogonal_systems": {
+      "scenario": "Biological + Software + Mechanical, all ORTHOGONAL to each other",
+      "selected_strategy": "PAIRWISE_WITH_INTERMEDIARIES",
+      "workflow": "chain-02-link-pairwise.json",
+      "rationale": "High orthogonality requires 2 intermediary systems (Bio→SW, SW→Mech)",
+      "intermediaries": [
+        "SignalTransformAdapter (Biological ↔ Software)",
+        "HardwareAbstractionLayer (Software ↔ Mechanical)"
+      ]
+    }
+  }
+}

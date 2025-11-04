@@ -1,0 +1,690 @@
+{
+  "workflow_metadata": {
+    "workflow_id": "chain-04",
+    "name": "Integrated Graph Validation and Gap Analysis Workflow",
+    "version": "1.0.0",
+    "description": "Validate integrated graph using reflow's system_of_systems_graph_v2.py tool to identify gaps, risks, and inefficiencies",
+    "created_from": "reflow pattern + chain_reflow WORKFLOW_ARCHITECTURE.md",
+    "last_updated": "2025-11-04",
+    "purpose": "Analyze the integrated graph with reflow tools, identify issues, and create gap resolution plan",
+    "prerequisite": "chain-03-merge-graphs.json must be completed with integrated graph",
+    "key_principle": "Just like reflow identifies gaps in a single system graph, chain_reflow must identify gaps in the INTEGRATED graph and propose solutions"
+  },
+
+  "entry_points": {
+    "validate_after_merge": {
+      "id": "validate_after_merge",
+      "description": "Validate integrated graph after merging",
+      "trigger": "chain-03 completed, integrated graph created",
+      "first_step": "CH04-01"
+    }
+  },
+
+  "workflow_steps": [
+    {
+      "step_id": "CH04-01",
+      "name": "Prepare for Validation",
+      "description": "Load integrated graph and check reflow availability",
+      "phase": "preparation",
+      "actions": [
+        {
+          "action_id": "CH04-01-A01",
+          "description": "Load integrated graph",
+          "purpose": "Get the merged graph for validation",
+          "llm_instructions": [
+            "Read output/integrated_system_of_systems_graph.json",
+            "Verify it's valid JSON",
+            "Extract metadata, node count, edge count",
+            "Note any exploratory/creative links needing validation"
+          ],
+          "validation": {
+            "must_exist": "output/integrated_system_of_systems_graph.json",
+            "must_be_valid_json": true,
+            "blocking": true
+          }
+        },
+        {
+          "action_id": "CH04-01-A02",
+          "description": "Check reflow integration",
+          "purpose": "Determine if we can use reflow's analysis tools",
+          "llm_instructions": [
+            "Check context/working_memory.json for reflow_path",
+            "If reflow_integrated:",
+            "  - Verify {reflow_path}/tools/system_of_systems_graph_v2.py exists",
+            "  - Check Python dependencies (networkx, etc.)",
+            "If not integrated:",
+            "  - Skip reflow-specific analysis",
+            "  - Use built-in validation only",
+            "  - Warn user about reduced analysis capability"
+          ],
+          "output_variable": "reflow_available"
+        },
+        {
+          "action_id": "CH04-01-A03",
+          "description": "Update working memory",
+          "llm_instructions": [
+            "Update context/working_memory.json:",
+            "  - current_workflow: 'chain-04'",
+            "  - current_step: 'CH04-01'",
+            "  - status: 'validating'"
+          ]
+        }
+      ],
+      "next_step": "CH04-02"
+    },
+
+    {
+      "step_id": "CH04-02",
+      "name": "Run Reflow Graph Analysis",
+      "description": "Execute reflow's system_of_systems_graph_v2.py on integrated graph",
+      "phase": "reflow_analysis",
+      "condition": "reflow_available == true",
+      "important_note": "This is KEY - we use the same tool that analyzes individual graphs to now analyze the INTEGRATED graph",
+      "actions": [
+        {
+          "action_id": "CH04-02-A01",
+          "description": "Run system_of_systems_graph_v2.py",
+          "purpose": "Apply all 25+ NetworkX algorithms to find issues",
+          "command_pattern": "python3 {reflow_path}/tools/system_of_systems_graph_v2.py output/integrated_system_of_systems_graph.json --output output/reflow_analysis_results.json",
+          "llm_instructions": [
+            "Execute reflow's graph analysis tool",
+            "This will detect:",
+            "  - Knowledge gaps (missing nodes/edges)",
+            "  - Orphaned interfaces",
+            "  - Missing nodes (referenced but not defined)",
+            "  - Structural holes",
+            "  - Circular dependencies",
+            "  - Community clusters",
+            "  - Centrality metrics",
+            "  - Context flow prediction (token accumulation)",
+            "  - And 20+ other graph metrics",
+            "",
+            "Capture all output"
+          ],
+          "output": "output/reflow_analysis_results.json",
+          "timeout": 60000
+        },
+        {
+          "action_id": "CH04-02-A02",
+          "description": "Parse reflow analysis results",
+          "purpose": "Extract critical findings from reflow output",
+          "llm_instructions": [
+            "From reflow_analysis_results.json, extract:",
+            "  - knowledge_gaps: list of detected gaps",
+            "  - orphaned_interfaces: interfaces with no provider/consumer",
+            "  - structural_holes: missing connections in graph",
+            "  - circular_dependencies: cycles found",
+            "  - community_detection: clusters of related nodes",
+            "  - centrality_analysis: hub nodes, bottlenecks",
+            "  - inefficiencies: redundant paths, over-coupling",
+            "",
+            "Categorize by severity: CRITICAL, HIGH, MEDIUM, LOW"
+          ],
+          "output_variable": "reflow_findings"
+        },
+        {
+          "action_id": "CH04-02-A03",
+          "description": "Identify integration-specific issues",
+          "purpose": "Find issues specific to the linking/merging process",
+          "llm_instructions": [
+            "Look for issues that arose from integration:",
+            "  - Intermediary systems with orphaned interfaces",
+            "  - Cross-graph edges with missing adapters",
+            "  - Exploratory links that create structural holes",
+            "  - Tier violations from merging",
+            "  - Circular dependencies introduced by linking",
+            "",
+            "These are fixable by refining intermediaries or touchpoints"
+          ],
+          "output_variable": "integration_specific_issues"
+        }
+      ],
+      "next_step": "CH04-03"
+    },
+
+    {
+      "step_id": "CH04-03",
+      "name": "Built-in Validation Analysis",
+      "description": "Run chain_reflow's own validation checks (always, even if reflow available)",
+      "phase": "builtin_analysis",
+      "actions": [
+        {
+          "action_id": "CH04-03-A01",
+          "description": "Calculate integration quality metrics",
+          "purpose": "Quantify how well the integration worked",
+          "llm_instructions": [
+            "Calculate metrics:",
+            "",
+            "**Coverage** (% of original nodes/edges included):",
+            "  - total_original_nodes / total_integrated_nodes",
+            "  - Should be ~100% (all original nodes kept)",
+            "",
+            "**Connectivity** (average path length):",
+            "  - For each pair of nodes from different source graphs:",
+            "    * Calculate shortest path length",
+            "    * Average across all pairs",
+            "  - Lower = better (well-connected)",
+            "",
+            "**Modularity** (how distinct systems remain):",
+            "  - Calculate intra-graph edges vs inter-graph edges",
+            "  - High modularity = systems remain distinct (good)",
+            "  - Low modularity = systems heavily mixed (may be over-coupled)",
+            "",
+            "**Cohesion** (within-system connectivity):",
+            "  - For each original graph's nodes:",
+            "    * Calculate internal edge density",
+            "  - Should remain high after integration",
+            "",
+            "**Coupling** (cross-system connectivity):",
+            "  - Count edges between different source graphs",
+            "  - Moderate coupling is good",
+            "  - Too high = tight coupling (bad)",
+            "  - Too low = disconnected (bad)"
+          ],
+          "output_variable": "integration_quality_metrics"
+        },
+        {
+          "action_id": "CH04-03-A02",
+          "description": "Validate touchpoints",
+          "purpose": "Check each touchpoint for completeness and feasibility",
+          "llm_instructions": [
+            "For each touchpoint/integration edge:",
+            "  - Verify source node exists ✓",
+            "  - Verify target node exists ✓",
+            "  - Check if interfaces are compatible:",
+            "    * Do data types match?",
+            "    * Are protocols compatible?",
+            "    * Is there an adapter/intermediary if needed?",
+            "  - For creative/exploratory links:",
+            "    * Mark as REQUIRES_VALIDATION",
+            "    * Suggest validation approach",
+            "    * Propose concrete interface design",
+            "",
+            "Categorize touchpoints:",
+            "  - ✅ Validated (technical, compatible)",
+            "  - ⚠️ Needs review (minor issues)",
+            "  - ❌ Blocked (incompatible, needs redesign)",
+            "  - 🔍 Exploratory (needs user validation)"
+          ],
+          "output": "output/touchpoint_validation_results.json"
+        },
+        {
+          "action_id": "CH04-03-A03",
+          "description": "Identify inefficiencies",
+          "purpose": "Find redundant paths, bottlenecks, over-coupling",
+          "llm_instructions": [
+            "Analyze graph for inefficiencies:",
+            "",
+            "**Redundant paths:**",
+            "  - Multiple paths between same nodes",
+            "  - Suggest removing lower-confidence edges",
+            "",
+            "**Bottlenecks:**",
+            "  - Nodes with very high degree (many connections)",
+            "  - Single point of failure",
+            "  - Suggest redundancy or load balancing",
+            "",
+            "**Over-coupling:**",
+            "  - Too many direct connections between systems",
+            "  - Suggest intermediary to decouple",
+            "",
+            "**Under-utilization:**",
+            "  - Intermediary systems with few connections",
+            "  - May not be needed, suggest removal",
+            "",
+            "**Circular dependencies:**",
+            "  - Cycles in directed graph",
+            "  - Suggest breaking cycle"
+          ],
+          "output_variable": "identified_inefficiencies"
+        }
+      ],
+      "next_step": "CH04-04"
+    },
+
+    {
+      "step_id": "CH04-04",
+      "name": "Generate Gap Analysis Report",
+      "description": "Consolidate all findings into comprehensive gap analysis",
+      "phase": "gap_analysis",
+      "actions": [
+        {
+          "action_id": "CH04-04-A01",
+          "description": "Consolidate all issues found",
+          "purpose": "Merge findings from reflow + built-in analysis",
+          "llm_instructions": [
+            "Combine issues from:",
+            "  - reflow_findings (if available)",
+            "  - integration_specific_issues",
+            "  - touchpoint_validation_results",
+            "  - identified_inefficiencies",
+            "",
+            "For each issue:",
+            "  - Assign unique gap ID (GAP-001, GAP-002, ...)",
+            "  - Categorize type (missing_node, orphan_interface, inefficiency, etc.)",
+            "  - Assign severity (CRITICAL, HIGH, MEDIUM, LOW)",
+            "  - Suggest resolution approach"
+          ],
+          "output": "output/gap_analysis.json",
+          "format": {
+            "gaps": [
+              {
+                "gap_id": "string",
+                "gap_type": "missing_node | orphan_interface | structural_hole | circular_dependency | inefficiency | validation_needed | other",
+                "severity": "CRITICAL | HIGH | MEDIUM | LOW",
+                "description": "string",
+                "affected_nodes": ["array"],
+                "affected_edges": ["array"],
+                "source": "reflow | builtin | integration",
+                "suggested_resolution": "string",
+                "resolution_complexity": "simple | moderate | complex"
+              }
+            ],
+            "summary": {
+              "total_gaps": "number",
+              "critical": "number",
+              "high": "number",
+              "medium": "number",
+              "low": "number",
+              "by_type": "object"
+            }
+          }
+        },
+        {
+          "action_id": "CH04-04-A02",
+          "description": "Prioritize gaps for resolution",
+          "purpose": "Determine which gaps to fix first",
+          "llm_instructions": [
+            "Priority order:",
+            "  1. CRITICAL severity (blocks functionality)",
+            "  2. Orphaned interfaces (nothing provides/consumes)",
+            "  3. Missing nodes (referenced but undefined)",
+            "  4. Structural holes (disconnected components)",
+            "  5. HIGH severity inefficiencies",
+            "  6. Exploratory links needing validation",
+            "  7. MEDIUM/LOW severity issues",
+            "",
+            "Create prioritized backlog"
+          ],
+          "output_variable": "prioritized_gaps"
+        }
+      ],
+      "next_step": "CH04-05"
+    },
+
+    {
+      "step_id": "CH04-05",
+      "name": "Generate Gap Resolution Plan",
+      "description": "Create actionable plan to address identified gaps",
+      "phase": "resolution_planning",
+      "actions": [
+        {
+          "action_id": "CH04-05-A01",
+          "description": "Design gap resolutions",
+          "purpose": "For each gap, specify how to fix it",
+          "llm_instructions": [
+            "For each gap in prioritized order:",
+            "",
+            "**Missing Node**:",
+            "  - Define the missing node (what it should be)",
+            "  - Specify interfaces it should provide",
+            "  - Determine if it's an intermediary or existing system",
+            "",
+            "**Orphaned Interface**:",
+            "  - Option 1: Create provider/consumer node",
+            "  - Option 2: Remove unused interface",
+            "  - Option 3: Connect to existing compatible node",
+            "",
+            "**Structural Hole**:",
+            "  - Identify what connection is missing",
+            "  - Suggest intermediary or direct link",
+            "  - Estimate effort to bridge",
+            "",
+            "**Circular Dependency**:",
+            "  - Identify cycle",
+            "  - Suggest edge to remove or redesign",
+            "  - Propose alternative architecture",
+            "",
+            "**Inefficiency**:",
+            "  - Quantify impact",
+            "  - Suggest optimization",
+            "  - Estimate improvement",
+            "",
+            "**Exploratory Link Validation**:",
+            "  - Design validation experiment",
+            "  - Propose concrete interface specification",
+            "  - Define acceptance criteria"
+          ],
+          "output": "output/gap_resolution_plan.json",
+          "format": {
+            "resolutions": [
+              {
+                "gap_id": "string",
+                "resolution_approach": "string",
+                "steps": ["array of action steps"],
+                "creates_nodes": ["array of new nodes to add"],
+                "creates_edges": ["array of new edges to add"],
+                "removes_edges": ["array of edges to remove"],
+                "modifies_nodes": ["array of nodes to modify"],
+                "estimated_effort": "hours | days | weeks",
+                "validation_required": "boolean"
+              }
+            ]
+          }
+        },
+        {
+          "action_id": "CH04-05-A02",
+          "description": "Estimate resolution effort",
+          "purpose": "Help user understand what's needed to achieve full integration",
+          "llm_instructions": [
+            "For each resolution:",
+            "  - Estimate effort (time)",
+            "  - Identify dependencies (must fix X before Y)",
+            "  - Note required expertise",
+            "  - Flag risks/uncertainties",
+            "",
+            "Summarize:",
+            "  - Total gaps: N",
+            "  - Quick wins (< 1 day): N",
+            "  - Moderate effort (1-5 days): N",
+            "  - Complex (> 5 days): N",
+            "  - Require user validation: N"
+          ],
+          "output_variable": "effort_estimate"
+        }
+      ],
+      "next_step": "CH04-06"
+    },
+
+    {
+      "step_id": "CH04-06",
+      "name": "Calculate Integration Score",
+      "description": "Assign quantitative score to integration quality",
+      "phase": "scoring",
+      "actions": [
+        {
+          "action_id": "CH04-06-A01",
+          "description": "Calculate overall integration score (0-100)",
+          "purpose": "Single metric representing integration success",
+          "llm_instructions": [
+            "Scoring formula:",
+            "",
+            "Base score: 100",
+            "",
+            "Deductions:",
+            "  - CRITICAL gap: -10 points each",
+            "  - HIGH gap: -5 points each",
+            "  - MEDIUM gap: -2 points each",
+            "  - LOW gap: -1 point each",
+            "  - Orphaned node: -3 points each",
+            "  - Dangling edge: -5 points each",
+            "  - Disconnected component: -15 points",
+            "  - Circular dependency: -8 points each",
+            "",
+            "Bonuses:",
+            "  + Full connectivity: +5 points",
+            "  + No critical gaps: +5 points",
+            "  + All touchpoints validated: +10 points",
+            "",
+            "Final score: max(0, min(100, calculated_score))",
+            "",
+            "Interpretation:",
+            "  - 90-100: Excellent integration",
+            "  - 70-89: Good, minor issues",
+            "  - 50-69: Acceptable, needs refinement",
+            "  - 30-49: Poor, significant issues",
+            "  - 0-29: Failed, major problems"
+          ],
+          "output_variable": "integration_score"
+        },
+        {
+          "action_id": "CH04-06-A02",
+          "description": "Break down score by category",
+          "llm_instructions": [
+            "Category scores:",
+            "  - Structure: (orphans, dangling edges)",
+            "  - Interfaces: (orphaned interfaces, missing nodes)",
+            "  - Hierarchy: (tier consistency)",
+            "  - Efficiency: (redundancy, bottlenecks)",
+            "  - Validation: (exploratory links)",
+            "",
+            "Each category 0-100"
+          ],
+          "output_variable": "score_breakdown"
+        }
+      ],
+      "next_step": "CH04-07"
+    },
+
+    {
+      "step_id": "CH04-07",
+      "name": "Generate Validation Report",
+      "description": "Create comprehensive validation report for user",
+      "phase": "reporting",
+      "actions": [
+        {
+          "action_id": "CH04-07-A01",
+          "description": "Generate markdown report",
+          "output": "output/validation_report_{timestamp}.md",
+          "contents": [
+            "# Integrated System Validation Report",
+            "",
+            "**Generated**: {timestamp}",
+            "**Integrated Graph**: output/integrated_system_of_systems_graph.json",
+            "",
+            "## Executive Summary",
+            "",
+            "**Integration Score**: {score}/100 ({interpretation})",
+            "",
+            "**Source Graphs**: {N} systems integrated",
+            "**Total Nodes**: {count} ({original} + {intermediaries} intermediaries)",
+            "**Total Edges**: {count} ({original} + {new} integration edges)",
+            "",
+            "**Gaps Identified**: {total_gaps}",
+            "  - Critical: {critical}",
+            "  - High: {high}",
+            "  - Medium: {medium}",
+            "  - Low: {low}",
+            "",
+            "---",
+            "",
+            "## Score Breakdown",
+            "",
+            "{score_by_category_table}",
+            "",
+            "---",
+            "",
+            "## Integration Quality Metrics",
+            "",
+            "- **Coverage**: {coverage}% (nodes from original graphs included)",
+            "- **Connectivity**: {avg_path_length} (average path length between systems)",
+            "- **Modularity**: {modularity} (how distinct systems remain)",
+            "- **Cohesion**: {cohesion} (within-system connectivity)",
+            "- **Coupling**: {coupling} (cross-system connectivity)",
+            "",
+            "---",
+            "",
+            "## Gaps and Issues",
+            "",
+            "{for each gap}",
+            "### {gap_id}: {gap_type} ({severity})",
+            "",
+            "{description}",
+            "",
+            "**Affected Nodes**: {list}",
+            "**Resolution**: {suggested_resolution}",
+            "**Effort**: {estimated_effort}",
+            "",
+            "{endfor}",
+            "",
+            "---",
+            "",
+            "## Reflow Analysis Results",
+            "",
+            "{if reflow_available}",
+            "{reflow_findings_summary}",
+            "{else}",
+            "Reflow integration not available. Run with reflow for detailed graph analysis.",
+            "{endif}",
+            "",
+            "---",
+            "",
+            "## Touchpoint Validation",
+            "",
+            "**Total Touchpoints**: {count}",
+            "  - ✅ Validated: {validated_count}",
+            "  - ⚠️ Needs Review: {review_count}",
+            "  - ❌ Blocked: {blocked_count}",
+            "  - 🔍 Exploratory: {exploratory_count}",
+            "",
+            "{touchpoint_details_table}",
+            "",
+            "---",
+            "",
+            "## Intermediary Systems",
+            "",
+            "{list of intermediary systems created}",
+            "",
+            "---",
+            "",
+            "## Resolution Plan",
+            "",
+            "**Quick Wins** (< 1 day): {quick_win_count} gaps",
+            "{quick_win_list}",
+            "",
+            "**Moderate Effort** (1-5 days): {moderate_count} gaps",
+            "{moderate_list}",
+            "",
+            "**Complex** (> 5 days): {complex_count} gaps",
+            "{complex_list}",
+            "",
+            "**Requires User Validation**: {validation_count} gaps",
+            "{validation_list}",
+            "",
+            "---",
+            "",
+            "## Recommendations",
+            "",
+            "{prioritized_action_items}",
+            "",
+            "---",
+            "",
+            "## Next Steps",
+            "",
+            "1. Review this report",
+            "2. Address critical gaps first",
+            "3. Validate exploratory links",
+            "4. Re-run validation after fixes",
+            "5. Document finalized integration"
+          ]
+        },
+        {
+          "action_id": "CH04-07-A02",
+          "description": "Write integration score JSON",
+          "output": "output/integration_score.json",
+          "contents": {
+            "score": "number (0-100)",
+            "interpretation": "string",
+            "breakdown": {
+              "structure": "number",
+              "interfaces": "number",
+              "hierarchy": "number",
+              "efficiency": "number",
+              "validation": "number"
+            },
+            "metrics": {
+              "coverage": "number",
+              "connectivity": "number",
+              "modularity": "number",
+              "cohesion": "number",
+              "coupling": "number"
+            },
+            "gaps": {
+              "total": "number",
+              "critical": "number",
+              "high": "number",
+              "medium": "number",
+              "low": "number"
+            },
+            "validation_passed": "boolean (score >= 70)"
+          }
+        }
+      ],
+      "next_step": "CH04-08"
+    },
+
+    {
+      "step_id": "CH04-08",
+      "name": "Present Results and Next Steps",
+      "description": "Show user validation results and recommend actions",
+      "phase": "completion",
+      "actions": [
+        {
+          "action_id": "CH04-08-A01",
+          "description": "Present validation results to user",
+          "user_prompt": {
+            "message_format": "✅ VALIDATION COMPLETE\n\n📊 INTEGRATION SCORE: {score}/100 ({interpretation})\n\n{if score >= 90}\n🎉 Excellent integration! Minor refinements may improve further.\n{elsif score >= 70}\n✅ Good integration. Address {gap_count} gaps for optimal results.\n{elsif score >= 50}\n⚠️ Acceptable but needs refinement. {critical_count} critical gaps found.\n{else}\n❌ Integration has significant issues. {critical_count} critical gaps require immediate attention.\n{endif}\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n📋 KEY FINDINGS:\n\n{if reflow_available}\n🔍 Reflow Analysis:\n{reflow_summary}\n{endif}\n\n🔧 Gaps Identified: {total_gaps}\n  - Critical: {critical}\n  - High: {high}\n  - Medium: {medium}\n  - Low: {low}\n\n{if intermediaries_created > 0}\n🆕 Intermediary Systems Created: {intermediary_count}\n{intermediary_summary}\n{endif}\n\n{if exploratory_links > 0}\n🔍 Exploratory Links Requiring Validation: {exploratory_count}\n{endif}\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n📁 OUTPUTS:\n  - Integrated Graph: output/integrated_system_of_systems_graph.json\n  - Validation Report: output/validation_report_{timestamp}.md\n  - Gap Analysis: output/gap_analysis.json\n  - Resolution Plan: output/gap_resolution_plan.json\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n🎯 RECOMMENDED NEXT STEPS:\n\n{if critical > 0}\n1. ⚠️ URGENT: Address {critical} critical gaps\n{critical_gap_summary}\n{endif}\n\n2. Review intermediary systems created\n3. Validate {exploratory_count} exploratory links\n4. Implement gap resolution plan\n5. Re-run validation after fixes\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\nOptions:\n1. View detailed validation report\n2. Export gap resolution plan\n3. Complete (validation done)\n\nChoice:",
+            "optional": true
+          }
+        },
+        {
+          "action_id": "CH04-08-A02",
+          "description": "Update working memory",
+          "llm_instructions": [
+            "Update context/working_memory.json:",
+            "  - completed_workflows: add 'chain-04'",
+            "  - status: 'validated'",
+            "  - integration_score: {score}",
+            "  - validation_passed: {score >= 70}",
+            "  - gaps_identified: {total_gaps}",
+            "  - critical_gaps: {critical}",
+            "  - next_workflow: null (chain complete)",
+            "  - timestamp_completed: current time"
+          ]
+        },
+        {
+          "action_id": "CH04-08-A03",
+          "description": "Mark workflow chain complete",
+          "llm_instructions": [
+            "Update context/working_memory.json:",
+            "  - chain_reflow_complete: true",
+            "  - final_outputs: {",
+            "      integrated_graph: 'output/integrated_system_of_systems_graph.json',",
+            "      validation_report: 'output/validation_report_{timestamp}.md',",
+            "      gap_analysis: 'output/gap_analysis.json',",
+            "      resolution_plan: 'output/gap_resolution_plan.json'",
+            "    }"
+          ]
+        }
+      ],
+      "next_step": null,
+      "workflow_complete": true
+    }
+  ],
+
+  "quality_gates": [
+    {
+      "gate_id": "merge_prerequisite",
+      "step": "CH04-01",
+      "description": "chain-03 must be completed with integrated graph",
+      "required": true,
+      "blocking": true
+    },
+    {
+      "gate_id": "validation_score_calculated",
+      "step": "CH04-06",
+      "description": "Integration score must be calculated",
+      "required": true,
+      "blocking": false
+    }
+  ],
+
+  "success_criteria": {
+    "minimum_score": 70,
+    "no_critical_gaps": "preferred but not required",
+    "all_nodes_connected": "required",
+    "no_dangling_edges": "required"
+  },
+
+  "reflow_integration_note": "This workflow uses reflow's system_of_systems_graph_v2.py tool to analyze the INTEGRATED graph - the same tool that analyzes individual system graphs now analyzes the meta-graph created by chain_reflow. This completes the loop: reflow creates graphs → chain_reflow links them → reflow analyzes the result."
+}

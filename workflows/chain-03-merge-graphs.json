@@ -1,0 +1,556 @@
+{
+  "workflow_metadata": {
+    "workflow_id": "chain-03",
+    "name": "Graph Merging and Integration Workflow",
+    "version": "1.0.0",
+    "description": "Merge multiple linked system_of_systems_graph.json files into a single integrated graph",
+    "created_from": "reflow pattern + chain_reflow WORKFLOW_ARCHITECTURE.md",
+    "last_updated": "2025-11-04",
+    "purpose": "Create the final integrated_system_of_systems_graph.json from linking phase results",
+    "prerequisite": "chain-02-{strategy}.json must be completed with linking results",
+    "next_workflow": "chain-04-validate.json"
+  },
+
+  "entry_points": {
+    "merge_after_linking": {
+      "id": "merge_after_linking",
+      "description": "Merge graphs after linking phase completes",
+      "trigger": "Linking workflow (chain-02*) completed",
+      "first_step": "CH03-01"
+    }
+  },
+
+  "workflow_steps": [
+    {
+      "step_id": "CH03-01",
+      "name": "Collect Linking Results",
+      "description": "Gather all outputs from linking phase (pairwise, hierarchical, or network)",
+      "phase": "collection",
+      "actions": [
+        {
+          "action_id": "CH03-01-A01",
+          "description": "Load working memory and verify linking completed",
+          "purpose": "Ensure we have completed linking results to merge",
+          "llm_instructions": [
+            "Read context/working_memory.json",
+            "Verify linking workflow completed (chain-02* in completed_workflows)",
+            "Extract linking_strategy used",
+            "Note which workflow was executed (pairwise, hierarchical, network)"
+          ],
+          "validation": {
+            "must_have_completed_one_of": ["chain-02", "chain-02a", "chain-02b"],
+            "blocking": true
+          }
+        },
+        {
+          "action_id": "CH03-01-A02",
+          "description": "Collect partial/intermediate graphs",
+          "purpose": "Find all graph outputs from linking phase",
+          "llm_instructions": [
+            "Based on strategy used:",
+            "",
+            "If PAIRWISE:",
+            "  - Load output/pairwise_results/pair_*_integrated_graph.json",
+            "  - Load output/cumulative_integrated_graph.json (if exists)",
+            "",
+            "If HIERARCHICAL:",
+            "  - Load output/hierarchical_integrated_graph.json",
+            "",
+            "If NETWORK:",
+            "  - Load output/network_integrated_graph.json",
+            "",
+            "Create list of all graph files to merge"
+          ],
+          "output_variable": "partial_graphs_to_merge"
+        },
+        {
+          "action_id": "CH03-01-A03",
+          "description": "Load touchpoint catalog",
+          "purpose": "Get all discovered/created touchpoints",
+          "llm_instructions": [
+            "Load touchpoint data from linking phase:",
+            "  - context/all_touchpoints.json (standard + creative)",
+            "  - specs/touchpoint_interfaces.json (if exists)",
+            "Extract all touchpoints with metadata:",
+            "  - source/target components",
+            "  - link type (technical, creative, exploratory)",
+            "  - confidence",
+            "  - validation status"
+          ],
+          "output_variable": "all_touchpoints"
+        },
+        {
+          "action_id": "CH03-01-A04",
+          "description": "Load intermediary systems created",
+          "purpose": "Collect any intermediary/transform systems that were defined",
+          "llm_instructions": [
+            "Check if intermediaries were created during linking",
+            "Load from:",
+            "  - context/created_intermediaries.json (if exists)",
+            "  - output/intermediary_systems/*.json (if exists)",
+            "For each intermediary:",
+            "  - Extract as a node to be added to merged graph",
+            "  - Note its interfaces and connections"
+          ],
+          "output_variable": "intermediary_systems",
+          "note": "Intermediaries are KEY to chain_reflow - they bridge orthogonal systems"
+        },
+        {
+          "action_id": "CH03-01-A05",
+          "description": "Update working memory",
+          "llm_instructions": [
+            "Update context/working_memory.json:",
+            "  - current_workflow: 'chain-03'",
+            "  - current_step: 'CH03-01'",
+            "  - status: 'merging'"
+          ]
+        }
+      ],
+      "next_step": "CH03-02"
+    },
+
+    {
+      "step_id": "CH03-02",
+      "name": "Merge Nodes",
+      "description": "Consolidate all nodes from original graphs + intermediaries",
+      "phase": "merge_nodes",
+      "actions": [
+        {
+          "action_id": "CH03-02-A01",
+          "description": "Collect all nodes from all graphs",
+          "purpose": "Create master node list",
+          "llm_instructions": [
+            "For each original graph (from graph_inventory.json):",
+            "  - Extract all nodes from system_of_systems_graph.nodes",
+            "  - Preserve all node metadata",
+            "  - Mark source_graph_id for provenance",
+            "",
+            "For each intermediary system:",
+            "  - Add as new node",
+            "  - node_type: 'intermediary' or 'transform'",
+            "  - Mark as created_by: 'chain_reflow'",
+            "",
+            "Total node collection"
+          ],
+          "output_variable": "all_nodes_raw"
+        },
+        {
+          "action_id": "CH03-02-A02",
+          "description": "Deduplicate nodes",
+          "purpose": "Handle nodes that appear in multiple graphs",
+          "llm_instructions": [
+            "Check for duplicate nodes:",
+            "  - Same node_id across graphs → merge metadata",
+            "  - Same node_name but different graphs → keep separate, rename if needed",
+            "",
+            "Deduplication strategy:",
+            "  - If node appears in multiple graphs with same ID:",
+            "    * Merge metadata (union of capabilities, interfaces)",
+            "    * Mark as 'shared_across_graphs'",
+            "    * Note all source graphs",
+            "  - If different IDs but semantically same:",
+            "    * Create mapping/alias",
+            "    * Prefer original node_id from earliest graph"
+          ],
+          "output_variable": "deduplicated_nodes"
+        },
+        {
+          "action_id": "CH03-02-A03",
+          "description": "Assign unique node IDs and tiers",
+          "purpose": "Ensure all nodes have globally unique IDs and correct tier assignment",
+          "llm_instructions": [
+            "For each node:",
+            "  - If node_id conflicts, prefix with source_graph_id",
+            "  - Assign tier based on:",
+            "    * Original tier (if from original graph)",
+            "    * Hierarchy level (from matryoshka analysis)",
+            "    * Node type (intermediary, component, service, etc.)",
+            "  - For intermediaries: typically 'integration' tier",
+            "",
+            "Tier structure in integrated graph:",
+            "  - Tier 0: External (users, external systems)",
+            "  - Tier 1: Enterprise/System-of-Systems level",
+            "  - Tier 2: System level",
+            "  - Tier 3: Subsystem level",
+            "  - Tier 4: Component level",
+            "  - Tier 5: Integration (intermediaries, adapters, transforms)"
+          ],
+          "output_variable": "merged_nodes"
+        }
+      ],
+      "next_step": "CH03-03"
+    },
+
+    {
+      "step_id": "CH03-03",
+      "name": "Merge Edges (Touchpoints)",
+      "description": "Consolidate all edges/touchpoints including original + new links",
+      "phase": "merge_edges",
+      "actions": [
+        {
+          "action_id": "CH03-03-A01",
+          "description": "Collect all edges",
+          "purpose": "Gather edges from original graphs + new touchpoints",
+          "llm_instructions": [
+            "Collect edges from three sources:",
+            "",
+            "1. Original graph edges (intra-graph connections):",
+            "   - From each original graph's .edges array",
+            "   - Mark as edge_origin: 'original'",
+            "",
+            "2. New touchpoint edges (inter-graph connections):",
+            "   - From all_touchpoints collected in CH03-01",
+            "   - Mark as edge_origin: 'chain_reflow_link'",
+            "",
+            "3. Intermediary edges:",
+            "   - Connections to/from intermediary systems",
+            "   - Mark as edge_origin: 'intermediary_link'"
+          ],
+          "output_variable": "all_edges_raw"
+        },
+        {
+          "action_id": "CH03-03-A02",
+          "description": "Deduplicate and consolidate edges",
+          "purpose": "Remove duplicate edges, consolidate bidirectional",
+          "llm_instructions": [
+            "For each edge:",
+            "  - Check if duplicate (same source, target, interface)",
+            "  - If duplicate found:",
+            "    * Keep highest confidence version",
+            "    * Merge metadata from both",
+            "  - Handle bidirectional edges:",
+            "    * If both A→B and B→A exist, mark as bidirectional:true",
+            "",
+            "Assign edge weights:",
+            "  - Based on confidence score",
+            "  - Based on link type (technical=1.0, creative=0.5-0.8, exploratory=0.3-0.6)",
+            "  - Based on validation status (validated=1.0, unvalidated=0.5)"
+          ],
+          "output_variable": "deduplicated_edges"
+        },
+        {
+          "action_id": "CH03-03-A03",
+          "description": "Classify edge types and mark creative/exploratory",
+          "purpose": "Ensure creative links are clearly marked",
+          "llm_instructions": [
+            "For each edge, determine edge_type:",
+            "  - 'invocation' - one component calls another",
+            "  - 'data_flow' - data flows between components",
+            "  - 'containment' - parent contains child (hierarchical)",
+            "  - 'dependency' - component depends on another",
+            "  - 'integration' - via intermediary system",
+            "  - 'creative_link' - synesthetic/metaphorical",
+            "",
+            "Mark metadata:",
+            "  - exploratory: true/false",
+            "  - requires_validation: true/false (for creative links)",
+            "  - created_by: 'chain_reflow' | 'original' | 'intermediary'",
+            "  - linking_metaphor: string (for creative links)"
+          ],
+          "output_variable": "merged_edges"
+        }
+      ],
+      "next_step": "CH03-04"
+    },
+
+    {
+      "step_id": "CH03-04",
+      "name": "Add System-level Metadata",
+      "description": "Create the root system_of_systems_graph object with comprehensive metadata",
+      "phase": "metadata",
+      "actions": [
+        {
+          "action_id": "CH03-04-A01",
+          "description": "Generate integrated graph metadata",
+          "purpose": "Document what was integrated and how",
+          "llm_instructions": [
+            "Create metadata object:",
+            "  - system_name: 'Integrated System of Systems'",
+            "  - version: '1.0.0'",
+            "  - created_by: 'chain_reflow'",
+            "  - created: timestamp",
+            "  - framework: 'multi_framework' (if mixed) or specific framework",
+            "  - graph_type: 'integrated_system_of_systems'",
+            "  - approach: {linking_strategy} (pairwise, hierarchical, network)",
+            "",
+            "  - source_graphs: [",
+            "      {graph_id, system_name, node_count, edge_count},",
+            "      ...",
+            "    ]",
+            "",
+            "  - integration_details: {",
+            "      total_original_graphs: N,",
+            "      intermediaries_created: count,",
+            "      linking_strategy: string,",
+            "      total_touchpoints_added: count,",
+            "      creative_links: count,",
+            "      exploratory_links: count",
+            "    }"
+          ],
+          "output_variable": "integrated_metadata"
+        },
+        {
+          "action_id": "CH03-04-A02",
+          "description": "Calculate graph statistics",
+          "purpose": "Provide quantitative metrics about the integrated graph",
+          "llm_instructions": [
+            "Calculate:",
+            "  - total_nodes: count",
+            "  - nodes_by_tier: breakdown",
+            "  - original_nodes: count (from source graphs)",
+            "  - intermediary_nodes: count (created by chain_reflow)",
+            "  - total_edges: count",
+            "  - edges_by_type: breakdown",
+            "  - original_edges: count (intra-graph)",
+            "  - integration_edges: count (inter-graph)",
+            "  - creative_edges: count",
+            "  - exploratory_edges_requiring_validation: count"
+          ],
+          "output_variable": "graph_statistics"
+        },
+        {
+          "action_id": "CH03-04-A03",
+          "description": "Define tier structure",
+          "purpose": "Document the hierarchical tier organization",
+          "llm_instructions": [
+            "Based on merged_nodes tier assignments:",
+            "Create tiers array:",
+            "  - For each unique tier found:",
+            "    * tier_name",
+            "    * tier_level (numeric)",
+            "    * description",
+            "    * nodes: [list of node_ids in this tier]",
+            "",
+            "Sort tiers by level (0=highest, N=lowest)"
+          ],
+          "output_variable": "tier_structure"
+        }
+      ],
+      "next_step": "CH03-05"
+    },
+
+    {
+      "step_id": "CH03-05",
+      "name": "Validate Merged Graph Structure",
+      "description": "Run basic validation before writing final output",
+      "phase": "validation",
+      "actions": [
+        {
+          "action_id": "CH03-05-A01",
+          "description": "Check for orphan nodes",
+          "purpose": "Ensure all nodes have at least one connection",
+          "llm_instructions": [
+            "For each node in merged_nodes:",
+            "  - Check if it appears in any edge (as source or target)",
+            "  - If not, mark as orphan",
+            "",
+            "Orphan handling:",
+            "  - Intermediary nodes: OK to be orphan initially (not yet connected)",
+            "  - Original nodes: Should have connections",
+            "  - Report orphans as warning"
+          ],
+          "output_variable": "orphan_nodes",
+          "quality_gate": {
+            "type": "warning",
+            "threshold": "< 10% orphan nodes"
+          }
+        },
+        {
+          "action_id": "CH03-05-A02",
+          "description": "Check for unresolved edge references",
+          "purpose": "Ensure all edges reference valid nodes",
+          "llm_instructions": [
+            "For each edge in merged_edges:",
+            "  - Verify source node_id exists in merged_nodes",
+            "  - Verify target node_id exists in merged_nodes",
+            "  - If not found, report as error",
+            "",
+            "This is critical - dangling edges will break the graph"
+          ],
+          "validation": {
+            "blocking": true,
+            "error_if_dangling": true
+          }
+        },
+        {
+          "action_id": "CH03-05-A03",
+          "description": "Check tier consistency",
+          "purpose": "Ensure edges respect tier boundaries (no upward dependencies)",
+          "llm_instructions": [
+            "For each edge:",
+            "  - Get source node tier level",
+            "  - Get target node tier level",
+            "  - Check dependency direction:",
+            "    * Higher tier can depend on lower tier (OK)",
+            "    * Lower tier depending on higher tier (WARNING - inverted dependency)",
+            "    * Same tier (OK - peer-to-peer)",
+            "  - Report violations"
+          ],
+          "quality_gate": {
+            "type": "warning",
+            "message": "Some edges have inverted tier dependencies"
+          }
+        },
+        {
+          "action_id": "CH03-05-A04",
+          "description": "Validate graph connectivity",
+          "purpose": "Ensure the graph is connected (no disconnected components)",
+          "llm_instructions": [
+            "Build undirected version of graph",
+            "Check if all nodes are reachable from any starting node",
+            "If disconnected components found:",
+            "  - Report which nodes are isolated",
+            "  - Suggest intermediaries to connect them"
+          ],
+          "quality_gate": {
+            "type": "warning",
+            "preferred": "fully connected graph"
+          }
+        }
+      ],
+      "next_step": "CH03-06"
+    },
+
+    {
+      "step_id": "CH03-06",
+      "name": "Write Final Integrated Graph",
+      "description": "Create the output/integrated_system_of_systems_graph.json file",
+      "phase": "output",
+      "actions": [
+        {
+          "action_id": "CH03-06-A01",
+          "description": "Assemble final graph JSON structure",
+          "purpose": "Combine all merged data into system_of_systems_graph format",
+          "llm_instructions": [
+            "Create JSON structure:",
+            "{",
+            "  'system_of_systems_graph': {",
+            "    'metadata': {integrated_metadata},",
+            "    'nodes': [merged_nodes],",
+            "    'edges': [merged_edges],",
+            "    'tiers': [tier_structure],",
+            "    'graph_statistics': {graph_statistics},",
+            "    'validation': {",
+            "      'orphan_detection': {...},",
+            "      'edge_validation': {...},",
+            "      'tier_consistency': {...},",
+            "      'connectivity': {...}",
+            "    },",
+            "    'integration_summary': {",
+            "      'source_graphs': [...],",
+            "      'intermediaries_created': [...],",
+            "      'linking_strategy': string,",
+            "      'touchpoints_added': count,",
+            "      'creative_links': count,",
+            "      'validation_required': boolean",
+            "    }",
+            "  }",
+            "}"
+          ],
+          "output": "output/integrated_system_of_systems_graph.json",
+          "format_note": "This file is compatible with reflow's system_of_systems_graph_v2.py tool"
+        },
+        {
+          "action_id": "CH03-06-A02",
+          "description": "Write merge report",
+          "output": "context/merge_report.json",
+          "contents": {
+            "merge_timestamp": "string",
+            "original_graphs": "array",
+            "nodes_merged": {
+              "total": "number",
+              "from_originals": "number",
+              "intermediaries_added": "number",
+              "duplicates_removed": "number"
+            },
+            "edges_merged": {
+              "total": "number",
+              "from_originals": "number",
+              "touchpoints_added": "number",
+              "duplicates_removed": "number"
+            },
+            "validation_results": {
+              "orphans_found": "number",
+              "dangling_edges": "number",
+              "tier_violations": "number",
+              "connectivity": "string"
+            },
+            "next_step": "Run chain-04-validate.json for comprehensive analysis"
+          }
+        },
+        {
+          "action_id": "CH03-06-A03",
+          "description": "Update working memory",
+          "llm_instructions": [
+            "Update context/working_memory.json:",
+            "  - completed_workflows: add 'chain-03'",
+            "  - status: 'merged'",
+            "  - integrated_graph_path: 'output/integrated_system_of_systems_graph.json'",
+            "  - next_workflow: 'chain-04-validate'",
+            "  - timestamp_completed: current time"
+          ]
+        }
+      ],
+      "next_step": "CH03-07"
+    },
+
+    {
+      "step_id": "CH03-07",
+      "name": "Present Merge Results",
+      "description": "Show user the merge outcomes and next steps",
+      "phase": "reporting",
+      "actions": [
+        {
+          "action_id": "CH03-07-A01",
+          "description": "Present merge summary to user",
+          "user_prompt": {
+            "message_format": "✅ GRAPH MERGING COMPLETE\n\n📊 INTEGRATED GRAPH CREATED\n\n**Original Graphs**: {source_graph_count}\n**Total Nodes**: {total_nodes}\n  - From originals: {original_nodes}\n  - Intermediaries created: {intermediary_nodes}\n  - Duplicates merged: {duplicates}\n\n**Total Edges**: {total_edges}\n  - From originals: {original_edges}\n  - Integration touchpoints: {integration_edges}\n  - Creative links: {creative_edges}\n  - Exploratory (need validation): {exploratory_edges}\n\n{if validation_warnings}\n⚠️ VALIDATION WARNINGS:\n{warnings_list}\n{endif}\n\n📁 Output: output/integrated_system_of_systems_graph.json\n📊 Report: context/merge_report.json\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\nNext Steps:\n1. Run chain-04-validate to analyze with reflow tools\n2. Review intermediary systems created\n3. Validate exploratory links\n\nProceed to validation? [Y/N]",
+            "optional": true
+          }
+        }
+      ],
+      "next_step": null,
+      "next_workflow": "chain-04-validate.json"
+    }
+  ],
+
+  "quality_gates": [
+    {
+      "gate_id": "linking_prerequisite",
+      "step": "CH03-01",
+      "description": "Linking workflow must be completed",
+      "required": true,
+      "blocking": true
+    },
+    {
+      "gate_id": "no_dangling_edges",
+      "step": "CH03-05",
+      "description": "All edges must reference valid nodes",
+      "required": true,
+      "blocking": true
+    },
+    {
+      "gate_id": "graph_written",
+      "step": "CH03-06",
+      "description": "Final graph file must be written successfully",
+      "required": true,
+      "blocking": true
+    }
+  ],
+
+  "error_handling": {
+    "missing_linking_results": {
+      "step": "CH03-01",
+      "action": "ERROR: No linking results found. Must run chain-02* first",
+      "retry": false
+    },
+    "dangling_edge_references": {
+      "step": "CH03-05",
+      "action": "ERROR: Edges reference non-existent nodes. Fix node merging",
+      "retry": true,
+      "fix": "Check node_id mapping, ensure all referenced nodes exist"
+    }
+  },
+
+  "output_format_note": "The integrated_system_of_systems_graph.json follows the same format as individual system_of_systems_graph.json files, making it compatible with reflow's analysis tools (system_of_systems_graph_v2.py). This is the key deliverable of chain_reflow."
+}
