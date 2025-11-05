@@ -178,7 +178,7 @@ Chain Reflow follows the reflow methodology with a 5-phase workflow architecture
 
 1. **Phase 0: Setup** (`chain-00-setup.json`) - Initialize system, discover graphs, validate environment
 2. **Phase 1: Analysis** (`chain-01-analyze-multi-graphs.json`, `chain-01a-determine-strategy.json`) - Analyze all graphs, assess orthogonality, infer hierarchy, determine linking strategy
-3. **Phase 2: Linking** (`chain-02-*.json`) - Execute linking based on strategy (pairwise, hierarchical, or network)
+3. **Phase 2: Linking** (`chain-02-execute-linking-strategy.json`) - Execute linking based on strategy (router + executor: pairwise, hierarchical, or network)
 4. **Phase 3: Integration** (`chain-03-merge-graphs.json`) - Merge partial results into final integrated graph
 5. **Phase 4: Validation** (`chain-04-validate.json`) - Validate using reflow analysis tools
 
@@ -298,15 +298,20 @@ Generate competing hypotheses and design validation experiments before linking.
 Most workflows execute sequentially:
 ```
 chain-00-setup → chain-01-analyze-multi-graphs → chain-01a-determine-strategy →
-chain-02-{strategy} → chain-03-merge-graphs → chain-04-validate
+chain-02-execute-linking-strategy → chain-03-merge-graphs → chain-04-validate
 ```
 
 ### Branching by Strategy
 
-The system selects a linking strategy based on analysis:
-- **Pairwise**: 2-3 graphs, mixed relationships → `chain-02-link-pairwise.json`
-- **Hierarchical**: Clear parent-child relationships → `chain-02a-link-hierarchical.json`
-- **Network**: All graphs at same level → `chain-02b-link-network.json`
+**Phase 2 uses a router + executor pattern** (discovered via matrix gap detection dogfooding):
+- **Single workflow**: `chain-02-execute-linking-strategy.json`
+- **Layer 1 (Router)**: Reads strategy from Phase 1a, branches to appropriate executor
+- **Layer 2 (Executor)**: Executes linking based on strategy:
+  - **Pairwise**: 2-3 graphs, mixed relationships (all-to-all pairing)
+  - **Hierarchical**: Clear parent-child relationships (tree traversal)
+  - **Network**: All graphs at same level (mesh/hub-spoke topology)
+
+**Key Insight**: Matrix gap detection revealed Phase 2 should be a simple rank-2 system (router + executor), not 3 complex workflows.
 
 ### Reusing Workflows
 

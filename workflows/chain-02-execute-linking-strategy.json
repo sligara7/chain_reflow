@@ -1,0 +1,331 @@
+{
+  "workflow_metadata": {
+    "workflow_id": "chain-02",
+    "name": "Execute Linking Strategy (Router + Executor)",
+    "version": "1.0.0",
+    "description": "Phase 2: Route to and execute appropriate linking strategy based on Phase 1a determination",
+    "created": "2025-11-05",
+    "created_by": "Matrix gap detection analysis - dogfooding chain_reflow on itself",
+    "purpose": "Bridge Phase 1 (analysis) to Phase 3 (integration) by executing determined linking strategy",
+    "key_insight": "Matrix gap detection revealed this should be a SIMPLE 2-layer system: (1) Router, (2) Executor. Not 3 separate complex workflows."
+  },
+  "prerequisites": {
+    "required_conditions": [
+      "Phase 1a (chain-01a-determine-strategy.json) has completed",
+      "Strategy determined: 'pairwise' | 'hierarchical' | 'network'",
+      "Analyzed graphs available in context/multi_graph_analysis.json"
+    ]
+  },
+  "entry_points": {
+    "standard": {
+      "id": "standard",
+      "description": "Execute linking strategy determined by Phase 1a",
+      "trigger": "Phase 1a completed with strategy selection",
+      "first_step": "L-01"
+    }
+  },
+  "workflow_steps": [
+    {
+      "step_id": "L-01",
+      "name": "Load Strategy and Graphs",
+      "description": "Load determined strategy and analyzed graphs from Phase 1",
+      "phase": "initialization",
+      "actions": [
+        {
+          "action_id": "L-01-A01",
+          "description": "Load strategy from working memory",
+          "llm_instructions": [
+            "Read context/working_memory.json",
+            "Extract 'determined_strategy' field",
+            "Validate strategy is one of: 'pairwise', 'hierarchical', 'network'"
+          ],
+          "store_in": "linking_strategy"
+        },
+        {
+          "action_id": "L-01-A02",
+          "description": "Load analyzed graphs",
+          "llm_instructions": [
+            "Read context/multi_graph_analysis.json",
+            "Extract list of graphs with metadata",
+            "Extract orthogonality assessments",
+            "Extract hierarchy inferences"
+          ],
+          "store_in": "analyzed_graphs"
+        },
+        {
+          "action_id": "L-01-A03",
+          "description": "Validate prerequisites",
+          "quality_gate": {
+            "type": "BLOCKING",
+            "checks": [
+              "Strategy is valid (pairwise | hierarchical | network)",
+              "At least 2 graphs available",
+              "All graphs have been analyzed (orthogonality + hierarchy)"
+            ]
+          }
+        }
+      ],
+      "typical_time": "2-5 minutes",
+      "next_step": "L-02"
+    },
+    {
+      "step_id": "L-02",
+      "name": "Route to Strategy Executor",
+      "description": "Branch to appropriate linking strategy execution (Layer 1: Router)",
+      "phase": "routing",
+      "branching": true,
+      "actions": [
+        {
+          "action_id": "L-02-A01",
+          "description": "Route based on strategy",
+          "llm_instructions": [
+            "If linking_strategy == 'pairwise': Go to L-03 (Pairwise Execution)",
+            "If linking_strategy == 'hierarchical': Go to L-04 (Hierarchical Execution)",
+            "If linking_strategy == 'network': Go to L-05 (Network Execution)"
+          ],
+          "routing_logic": {
+            "pairwise": "L-03",
+            "hierarchical": "L-04",
+            "network": "L-05"
+          }
+        }
+      ],
+      "typical_time": "1 minute",
+      "next_step": "CONDITIONAL (L-03 | L-04 | L-05)"
+    },
+    {
+      "step_id": "L-03",
+      "name": "Execute Pairwise Linking Strategy",
+      "description": "Link 2-3 graphs with mixed relationships using all-to-all pairing (Layer 2: Executor)",
+      "phase": "execution_pairwise",
+      "conditional": "linking_strategy == 'pairwise'",
+      "actions": [
+        {
+          "action_id": "L-03-A01",
+          "description": "Generate all graph pairs",
+          "llm_instructions": [
+            "For N graphs, generate all N*(N-1)/2 pairs",
+            "Example: [A, B, C] → pairs: [(A,B), (A,C), (B,C)]",
+            "Store pairs list"
+          ],
+          "output": "graph_pairs"
+        },
+        {
+          "action_id": "L-03-A02",
+          "description": "Link each pair using chain-01-link-architectures.json",
+          "iteration": "For each pair in graph_pairs",
+          "llm_instructions": [
+            "Execute workflow: chain-01-link-architectures.json",
+            "Pass graph pair as input",
+            "Collect linked output",
+            "Store in context/linked_pairs/"
+          ],
+          "reuses_workflow": "chain-01-link-architectures.json",
+          "output_pattern": "context/linked_pairs/pair_{i}_{j}.json"
+        },
+        {
+          "action_id": "L-03-A03",
+          "description": "Collect all linked pairs",
+          "llm_instructions": [
+            "Gather all linked pair outputs",
+            "Create manifest of linked pairs",
+            "Prepare for Phase 3 merge"
+          ],
+          "output": "context/linked_results.json"
+        }
+      ],
+      "typical_time": "30-60 minutes (depends on N and graph complexity)",
+      "next_step": "L-06"
+    },
+    {
+      "step_id": "L-04",
+      "name": "Execute Hierarchical Linking Strategy",
+      "description": "Link graphs in parent-child hierarchy order (Layer 2: Executor)",
+      "phase": "execution_hierarchical",
+      "conditional": "linking_strategy == 'hierarchical'",
+      "actions": [
+        {
+          "action_id": "L-04-A01",
+          "description": "Infer hierarchy tree",
+          "llm_instructions": [
+            "Use hierarchy inferences from multi_graph_analysis.json",
+            "Identify root (system-of-systems or enterprise level)",
+            "Identify children at each level",
+            "Build tree structure"
+          ],
+          "output": "hierarchy_tree"
+        },
+        {
+          "action_id": "L-04-A02",
+          "description": "Link parent-child pairs level-by-level",
+          "iteration": "For each level in hierarchy (root → leaf)",
+          "llm_instructions": [
+            "For each parent at current level:",
+            "  - Link parent to each child",
+            "  - Execute workflow: chain-01-link-architectures.json",
+            "  - Store linked parent-child result",
+            "Move to next level down"
+          ],
+          "reuses_workflow": "chain-01-link-architectures.json",
+          "output_pattern": "context/linked_pairs/parent_{i}_child_{j}.json"
+        },
+        {
+          "action_id": "L-04-A03",
+          "description": "Collect hierarchical links",
+          "llm_instructions": [
+            "Gather all parent-child links",
+            "Preserve hierarchy metadata",
+            "Prepare for Phase 3 hierarchical merge"
+          ],
+          "output": "context/linked_results.json"
+        }
+      ],
+      "typical_time": "30-90 minutes (depends on tree depth and branching)",
+      "next_step": "L-06"
+    },
+    {
+      "step_id": "L-05",
+      "name": "Execute Network Linking Strategy",
+      "description": "Link all graphs at same level in mesh/network topology (Layer 2: Executor)",
+      "phase": "execution_network",
+      "conditional": "linking_strategy == 'network'",
+      "actions": [
+        {
+          "action_id": "L-05-A01",
+          "description": "Validate all graphs are at same level",
+          "quality_gate": {
+            "type": "BLOCKING",
+            "condition": "All graphs have same hierarchical_tier (e.g., all 'system' level)",
+            "failure_action": "Suggest hierarchical strategy instead"
+          }
+        },
+        {
+          "action_id": "L-05-A02",
+          "description": "Determine network topology",
+          "llm_instructions": [
+            "Options:",
+            "  - Full mesh: All-to-all links (like pairwise)",
+            "  - Star: Hub-spoke (identify central hub)",
+            "  - Ring: Chain in circle",
+            "Default: Full mesh for N < 5, Hub-spoke for N >= 5"
+          ],
+          "output": "network_topology"
+        },
+        {
+          "action_id": "L-05-A03",
+          "description": "Link graphs according to topology",
+          "iteration": "For each link in topology",
+          "llm_instructions": [
+            "Execute workflow: chain-01-link-architectures.json",
+            "Pass graph pair as input",
+            "Store linked result with topology metadata"
+          ],
+          "reuses_workflow": "chain-01-link-architectures.json",
+          "output_pattern": "context/linked_pairs/network_{i}_{j}.json"
+        },
+        {
+          "action_id": "L-05-A04",
+          "description": "Collect network links",
+          "llm_instructions": [
+            "Gather all network links",
+            "Preserve topology metadata",
+            "Prepare for Phase 3 network merge"
+          ],
+          "output": "context/linked_results.json"
+        }
+      ],
+      "typical_time": "20-60 minutes (depends on N and topology)",
+      "next_step": "L-06"
+    },
+    {
+      "step_id": "L-06",
+      "name": "Finalize and Handoff to Phase 3",
+      "description": "Package all linked results and hand off to integration phase",
+      "phase": "finalization",
+      "actions": [
+        {
+          "action_id": "L-06-A01",
+          "description": "Validate linking completion",
+          "quality_gate": {
+            "type": "BLOCKING",
+            "checks": [
+              "All expected pairs have been linked",
+              "All linked results stored in context/linked_pairs/",
+              "linked_results.json manifest created"
+            ]
+          }
+        },
+        {
+          "action_id": "L-06-A02",
+          "description": "Update working memory for Phase 3",
+          "llm_instructions": [
+            "Update context/working_memory.json:",
+            "  - Set current_workflow = 'chain-03-merge-graphs'",
+            "  - Set current_step = 'M-01'",
+            "  - Store linking_strategy_used",
+            "  - Store number_of_linked_pairs"
+          ]
+        },
+        {
+          "action_id": "L-06-A03",
+          "description": "Generate Phase 2 summary report",
+          "llm_instructions": [
+            "Create docs/PHASE2_LINKING_SUMMARY_{timestamp}.md:",
+            "  - Strategy used",
+            "  - Number of graphs linked",
+            "  - Number of pairs created",
+            "  - Topology/structure",
+            "  - Time taken",
+            "  - Next step: Phase 3"
+          ],
+          "output": "docs/PHASE2_LINKING_SUMMARY_{timestamp}.md"
+        }
+      ],
+      "typical_time": "5-10 minutes",
+      "next_step": "COMPLETE (proceed to chain-03-merge-graphs.json)"
+    }
+  ],
+  "completion_criteria": {
+    "required": [
+      "Strategy loaded and validated",
+      "Appropriate executor branch taken (L-03 | L-04 | L-05)",
+      "All graph pairs linked using chain-01-link-architectures.json",
+      "linked_results.json manifest created",
+      "Phase 2 summary report generated"
+    ]
+  },
+  "success_criteria": {
+    "linking_complete": "All expected pairs successfully linked",
+    "quality_maintained": "All links passed orthogonality and hierarchy checks",
+    "ready_for_phase3": "linked_results.json ready for merge step",
+    "documentation_complete": "Phase 2 summary report documents strategy and results"
+  },
+  "llm_agent_guidance": {
+    "critical_reminders": [
+      "This workflow implements LAYER 1 (Router) and LAYER 2 (Executor) as detected by matrix gap analysis",
+      "Always reuse chain-01-link-architectures.json - never duplicate its logic",
+      "Pairwise = all-to-all, Hierarchical = parent-child tree, Network = same-level mesh",
+      "Phase 3 expects context/linked_results.json manifest - don't skip L-06-A03"
+    ],
+    "workflow_philosophy": "Simple router + executor pattern. The router (L-02) is trivial branching logic. The executors (L-03/L-04/L-05) differ only in graph selection strategy, not linking logic (which is delegated to chain-01).",
+    "matrix_insight": "Matrix gap detection revealed this should be a 2-layer system (router + executor), not 3 separate complex workflows. Rank-2 sparse diagonal matrix suggests simple centralized routing with targeted execution.",
+    "dogfooding_note": "This workflow was created by running chain_reflow's matrix_gap_detection tool on chain_reflow itself - ultimate dogfooding!"
+  },
+  "example_usage": {
+    "scenario": "Linking 3 microservice architectures with mixed relationships",
+    "inputs": [
+      "Strategy determined: 'pairwise' (from Phase 1a)",
+      "Graphs: [auth_service, api_gateway, user_management]"
+    ],
+    "execution_path": "L-01 → L-02 → L-03 (pairwise) → L-06",
+    "pairs_linked": 3,
+    "outputs": [
+      "context/linked_pairs/pair_auth_api.json",
+      "context/linked_pairs/pair_auth_user.json",
+      "context/linked_pairs/pair_api_user.json",
+      "context/linked_results.json (manifest)",
+      "docs/PHASE2_LINKING_SUMMARY_2025-11-05.md"
+    ],
+    "total_time": "45-60 minutes"
+  }
+}

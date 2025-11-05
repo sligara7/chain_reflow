@@ -1,0 +1,63 @@
+{
+  "architecture_metadata": {
+    "name": "Chain Reflow Workflow Architecture - Phase 3+ Complete (After State)",
+    "description": "Workflow chain with integration and validation working",
+    "framework": "functional_flow",
+    "version": "1.0.0",
+    "domain": "workflow_architecture",
+    "state": "INTEGRATION_VALIDATION_COMPLETE - Assumes linking happened"
+  },
+  "nodes": [
+    {"id": "phase0_setup", "name": "Phase 0: Setup"},
+    {"id": "phase1_analyze", "name": "Phase 1: Multi-Graph Analysis"},
+    {"id": "phase1_determine_strategy", "name": "Phase 1a: Determine Strategy"},
+    {"id": "assumed_phase2", "name": "ASSUMED: Phase 2 Linking Happened"},
+    {"id": "phase3_merge", "name": "Phase 3: Merge Graphs"},
+    {"id": "phase4_validate", "name": "Phase 4: Validate"}
+  ],
+  "edges": [
+    {
+      "source": "phase0_setup",
+      "target": "phase1_analyze",
+      "weight": 1.0,
+      "description": "Setup completes, analysis begins"
+    },
+    {
+      "source": "phase1_analyze",
+      "target": "phase1_determine_strategy",
+      "weight": 1.0,
+      "description": "Analysis completes, strategy determined"
+    },
+    {
+      "source": "phase1_determine_strategy",
+      "target": "assumed_phase2",
+      "weight": 0.5,
+      "description": "WEAK: Strategy determined but no workflow executes it"
+    },
+    {
+      "source": "assumed_phase2",
+      "target": "phase3_merge",
+      "weight": 1.0,
+      "description": "Linked pairs ready for merging"
+    },
+    {
+      "source": "phase3_merge",
+      "target": "phase4_validate",
+      "weight": 1.0,
+      "description": "Merged graph ready for validation"
+    }
+  ],
+  "components": [
+    {"id": "phase0_setup", "state": 1.0},
+    {"id": "phase1_analyze", "state": 1.0},
+    {"id": "phase1_determine_strategy", "state": 1.0},
+    {"id": "assumed_phase2", "state": 0.3},
+    {"id": "phase3_merge", "state": 0.8},
+    {"id": "phase4_validate", "state": 0.8}
+  ],
+  "gap_indicator": {
+    "assumption": "Phase 2 linking workflows exist to bridge Phase 1 → Phase 3",
+    "reality": "Phase 3 and 4 workflows assume linked pairs but Phase 2 doesn't provide them",
+    "impact": "Workflow chain is broken - cannot execute end-to-end"
+  }
+}
