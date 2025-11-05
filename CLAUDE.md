@@ -67,16 +67,14 @@ Chain_reflow automatically detects framework type from each `system_of_systems_g
 ### Meta-Analysis Workflows
 
 **98-chain_feature_update.json** (Use for ALL feature updates)
-```bash
-# Automatically runs meta-analysis after every feature update
-python3 src/workflow_runner.py workflows/98-chain_feature_update.json --feature "description"
-```
+- Workflow: `workflows/98-chain_feature_update.json`
+- When: After every feature implementation
+- How: Claude Code reads workflow and executes steps
 
 **99-chain_meta_analysis.json** (Run quarterly or before major releases)
-```bash
-# Comprehensive self-analysis with chain_reflow's specialized tools
-python3 src/workflow_runner.py workflows/99-chain_meta_analysis.json
-```
+- Workflow: `workflows/99-chain_meta_analysis.json`
+- When: Quarterly health checks, before major releases
+- How: Claude Code reads workflow and executes steps
 
 ### What Meta-Analysis Does
 
@@ -114,20 +112,42 @@ See detailed plans:
 
 ## Core Commands
 
-### Running Workflows
+### Workflow Execution Model
+
+**Chain_reflow follows reflow's LLM-assisted execution philosophy:**
+
+🤖 **Claude Code (or similar AI agent) IS the workflow executor**
+- Workflows are JSON specifications, not executable scripts
+- AI reads workflow steps and executes them intelligently
+- AI invokes tools directly: `python3 {paths.tools_path}/[tool].py`
+- Human-in-the-loop for critical decisions (framework selection, creative linking)
+
+**How to Execute a Workflow:**
+1. Tell Claude Code: "Execute workflow `workflows/99-chain_meta_analysis.json`"
+2. Claude Code reads the workflow JSON
+3. Claude Code executes each step's actions
+4. Claude Code updates `context/working_memory.json` to track progress
+
+**There is NO automated workflow runner** - this is intentional! AI agents provide:
+- Intelligent error handling and recovery
+- Context-aware decision making
+- Ability to skip/modify steps based on project state
+- Human consultation when needed
+
+### Analysis Tools (CLI)
 
 ```bash
-# Run the setup workflow to initialize the system
-python3 run_setup_demo.py
+# Matryoshka hierarchical analysis
+python3 src/matryoshka_analysis.py system_of_systems_graph.json
 
-# Run a specific workflow using the workflow runner
-python3 src/workflow_runner.py workflows/chain-00-setup.json
+# Causality analysis (correlation vs causation)
+python3 src/causality_analysis.py graph1.json graph2.json
 
-# Run architecture linking workflow
-python3 src/workflow_runner.py workflows/chain-01-link-architectures.json
+# Creative linking for orthogonal architectures
+python3 src/creative_linking.py graph1.json graph2.json
 
-# Test creative linking engine
-python3 src/creative_linking.py
+# All tools support --help, --output, --format flags
+python3 src/matryoshka_analysis.py --help
 ```
 
 ### Development Commands
@@ -159,12 +179,6 @@ Chain Reflow follows the reflow methodology with a 5-phase workflow architecture
 5. **Phase 4: Validation** (`chain-04-validate.json`) - Validate using reflow analysis tools
 
 ### Key Modules
-
-**`src/workflow_runner.py`** - Core workflow execution engine
-- Loads workflow JSON files
-- Manages working memory (`context/working_memory.json`)
-- Executes workflow steps sequentially
-- Tracks progress in `context/step_progress_tracker.json`
 
 **`src/creative_linking.py`** - Creative linking for orthogonal architectures
 - Implements synesthetic mappings (cross-domain metaphors)

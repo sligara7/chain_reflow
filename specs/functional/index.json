@@ -1,0 +1,22 @@
+{
+  "system_metadata": {
+    "system_name": "Chain Reflow System",
+    "framework": "functional_flow",
+    "version": "1.0.0",
+    "description": "Functional architecture of chain_reflow system for meta-analysis",
+    "created": "2025-11-05",
+    "analysis_context": "Self-analysis using reflow's system_of_systems_graph_v2.py tool"
+  },
+  "components": {
+    "chain_reflow_functional": "functional_architecture.json"
+  },
+  "component_metadata": {
+    "chain_reflow_functional": {
+      "name": "Chain Reflow Functional Architecture",
+      "type": "functional_flow",
+      "description": "Complete functional architecture with 8 flows and 48 functions",
+      "context_aware": true,
+      "context_threshold": 160000
+    }
+  }
+}
