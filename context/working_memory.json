@@ -16,16 +16,21 @@
   "operations_since_refresh": 0,
   "meta_analysis_mode": true,
   "meta_analysis_complete": true,
-  "meta_analysis_date": "2025-11-04",
+  "meta_analysis_date": "2025-11-05",
+  "meta_analysis_reason": "Re-running after Priorities 1-3 completion (CLI tools, execution model, integration tests)",
+  "meta_analysis_result": "SUCCESS - All priorities complete, tools validated, 19/19 tests passing",
   "framework_configuration": {
-    "framework_id": "decision_flow",
-    "framework_name": "Decision Flow Framework",
-    "component_term": "state",
-    "connection_term": "transition",
-    "architecture_file_type": "decision_flow_graph.json",
-    "selected_framework_rationale": "Chain reflow orchestrates workflows and manages state transitions across multiple system architectures",
+    "framework_id": "functional_flow",
+    "framework_name": "Functional Flow Framework",
+    "component_term": "function",
+    "connection_term": "function_call_or_data_flow",
+    "context_aware_analysis": {
+      "enabled": true,
+      "rationale": "AI agents have limited context windows - must track consumption"
+    },
+    "selected_framework_rationale": "Chain reflow's functional architecture uses functional flow framework",
     "user_confirmed": true,
-    "confirmation_timestamp": "2025-10-28T01:29:38.243158"
+    "confirmation_timestamp": "2025-11-05T00:00:00.000000"
   },
   "detected_approach": {
     "approach": "bottom_up",
