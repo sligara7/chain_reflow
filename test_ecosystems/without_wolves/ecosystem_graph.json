@@ -1,0 +1,137 @@
+{
+  "metadata": {
+    "system_name": "Degraded Ecosystem (Missing Apex Predator)",
+    "framework": "systems_biology",
+    "num_nodes": 3,
+    "num_edges": 4,
+    "test_purpose": "Gap detection test - Can chain_reflow identify missing wolf system?",
+    "created": "2025-11-05"
+  },
+  "graph": {
+    "nodes": [
+      {
+        "id": "beaver_ecosystem",
+        "name": "Beaver Ecosystem Engineering System",
+        "type": "population",
+        "hierarchical_tier": "population",
+        "status": "STRESSED",
+        "components": 8,
+        "key_dependency": "young_tree_requirement",
+        "dependency_status": "CRITICAL_UNMET"
+      },
+      {
+        "id": "deer_population",
+        "name": "Deer Population System (Unchecked)",
+        "type": "population",
+        "hierarchical_tier": "population",
+        "status": "OVERPOPULATED",
+        "components": 8,
+        "key_issue": "missing_predation_control",
+        "system_state": "IMBALANCED"
+      },
+      {
+        "id": "vegetation_ecosystem",
+        "name": "Vegetation Ecosystem System",
+        "type": "ecosystem",
+        "hierarchical_tier": "ecosystem",
+        "status": "DEGRADED",
+        "components": 8,
+        "key_issue": "missing_protected_zones",
+        "regeneration_failure": true
+      }
+    ],
+    "links": [
+      {
+        "source": "deer_population",
+        "target": "vegetation_ecosystem",
+        "type": "inhibition",
+        "description": "Deer over-browsing prevents vegetation regeneration",
+        "strength": 0.9,
+        "issue": "EXCESSIVE - No population control"
+      },
+      {
+        "source": "vegetation_ecosystem",
+        "target": "beaver_ecosystem",
+        "type": "activation",
+        "description": "Vegetation should provide young trees for beavers",
+        "strength": 0.1,
+        "expected_strength": 0.9,
+        "gap": "FAILING - Insufficient young trees due to browsing"
+      },
+      {
+        "source": "MISSING_SYSTEM",
+        "target": "deer_population",
+        "type": "missing_inhibition",
+        "description": "MISSING: Apex predator should control deer population",
+        "strength": 0.0,
+        "expected_strength": 0.8,
+        "gap_evidence": [
+          "Unchecked deer population growth",
+          "No behavioral modification (landscape of fear)",
+          "Browsing in all areas including vulnerable zones",
+          "Ecosystem degradation consistent with missing top-down regulation"
+        ]
+      },
+      {
+        "source": "MISSING_SYSTEM",
+        "target": "vegetation_ecosystem",
+        "type": "missing_activation",
+        "description": "MISSING: Predation risk should create refugia for vegetation",
+        "strength": 0.0,
+        "expected_strength": 0.8,
+        "gap_evidence": [
+          "No protected zones for regeneration",
+          "Uniform browsing pressure",
+          "Riparian zones completely denuded"
+        ]
+      }
+    ]
+  },
+  "gap_analysis": {
+    "explicit_gaps": [
+      {
+        "gap_id": "MISSING_APEX_PREDATOR",
+        "description": "No apex predator to control deer population",
+        "evidence": [
+          "Deer population described as OVERPOPULATED with no control mechanism",
+          "Component 'missing_predation_control' explicitly noted in deer architecture",
+          "Vegetation shows 'missing_protected_zones' - no landscape of fear effect",
+          "Beaver system stressed due to lack of young trees (downstream effect)"
+        ],
+        "expected_system_characteristics": {
+          "name": "Apex Predator System",
+          "trophic_level": "top_carnivore",
+          "likely_species": "wolf_or_large_predator",
+          "effects": [
+            "Direct population control via predation",
+            "Behavioral modification (landscape of fear)",
+            "Creates spatial refugia for vegetation regeneration",
+            "Initiates trophic cascade"
+          ]
+        },
+        "gap_type": "MISSING_REGULATORY_MECHANISM",
+        "impact": "CRITICAL - Entire ecosystem degraded without this component"
+      }
+    ],
+    "system_imbalances": [
+      {
+        "imbalance": "deer_vegetation_relationship",
+        "normal_state": "balanced_herbivory",
+        "current_state": "destructive_over_browsing",
+        "cause": "missing_top_down_control"
+      },
+      {
+        "imbalance": "vegetation_beaver_relationship",
+        "normal_state": "sufficient_young_trees",
+        "current_state": "insufficient_resources",
+        "cause": "vegetation_failure_due_to_browsing"
+      }
+    ],
+    "trophic_cascade_disrupted": {
+      "missing_initiator": "apex_predator",
+      "cascade_direction": "top_down",
+      "affected_levels": ["herbivore", "vegetation", "ecosystem_engineer"],
+      "yellowstone_parallel": "Pre-1995 wolf eradication state"
+    }
+  }
+}

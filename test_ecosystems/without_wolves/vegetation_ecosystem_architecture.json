@@ -1,0 +1,193 @@
+{
+  "architecture_metadata": {
+    "name": "Vegetation Ecosystem System",
+    "description": "Forest vegetation, tree regeneration, and understory dynamics",
+    "framework": "systems_biology",
+    "version": "1.0.0",
+    "hierarchical_tier": "ecosystem",
+    "domain": "ecological",
+    "created": "2025-11-05",
+    "system_state": "DEGRADED - Over-browsing preventing regeneration"
+  },
+  "components": [
+    {
+      "id": "mature_trees",
+      "name": "Mature Tree Canopy",
+      "type": "vegetation",
+      "description": "Established mature trees (willow, aspen, cottonwood)",
+      "properties": {
+        "age": "mature",
+        "browsing_resistance": "high_due_to_height",
+        "status": "stable_but_aging"
+      }
+    },
+    {
+      "id": "tree_seedlings",
+      "name": "Tree Seedlings and Saplings",
+      "type": "vegetation",
+      "description": "Young trees attempting to regenerate",
+      "properties": {
+        "species": ["willow", "aspen", "cottonwood"],
+        "age": "young",
+        "browsing_vulnerability": "VERY_HIGH"
+      },
+      "status": "CRITICALLY_DEPLETED - Consumed faster than regeneration"
+    },
+    {
+      "id": "understory_vegetation",
+      "name": "Forest Understory",
+      "type": "vegetation",
+      "description": "Shrubs, wildflowers, and ground cover",
+      "properties": {
+        "density": "SEVERELY_REDUCED",
+        "diversity": "declining",
+        "structure": "park_like_openness"
+      },
+      "status": "DEGRADED"
+    },
+    {
+      "id": "invasive_plants",
+      "name": "Invasive Plant Species",
+      "type": "vegetation",
+      "description": "Non-native species avoided by deer",
+      "properties": {
+        "browsing_pressure": "minimal",
+        "competitive_advantage": "high",
+        "spread_rate": "increasing"
+      },
+      "status": "EXPANDING_UNCHECKED"
+    },
+    {
+      "id": "riverbank_vegetation",
+      "name": "Riparian Vegetation",
+      "type": "vegetation",
+      "description": "Vegetation along streams and riverbanks",
+      "properties": {
+        "species": ["willow", "alder", "cottonwood"],
+        "regeneration": "BLOCKED_by_browsing",
+        "bank_stability": "declining_without_root_systems"
+      },
+      "status": "CRITICAL - Erosion increasing"
+    },
+    {
+      "id": "forest_regeneration_failure",
+      "name": "Forest Regeneration Failure",
+      "type": "ecosystem_failure",
+      "description": "Inability of forest to regenerate due to browsing pressure",
+      "properties": {
+        "seedling_survival": "near_zero",
+        "recruitment_rate": "insufficient",
+        "future_composition": "permanently_altered"
+      },
+      "status": "SYSTEM_FAILURE"
+    },
+    {
+      "id": "soil_erosion",
+      "name": "Increased Soil Erosion",
+      "type": "physical_impact",
+      "description": "Loss of stabilizing vegetation leads to erosion",
+      "properties": {
+        "bank_erosion": "increasing",
+        "sediment_runoff": "elevated",
+        "stream_quality": "degraded"
+      }
+    },
+    {
+      "id": "missing_protected_zones",
+      "name": "MISSING: Predator-Free Browsing Zones",
+      "type": "missing_component",
+      "description": "Without predators, deer browse everywhere including vulnerable riverbanks",
+      "properties": {
+        "expected_pattern": "deer_avoid_risky_open_areas",
+        "actual_pattern": "deer_browse_everywhere",
+        "consequence": "no_refugia_for_vegetation_regeneration"
+      },
+      "status": "MISSING_BEHAVIORAL_CONSTRAINT"
+    }
+  ],
+  "interactions": [
+    {
+      "source": "mature_trees",
+      "target": "tree_seedlings",
+      "type": "activation",
+      "description": "Mature trees produce seeds and seedlings",
+      "strength": 0.7
+    },
+    {
+      "source": "tree_seedlings",
+      "target": "forest_regeneration_failure",
+      "type": "inhibition",
+      "description": "Seedlings SHOULD prevent regeneration failure, but are consumed",
+      "strength": 0.1,
+      "expected_strength": 0.9,
+      "gap": "BROWSING_PRESSURE_OVERWHELMING"
+    },
+    {
+      "source": "understory_vegetation",
+      "target": "soil_erosion",
+      "type": "inhibition",
+      "description": "Understory SHOULD prevent erosion, but is depleted",
+      "strength": 0.2,
+      "expected_strength": 0.8
+    },
+    {
+      "source": "invasive_plants",
+      "target": "tree_seedlings",
+      "type": "inhibition",
+      "description": "Invasives outcompete native seedlings",
+      "strength": 0.7
+    },
+    {
+      "source": "riverbank_vegetation",
+      "target": "soil_erosion",
+      "type": "inhibition",
+      "description": "Riparian vegetation SHOULD stabilize banks, but is absent",
+      "strength": 0.15,
+      "expected_strength": 0.85
+    },
+    {
+      "source": "missing_protected_zones",
+      "target": "riverbank_vegetation",
+      "type": "missing_activation",
+      "description": "MISSING: Predation risk should create refugia where vegetation can regenerate",
+      "strength": 0.0,
+      "expected_strength": 0.8,
+      "gap_type": "MISSING_LANDSCAPE_OF_FEAR"
+    }
+  ],
+  "dependencies": {
+    "affected_by": [
+      {
+        "system": "deer_population",
+        "interaction": "over_browsing",
+        "impact": "CRITICAL_NEGATIVE - Consumption exceeds regeneration",
+        "mechanism": "unchecked_browsing_pressure"
+      }
+    ],
+    "provides_to": [
+      {
+        "system": "beaver_ecosystem",
+        "component": "young_trees",
+        "status": "FAILING - Insufficient young trees for beaver survival",
+        "consequence": "beaver_population_decline"
+      }
+    ],
+    "missing_protection": [
+      {
+        "expected_mechanism": "predator_induced_behavioral_changes",
+        "description": "Predators should create 'landscape of fear' where deer avoid vulnerable areas (riverbanks, open valleys)",
+        "current_state": "ABSENT - Deer browse everywhere without fear",
+        "gap_evidence": [
+          "No refugia for vegetation regeneration",
+          "Riparian zones completely denuded",
+          "No spatial pattern in browsing intensity"
+        ]
+      }
+    ]
+  },
+  "notes": {
+    "trophic_cascade_evidence": "Classic signs of missing apex predator: over-browsed riparian zones, no vegetation refugia, uniform browsing pressure",
+    "yellowstone_parallel": "Mirrors pre-wolf-reintroduction Yellowstone: aspen and willow regeneration failure, riverbank erosion",
+    "gap_hypothesis": "A missing predator would create behavioral changes in deer (landscape of fear), allowing vegetation to regenerate in vulnerable areas like riverbanks and open valleys"
+  }
+}

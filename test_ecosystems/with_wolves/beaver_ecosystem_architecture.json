@@ -1,0 +1,175 @@
+{
+  "architecture_metadata": {
+    "name": "Beaver Ecosystem Engineering System",
+    "description": "Beavers as ecosystem engineers: dam-building, wetland creation, and habitat modification",
+    "framework": "systems_biology",
+    "version": "1.0.0",
+    "hierarchical_tier": "population",
+    "domain": "ecological",
+    "created": "2025-11-05"
+  },
+  "components": [
+    {
+      "id": "beaver_population",
+      "name": "Beaver Population",
+      "type": "organism_population",
+      "description": "North American beaver (Castor canadensis) colony",
+      "properties": {
+        "population_size": "variable",
+        "colony_structure": "family_groups",
+        "lifespan": "10-15_years"
+      }
+    },
+    {
+      "id": "dam_building",
+      "name": "Dam Construction Activity",
+      "type": "ecological_process",
+      "description": "Beaver dam building that creates ponds and wetlands",
+      "properties": {
+        "materials": ["woody_vegetation", "mud", "stones"],
+        "dam_height": "1-3_meters",
+        "pond_area": "variable_hectares"
+      }
+    },
+    {
+      "id": "wetland_habitat",
+      "name": "Created Wetland Habitat",
+      "type": "habitat",
+      "description": "Wetlands and ponds created by beaver dams",
+      "properties": {
+        "water_depth": "variable",
+        "surface_area": "expands_over_time",
+        "biodiversity_support": "high"
+      }
+    },
+    {
+      "id": "water_storage",
+      "name": "Water Storage and Flow Regulation",
+      "type": "hydrological_function",
+      "description": "Beaver dams slow water flow, increase storage, recharge groundwater",
+      "properties": {
+        "flow_reduction": "significant",
+        "drought_mitigation": "high",
+        "groundwater_recharge": "increased"
+      }
+    },
+    {
+      "id": "water_quality",
+      "name": "Natural Water Filtration",
+      "type": "ecosystem_service",
+      "description": "Settling of sediments, nutrients, and pollutants in beaver ponds",
+      "properties": {
+        "sediment_capture": "high",
+        "nutrient_cycling": "enhanced",
+        "downstream_quality": "improved"
+      }
+    },
+    {
+      "id": "biodiversity_support",
+      "name": "Biodiversity Enhancement",
+      "type": "ecosystem_service",
+      "description": "Habitat for fish, amphibians, birds, insects, and other species",
+      "properties": {
+        "species_richness": "increased",
+        "trophic_levels": "multiple",
+        "habitat_complexity": "high"
+      }
+    },
+    {
+      "id": "fire_resilience",
+      "name": "Wildfire Protection",
+      "type": "ecosystem_service",
+      "description": "Moist environment acts as natural firebreak",
+      "properties": {
+        "moisture_level": "high",
+        "vegetation_type": "fire_resistant",
+        "protection_radius": "localized"
+      }
+    },
+    {
+      "id": "young_tree_requirement",
+      "name": "Young Tree Availability",
+      "type": "resource_dependency",
+      "description": "Beavers require young willow, aspen, cottonwood for food and dam materials",
+      "properties": {
+        "tree_species": ["willow", "aspen", "cottonwood"],
+        "tree_age": "young_saplings",
+        "consumption_rate": "high"
+      },
+      "status": "CRITICAL_DEPENDENCY"
+    }
+  ],
+  "interactions": [
+    {
+      "source": "beaver_population",
+      "target": "dam_building",
+      "type": "activation",
+      "description": "Beavers build and maintain dams",
+      "strength": 0.95
+    },
+    {
+      "source": "dam_building",
+      "target": "wetland_habitat",
+      "type": "activation",
+      "description": "Dams create wetland habitats",
+      "strength": 0.9
+    },
+    {
+      "source": "dam_building",
+      "target": "water_storage",
+      "type": "activation",
+      "description": "Dams regulate water flow and increase storage",
+      "strength": 0.85
+    },
+    {
+      "source": "wetland_habitat",
+      "target": "water_quality",
+      "type": "activation",
+      "description": "Wetlands filter and purify water",
+      "strength": 0.8
+    },
+    {
+      "source": "wetland_habitat",
+      "target": "biodiversity_support",
+      "type": "activation",
+      "description": "Wetlands provide diverse habitats",
+      "strength": 0.9
+    },
+    {
+      "source": "wetland_habitat",
+      "target": "fire_resilience",
+      "type": "activation",
+      "description": "Moist wetlands act as firebreaks",
+      "strength": 0.75
+    },
+    {
+      "source": "young_tree_requirement",
+      "target": "beaver_population",
+      "type": "activation",
+      "description": "Young trees support beaver population (food and dam materials)",
+      "strength": 0.9,
+      "dependency": "CRITICAL - Without young trees, beaver populations decline"
+    }
+  ],
+  "dependencies": {
+    "requires": [
+      {
+        "system": "vegetation_ecosystem",
+        "component": "young_tree_regeneration",
+        "reason": "Beavers need young willow/aspen/cottonwood for survival",
+        "criticality": "HIGH"
+      }
+    ],
+    "provides": [
+      {
+        "service": "wetland_creation",
+        "beneficiaries": ["biodiversity", "water_quality", "fire_protection"]
+      }
+    ]
+  },
+  "notes": {
+    "ecological_role": "Keystone species and ecosystem engineer",
+    "trophic_cascade_position": "Depends on vegetation availability, which depends on deer browsing patterns",
+    "vulnerability": "Population depends critically on young tree availability - if deer over-browse, beaver populations collapse"
+  }
+}

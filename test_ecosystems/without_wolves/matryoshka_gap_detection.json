@@ -1,0 +1,139 @@
+{
+  "report": "======================================================================\nMATRYOSHKA (HIERARCHICAL NESTING) ANALYSIS\n======================================================================\n\nLike Russian nesting dolls, system architectures are often nested\nhierarchically rather than linked peer-to-peer.\n\n\u26a0\ufe0f  IMPORTANT: Don't assume peer-to-peer relationships!\nArchitectures may be:\n\u2022 At the same level (peers)\n\u2022 At different levels (parent-child)\n\u2022 Nested through intermediate levels\n======================================================================\n\nDETECTED HIERARCHY LEVELS\n----------------------------------------------------------------------\n\nSYSTEM Level:\n  \u2022 Beaver Ecosystem Engineering System (confidence: 30%)\n  \u2022 Deer Population System (Unchecked) (confidence: 30%)\n  \u2022 Vegetation Ecosystem System (confidence: 30%)\n\n======================================================================\nHIERARCHICAL RELATIONSHIPS\n======================================================================\n\nPeer Relationships (same level):\n  Beaver Ecosystem Engineering System \u2194 Deer Population System (Unchecked)\n    Level: system\n  Beaver Ecosystem Engineering System \u2194 Vegetation Ecosystem System\n    Level: system\n  Deer Population System (Unchecked) \u2194 Vegetation Ecosystem System\n    Level: system\n\n======================================================================\nHIERARCHICAL GAPS (Missing Levels)\n======================================================================\n\n\u26a0\ufe0f  KNOWLEDGE GAPS: The following intermediate levels may exist\nbut are not yet documented:\n\n1. Missing Parent\n   Hypothesis: Unknown system_of_systems architecture that contains Beaver Ecosystem Engineering System, Deer Population System (Unchecked), Vegetation Ecosystem System\n   Missing Level: system_of_systems\n   Evidence:\n     \u2022 3 peer architectures at system level\n     \u2022 No common parent identified\n     \u2022 Expected parent at system_of_systems level\n\n2. Missing Parent\n   Hypothesis: Unknown system_of_systems architecture that contains Beaver Ecosystem Engineering System\n   Missing Level: system_of_systems\n   Evidence:\n     \u2022 Beaver Ecosystem Engineering System at system level\n     \u2022 No parent architecture identified\n     \u2022 Expected parent at system_of_systems level\n\n======================================================================\nRECOMMENDED NEXT STEPS\n======================================================================\n1. Verify hierarchy levels for each architecture\n2. Investigate hierarchical gaps:\n   \u2022 Document missing intermediate levels if they exist\n   \u2022 Update architecture metadata if levels are incorrect\n3. Consider hierarchical relationships when linking:\n   \u2022 Peer-to-peer links: At same level\n   \u2022 Parent-child links: Containment relationships\n   \u2022 Indirect links: Through intermediate systems\n4. Don't assume peer-to-peer - check hierarchy first!\n",
+  "summary": {
+    "num_architectures": 3,
+    "num_relationships": 3,
+    "num_gaps": 2,
+    "hierarchy_levels": {
+      "Beaver Ecosystem Engineering System": "system",
+      "Deer Population System (Unchecked)": "system",
+      "Vegetation Ecosystem System": "system"
+    }
+  },
+  "hierarchy_metadata": {
+    "Beaver Ecosystem Engineering System": {
+      "architecture_name": "Beaver Ecosystem Engineering System",
+      "declared_level": null,
+      "inferred_level": "system",
+      "confidence": 0.3,
+      "evidence": [
+        "Name contains 'system' keyword"
+      ],
+      "scope_indicators": {
+        "component_count": 0,
+        "connection_count": 0,
+        "domain": "unknown",
+        "framework": "unknown",
+        "has_external_interfaces": false,
+        "has_subarchitectures": false
+      }
+    },
+    "Deer Population System (Unchecked)": {
+      "architecture_name": "Deer Population System (Unchecked)",
+      "declared_level": null,
+      "inferred_level": "system",
+      "confidence": 0.3,
+      "evidence": [
+        "Name contains 'system' keyword"
+      ],
+      "scope_indicators": {
+        "component_count": 0,
+        "connection_count": 0,
+        "domain": "unknown",
+        "framework": "unknown",
+        "has_external_interfaces": false,
+        "has_subarchitectures": false
+      }
+    },
+    "Vegetation Ecosystem System": {
+      "architecture_name": "Vegetation Ecosystem System",
+      "declared_level": null,
+      "inferred_level": "system",
+      "confidence": 0.3,
+      "evidence": [
+        "Name contains 'system' keyword"
+      ],
+      "scope_indicators": {
+        "component_count": 0,
+        "connection_count": 0,
+        "domain": "unknown",
+        "framework": "unknown",
+        "has_external_interfaces": false,
+        "has_subarchitectures": false
+      }
+    }
+  },
+  "relationships": [
+    {
+      "id": "rel_Beaver Ecosystem Engineering System_Deer Population System (Unchecked)",
+      "parent_architecture": "Beaver Ecosystem Engineering System",
+      "child_architecture": "Deer Population System (Unchecked)",
+      "parent_level": "system",
+      "child_level": "system",
+      "relationship_type": "peer",
+      "evidence": [
+        "Both at system level"
+      ],
+      "confidence": 0.3,
+      "direct_containment": false
+    },
+    {
+      "id": "rel_Beaver Ecosystem Engineering System_Vegetation Ecosystem System",
+      "parent_architecture": "Beaver Ecosystem Engineering System",
+      "child_architecture": "Vegetation Ecosystem System",
+      "parent_level": "system",
+      "child_level": "system",
+      "relationship_type": "peer",
+      "evidence": [
+        "Both at system level"
+      ],
+      "confidence": 0.3,
+      "direct_containment": false
+    },
+    {
+      "id": "rel_Deer Population System (Unchecked)_Vegetation Ecosystem System",
+      "parent_architecture": "Deer Population System (Unchecked)",
+      "child_architecture": "Vegetation Ecosystem System",
+      "parent_level": "system",
+      "child_level": "system",
+      "relationship_type": "peer",
+      "evidence": [
+        "Both at system level"
+      ],
+      "confidence": 0.3,
+      "direct_containment": false
+    }
+  ],
+  "gaps": [
+    {
+      "id": "gap_common_parent_Beaver Ecosystem Engineering System_Deer Population System (Unchecked)_Vegetation Ecosystem System",
+      "architecture_a": "Beaver Ecosystem Engineering System",
+      "architecture_b": "Deer Population System (Unchecked)",
+      "level_a": "system",
+      "level_b": "system",
+      "missing_level": "system_of_systems",
+      "hypothesis": "Unknown system_of_systems architecture that contains Beaver Ecosystem Engineering System, Deer Population System (Unchecked), Vegetation Ecosystem System",
+      "evidence": [
+        "3 peer architectures at system level",
+        "No common parent identified",
+        "Expected parent at system_of_systems level"
+      ],
+      "gap_type": "missing_parent"
+    },
+    {
+      "id": "gap_parent_Beaver Ecosystem Engineering System",
+      "architecture_a": "Beaver Ecosystem Engineering System",
+      "architecture_b": "unknown",
+      "level_a": "system",
+      "level_b": "unknown",
+      "missing_level": "system_of_systems",
+      "hypothesis": "Unknown system_of_systems architecture that contains Beaver Ecosystem Engineering System",
+      "evidence": [
+        "Beaver Ecosystem Engineering System at system level",
+        "No parent architecture identified",
+        "Expected parent at system_of_systems level"
+      ],
+      "gap_type": "missing_parent"
+    }
+  ]
+}

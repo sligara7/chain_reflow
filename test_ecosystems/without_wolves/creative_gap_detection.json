@@ -1,0 +1,29 @@
+{
+  "report": "No creative linking opportunities found.\nAll architectures appear to be in similar domains/frameworks.\n",
+  "summary": {
+    "num_architectures": 3,
+    "num_touchpoints": 0,
+    "num_pairs_analyzed": 3
+  },
+  "orthogonality_assessments": [
+    {
+      "arch1": "Beaver Ecosystem Engineering System",
+      "arch2": "Deer Population System (Unchecked)",
+      "level": "aligned",
+      "reasoning": "Same domain (unknown) and framework (unknown)"
+    },
+    {
+      "arch1": "Beaver Ecosystem Engineering System",
+      "arch2": "Vegetation Ecosystem System",
+      "level": "aligned",
+      "reasoning": "Same domain (unknown) and framework (unknown)"
+    },
+    {
+      "arch1": "Deer Population System (Unchecked)",
+      "arch2": "Vegetation Ecosystem System",
+      "level": "aligned",
+      "reasoning": "Same domain (unknown) and framework (unknown)"
+    }
+  ],
+  "touchpoints": []
+}

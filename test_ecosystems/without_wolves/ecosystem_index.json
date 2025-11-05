@@ -1,0 +1,46 @@
+{
+  "system_metadata": {
+    "system_name": "Degraded Ecosystem (Missing Apex Predator)",
+    "system_description": "Ecological system showing signs of trophic cascade disruption - intentionally missing apex predator to test gap detection",
+    "version": "1.0.0",
+    "framework": "systems_biology",
+    "created_date": "2025-11-05",
+    "test_purpose": "Validate chain_reflow's ability to detect missing wolf predation system through gap analysis",
+    "expected_gaps": [
+      "Missing apex predator causing deer overpopulation",
+      "Missing behavioral modification mechanism (landscape of fear)",
+      "Missing top-down population control"
+    ]
+  },
+  "components": {
+    "beaver_ecosystem": "beaver_ecosystem_architecture.json",
+    "deer_population": "deer_population_architecture.json",
+    "vegetation_ecosystem": "vegetation_ecosystem_architecture.json"
+  },
+  "component_metadata": {
+    "beaver_ecosystem": {
+      "name": "Beaver Ecosystem Engineering System",
+      "type": "population",
+      "status": "STRESSED - Lacking young trees for survival",
+      "hierarchical_tier": "population"
+    },
+    "deer_population": {
+      "name": "Deer Population System (Unchecked)",
+      "type": "population",
+      "status": "OVERPOPULATED - No predator control",
+      "hierarchical_tier": "population"
+    },
+    "vegetation_ecosystem": {
+      "name": "Vegetation Ecosystem System",
+      "type": "ecosystem",
+      "status": "DEGRADED - Over-browsing preventing regeneration",
+      "hierarchical_tier": "ecosystem"
+    }
+  },
+  "known_issues": {
+    "system_imbalance": "Unchecked deer population causing cascade of ecosystem degradation",
+    "missing_regulatory_mechanism": "No apex predator to control deer population or modify behavior",
+    "trophic_cascade_disrupted": "Top-down control absent, leading to bottom-up collapse",
+    "gap_detection_test": "Can chain_reflow identify the missing wolf system through analysis of interactions and gaps?"
+  }
+}

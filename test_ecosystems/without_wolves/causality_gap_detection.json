@@ -1,0 +1,326 @@
+{
+  "report": "======================================================================\nCORRELATION VS. CAUSATION ANALYSIS REPORT\n======================================================================\n\n\u26a0\ufe0f  FUNDAMENTAL PRINCIPLE \u26a0\ufe0f\n----------------------------------------------------------------------\nCORRELATION \u2260 CAUSATION\n\nJust because two systems appear related does NOT mean:\n\u2022 One causes the other\n\u2022 They should be linked in the architecture\n\u2022 Changes in one will affect the other\n\nHowever, observed correlations ARE worth exploring scientifically\nto determine if actual causal relationships exist.\n======================================================================\n\nOBSERVED CORRELATIONS: 3\n----------------------------------------------------------------------\n\n1. Beaver Ecosystem Engineering System \u2194 Deer Population System (Unchecked)\n   Pattern: Both use unknown framework - may indicate similar behavioral patterns\n   Strength: 60%\n   Observed by: system\n   Evidence:\n     \u2022 Both use unknown framework\n     \u2022 Similar frameworks often indicate related behaviors\n\n2. Beaver Ecosystem Engineering System \u2194 Vegetation Ecosystem System\n   Pattern: Both use unknown framework - may indicate similar behavioral patterns\n   Strength: 60%\n   Observed by: system\n   Evidence:\n     \u2022 Both use unknown framework\n     \u2022 Similar frameworks often indicate related behaviors\n\n3. Deer Population System (Unchecked) \u2194 Vegetation Ecosystem System\n   Pattern: Both use unknown framework - may indicate similar behavioral patterns\n   Strength: 60%\n   Observed by: system\n   Evidence:\n     \u2022 Both use unknown framework\n     \u2022 Similar frameworks often indicate related behaviors\n\n\nCAUSAL HYPOTHESES: 12\n----------------------------------------------------------------------\nThese are PROPOSED causal relationships that require validation.\n\n\n1. Hypothesis: a_causes_b\n   Changes in Beaver Ecosystem Engineering System cause corresponding changes in Deer Population System (Unchecked)\n   Confidence: 40%\n   Proposed Mechanism: Beaver Ecosystem Engineering System produces outputs/events that Deer Population System (Unchecked) consumes/responds to\n   Validation Status: untested\n   Alternative Explanations:\n     \u2022 Reverse causation (other direction)\n     \u2022 Bidirectional causation (both affect each other)\n     \u2022 Confounding variable (both affected by third factor)\n     \u2022 Spurious correlation (coincidental)\n\n2. Hypothesis: b_causes_a\n   Changes in Deer Population System (Unchecked) cause corresponding changes in Beaver Ecosystem Engineering System\n   Confidence: 40%\n   Proposed Mechanism: Deer Population System (Unchecked) produces outputs/events that Beaver Ecosystem Engineering System consumes/responds to\n   Validation Status: untested\n   Alternative Explanations:\n     \u2022 Reverse causation (other direction)\n     \u2022 Bidirectional causation (both affect each other)\n     \u2022 Confounding variable (both affected by third factor)\n     \u2022 Spurious correlation (coincidental)\n\n3. Hypothesis: bidirectional\n   Beaver Ecosystem Engineering System and Deer Population System (Unchecked) form a feedback loop where each affects the other\n   Confidence: 30%\n   Proposed Mechanism: Bidirectional coupling with feedback: changes in either system propagate to the other\n   Validation Status: untested\n   Alternative Explanations:\n     \u2022 Unidirectional causation (only one direction)\n     \u2022 Independent systems with shared confounding factor\n     \u2022 Spurious correlation\n\n4. Hypothesis: no_causation\n   Correlation between Beaver Ecosystem Engineering System and Deer Population System (Unchecked) is spurious - no causal mechanism\n   Confidence: 30%\n   Proposed Mechanism: No causal mechanism. Systems may be correlated due to: shared external factor, coincidental timing, or selection bias\n   Validation Status: untested\n   Alternative Explanations:\n     \u2022 Hidden causal mechanism not yet discovered\n     \u2022 Indirect causation through intermediate system\n     \u2022 Confounding variable causing both\n\n5. Hypothesis: a_causes_b\n   Changes in Beaver Ecosystem Engineering System cause corresponding changes in Vegetation Ecosystem System\n   Confidence: 40%\n   Proposed Mechanism: Beaver Ecosystem Engineering System produces outputs/events that Vegetation Ecosystem System consumes/responds to\n   Validation Status: untested\n   Alternative Explanations:\n     \u2022 Reverse causation (other direction)\n     \u2022 Bidirectional causation (both affect each other)\n     \u2022 Confounding variable (both affected by third factor)\n     \u2022 Spurious correlation (coincidental)\n\n6. Hypothesis: b_causes_a\n   Changes in Vegetation Ecosystem System cause corresponding changes in Beaver Ecosystem Engineering System\n   Confidence: 40%\n   Proposed Mechanism: Vegetation Ecosystem System produces outputs/events that Beaver Ecosystem Engineering System consumes/responds to\n   Validation Status: untested\n   Alternative Explanations:\n     \u2022 Reverse causation (other direction)\n     \u2022 Bidirectional causation (both affect each other)\n     \u2022 Confounding variable (both affected by third factor)\n     \u2022 Spurious correlation (coincidental)\n\n7. Hypothesis: bidirectional\n   Beaver Ecosystem Engineering System and Vegetation Ecosystem System form a feedback loop where each affects the other\n   Confidence: 30%\n   Proposed Mechanism: Bidirectional coupling with feedback: changes in either system propagate to the other\n   Validation Status: untested\n   Alternative Explanations:\n     \u2022 Unidirectional causation (only one direction)\n     \u2022 Independent systems with shared confounding factor\n     \u2022 Spurious correlation\n\n8. Hypothesis: no_causation\n   Correlation between Beaver Ecosystem Engineering System and Vegetation Ecosystem System is spurious - no causal mechanism\n   Confidence: 30%\n   Proposed Mechanism: No causal mechanism. Systems may be correlated due to: shared external factor, coincidental timing, or selection bias\n   Validation Status: untested\n   Alternative Explanations:\n     \u2022 Hidden causal mechanism not yet discovered\n     \u2022 Indirect causation through intermediate system\n     \u2022 Confounding variable causing both\n\n9. Hypothesis: a_causes_b\n   Changes in Deer Population System (Unchecked) cause corresponding changes in Vegetation Ecosystem System\n   Confidence: 40%\n   Proposed Mechanism: Deer Population System (Unchecked) produces outputs/events that Vegetation Ecosystem System consumes/responds to\n   Validation Status: untested\n   Alternative Explanations:\n     \u2022 Reverse causation (other direction)\n     \u2022 Bidirectional causation (both affect each other)\n     \u2022 Confounding variable (both affected by third factor)\n     \u2022 Spurious correlation (coincidental)\n\n10. Hypothesis: b_causes_a\n   Changes in Vegetation Ecosystem System cause corresponding changes in Deer Population System (Unchecked)\n   Confidence: 40%\n   Proposed Mechanism: Vegetation Ecosystem System produces outputs/events that Deer Population System (Unchecked) consumes/responds to\n   Validation Status: untested\n   Alternative Explanations:\n     \u2022 Reverse causation (other direction)\n     \u2022 Bidirectional causation (both affect each other)\n     \u2022 Confounding variable (both affected by third factor)\n     \u2022 Spurious correlation (coincidental)\n\n11. Hypothesis: bidirectional\n   Deer Population System (Unchecked) and Vegetation Ecosystem System form a feedback loop where each affects the other\n   Confidence: 30%\n   Proposed Mechanism: Bidirectional coupling with feedback: changes in either system propagate to the other\n   Validation Status: untested\n   Alternative Explanations:\n     \u2022 Unidirectional causation (only one direction)\n     \u2022 Independent systems with shared confounding factor\n     \u2022 Spurious correlation\n\n12. Hypothesis: no_causation\n   Correlation between Deer Population System (Unchecked) and Vegetation Ecosystem System is spurious - no causal mechanism\n   Confidence: 30%\n   Proposed Mechanism: No causal mechanism. Systems may be correlated due to: shared external factor, coincidental timing, or selection bias\n   Validation Status: untested\n   Alternative Explanations:\n     \u2022 Hidden causal mechanism not yet discovered\n     \u2022 Indirect causation through intermediate system\n     \u2022 Confounding variable causing both\n\n\n======================================================================\nRECOMMENDED NEXT STEPS\n======================================================================\n1. Review all correlations and hypotheses\n2. Select hypotheses to test based on:\n   \u2022 Importance to system integration\n   \u2022 Ease of validation\n   \u2022 User confidence in the relationship\n3. Design validation experiments (see validation plans)\n4. Execute validation studies\n5. Update relationship status based on evidence\n6. Only link architectures based on VALIDATED causal relationships\n\n\u26a0\ufe0f  CRITICAL: Do not assume causation from correlation alone!\n",
+  "summary": {
+    "num_architectures": 3,
+    "num_correlations": 3,
+    "num_hypotheses": 12,
+    "num_spurious": 0
+  },
+  "correlations": [
+    {
+      "id": "corr_behavioral_Beaver Ecosystem Engineering System_Deer Population System (Unchecked)",
+      "source_architecture": "Beaver Ecosystem Engineering System",
+      "target_architecture": "Deer Population System (Unchecked)",
+      "pattern_description": "Both use unknown framework - may indicate similar behavioral patterns",
+      "evidence": [
+        "Both use unknown framework",
+        "Similar frameworks often indicate related behaviors"
+      ],
+      "correlation_strength": 0.6,
+      "observed_by": "system",
+      "timestamp": "2025-11-05T21:28:11.847652"
+    },
+    {
+      "id": "corr_behavioral_Beaver Ecosystem Engineering System_Vegetation Ecosystem System",
+      "source_architecture": "Beaver Ecosystem Engineering System",
+      "target_architecture": "Vegetation Ecosystem System",
+      "pattern_description": "Both use unknown framework - may indicate similar behavioral patterns",
+      "evidence": [
+        "Both use unknown framework",
+        "Similar frameworks often indicate related behaviors"
+      ],
+      "correlation_strength": 0.6,
+      "observed_by": "system",
+      "timestamp": "2025-11-05T21:28:11.847695"
+    },
+    {
+      "id": "corr_behavioral_Deer Population System (Unchecked)_Vegetation Ecosystem System",
+      "source_architecture": "Deer Population System (Unchecked)",
+      "target_architecture": "Vegetation Ecosystem System",
+      "pattern_description": "Both use unknown framework - may indicate similar behavioral patterns",
+      "evidence": [
+        "Both use unknown framework",
+        "Similar frameworks often indicate related behaviors"
+      ],
+      "correlation_strength": 0.6,
+      "observed_by": "system",
+      "timestamp": "2025-11-05T21:28:11.847712"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp_a_causes_b_corr_behavioral_Beaver Ecosystem Engineering System_Deer Population System (Unchecked)",
+      "correlation_id": "corr_behavioral_Beaver Ecosystem Engineering System_Deer Population System (Unchecked)",
+      "source_architecture": "Beaver Ecosystem Engineering System",
+      "target_architecture": "Deer Population System (Unchecked)",
+      "causal_direction": "a_causes_b",
+      "hypothesis": "Changes in Beaver Ecosystem Engineering System cause corresponding changes in Deer Population System (Unchecked)",
+      "proposed_mechanism": "Beaver Ecosystem Engineering System produces outputs/events that Deer Population System (Unchecked) consumes/responds to",
+      "confidence": 0.4,
+      "alternative_explanations": [
+        "Reverse causation (other direction)",
+        "Bidirectional causation (both affect each other)",
+        "Confounding variable (both affected by third factor)",
+        "Spurious correlation (coincidental)"
+      ],
+      "validation_methods": [
+        "observational",
+        "temporal_analysis",
+        "intervention",
+        "mechanism_analysis"
+      ],
+      "validation_status": "untested",
+      "exploratory": true
+    },
+    {
+      "id": "hyp_b_causes_a_corr_behavioral_Beaver Ecosystem Engineering System_Deer Population System (Unchecked)",
+      "correlation_id": "corr_behavioral_Beaver Ecosystem Engineering System_Deer Population System (Unchecked)",
+      "source_architecture": "Deer Population System (Unchecked)",
+      "target_architecture": "Beaver Ecosystem Engineering System",
+      "causal_direction": "b_causes_a",
+      "hypothesis": "Changes in Deer Population System (Unchecked) cause corresponding changes in Beaver Ecosystem Engineering System",
+      "proposed_mechanism": "Deer Population System (Unchecked) produces outputs/events that Beaver Ecosystem Engineering System consumes/responds to",
+      "confidence": 0.4,
+      "alternative_explanations": [
+        "Reverse causation (other direction)",
+        "Bidirectional causation (both affect each other)",
+        "Confounding variable (both affected by third factor)",
+        "Spurious correlation (coincidental)"
+      ],
+      "validation_methods": [
+        "observational",
+        "temporal_analysis",
+        "intervention",
+        "mechanism_analysis"
+      ],
+      "validation_status": "untested",
+      "exploratory": true
+    },
+    {
+      "id": "hyp_bidirectional_corr_behavioral_Beaver Ecosystem Engineering System_Deer Population System (Unchecked)",
+      "correlation_id": "corr_behavioral_Beaver Ecosystem Engineering System_Deer Population System (Unchecked)",
+      "source_architecture": "Beaver Ecosystem Engineering System",
+      "target_architecture": "Deer Population System (Unchecked)",
+      "causal_direction": "bidirectional",
+      "hypothesis": "Beaver Ecosystem Engineering System and Deer Population System (Unchecked) form a feedback loop where each affects the other",
+      "proposed_mechanism": "Bidirectional coupling with feedback: changes in either system propagate to the other",
+      "confidence": 0.3,
+      "alternative_explanations": [
+        "Unidirectional causation (only one direction)",
+        "Independent systems with shared confounding factor",
+        "Spurious correlation"
+      ],
+      "validation_methods": [
+        "observational",
+        "experimental",
+        "mechanism_analysis"
+      ],
+      "validation_status": "untested",
+      "exploratory": true
+    },
+    {
+      "id": "hyp_spurious_corr_behavioral_Beaver Ecosystem Engineering System_Deer Population System (Unchecked)",
+      "correlation_id": "corr_behavioral_Beaver Ecosystem Engineering System_Deer Population System (Unchecked)",
+      "source_architecture": "Beaver Ecosystem Engineering System",
+      "target_architecture": "Deer Population System (Unchecked)",
+      "causal_direction": "no_causation",
+      "hypothesis": "Correlation between Beaver Ecosystem Engineering System and Deer Population System (Unchecked) is spurious - no causal mechanism",
+      "proposed_mechanism": "No causal mechanism. Systems may be correlated due to: shared external factor, coincidental timing, or selection bias",
+      "confidence": 0.3,
+      "alternative_explanations": [
+        "Hidden causal mechanism not yet discovered",
+        "Indirect causation through intermediate system",
+        "Confounding variable causing both"
+      ],
+      "validation_methods": [
+        "mechanism_analysis",
+        "counterfactual"
+      ],
+      "validation_status": "untested",
+      "exploratory": true
+    },
+    {
+      "id": "hyp_a_causes_b_corr_behavioral_Beaver Ecosystem Engineering System_Vegetation Ecosystem System",
+      "correlation_id": "corr_behavioral_Beaver Ecosystem Engineering System_Vegetation Ecosystem System",
+      "source_architecture": "Beaver Ecosystem Engineering System",
+      "target_architecture": "Vegetation Ecosystem System",
+      "causal_direction": "a_causes_b",
+      "hypothesis": "Changes in Beaver Ecosystem Engineering System cause corresponding changes in Vegetation Ecosystem System",
+      "proposed_mechanism": "Beaver Ecosystem Engineering System produces outputs/events that Vegetation Ecosystem System consumes/responds to",
+      "confidence": 0.4,
+      "alternative_explanations": [
+        "Reverse causation (other direction)",
+        "Bidirectional causation (both affect each other)",
+        "Confounding variable (both affected by third factor)",
+        "Spurious correlation (coincidental)"
+      ],
+      "validation_methods": [
+        "observational",
+        "temporal_analysis",
+        "intervention",
+        "mechanism_analysis"
+      ],
+      "validation_status": "untested",
+      "exploratory": true
+    },
+    {
+      "id": "hyp_b_causes_a_corr_behavioral_Beaver Ecosystem Engineering System_Vegetation Ecosystem System",
+      "correlation_id": "corr_behavioral_Beaver Ecosystem Engineering System_Vegetation Ecosystem System",
+      "source_architecture": "Vegetation Ecosystem System",
+      "target_architecture": "Beaver Ecosystem Engineering System",
+      "causal_direction": "b_causes_a",
+      "hypothesis": "Changes in Vegetation Ecosystem System cause corresponding changes in Beaver Ecosystem Engineering System",
+      "proposed_mechanism": "Vegetation Ecosystem System produces outputs/events that Beaver Ecosystem Engineering System consumes/responds to",
+      "confidence": 0.4,
+      "alternative_explanations": [
+        "Reverse causation (other direction)",
+        "Bidirectional causation (both affect each other)",
+        "Confounding variable (both affected by third factor)",
+        "Spurious correlation (coincidental)"
+      ],
+      "validation_methods": [
+        "observational",
+        "temporal_analysis",
+        "intervention",
+        "mechanism_analysis"
+      ],
+      "validation_status": "untested",
+      "exploratory": true
+    },
+    {
+      "id": "hyp_bidirectional_corr_behavioral_Beaver Ecosystem Engineering System_Vegetation Ecosystem System",
+      "correlation_id": "corr_behavioral_Beaver Ecosystem Engineering System_Vegetation Ecosystem System",
+      "source_architecture": "Beaver Ecosystem Engineering System",
+      "target_architecture": "Vegetation Ecosystem System",
+      "causal_direction": "bidirectional",
+      "hypothesis": "Beaver Ecosystem Engineering System and Vegetation Ecosystem System form a feedback loop where each affects the other",
+      "proposed_mechanism": "Bidirectional coupling with feedback: changes in either system propagate to the other",
+      "confidence": 0.3,
+      "alternative_explanations": [
+        "Unidirectional causation (only one direction)",
+        "Independent systems with shared confounding factor",
+        "Spurious correlation"
+      ],
+      "validation_methods": [
+        "observational",
+        "experimental",
+        "mechanism_analysis"
+      ],
+      "validation_status": "untested",
+      "exploratory": true
+    },
+    {
+      "id": "hyp_spurious_corr_behavioral_Beaver Ecosystem Engineering System_Vegetation Ecosystem System",
+      "correlation_id": "corr_behavioral_Beaver Ecosystem Engineering System_Vegetation Ecosystem System",
+      "source_architecture": "Beaver Ecosystem Engineering System",
+      "target_architecture": "Vegetation Ecosystem System",
+      "causal_direction": "no_causation",
+      "hypothesis": "Correlation between Beaver Ecosystem Engineering System and Vegetation Ecosystem System is spurious - no causal mechanism",
+      "proposed_mechanism": "No causal mechanism. Systems may be correlated due to: shared external factor, coincidental timing, or selection bias",
+      "confidence": 0.3,
+      "alternative_explanations": [
+        "Hidden causal mechanism not yet discovered",
+        "Indirect causation through intermediate system",
+        "Confounding variable causing both"
+      ],
+      "validation_methods": [
+        "mechanism_analysis",
+        "counterfactual"
+      ],
+      "validation_status": "untested",
+      "exploratory": true
+    },
+    {
+      "id": "hyp_a_causes_b_corr_behavioral_Deer Population System (Unchecked)_Vegetation Ecosystem System",
+      "correlation_id": "corr_behavioral_Deer Population System (Unchecked)_Vegetation Ecosystem System",
+      "source_architecture": "Deer Population System (Unchecked)",
+      "target_architecture": "Vegetation Ecosystem System",
+      "causal_direction": "a_causes_b",
+      "hypothesis": "Changes in Deer Population System (Unchecked) cause corresponding changes in Vegetation Ecosystem System",
+      "proposed_mechanism": "Deer Population System (Unchecked) produces outputs/events that Vegetation Ecosystem System consumes/responds to",
+      "confidence": 0.4,
+      "alternative_explanations": [
+        "Reverse causation (other direction)",
+        "Bidirectional causation (both affect each other)",
+        "Confounding variable (both affected by third factor)",
+        "Spurious correlation (coincidental)"
+      ],
+      "validation_methods": [
+        "observational",
+        "temporal_analysis",
+        "intervention",
+        "mechanism_analysis"
+      ],
+      "validation_status": "untested",
+      "exploratory": true
+    },
+    {
+      "id": "hyp_b_causes_a_corr_behavioral_Deer Population System (Unchecked)_Vegetation Ecosystem System",
+      "correlation_id": "corr_behavioral_Deer Population System (Unchecked)_Vegetation Ecosystem System",
+      "source_architecture": "Vegetation Ecosystem System",
+      "target_architecture": "Deer Population System (Unchecked)",
+      "causal_direction": "b_causes_a",
+      "hypothesis": "Changes in Vegetation Ecosystem System cause corresponding changes in Deer Population System (Unchecked)",
+      "proposed_mechanism": "Vegetation Ecosystem System produces outputs/events that Deer Population System (Unchecked) consumes/responds to",
+      "confidence": 0.4,
+      "alternative_explanations": [
+        "Reverse causation (other direction)",
+        "Bidirectional causation (both affect each other)",
+        "Confounding variable (both affected by third factor)",
+        "Spurious correlation (coincidental)"
+      ],
+      "validation_methods": [
+        "observational",
+        "temporal_analysis",
+        "intervention",
+        "mechanism_analysis"
+      ],
+      "validation_status": "untested",
+      "exploratory": true
+    },
+    {
+      "id": "hyp_bidirectional_corr_behavioral_Deer Population System (Unchecked)_Vegetation Ecosystem System",
+      "correlation_id": "corr_behavioral_Deer Population System (Unchecked)_Vegetation Ecosystem System",
+      "source_architecture": "Deer Population System (Unchecked)",
+      "target_architecture": "Vegetation Ecosystem System",
+      "causal_direction": "bidirectional",
+      "hypothesis": "Deer Population System (Unchecked) and Vegetation Ecosystem System form a feedback loop where each affects the other",
+      "proposed_mechanism": "Bidirectional coupling with feedback: changes in either system propagate to the other",
+      "confidence": 0.3,
+      "alternative_explanations": [
+        "Unidirectional causation (only one direction)",
+        "Independent systems with shared confounding factor",
+        "Spurious correlation"
+      ],
+      "validation_methods": [
+        "observational",
+        "experimental",
+        "mechanism_analysis"
+      ],
+      "validation_status": "untested",
+      "exploratory": true
+    },
+    {
+      "id": "hyp_spurious_corr_behavioral_Deer Population System (Unchecked)_Vegetation Ecosystem System",
+      "correlation_id": "corr_behavioral_Deer Population System (Unchecked)_Vegetation Ecosystem System",
+      "source_architecture": "Deer Population System (Unchecked)",
+      "target_architecture": "Vegetation Ecosystem System",
+      "causal_direction": "no_causation",
+      "hypothesis": "Correlation between Deer Population System (Unchecked) and Vegetation Ecosystem System is spurious - no causal mechanism",
+      "proposed_mechanism": "No causal mechanism. Systems may be correlated due to: shared external factor, coincidental timing, or selection bias",
+      "confidence": 0.3,
+      "alternative_explanations": [
+        "Hidden causal mechanism not yet discovered",
+        "Indirect causation through intermediate system",
+        "Confounding variable causing both"
+      ],
+      "validation_methods": [
+        "mechanism_analysis",
+        "counterfactual"
+      ],
+      "validation_status": "untested",
+      "exploratory": true
+    }
+  ],
+  "spurious": []
+}

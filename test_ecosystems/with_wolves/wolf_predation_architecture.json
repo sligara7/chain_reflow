@@ -1,0 +1,190 @@
+{
+  "architecture_metadata": {
+    "name": "Wolf Predation System (Apex Predator)",
+    "description": "Gray wolves as apex predators - population control and trophic cascade initiators",
+    "framework": "systems_biology",
+    "version": "1.0.0",
+    "hierarchical_tier": "population",
+    "domain": "ecological",
+    "created": "2025-11-05",
+    "ecological_role": "KEYSTONE_SPECIES - Apex predator that controls entire ecosystem"
+  },
+  "components": [
+    {
+      "id": "wolf_population",
+      "name": "Gray Wolf Population",
+      "type": "organism_population",
+      "description": "Gray wolf (Canis lupus) packs",
+      "properties": {
+        "pack_structure": "hierarchical",
+        "territory_size": "hundreds_of_square_km",
+        "hunting_strategy": "cooperative"
+      }
+    },
+    {
+      "id": "direct_predation",
+      "name": "Direct Predation on Deer/Elk",
+      "type": "predation_interaction",
+      "description": "Wolves kill and consume deer and elk",
+      "properties": {
+        "kill_rate": "variable_based_on_pack_size",
+        "target_preference": "young_old_weak",
+        "population_control_effect": "HIGH"
+      }
+    },
+    {
+      "id": "landscape_of_fear",
+      "name": "Landscape of Fear (Behavioral Cascade)",
+      "type": "behavioral_ecology",
+      "description": "Deer alter behavior due to predation risk - avoid vulnerable areas",
+      "properties": {
+        "effect": "deer_avoid_open_valleys_and_riverbanks",
+        "mechanism": "fear_of_predation",
+        "impact": "creates_refugia_for_vegetation"
+      },
+      "importance": "CRITICAL - More important than direct killing for ecosystem restoration"
+    },
+    {
+      "id": "deer_population_control",
+      "name": "Deer Population Regulation",
+      "type": "population_dynamics",
+      "description": "Wolves prevent deer overpopulation through predation",
+      "properties": {
+        "mechanism": ["direct_predation", "behavioral_changes"],
+        "effect": "maintains_sustainable_deer_density",
+        "prevents": "over_browsing"
+      }
+    },
+    {
+      "id": "habitat_restoration_trigger",
+      "name": "Habitat Restoration Initiation",
+      "type": "trophic_cascade",
+      "description": "Reduced browsing pressure allows vegetation to regenerate",
+      "properties": {
+        "primary_benefit": "riverbank_and_valley_vegetation",
+        "species_affected": ["willow", "aspen", "cottonwood"],
+        "timeline": "multi_year_recovery"
+      }
+    },
+    {
+      "id": "soil_stabilization_support",
+      "name": "Riverbank Stabilization",
+      "type": "indirect_effect",
+      "description": "Regenerating vegetation stabilizes riverbanks, reduces erosion",
+      "properties": {
+        "mechanism": "root_systems_from_regenerating_trees",
+        "effect": "reduced_erosion",
+        "water_quality": "improved"
+      }
+    },
+    {
+      "id": "beaver_population_support",
+      "name": "Beaver Population Recovery",
+      "type": "indirect_effect",
+      "description": "Regenerating young trees provide food and dam materials for beavers",
+      "properties": {
+        "mechanism": "increased_young_tree_availability",
+        "effect": "beaver_populations_can_recover",
+        "cascade_continues": "beavers_create_more_wetlands"
+      }
+    },
+    {
+      "id": "biodiversity_restoration",
+      "name": "Ecosystem Biodiversity Recovery",
+      "type": "ecosystem_service",
+      "description": "Vegetation recovery brings back birds, small mammals, pollinators",
+      "properties": {
+        "birds": "return_to_restored_understory",
+        "small_mammals": "increased_habitat",
+        "fish": "benefit_from_cooler_shaded_streams",
+        "overall_diversity": "dramatically_increased"
+      }
+    }
+  ],
+  "interactions": [
+    {
+      "source": "wolf_population",
+      "target": "direct_predation",
+      "type": "activation",
+      "description": "Wolves actively hunt deer and elk",
+      "strength": 0.9
+    },
+    {
+      "source": "wolf_population",
+      "target": "landscape_of_fear",
+      "type": "activation",
+      "description": "Wolf presence creates fear-driven behavioral changes in deer",
+      "strength": 0.95,
+      "note": "This is MORE important than direct killing for ecosystem restoration"
+    },
+    {
+      "source": "direct_predation",
+      "target": "deer_population_control",
+      "type": "activation",
+      "description": "Predation limits deer population growth",
+      "strength": 0.7
+    },
+    {
+      "source": "landscape_of_fear",
+      "target": "deer_population_control",
+      "type": "activation",
+      "description": "Behavioral changes effectively reduce browsing pressure",
+      "strength": 0.85
+    },
+    {
+      "source": "deer_population_control",
+      "target": "habitat_restoration_trigger",
+      "type": "activation",
+      "description": "Reduced deer density allows vegetation to regenerate",
+      "strength": 0.9
+    },
+    {
+      "source": "habitat_restoration_trigger",
+      "target": "soil_stabilization_support",
+      "type": "activation",
+      "description": "Regenerating vegetation stabilizes banks",
+      "strength": 0.8
+    },
+    {
+      "source": "habitat_restoration_trigger",
+      "target": "beaver_population_support",
+      "type": "activation",
+      "description": "Young trees support beaver recovery",
+      "strength": 0.85
+    },
+    {
+      "source": "habitat_restoration_trigger",
+      "target": "biodiversity_restoration",
+      "type": "activation",
+      "description": "Vegetation recovery restores habitats for many species",
+      "strength": 0.9
+    }
+  ],
+  "dependencies": {
+    "controls": [
+      {
+        "system": "deer_population",
+        "mechanism": "predation_and_behavioral_modification",
+        "effect": "prevents_overpopulation_and_over_browsing"
+      }
+    ],
+    "enables": [
+      {
+        "system": "vegetation_ecosystem",
+        "mechanism": "landscape_of_fear_creates_refugia",
+        "effect": "allows_regeneration_in_riverbanks_and_valleys"
+      },
+      {
+        "system": "beaver_ecosystem",
+        "mechanism": "vegetation_recovery_provides_resources",
+        "effect": "beaver_populations_can_rebound"
+      }
+    ]
+  },
+  "notes": {
+    "trophic_cascade": "Wolves → Deer behavior change → Vegetation recovery → Beaver recovery → Wetland creation → Biodiversity increase",
+    "yellowstone_case_study": "Wolf reintroduction in 1995 led to dramatic ecosystem recovery",
+    "landscape_of_fear_importance": "Behavioral changes more impactful than direct killing: deer avoid risky areas, creating refugia for plants",
+    "missing_system_evidence": "Without wolves, all downstream effects collapse: over-browsing, vegetation failure, beaver decline, biodiversity loss"
+  }
+}
