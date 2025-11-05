@@ -1,0 +1,145 @@
+{
+  "num_subsystems": 2,
+  "subsystems": [
+    {
+      "id": "B1",
+      "name": "Primary_Mechanism",
+      "rank": 1,
+      "description": "First-order effect (direct interaction)",
+      "strength": 2.08,
+      "characteristics": [
+        "Moderate selectivity",
+        "Self-regulation dominant"
+      ],
+      "matrix_summary": {
+        "type": "left singular vectors (U * \u221a\u03a3)",
+        "dominant_components": [
+          "vegetation",
+          "soil_health",
+          "herbivores"
+        ]
+      }
+    },
+    {
+      "id": "B2",
+      "name": "Secondary_Cascade",
+      "rank": 2,
+      "description": "Second-order effect (cascading consequences)",
+      "strength": 0.8012336167697753,
+      "characteristics": [
+        "Targeted/selective mechanism",
+        "Self-regulation dominant"
+      ],
+      "matrix_summary": {
+        "type": "right singular vectors (\u221a\u03a3 * V^T)",
+        "dominant_components": [
+          "vegetation",
+          "herbivores",
+          "soil_health"
+        ]
+      }
+    }
+  ],
+  "singular_values": [
+    2.08,
+    0.8012336167697753,
+    0.0
+  ],
+  "singular_values_normalized": [
+    1.0,
+    0.38520846960085353,
+    0.0
+  ],
+  "threshold": 0.1,
+  "decomposition_method": "SVD",
+  "confidence": {
+    "overall": 0.6926042348004268,
+    "singular_value_gap": 0.38520846960085353,
+    "cumulative_energy": 1.0,
+    "interpretation": "MEDIUM - Likely multi-layer structure"
+  },
+  "original_solution": {
+    "transformation_matrix": [
+      [
+        2.08,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.4444444444444445,
+        0.0
+      ],
+      [
+        0.0,
+        -0.6666666666666666,
+        0.0
+      ]
+    ],
+    "dimensions": [
+      3,
+      3
+    ],
+    "properties": {
+      "rank": 2,
+      "full_rank": false,
+      "eigenvalue_magnitudes": [
+        0.0,
+        2.08,
+        0.4444444444444445
+      ],
+      "dominant_eigenvalue": 2.08,
+      "is_identity": false,
+      "is_sparse": false,
+      "is_diagonal": false,
+      "sparsity": 0.3333333333333333,
+      "frobenius_norm": 2.2289852643393533
+    },
+    "confidence": {
+      "overall": 0.7675062659874928,
+      "reconstruction_quality": 0.8025187979624784,
+      "rank_quality": 0.6666666666666666,
+      "sparsity_quality": 0.8333333333333333,
+      "interpretation": "MEDIUM - Likely missing system, needs validation"
+    },
+    "hypotheses": [
+      {
+        "type": "simple_system",
+        "description": "Low-rank transformation suggests simple regulatory mechanism",
+        "confidence": 0.8,
+        "characteristics": [
+          "single dominant mechanism",
+          "centralized control"
+        ]
+      },
+      {
+        "type": "amplifying_system",
+        "description": "Dominant eigenvalue > 1 suggests amplifying or cascading mechanism",
+        "confidence": 0.7,
+        "characteristics": [
+          "trophic cascade",
+          "positive feedback",
+          "growth mechanism"
+        ]
+      }
+    ],
+    "reconstruction_error": 0.2200000000000001,
+    "solver_method": "pseudoinverse"
+  },
+  "analysis_metadata": {
+    "timestamp": "2025-11-05T22:15:03.341173",
+    "system_a": {
+      "name": "Degraded Ecosystem (Before State)",
+      "path": "/home/user/chain_reflow/test_ecosystems/demo_matrix_gap/system_a_degraded.json",
+      "nodes": 3
+    },
+    "system_c": {
+      "name": "Balanced Ecosystem (After State)",
+      "path": "/home/user/chain_reflow/test_ecosystems/demo_matrix_gap/system_c_balanced.json",
+      "nodes": 3
+    },
+    "analysis_type": "multilayer",
+    "tool": "matrix_gap_detection.py",
+    "version": "1.0.0"
+  }
+}

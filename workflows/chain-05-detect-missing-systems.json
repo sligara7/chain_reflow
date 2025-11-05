@@ -1,0 +1,412 @@
+{
+  "workflow_metadata": {
+    "workflow_id": "chain-05",
+    "name": "Matrix-Based Missing System Detection Workflow",
+    "version": "1.0.0",
+    "description": "Mathematically infer missing intermediate systems using linear algebra (homography matrix approach)",
+    "created": "2025-11-05",
+    "based_on": "Homography matrix transformation analogy - just as a homography matrix transforms one image perspective to another, missing systems can be solved as transformation matrices between known systems",
+    "purpose": "Detect and decompose missing intermediate systems using matrix operations and SVD, supporting both single-layer and multi-layer (subsystem chain) inference",
+    "key_innovation": "SVD decomposition reveals if missing system is actually a chain of subsystems (like neural network layers)"
+  },
+  "prerequisites": {
+    "required_conditions": [
+      "Chain Reflow repository exists with src/matrix_gap_detection.py tool",
+      "NumPy library installed (pip3 install numpy)",
+      "At least two system graphs available (representing 'before' and 'after' states)",
+      "System graphs have actual edge data (adjacency relationships)"
+    ],
+    "recommended_inputs": [
+      "System A: 'Before' state or degraded system (e.g., unchecked herbivore population)",
+      "System C: 'After' state or balanced system (e.g., controlled ecosystem with apex predator)",
+      "Both systems should be in system_of_systems_graph.json format with nodes and edges"
+    ]
+  },
+  "entry_points": {
+    "standard": {
+      "id": "standard",
+      "description": "Standard missing system detection between two known systems",
+      "trigger": "User has two systems and suspects a missing intermediate system",
+      "first_step": "MGD-01"
+    },
+    "ecosystem_analysis": {
+      "id": "ecosystem_analysis",
+      "description": "Ecological trophic cascade analysis (e.g., Yellowstone wolf reintroduction)",
+      "trigger": "User analyzing ecological systems with suspected missing keystone species",
+      "first_step": "MGD-01"
+    }
+  },
+  "workflow_steps": [
+    {
+      "step_id": "MGD-01",
+      "name": "Load and Validate Input Systems",
+      "description": "Load the two known systems and validate they have necessary data for matrix analysis",
+      "phase": "initialization",
+      "actions": [
+        {
+          "action_id": "MGD-01-A01",
+          "description": "Identify system A and system C",
+          "purpose": "Determine which system is 'before' (A) and which is 'after' (C)",
+          "llm_instructions": [
+            "Ask user for path to System A (before state or degraded system)",
+            "Ask user for path to System C (after state or balanced system)",
+            "Load both JSON files",
+            "Validate JSON structure"
+          ],
+          "store_in": "context/matrix_gap_input_systems.json"
+        },
+        {
+          "action_id": "MGD-01-A02",
+          "description": "Validate graph data completeness",
+          "purpose": "Ensure graphs have edges (not just metadata)",
+          "llm_instructions": [
+            "Check that both graphs have 'nodes' or 'components' arrays",
+            "Check that both graphs have 'edges' or 'dependencies' arrays",
+            "Verify edges have weights (or default to 1.0)",
+            "If edges are missing, warn user and suggest adding edge data"
+          ],
+          "quality_gate": {
+            "type": "BLOCKING",
+            "condition": "Both systems must have at least one edge",
+            "failure_action": "Abort workflow and guide user to add edge data"
+          }
+        },
+        {
+          "action_id": "MGD-01-A03",
+          "description": "Extract system metadata",
+          "purpose": "Understand system types and domains",
+          "llm_instructions": [
+            "Extract framework_id from each system",
+            "Extract domain (ecological, engineered, etc.)",
+            "Extract hierarchical_tier if available",
+            "Document system properties"
+          ],
+          "output": "context/matrix_gap_metadata.json"
+        }
+      ],
+      "typical_time": "5 minutes",
+      "next_step": "MGD-02"
+    },
+    {
+      "step_id": "MGD-02",
+      "name": "Run Matrix Gap Detection Analysis",
+      "description": "Execute matrix_gap_detection.py tool to solve for missing system B",
+      "phase": "analysis",
+      "actions": [
+        {
+          "action_id": "MGD-02-A01",
+          "description": "Execute matrix gap detection tool",
+          "command": "python3 {system_root}/src/matrix_gap_detection.py {system_a_path} {system_c_path} --multilayer --format json --output {output_path} --verbose",
+          "purpose": "Solve for transformation matrix B and decompose into subsystems",
+          "llm_instructions": [
+            "Run the matrix_gap_detection.py tool with --multilayer flag",
+            "Capture JSON output",
+            "Check for errors or warnings",
+            "Store results in context/"
+          ],
+          "output_file": "context/matrix_gap_results.json"
+        },
+        {
+          "action_id": "MGD-02-A02",
+          "description": "Parse and interpret results",
+          "purpose": "Extract key findings from matrix analysis",
+          "llm_instructions": [
+            "Read matrix_gap_results.json",
+            "Extract num_subsystems (how many layers detected)",
+            "Extract confidence score",
+            "Extract subsystem descriptions",
+            "Extract hypotheses about missing system identity"
+          ],
+          "store_in": "context/matrix_gap_interpretation.json"
+        }
+      ],
+      "typical_time": "5-10 minutes",
+      "next_step": "MGD-03"
+    },
+    {
+      "step_id": "MGD-03",
+      "name": "Analyze Multi-Layer Decomposition",
+      "description": "Interpret SVD decomposition to understand subsystem chain",
+      "phase": "interpretation",
+      "conditional": "Only if num_subsystems > 1",
+      "actions": [
+        {
+          "action_id": "MGD-03-A01",
+          "description": "Analyze singular values",
+          "purpose": "Understand relative importance of each subsystem layer",
+          "llm_instructions": [
+            "Read singular_values array from results",
+            "Identify dominant layer (highest singular value)",
+            "Identify secondary cascades (smaller singular values)",
+            "Compute cumulative energy captured by detected layers"
+          ]
+        },
+        {
+          "action_id": "MGD-03-A02",
+          "description": "Interpret subsystem roles",
+          "purpose": "Generate narrative for each subsystem's function",
+          "llm_instructions": [
+            "For each subsystem in results:",
+            "  - Read subsystem name (e.g., Primary_Mechanism, Secondary_Cascade)",
+            "  - Read subsystem strength",
+            "  - Read subsystem characteristics",
+            "  - Interpret role in overall transformation",
+            "Create narrative: 'Subsystem B1 provides X, B2 amplifies via Y, B3 cascades to Z'"
+          ],
+          "output": "context/subsystem_narrative.md"
+        },
+        {
+          "action_id": "MGD-03-A03",
+          "description": "Map to domain-specific concepts",
+          "purpose": "Relate mathematical findings to real-world mechanisms",
+          "llm_instructions": [
+            "If domain is 'ecological':",
+            "  - B1 might be predation pressure",
+            "  - B2 might be landscape of fear (behavioral change)",
+            "  - B3 might be vegetation recovery",
+            "If domain is 'engineered':",
+            "  - B1 might be control mechanism",
+            "  - B2 might be feedback loop",
+            "  - B3 might be system stabilization",
+            "Document domain-specific interpretations"
+          ],
+          "output": "context/domain_interpretation.md"
+        }
+      ],
+      "typical_time": "10-15 minutes",
+      "next_step": "MGD-04"
+    },
+    {
+      "step_id": "MGD-04",
+      "name": "Generate Hypotheses and Recommendations",
+      "description": "Create actionable hypotheses about missing system identity",
+      "phase": "hypothesis_generation",
+      "actions": [
+        {
+          "action_id": "MGD-04-A01",
+          "description": "Review generated hypotheses",
+          "purpose": "Extract hypotheses from matrix analysis",
+          "llm_instructions": [
+            "Read hypotheses array from matrix_gap_results.json",
+            "For each hypothesis:",
+            "  - Extract type (e.g., 'complex_system', 'targeted_intervention')",
+            "  - Extract description",
+            "  - Extract confidence score",
+            "  - Extract characteristics",
+            "Rank hypotheses by confidence"
+          ]
+        },
+        {
+          "action_id": "MGD-04-A02",
+          "description": "Generate validation experiments",
+          "purpose": "Suggest how to test each hypothesis",
+          "llm_instructions": [
+            "For each high-confidence hypothesis:",
+            "  - Suggest data to collect",
+            "  - Suggest simulation experiments",
+            "  - Suggest comparison with known similar systems",
+            "  - Suggest literature review keywords",
+            "Document validation plan"
+          ],
+          "output": "docs/hypothesis_validation_plan.md"
+        },
+        {
+          "action_id": "MGD-04-A03",
+          "description": "Identify candidate missing systems",
+          "purpose": "Name specific systems/species that match matrix properties",
+          "llm_instructions": [
+            "Based on matrix properties (rank, sparsity, eigenvalues):",
+            "  - If ecological + targeted intervention → Look for keystone species",
+            "  - If ecological + amplifying system → Look for apex predators or ecosystem engineers",
+            "  - If engineered + dampening system → Look for regulatory controllers",
+            "Generate list of candidate systems with justification"
+          ],
+          "output": "context/candidate_systems.json"
+        }
+      ],
+      "typical_time": "10-20 minutes",
+      "next_step": "MGD-05"
+    },
+    {
+      "step_id": "MGD-05",
+      "name": "Create Gap Detection Report",
+      "description": "Generate comprehensive documentation of findings",
+      "phase": "documentation",
+      "actions": [
+        {
+          "action_id": "MGD-05-A01",
+          "description": "Generate executive summary",
+          "purpose": "Create high-level overview for stakeholders",
+          "llm_instructions": [
+            "Summarize key findings:",
+            "  - Number of subsystems detected",
+            "  - Confidence level",
+            "  - Top hypotheses",
+            "  - Recommended next steps",
+            "Keep summary under 500 words"
+          ],
+          "output_section": "Executive Summary"
+        },
+        {
+          "action_id": "MGD-05-A02",
+          "description": "Document mathematical findings",
+          "purpose": "Provide technical details for experts",
+          "llm_instructions": [
+            "Include:",
+            "  - Transformation matrix B (or excerpt if large)",
+            "  - Singular values",
+            "  - Matrix properties (rank, condition number, eigenvalues)",
+            "  - Reconstruction error",
+            "  - Confidence metrics"
+          ],
+          "output_section": "Mathematical Analysis"
+        },
+        {
+          "action_id": "MGD-05-A03",
+          "description": "Document subsystem decomposition",
+          "purpose": "Explain multi-layer structure if detected",
+          "llm_instructions": [
+            "For each subsystem:",
+            "  - Name and ID",
+            "  - Strength (singular value)",
+            "  - Characteristics",
+            "  - Interpretation",
+            "  - Role in overall transformation chain",
+            "Include diagram if possible"
+          ],
+          "output_section": "Subsystem Decomposition"
+        },
+        {
+          "action_id": "MGD-05-A04",
+          "description": "Document candidate systems and validation plan",
+          "purpose": "Provide actionable recommendations",
+          "llm_instructions": [
+            "List candidate missing systems with:",
+            "  - Name",
+            "  - Justification (why matrix properties suggest this)",
+            "  - Confidence",
+            "  - Validation experiments to test hypothesis",
+            "  - Literature references if available"
+          ],
+          "output_section": "Candidate Systems and Validation"
+        },
+        {
+          "action_id": "MGD-05-A05",
+          "description": "Assemble final report",
+          "purpose": "Combine all sections into cohesive document",
+          "template": "docs/templates/gap_detection_report_template.md",
+          "output_file": "docs/MATRIX_GAP_DETECTION_REPORT_{timestamp}.md"
+        }
+      ],
+      "outputs": [
+        "docs/MATRIX_GAP_DETECTION_REPORT_{timestamp}.md",
+        "context/matrix_gap_results.json",
+        "context/candidate_systems.json",
+        "docs/hypothesis_validation_plan.md"
+      ],
+      "typical_time": "15-30 minutes",
+      "next_step": "MGD-06"
+    },
+    {
+      "step_id": "MGD-06",
+      "name": "User Validation and Iteration",
+      "description": "Review findings with user and iterate if needed",
+      "phase": "validation",
+      "human_in_the_loop": true,
+      "actions": [
+        {
+          "action_id": "MGD-06-A01",
+          "description": "Present findings to user",
+          "llm_instructions": [
+            "Show user:",
+            "  - Executive summary",
+            "  - Number of subsystems detected",
+            "  - Top hypotheses with confidence scores",
+            "  - Candidate missing systems",
+            "Ask: 'Do these findings align with your domain knowledge?'"
+          ]
+        },
+        {
+          "action_id": "MGD-06-A02",
+          "description": "Gather user feedback",
+          "purpose": "Validate or refine findings",
+          "llm_instructions": [
+            "Ask user if hypotheses make sense",
+            "Ask if any candidates can be ruled out based on domain knowledge",
+            "Ask if user wants to:",
+            "  - Refine analysis with different parameters",
+            "  - Add domain-specific constraints",
+            "  - Test specific hypothesis",
+            "  - Proceed to implementation/testing"
+          ]
+        },
+        {
+          "action_id": "MGD-06-A03",
+          "description": "Iterate if needed",
+          "conditional": "If user requests refinement",
+          "llm_instructions": [
+            "If user wants different threshold: Re-run with --threshold parameter",
+            "If user wants single-layer only: Re-run with --no-multilayer",
+            "If user provides domain constraints: Filter candidate_systems.json",
+            "Return to MGD-02 if re-analysis needed"
+          ]
+        }
+      ],
+      "typical_time": "10-20 minutes",
+      "next_step": "COMPLETE"
+    }
+  ],
+  "completion_criteria": {
+    "required": [
+      "Matrix gap detection analysis completed",
+      "Transformation matrix B computed",
+      "Subsystem decomposition performed (if multi-layer)",
+      "Hypotheses generated",
+      "Gap detection report created",
+      "User has reviewed and validated findings"
+    ],
+    "optional": [
+      "Candidate systems identified by name",
+      "Validation experiments designed",
+      "Iteration performed based on user feedback"
+    ]
+  },
+  "success_criteria": {
+    "analysis_complete": "Transformation matrix successfully computed with confidence > 0.4",
+    "interpretable_results": "Matrix properties yield actionable hypotheses",
+    "subsystem_detection": "If multi-layer, subsystems clearly separated (singular value gap > 0.2)",
+    "user_validation": "User confirms findings align with domain knowledge",
+    "actionable_output": "Report provides clear next steps for validation or implementation"
+  },
+  "llm_agent_guidance": {
+    "critical_reminders": [
+      "Matrix gap detection requires edge data - if graphs only have metadata, guide user to add edges",
+      "Confidence scores < 0.4 indicate poorly constrained problem - may need more data",
+      "Singular value gap < 0.1 indicates ambiguous layer boundaries - single-layer interpretation may be more reliable",
+      "Always interpret mathematical findings in domain context - don't just report numbers",
+      "Multi-layer decomposition is analogous to neural networks - complex transformations decompose into simpler sequential operations"
+    ],
+    "workflow_philosophy": "Mathematics provides hypotheses, domain knowledge validates them. Use matrix properties to generate candidates, then filter with user expertise.",
+    "key_insight": "Just as homography matrices transform image perspectives, missing systems transform 'before' states to 'after' states. SVD reveals if this transformation is simple (single layer) or complex (multi-layer chain).",
+    "ecological_example": "Yellowstone wolves: B1=predation pressure, B2=landscape of fear (behavioral change), B3=vegetation recovery cascade",
+    "engineering_example": "Missing control system: B1=sensor feedback, B2=PID controller, B3=actuator response"
+  },
+  "example_usage": {
+    "scenario": "Detecting missing apex predator in degraded ecosystem",
+    "inputs": [
+      "System A: vegetation_degraded.json (over-browsed, low regeneration)",
+      "System C: vegetation_healthy.json (balanced, good regeneration)"
+    ],
+    "expected_output": {
+      "num_subsystems": 2,
+      "subsystems": [
+        "B1: Primary predation control mechanism",
+        "B2: Behavioral cascade (landscape of fear)"
+      ],
+      "top_hypothesis": "Targeted intervention system (sparse matrix) - likely apex predator",
+      "candidate_systems": ["Gray wolf", "Mountain lion", "Grizzly bear"],
+      "confidence": 0.75
+    },
+    "total_time": "60-90 minutes"
+  }
+}

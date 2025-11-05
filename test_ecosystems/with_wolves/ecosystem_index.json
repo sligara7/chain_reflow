@@ -1,0 +1,48 @@
+{
+  "system_metadata": {
+    "system_name": "Balanced Ecosystem (With Apex Predator)",
+    "system_description": "Complete ecological system with wolf predation - demonstrates healthy trophic cascade",
+    "version": "1.0.0",
+    "framework": "systems_biology",
+    "created_date": "2025-11-05",
+    "test_purpose": "Reference system showing complete ecosystem with all trophic levels intact"
+  },
+  "components": {
+    "wolf_predation": "wolf_predation_architecture.json",
+    "deer_population": "deer_population_architecture.json",
+    "vegetation_ecosystem": "vegetation_ecosystem_architecture.json",
+    "beaver_ecosystem": "beaver_ecosystem_architecture.json"
+  },
+  "component_metadata": {
+    "wolf_predation": {
+      "name": "Wolf Predation System (Apex Predator)",
+      "type": "population",
+      "status": "ACTIVE - Regulating ecosystem",
+      "hierarchical_tier": "population",
+      "ecological_role": "KEYSTONE_SPECIES"
+    },
+    "deer_population": {
+      "name": "Deer Population System",
+      "type": "population",
+      "status": "BALANCED - Controlled by predation",
+      "hierarchical_tier": "population"
+    },
+    "vegetation_ecosystem": {
+      "name": "Vegetation Ecosystem System",
+      "type": "ecosystem",
+      "status": "HEALTHY - Regenerating due to reduced browsing",
+      "hierarchical_tier": "ecosystem"
+    },
+    "beaver_ecosystem": {
+      "name": "Beaver Ecosystem Engineering System",
+      "type": "population",
+      "status": "THRIVING - Sufficient young trees available",
+      "hierarchical_tier": "population"
+    }
+  },
+  "trophic_cascade": {
+    "description": "Classic example of top-down ecosystem regulation",
+    "cascade_flow": "Wolves → Deer behavior → Vegetation regeneration → Beaver recovery → Wetland creation → Biodiversity increase",
+    "yellowstone_parallel": "Mirrors wolf reintroduction effects in Yellowstone National Park (1995-present)"
+  }
+}

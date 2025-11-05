@@ -1,0 +1,193 @@
+{
+  "architecture_metadata": {
+    "name": "Deer Population System (Unchecked)",
+    "description": "Deer and elk population dynamics without natural predators - leads to over-browsing",
+    "framework": "systems_biology",
+    "version": "1.0.0",
+    "hierarchical_tier": "population",
+    "domain": "ecological",
+    "created": "2025-11-05",
+    "system_state": "IMBALANCED - No apex predator present"
+  },
+  "components": [
+    {
+      "id": "deer_population",
+      "name": "Deer and Elk Population",
+      "type": "organism_population",
+      "description": "White-tailed deer and elk populations",
+      "properties": {
+        "population_size": "EXCESSIVE - unchecked growth",
+        "growth_rate": "exponential_without_predation",
+        "density": "unnaturally_high"
+      },
+      "status": "OVERPOPULATED"
+    },
+    {
+      "id": "browsing_behavior",
+      "name": "Browsing and Foraging",
+      "type": "feeding_behavior",
+      "description": "Deer consume vegetation - seedlings, shrubs, wildflowers",
+      "properties": {
+        "feeding_rate": "HIGH - no fear of predation",
+        "habitat_use": "all_areas_including_vulnerable_locations",
+        "time_spent_feeding": "extensive"
+      },
+      "status": "UNCONSTRAINED - No behavioral modification from predation risk"
+    },
+    {
+      "id": "over_browsing",
+      "name": "Over-browsing Pressure",
+      "type": "ecological_impact",
+      "description": "Consumption exceeds regeneration capacity",
+      "properties": {
+        "consumption_rate": "faster_than_regeneration",
+        "target_species": ["tree_seedlings", "shrubs", "wildflowers"],
+        "forest_impact": "park_like_understory"
+      },
+      "status": "CRITICAL - Ecosystem degradation"
+    },
+    {
+      "id": "forest_degradation",
+      "name": "Forest Ecosystem Degradation",
+      "type": "ecosystem_impact",
+      "description": "Loss of understory, prevention of tree regeneration",
+      "properties": {
+        "understory": "severely_depleted",
+        "regeneration": "prevented",
+        "forest_structure": "altered_permanently"
+      }
+    },
+    {
+      "id": "biodiversity_loss",
+      "name": "Wildlife Biodiversity Decline",
+      "type": "ecosystem_impact",
+      "description": "Loss of habitat for ground-nesting birds, pollinators, and other species",
+      "properties": {
+        "bird_populations": "declining",
+        "pollinator_habitat": "lost",
+        "species_diversity": "reduced"
+      }
+    },
+    {
+      "id": "invasive_species_spread",
+      "name": "Invasive Plant Proliferation",
+      "type": "ecosystem_impact",
+      "description": "Deer avoid invasive plants, allowing them to outcompete natives",
+      "properties": {
+        "invasive_advantage": "high",
+        "native_suppression": "severe",
+        "ecosystem_composition": "altered"
+      }
+    },
+    {
+      "id": "deer_health_decline",
+      "name": "Deer Health and Disease",
+      "type": "population_health",
+      "description": "High density leads to poor condition, disease spread",
+      "properties": {
+        "body_condition": "poor_due_to_competition",
+        "disease_transmission": "high",
+        "chronic_wasting_disease": "increased_prevalence",
+        "tick_borne_illness": "elevated_lyme_disease_risk"
+      }
+    },
+    {
+      "id": "missing_predation_control",
+      "name": "MISSING: Population Control Mechanism",
+      "type": "missing_component",
+      "description": "No natural predators to control deer population or modify behavior",
+      "properties": {
+        "expected_mechanism": "apex_predator_predation",
+        "current_state": "ABSENT",
+        "consequence": "exponential_population_growth"
+      },
+      "status": "CRITICAL_GAP"
+    }
+  ],
+  "interactions": [
+    {
+      "source": "deer_population",
+      "target": "browsing_behavior",
+      "type": "activation",
+      "description": "Deer population drives browsing activity",
+      "strength": 0.95
+    },
+    {
+      "source": "browsing_behavior",
+      "target": "over_browsing",
+      "type": "activation",
+      "description": "Unconstrained browsing leads to over-browsing",
+      "strength": 0.9,
+      "note": "Would be moderated by predation risk if predators present"
+    },
+    {
+      "source": "over_browsing",
+      "target": "forest_degradation",
+      "type": "activation",
+      "description": "Over-browsing prevents forest regeneration",
+      "strength": 0.85
+    },
+    {
+      "source": "over_browsing",
+      "target": "biodiversity_loss",
+      "type": "activation",
+      "description": "Vegetation loss eliminates habitats for other species",
+      "strength": 0.8
+    },
+    {
+      "source": "over_browsing",
+      "target": "invasive_species_spread",
+      "type": "activation",
+      "description": "Selective browsing favors invasive plants",
+      "strength": 0.75
+    },
+    {
+      "source": "deer_population",
+      "target": "deer_health_decline",
+      "type": "activation",
+      "description": "High density causes competition and disease",
+      "strength": 0.7
+    },
+    {
+      "source": "missing_predation_control",
+      "target": "deer_population",
+      "type": "missing_inhibition",
+      "description": "MISSING: Predators should limit deer population growth",
+      "strength": 0.0,
+      "expected_strength": 0.8,
+      "gap_type": "MISSING_REGULATORY_MECHANISM"
+    }
+  ],
+  "dependencies": {
+    "affects": [
+      {
+        "system": "vegetation_ecosystem",
+        "impact": "NEGATIVE - Prevents tree regeneration",
+        "mechanism": "over_browsing"
+      },
+      {
+        "system": "beaver_ecosystem",
+        "impact": "NEGATIVE - Reduces young tree availability",
+        "mechanism": "consumption_of_willow_aspen_cottonwood"
+      }
+    ],
+    "missing_dependencies": [
+      {
+        "system": "UNKNOWN_APEX_PREDATOR",
+        "expected_interaction": "population_control_and_behavioral_modification",
+        "gap_evidence": [
+          "Unchecked population growth",
+          "No fear-driven behavioral changes",
+          "Browsing in all areas including vulnerable locations",
+          "Ecosystem degradation patterns consistent with missing top-down regulation"
+        ]
+      }
+    ]
+  },
+  "notes": {
+    "ecological_imbalance": "System shows classic signs of missing apex predator",
+    "trophic_cascade_disrupted": "Without predation, deer populations explode and devastate vegetation",
+    "historical_context": "Pre-wolf-eradication, this system was balanced by predation pressure",
+    "gap_hypothesis": "A missing predator system would restore balance through direct population control and behavioral modification (landscape of fear)"
+  }
+}

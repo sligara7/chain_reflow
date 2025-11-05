@@ -146,8 +146,12 @@ python3 src/causality_analysis.py graph1.json graph2.json
 # Creative linking for orthogonal architectures
 python3 src/creative_linking.py graph1.json graph2.json
 
+# Matrix-based gap detection (NEW: detect missing intermediate systems)
+python3 src/matrix_gap_detection.py system_a.json system_c.json
+
 # All tools support --help, --output, --format flags
 python3 src/matryoshka_analysis.py --help
+python3 src/matrix_gap_detection.py --help
 ```
 
 ### Development Commands
@@ -195,6 +199,14 @@ Chain Reflow follows the reflow methodology with a 5-phase workflow architecture
 - Distinguishes observed correlations from causal relationships
 - Generates competing hypotheses (A→B, B→A, A↔B, spurious)
 - Designs validation experiments
+
+**`src/matrix_gap_detection.py`** - Matrix-based missing system detection
+- **NEW**: Mathematically infers missing intermediate systems using linear algebra
+- Homography matrix analogy: B = C * A^(-1) solves for transformation matrix
+- SVD decomposition detects multi-layer subsystems (neural network analogy)
+- Generates hypotheses based on matrix properties (rank, sparsity, eigenvalues)
+- Example: Yellowstone wolf system decomposes into B1 (predation) + B2 (landscape of fear) + B3 (cascading effects)
+- Workflow: `workflows/chain-05-detect-missing-systems.json`
 
 **`src/interactive_executor.py`** - Interactive workflow execution
 - Human-in-the-loop decision points
