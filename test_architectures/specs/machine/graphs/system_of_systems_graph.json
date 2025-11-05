@@ -1,0 +1,520 @@
+{
+  "metadata": {
+    "generated": "2025-11-05T00:01:31.172840",
+    "framework": "UAF 1.2",
+    "framework_id": "uaf",
+    "component_term": "service",
+    "connection_term": "interface",
+    "num_nodes": 3,
+    "num_edges": 2,
+    "tool_version": "2.0"
+  },
+  "graph": {
+    "directed": true,
+    "multigraph": false,
+    "graph": {},
+    "nodes": [
+      {
+        "name": "Authentication Service",
+        "type": null,
+        "functions": [
+          {
+            "function_id": "F-AUTH-01",
+            "function_name": "User Authentication",
+            "description": "Authenticate users via username/password and issue JWT tokens"
+          },
+          {
+            "function_id": "F-AUTH-02",
+            "function_name": "Token Validation",
+            "description": "Validate JWT tokens for other services"
+          },
+          {
+            "function_id": "F-AUTH-03",
+            "function_name": "Token Refresh",
+            "description": "Refresh expired JWT tokens using refresh tokens"
+          }
+        ],
+        "interfaces": {
+          "provided": [
+            {
+              "interface_id": "IFC-AUTH-001",
+              "interface_name": "Authentication API",
+              "protocol": "REST",
+              "data_format": "JSON",
+              "operations": [
+                {
+                  "operation_id": "OP-AUTH-001",
+                  "operation_name": "Login",
+                  "method": "POST",
+                  "endpoint": "/api/v1/auth/login",
+                  "description": "Authenticate user and return JWT token"
+                },
+                {
+                  "operation_id": "OP-AUTH-002",
+                  "operation_name": "Validate Token",
+                  "method": "POST",
+                  "endpoint": "/api/v1/auth/validate",
+                  "description": "Validate JWT token"
+                },
+                {
+                  "operation_id": "OP-AUTH-003",
+                  "operation_name": "Refresh Token",
+                  "method": "POST",
+                  "endpoint": "/api/v1/auth/refresh",
+                  "description": "Refresh JWT token"
+                }
+              ]
+            }
+          ],
+          "required": []
+        },
+        "dependencies": [],
+        "raw": {
+          "service_id": "auth_service",
+          "service_name": "Authentication Service",
+          "version": "1.0.0+2025-11-04",
+          "description": "Provides JWT-based authentication and authorization for the platform",
+          "framework": "uaf",
+          "hierarchical_tier": "tier_1_systems",
+          "component_classification": "service",
+          "purpose": "Centralized authentication and token management",
+          "dependencies": [],
+          "functions": [
+            {
+              "function_id": "F-AUTH-01",
+              "function_name": "User Authentication",
+              "description": "Authenticate users via username/password and issue JWT tokens"
+            },
+            {
+              "function_id": "F-AUTH-02",
+              "function_name": "Token Validation",
+              "description": "Validate JWT tokens for other services"
+            },
+            {
+              "function_id": "F-AUTH-03",
+              "function_name": "Token Refresh",
+              "description": "Refresh expired JWT tokens using refresh tokens"
+            }
+          ],
+          "interfaces": {
+            "provided": [
+              {
+                "interface_id": "IFC-AUTH-001",
+                "interface_name": "Authentication API",
+                "protocol": "REST",
+                "data_format": "JSON",
+                "operations": [
+                  {
+                    "operation_id": "OP-AUTH-001",
+                    "operation_name": "Login",
+                    "method": "POST",
+                    "endpoint": "/api/v1/auth/login",
+                    "description": "Authenticate user and return JWT token"
+                  },
+                  {
+                    "operation_id": "OP-AUTH-002",
+                    "operation_name": "Validate Token",
+                    "method": "POST",
+                    "endpoint": "/api/v1/auth/validate",
+                    "description": "Validate JWT token"
+                  },
+                  {
+                    "operation_id": "OP-AUTH-003",
+                    "operation_name": "Refresh Token",
+                    "method": "POST",
+                    "endpoint": "/api/v1/auth/refresh",
+                    "description": "Refresh JWT token"
+                  }
+                ]
+              }
+            ],
+            "required": []
+          },
+          "deployment": {
+            "runtime": "Python 3.11",
+            "framework_dependencies": [
+              "FastAPI",
+              "PyJWT",
+              "passlib"
+            ],
+            "ports": {
+              "primary": {
+                "port": 8001,
+                "protocol": "HTTP",
+                "purpose": "Authentication API",
+                "binding": "0.0.0.0",
+                "public_facing": true,
+                "health_check_path": "/health"
+              }
+            }
+          },
+          "is_external": false,
+          "parent_system": "Platform Services",
+          "implementation_status": "hypothetical",
+          "verification_notes": "Test architecture for chain_reflow validation",
+          "source_references": {
+            "analysis_date": "2025-11-04",
+            "confidence_level": "high"
+          }
+        },
+        "id": "auth_service"
+      },
+      {
+        "name": "API Gateway Service",
+        "type": null,
+        "functions": [
+          {
+            "function_id": "F-GATEWAY-01",
+            "function_name": "Request Routing",
+            "description": "Route incoming requests to appropriate backend services"
+          },
+          {
+            "function_id": "F-GATEWAY-02",
+            "function_name": "Authentication Enforcement",
+            "description": "Validate JWT tokens before forwarding requests"
+          },
+          {
+            "function_id": "F-GATEWAY-03",
+            "function_name": "Rate Limiting",
+            "description": "Apply rate limits to prevent abuse"
+          }
+        ],
+        "interfaces": {
+          "provided": [
+            {
+              "interface_id": "IFC-GATEWAY-001",
+              "interface_name": "External API",
+              "protocol": "REST",
+              "data_format": "JSON",
+              "operations": [
+                {
+                  "operation_id": "OP-GATEWAY-001",
+                  "operation_name": "Route Request",
+                  "method": "ANY",
+                  "endpoint": "/api/*",
+                  "description": "Route any API request to backend services"
+                }
+              ]
+            }
+          ],
+          "required": [
+            {
+              "interface_id": "IFC-GATEWAY-REQ-001",
+              "interface_name": "Auth Validation Dependency",
+              "protocol": "REST",
+              "target_service": "auth_service",
+              "target_endpoint": "/api/v1/auth/validate",
+              "description": "Calls auth service to validate tokens"
+            }
+          ]
+        },
+        "dependencies": [
+          "auth_service"
+        ],
+        "raw": {
+          "service_id": "api_gateway",
+          "service_name": "API Gateway Service",
+          "version": "1.0.0+2025-11-04",
+          "description": "Routes external requests to internal microservices with authentication",
+          "framework": "uaf",
+          "hierarchical_tier": "tier_1_systems",
+          "component_classification": "service",
+          "purpose": "API gateway and request router",
+          "dependencies": [
+            "auth_service"
+          ],
+          "functions": [
+            {
+              "function_id": "F-GATEWAY-01",
+              "function_name": "Request Routing",
+              "description": "Route incoming requests to appropriate backend services"
+            },
+            {
+              "function_id": "F-GATEWAY-02",
+              "function_name": "Authentication Enforcement",
+              "description": "Validate JWT tokens before forwarding requests"
+            },
+            {
+              "function_id": "F-GATEWAY-03",
+              "function_name": "Rate Limiting",
+              "description": "Apply rate limits to prevent abuse"
+            }
+          ],
+          "interfaces": {
+            "provided": [
+              {
+                "interface_id": "IFC-GATEWAY-001",
+                "interface_name": "External API",
+                "protocol": "REST",
+                "data_format": "JSON",
+                "operations": [
+                  {
+                    "operation_id": "OP-GATEWAY-001",
+                    "operation_name": "Route Request",
+                    "method": "ANY",
+                    "endpoint": "/api/*",
+                    "description": "Route any API request to backend services"
+                  }
+                ]
+              }
+            ],
+            "required": [
+              {
+                "interface_id": "IFC-GATEWAY-REQ-001",
+                "interface_name": "Auth Validation Dependency",
+                "protocol": "REST",
+                "target_service": "auth_service",
+                "target_endpoint": "/api/v1/auth/validate",
+                "description": "Calls auth service to validate tokens"
+              }
+            ]
+          },
+          "deployment": {
+            "runtime": "Node.js 18",
+            "framework_dependencies": [
+              "Express",
+              "http-proxy-middleware"
+            ],
+            "ports": {
+              "primary": {
+                "port": 8000,
+                "protocol": "HTTP",
+                "purpose": "Public API endpoint",
+                "binding": "0.0.0.0",
+                "public_facing": true,
+                "health_check_path": "/health"
+              }
+            }
+          },
+          "is_external": false,
+          "parent_system": "Platform Services",
+          "implementation_status": "hypothetical",
+          "verification_notes": "Test architecture for chain_reflow validation",
+          "source_references": {
+            "analysis_date": "2025-11-04",
+            "confidence_level": "high"
+          }
+        },
+        "id": "api_gateway"
+      },
+      {
+        "name": "User Management Service",
+        "type": null,
+        "functions": [
+          {
+            "function_id": "F-USER-01",
+            "function_name": "User Creation",
+            "description": "Create new user accounts"
+          },
+          {
+            "function_id": "F-USER-02",
+            "function_name": "User Profile Management",
+            "description": "Update user profiles and preferences"
+          },
+          {
+            "function_id": "F-USER-03",
+            "function_name": "User Deletion",
+            "description": "Soft-delete or hard-delete user accounts"
+          }
+        ],
+        "interfaces": {
+          "provided": [
+            {
+              "interface_id": "IFC-USER-001",
+              "interface_name": "User Management API",
+              "protocol": "REST",
+              "data_format": "JSON",
+              "operations": [
+                {
+                  "operation_id": "OP-USER-001",
+                  "operation_name": "Get User",
+                  "method": "GET",
+                  "endpoint": "/api/v1/users/{id}",
+                  "description": "Retrieve user by ID"
+                },
+                {
+                  "operation_id": "OP-USER-002",
+                  "operation_name": "Create User",
+                  "method": "POST",
+                  "endpoint": "/api/v1/users",
+                  "description": "Create new user account"
+                },
+                {
+                  "operation_id": "OP-USER-003",
+                  "operation_name": "Update User",
+                  "method": "PUT",
+                  "endpoint": "/api/v1/users/{id}",
+                  "description": "Update user profile"
+                },
+                {
+                  "operation_id": "OP-USER-004",
+                  "operation_name": "Delete User",
+                  "method": "DELETE",
+                  "endpoint": "/api/v1/users/{id}",
+                  "description": "Delete user account"
+                }
+              ]
+            }
+          ],
+          "required": [
+            {
+              "interface_id": "IFC-USER-REQ-001",
+              "interface_name": "Auth Token Validation",
+              "protocol": "REST",
+              "target_service": "auth_service",
+              "target_endpoint": "/api/v1/auth/validate",
+              "description": "Validates user authentication tokens"
+            }
+          ]
+        },
+        "dependencies": [
+          "auth_service"
+        ],
+        "raw": {
+          "service_id": "user_management",
+          "service_name": "User Management Service",
+          "version": "1.0.0+2025-11-04",
+          "description": "Manages user accounts, profiles, and preferences",
+          "framework": "uaf",
+          "hierarchical_tier": "tier_1_systems",
+          "component_classification": "service",
+          "purpose": "User CRUD operations and profile management",
+          "dependencies": [
+            "auth_service"
+          ],
+          "functions": [
+            {
+              "function_id": "F-USER-01",
+              "function_name": "User Creation",
+              "description": "Create new user accounts"
+            },
+            {
+              "function_id": "F-USER-02",
+              "function_name": "User Profile Management",
+              "description": "Update user profiles and preferences"
+            },
+            {
+              "function_id": "F-USER-03",
+              "function_name": "User Deletion",
+              "description": "Soft-delete or hard-delete user accounts"
+            }
+          ],
+          "interfaces": {
+            "provided": [
+              {
+                "interface_id": "IFC-USER-001",
+                "interface_name": "User Management API",
+                "protocol": "REST",
+                "data_format": "JSON",
+                "operations": [
+                  {
+                    "operation_id": "OP-USER-001",
+                    "operation_name": "Get User",
+                    "method": "GET",
+                    "endpoint": "/api/v1/users/{id}",
+                    "description": "Retrieve user by ID"
+                  },
+                  {
+                    "operation_id": "OP-USER-002",
+                    "operation_name": "Create User",
+                    "method": "POST",
+                    "endpoint": "/api/v1/users",
+                    "description": "Create new user account"
+                  },
+                  {
+                    "operation_id": "OP-USER-003",
+                    "operation_name": "Update User",
+                    "method": "PUT",
+                    "endpoint": "/api/v1/users/{id}",
+                    "description": "Update user profile"
+                  },
+                  {
+                    "operation_id": "OP-USER-004",
+                    "operation_name": "Delete User",
+                    "method": "DELETE",
+                    "endpoint": "/api/v1/users/{id}",
+                    "description": "Delete user account"
+                  }
+                ]
+              }
+            ],
+            "required": [
+              {
+                "interface_id": "IFC-USER-REQ-001",
+                "interface_name": "Auth Token Validation",
+                "protocol": "REST",
+                "target_service": "auth_service",
+                "target_endpoint": "/api/v1/auth/validate",
+                "description": "Validates user authentication tokens"
+              }
+            ]
+          },
+          "deployment": {
+            "runtime": "Python 3.11",
+            "framework_dependencies": [
+              "FastAPI",
+              "SQLAlchemy",
+              "PostgreSQL"
+            ],
+            "ports": {
+              "primary": {
+                "port": 8002,
+                "protocol": "HTTP",
+                "purpose": "User Management API",
+                "binding": "0.0.0.0",
+                "public_facing": false,
+                "health_check_path": "/health"
+              }
+            }
+          },
+          "is_external": false,
+          "parent_system": "Platform Services",
+          "implementation_status": "hypothetical",
+          "verification_notes": "Test architecture for chain_reflow validation",
+          "source_references": {
+            "analysis_date": "2025-11-04",
+            "confidence_level": "high"
+          }
+        },
+        "id": "user_management"
+      }
+    ],
+    "links": [
+      {
+        "type": "dependency",
+        "interaction_type": "requires",
+        "source": "api_gateway",
+        "target": "auth_service"
+      },
+      {
+        "type": "dependency",
+        "interaction_type": "requires",
+        "source": "user_management",
+        "target": "auth_service"
+      }
+    ]
+  },
+  "architectural_issues": {
+    "circular_dependencies": [],
+    "orphaned_nodes": [],
+    "unimplemented_services": [],
+    "missing_interfaces": [],
+    "inconsistent_protocols": [],
+    "security_gaps": [],
+    "performance_bottlenecks": [],
+    "async_sync_consistency": []
+  },
+  "architectural_issues_summary": {
+    "total_issues": 0,
+    "by_type": {
+      "circular_dependencies": 0,
+      "orphaned_nodes": 0,
+      "unimplemented_services": 0,
+      "missing_interfaces": 0,
+      "inconsistent_protocols": 0,
+      "security_gaps": 0,
+      "performance_bottlenecks": 0,
+      "async_sync_consistency": 0
+    }
+  }
+}

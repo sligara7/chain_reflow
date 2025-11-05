@@ -10,6 +10,8 @@ They represent potential connections that may require validation or refinement.
 """
 
 import json
+import sys
+import argparse
 from pathlib import Path
 from typing import Dict, Any, List, Optional, Tuple
 from dataclasses import dataclass, asdict
@@ -604,8 +606,229 @@ class CreativeLinkingEngine:
         return "\n".join(report)
 
 
-def main():
-    """Demo of creative linking"""
+def load_graph(file_path: str) -> dict:
+    """Load system_of_systems_graph.json file"""
+    try:
+        with open(file_path, 'r') as f:
+            return json.load(f)
+    except FileNotFoundError:
+        print(f"Error: File not found: {file_path}", file=sys.stderr)
+        sys.exit(1)
+    except json.JSONDecodeError as e:
+        print(f"Error: Invalid JSON in {file_path}: {e}", file=sys.stderr)
+        sys.exit(1)
+
+
+def graph_to_architectures(graph: dict) -> List[dict]:
+    """Convert system_of_systems_graph nodes to architecture format"""
+    nodes = graph.get('graph', {}).get('nodes', [])
+    architectures = []
+
+    for node in nodes:
+        raw = node.get('raw', {})
+        functions = node.get('functions', [])
+
+        # Build architecture dict
+        arch = {
+            'name': node.get('name', 'Unknown'),
+            'description': raw.get('description', ''),
+            'framework': raw.get('framework', 'unknown'),
+            'domain': raw.get('domain', 'unknown'),
+            'components': functions,
+        }
+
+        if 'dependencies' in node:
+            arch['dependencies'] = node['dependencies']
+        if 'interfaces' in node:
+            arch['interfaces'] = node['interfaces']
+
+        architectures.append(arch)
+
+    return architectures
+
+
+def write_output(results: dict, output_path: Optional[str], format: str):
+    """Write analysis results to file or stdout"""
+    if format == 'json':
+        output = json.dumps(results, indent=2)
+    elif format == 'markdown':
+        output = results['report']
+    else:  # text
+        output = results['report']
+
+    if output_path:
+        try:
+            with open(output_path, 'w') as f:
+                f.write(output)
+            print(f"Analysis written to: {output_path}", file=sys.stderr)
+        except IOError as e:
+            print(f"Error writing to {output_path}: {e}", file=sys.stderr)
+            sys.exit(1)
+    else:
+        print(output)
+
+
+def analyze_graphs(
+    graph_files: List[str],
+    output_path: Optional[str] = None,
+    format: str = 'text',
+    user_context: Optional[str] = None
+):
+    """
+    Analyze creative linking opportunities between architectures in graphs
+
+    Args:
+        graph_files: List of 1-2 paths to system_of_systems_graph.json files
+        output_path: Optional path to write results (default: stdout)
+        format: Output format - 'text', 'json', or 'markdown'
+        user_context: Optional user-provided context for creative mappings
+    """
+    if len(graph_files) == 0:
+        print("Error: At least one graph file required", file=sys.stderr)
+        sys.exit(1)
+    elif len(graph_files) > 2:
+        print("Warning: Creative linking works best with 1-2 graphs", file=sys.stderr)
+        print(f"Analyzing first 2 of {len(graph_files)} graphs", file=sys.stderr)
+        graph_files = graph_files[:2]
+
+    # Load all graphs
+    all_architectures = []
+    for graph_file in graph_files:
+        graph = load_graph(graph_file)
+        architectures = graph_to_architectures(graph)
+        all_architectures.extend(architectures)
+
+    if not all_architectures:
+        print("Error: No architectures found in graphs", file=sys.stderr)
+        sys.exit(1)
+
+    if len(all_architectures) < 2:
+        print("Error: Creative linking requires at least 2 architectures", file=sys.stderr)
+        sys.exit(1)
+
+    # Run creative linking analysis
+    engine = CreativeLinkingEngine()
+    all_touchpoints = []
+    orthogonality_assessments = []
+
+    # Analyze pairs of architectures
+    for i, arch1 in enumerate(all_architectures):
+        for arch2 in all_architectures[i+1:]:
+            # Assess orthogonality
+            orthogonality, reasoning = engine.assess_orthogonality(arch1, arch2)
+            orthogonality_assessments.append({
+                'arch1': arch1['name'],
+                'arch2': arch2['name'],
+                'level': orthogonality.value,
+                'reasoning': reasoning
+            })
+
+            # Find creative touchpoints (with user consent assumed in CLI mode)
+            touchpoints = engine.find_creative_touchpoints(
+                arch1,
+                arch2,
+                user_consent=True,
+                user_context=user_context
+            )
+            all_touchpoints.extend(touchpoints)
+
+    # Generate report for all touchpoints
+    if all_touchpoints:
+        # Group touchpoints by architecture pair
+        report = engine.generate_linking_report(
+            all_touchpoints,
+            "Multiple Architectures",
+            "Multiple Architectures",
+            OrthogonalityLevel.SOMEWHAT_ORTHOGONAL  # Average
+        )
+    else:
+        report = "No creative linking opportunities found.\n"
+        report += "All architectures appear to be in similar domains/frameworks.\n"
+
+    # Prepare results
+    results = {
+        'report': report,
+        'summary': {
+            'num_architectures': len(all_architectures),
+            'num_touchpoints': len(all_touchpoints),
+            'num_pairs_analyzed': len(orthogonality_assessments)
+        },
+        'orthogonality_assessments': orthogonality_assessments,
+        'touchpoints': [tp.to_dict() for tp in all_touchpoints]
+    }
+
+    # Write output
+    write_output(results, output_path, format)
+
+
+def parse_args():
+    """Parse command-line arguments"""
+    parser = argparse.ArgumentParser(
+        description='Creative linking for orthogonal/cross-domain architectures',
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  # Analyze architectures in a single graph
+  %(prog)s system_of_systems_graph.json
+
+  # Analyze architectures across two different domain graphs
+  %(prog)s mechanical_graph.json software_graph.json
+
+  # Provide user context for creative mappings
+  %(prog)s graph1.json graph2.json --context "The drivetrain is like a data pipeline"
+
+  # Save JSON output to file
+  %(prog)s graph1.json graph2.json --output report.json --format json
+
+  # Run demo with hardcoded test data
+  %(prog)s --demo
+
+Note: Creative linking is EXPLORATORY and requires user validation.
+AI-generated metaphors should be reviewed by domain experts.
+"""
+    )
+
+    parser.add_argument(
+        'graph_files',
+        nargs='*',
+        type=str,
+        help='Paths to system_of_systems_graph.json files (1-2 files)'
+    )
+
+    parser.add_argument(
+        '--output', '-o',
+        type=str,
+        default=None,
+        help='Output file path (default: stdout)'
+    )
+
+    parser.add_argument(
+        '--format', '-f',
+        choices=['text', 'json', 'markdown'],
+        default='text',
+        help='Output format (default: text)'
+    )
+
+    parser.add_argument(
+        '--context', '-c',
+        type=str,
+        default=None,
+        help='User-provided context for creative mappings'
+    )
+
+    parser.add_argument(
+        '--demo',
+        action='store_true',
+        help='Run demonstration with hardcoded test data'
+    )
+
+    return parser.parse_args()
+
+
+def demo():
+    """Demo of creative linking with hardcoded test data"""
+    print("Running creative linking demo...\n", file=sys.stderr)
+
     # Example: Linking a mechanical system with a software system
     arch1 = {
         "name": "Axle System",
@@ -648,6 +871,23 @@ def main():
         touchpoints, arch1['name'], arch2['name'], orthogonality
     )
     print(report)
+
+
+def main():
+    """Main entry point - handles CLI arguments or runs demo"""
+    args = parse_args()
+
+    if args.demo:
+        # Run demo with hardcoded test data
+        demo()
+    elif args.graph_files:
+        # Analyze provided graph files
+        analyze_graphs(args.graph_files, args.output, args.format, args.context)
+    else:
+        # No arguments provided
+        print("Error: Please provide graph file(s) or use --demo flag", file=sys.stderr)
+        print("Run with --help for usage information", file=sys.stderr)
+        sys.exit(1)
 
 
 if __name__ == '__main__':

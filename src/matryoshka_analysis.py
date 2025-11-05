@@ -28,6 +28,8 @@ Relationships:
 """
 
 import json
+import sys
+import argparse
 from pathlib import Path
 from typing import Dict, Any, List, Optional, Tuple, Set
 from dataclasses import dataclass, asdict
@@ -676,8 +678,228 @@ class MatryoshkaAnalyzer:
         return "\n".join(report)
 
 
-def main():
-    """Demo of matryoshka analysis"""
+def load_graph(file_path: str) -> dict:
+    """Load system_of_systems_graph.json file"""
+    try:
+        with open(file_path, 'r') as f:
+            return json.load(f)
+    except FileNotFoundError:
+        print(f"Error: File not found: {file_path}", file=sys.stderr)
+        sys.exit(1)
+    except json.JSONDecodeError as e:
+        print(f"Error: Invalid JSON in {file_path}: {e}", file=sys.stderr)
+        sys.exit(1)
+
+
+def graph_to_architectures(graph: dict) -> List[dict]:
+    """
+    Convert system_of_systems_graph nodes to architecture format expected by analyzer
+
+    Maps from graph node format to the format expected by MatryoshkaAnalyzer:
+    - node.name → architecture.name
+    - node.raw.description → architecture.description
+    - node.raw.hierarchical_tier → architecture.hierarchy_level
+    - node.functions → architecture.components (for counting)
+    - node.raw.framework → architecture.framework
+    """
+    nodes = graph.get('graph', {}).get('nodes', [])
+    architectures = []
+
+    for node in nodes:
+        raw = node.get('raw', {})
+
+        # Map hierarchical_tier to standard hierarchy levels
+        tier_to_level = {
+            'tier_0_components': 'component',
+            'tier_1_systems': 'system',
+            'tier_2_system_of_systems': 'system_of_systems',
+            'tier_3_enterprise': 'enterprise',
+            'component': 'component',
+            'subsystem': 'subsystem',
+            'system': 'system',
+            'system_of_systems': 'system_of_systems',
+            'enterprise': 'enterprise'
+        }
+
+        hierarchical_tier = raw.get('hierarchical_tier', '')
+        hierarchy_level = tier_to_level.get(hierarchical_tier, None)
+
+        # Use functions as components for counting purposes
+        functions = node.get('functions', [])
+
+        # Build architecture dict
+        arch = {
+            'name': node.get('name', 'Unknown'),
+            'description': raw.get('description', ''),
+            'framework': raw.get('framework', 'unknown'),
+            'components': functions,  # Use functions as components
+            'domain': raw.get('domain', 'unknown'),
+        }
+
+        # Add hierarchy_level if it was declared
+        if hierarchy_level:
+            arch['hierarchy_level'] = hierarchy_level
+
+        # Add dependencies if present
+        if 'dependencies' in node:
+            arch['dependencies'] = node['dependencies']
+
+        # Add interfaces for additional context
+        if 'interfaces' in node:
+            arch['interfaces'] = node['interfaces']
+
+        architectures.append(arch)
+
+    return architectures
+
+
+def write_output(results: dict, output_path: Optional[str], format: str):
+    """Write analysis results to file or stdout"""
+    if format == 'json':
+        output = json.dumps(results, indent=2)
+    elif format == 'markdown':
+        output = results['report']  # Already formatted as text, could enhance for markdown
+    else:  # text
+        output = results['report']
+
+    if output_path:
+        try:
+            with open(output_path, 'w') as f:
+                f.write(output)
+            print(f"Analysis written to: {output_path}", file=sys.stderr)
+        except IOError as e:
+            print(f"Error writing to {output_path}: {e}", file=sys.stderr)
+            sys.exit(1)
+    else:
+        print(output)
+
+
+def analyze_graph(graph_file: str, output_path: Optional[str] = None, format: str = 'text'):
+    """
+    Analyze a system_of_systems_graph.json file for hierarchical relationships
+
+    Args:
+        graph_file: Path to system_of_systems_graph.json
+        output_path: Optional path to write results (default: stdout)
+        format: Output format - 'text', 'json', or 'markdown'
+    """
+    # Load graph
+    graph = load_graph(graph_file)
+
+    # Convert to architecture format
+    architectures = graph_to_architectures(graph)
+
+    if not architectures:
+        print("Error: No architectures found in graph", file=sys.stderr)
+        sys.exit(1)
+
+    # Run analysis
+    analyzer = MatryoshkaAnalyzer()
+
+    # Infer hierarchy levels
+    hierarchy_metadata = {}
+    for arch in architectures:
+        meta = analyzer.infer_hierarchy_level(arch)
+        hierarchy_metadata[arch['name']] = meta
+
+    # Analyze relationships
+    relationships = []
+    for i, arch_a in enumerate(architectures):
+        for arch_b in architectures[i+1:]:
+            rel = analyzer.analyze_relationship(
+                arch_a, arch_b,
+                hierarchy_metadata[arch_a['name']],
+                hierarchy_metadata[arch_b['name']]
+            )
+            relationships.append(rel)
+
+    # Discover gaps
+    gaps = analyzer.discover_hierarchical_gaps(architectures, relationships)
+
+    # Generate report
+    report = analyzer.generate_matryoshka_report(
+        architectures,
+        hierarchy_metadata,
+        relationships,
+        gaps
+    )
+
+    # Prepare results
+    results = {
+        'report': report,
+        'summary': {
+            'num_architectures': len(architectures),
+            'num_relationships': len(relationships),
+            'num_gaps': len(gaps),
+            'hierarchy_levels': {
+                name: meta.inferred_level
+                for name, meta in hierarchy_metadata.items()
+            }
+        },
+        'hierarchy_metadata': {
+            name: meta.to_dict()
+            for name, meta in hierarchy_metadata.items()
+        },
+        'relationships': [rel.to_dict() for rel in relationships],
+        'gaps': [gap.to_dict() for gap in gaps]
+    }
+
+    # Write output
+    write_output(results, output_path, format)
+
+
+def parse_args():
+    """Parse command-line arguments"""
+    parser = argparse.ArgumentParser(
+        description='Matryoshka (hierarchical nesting) analysis for system architectures',
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  # Analyze a graph and output to stdout
+  %(prog)s system_of_systems_graph.json
+
+  # Save JSON output to file
+  %(prog)s system_of_systems_graph.json --output report.json --format json
+
+  # Run demo with hardcoded test data
+  %(prog)s --demo
+"""
+    )
+
+    parser.add_argument(
+        'graph_file',
+        nargs='?',
+        type=str,
+        help='Path to system_of_systems_graph.json file'
+    )
+
+    parser.add_argument(
+        '--output', '-o',
+        type=str,
+        default=None,
+        help='Output file path (default: stdout)'
+    )
+
+    parser.add_argument(
+        '--format', '-f',
+        choices=['text', 'json', 'markdown'],
+        default='text',
+        help='Output format (default: text)'
+    )
+
+    parser.add_argument(
+        '--demo',
+        action='store_true',
+        help='Run demonstration with hardcoded test data'
+    )
+
+    return parser.parse_args()
+
+
+def demo():
+    """Demo of matryoshka analysis with hardcoded test data"""
+    print("Running matryoshka analysis demo...\n", file=sys.stderr)
+
     # Example: Multi-level vehicle architectures
     architectures = [
         {
@@ -754,6 +976,23 @@ def main():
         gaps
     )
     print(report)
+
+
+def main():
+    """Main entry point - handles CLI arguments or runs demo"""
+    args = parse_args()
+
+    if args.demo:
+        # Run demo with hardcoded test data
+        demo()
+    elif args.graph_file:
+        # Analyze provided graph file
+        analyze_graph(args.graph_file, args.output, args.format)
+    else:
+        # No arguments provided
+        print("Error: Please provide a graph file or use --demo flag", file=sys.stderr)
+        print("Run with --help for usage information", file=sys.stderr)
+        sys.exit(1)
 
 
 if __name__ == '__main__':

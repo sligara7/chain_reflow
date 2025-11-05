@@ -1,0 +1,79 @@
+{
+  "service_id": "api_gateway",
+  "service_name": "API Gateway Service",
+  "version": "1.0.0+2025-11-04",
+  "description": "Routes external requests to internal microservices with authentication",
+  "framework": "uaf",
+  "hierarchical_tier": "tier_1_systems",
+  "component_classification": "service",
+  "purpose": "API gateway and request router",
+  "dependencies": ["auth_service"],
+  "functions": [
+    {
+      "function_id": "F-GATEWAY-01",
+      "function_name": "Request Routing",
+      "description": "Route incoming requests to appropriate backend services"
+    },
+    {
+      "function_id": "F-GATEWAY-02",
+      "function_name": "Authentication Enforcement",
+      "description": "Validate JWT tokens before forwarding requests"
+    },
+    {
+      "function_id": "F-GATEWAY-03",
+      "function_name": "Rate Limiting",
+      "description": "Apply rate limits to prevent abuse"
+    }
+  ],
+  "interfaces": {
+    "provided": [
+      {
+        "interface_id": "IFC-GATEWAY-001",
+        "interface_name": "External API",
+        "protocol": "REST",
+        "data_format": "JSON",
+        "operations": [
+          {
+            "operation_id": "OP-GATEWAY-001",
+            "operation_name": "Route Request",
+            "method": "ANY",
+            "endpoint": "/api/*",
+            "description": "Route any API request to backend services"
+          }
+        ]
+      }
+    ],
+    "required": [
+      {
+        "interface_id": "IFC-GATEWAY-REQ-001",
+        "interface_name": "Auth Validation Dependency",
+        "protocol": "REST",
+        "target_service": "auth_service",
+        "target_endpoint": "/api/v1/auth/validate",
+        "description": "Calls auth service to validate tokens"
+      }
+    ]
+  },
+  "deployment": {
+    "runtime": "Node.js 18",
+    "framework_dependencies": ["Express", "http-proxy-middleware"],
+    "ports": {
+      "primary": {
+        "port": 8000,
+        "protocol": "HTTP",
+        "purpose": "Public API endpoint",
+        "binding": "0.0.0.0",
+        "public_facing": true,
+        "health_check_path": "/health"
+      }
+    }
+  },
+  "is_external": false,
+  "parent_system": "Platform Services",
+  "implementation_status": "hypothetical",
+  "verification_notes": "Test architecture for chain_reflow validation",
+  "source_references": {
+    "analysis_date": "2025-11-04",
+    "confidence_level": "high"
+  }
+}

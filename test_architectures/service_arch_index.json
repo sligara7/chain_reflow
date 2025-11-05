@@ -1,0 +1,14 @@
+{
+  "system_metadata": {
+    "system_name": "Platform Services Test System",
+    "system_description": "Test system for validating chain_reflow linking capabilities",
+    "version": "1.0.0",
+    "framework": "uaf",
+    "created_date": "2025-11-04"
+  },
+  "components": {
+    "auth_service": "auth_service_architecture.json",
+    "api_gateway": "api_gateway_architecture.json",
+    "user_management": "user_mgmt_architecture.json"
+  }
+}

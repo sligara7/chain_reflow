@@ -1,0 +1,84 @@
+{
+  "service_id": "auth_service",
+  "service_name": "Authentication Service",
+  "version": "1.0.0+2025-11-04",
+  "description": "Provides JWT-based authentication and authorization for the platform",
+  "framework": "uaf",
+  "hierarchical_tier": "tier_1_systems",
+  "component_classification": "service",
+  "purpose": "Centralized authentication and token management",
+  "dependencies": [],
+  "functions": [
+    {
+      "function_id": "F-AUTH-01",
+      "function_name": "User Authentication",
+      "description": "Authenticate users via username/password and issue JWT tokens"
+    },
+    {
+      "function_id": "F-AUTH-02",
+      "function_name": "Token Validation",
+      "description": "Validate JWT tokens for other services"
+    },
+    {
+      "function_id": "F-AUTH-03",
+      "function_name": "Token Refresh",
+      "description": "Refresh expired JWT tokens using refresh tokens"
+    }
+  ],
+  "interfaces": {
+    "provided": [
+      {
+        "interface_id": "IFC-AUTH-001",
+        "interface_name": "Authentication API",
+        "protocol": "REST",
+        "data_format": "JSON",
+        "operations": [
+          {
+            "operation_id": "OP-AUTH-001",
+            "operation_name": "Login",
+            "method": "POST",
+            "endpoint": "/api/v1/auth/login",
+            "description": "Authenticate user and return JWT token"
+          },
+          {
+            "operation_id": "OP-AUTH-002",
+            "operation_name": "Validate Token",
+            "method": "POST",
+            "endpoint": "/api/v1/auth/validate",
+            "description": "Validate JWT token"
+          },
+          {
+            "operation_id": "OP-AUTH-003",
+            "operation_name": "Refresh Token",
+            "method": "POST",
+            "endpoint": "/api/v1/auth/refresh",
+            "description": "Refresh JWT token"
+          }
+        ]
+      }
+    ],
+    "required": []
+  },
+  "deployment": {
+    "runtime": "Python 3.11",
+    "framework_dependencies": ["FastAPI", "PyJWT", "passlib"],
+    "ports": {
+      "primary": {
+        "port": 8001,
+        "protocol": "HTTP",
+        "purpose": "Authentication API",
+        "binding": "0.0.0.0",
+        "public_facing": true,
+        "health_check_path": "/health"
+      }
+    }
+  },
+  "is_external": false,
+  "parent_system": "Platform Services",
+  "implementation_status": "hypothetical",
+  "verification_notes": "Test architecture for chain_reflow validation",
+  "source_references": {
+    "analysis_date": "2025-11-04",
+    "confidence_level": "high"
+  }
+}

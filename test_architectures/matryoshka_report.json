@@ -1,0 +1,139 @@
+{
+  "report": "======================================================================\nMATRYOSHKA (HIERARCHICAL NESTING) ANALYSIS\n======================================================================\n\nLike Russian nesting dolls, system architectures are often nested\nhierarchically rather than linked peer-to-peer.\n\n\u26a0\ufe0f  IMPORTANT: Don't assume peer-to-peer relationships!\nArchitectures may be:\n\u2022 At the same level (peers)\n\u2022 At different levels (parent-child)\n\u2022 Nested through intermediate levels\n======================================================================\n\nDETECTED HIERARCHY LEVELS\n----------------------------------------------------------------------\n\nSYSTEM Level:\n  \u2022 Authentication Service (confidence: 90%)\n  \u2022 API Gateway Service (confidence: 90%)\n  \u2022 User Management Service (confidence: 90%)\n\n======================================================================\nHIERARCHICAL RELATIONSHIPS\n======================================================================\n\nPeer Relationships (same level):\n  Authentication Service \u2194 API Gateway Service\n    Level: system\n  Authentication Service \u2194 User Management Service\n    Level: system\n  API Gateway Service \u2194 User Management Service\n    Level: system\n\n======================================================================\nHIERARCHICAL GAPS (Missing Levels)\n======================================================================\n\n\u26a0\ufe0f  KNOWLEDGE GAPS: The following intermediate levels may exist\nbut are not yet documented:\n\n1. Missing Parent\n   Hypothesis: Unknown system_of_systems architecture that contains Authentication Service, API Gateway Service, User Management Service\n   Missing Level: system_of_systems\n   Evidence:\n     \u2022 3 peer architectures at system level\n     \u2022 No common parent identified\n     \u2022 Expected parent at system_of_systems level\n\n2. Missing Parent\n   Hypothesis: Unknown system_of_systems architecture that contains Authentication Service\n   Missing Level: system_of_systems\n   Evidence:\n     \u2022 Authentication Service at system level\n     \u2022 No parent architecture identified\n     \u2022 Expected parent at system_of_systems level\n\n======================================================================\nRECOMMENDED NEXT STEPS\n======================================================================\n1. Verify hierarchy levels for each architecture\n2. Investigate hierarchical gaps:\n   \u2022 Document missing intermediate levels if they exist\n   \u2022 Update architecture metadata if levels are incorrect\n3. Consider hierarchical relationships when linking:\n   \u2022 Peer-to-peer links: At same level\n   \u2022 Parent-child links: Containment relationships\n   \u2022 Indirect links: Through intermediate systems\n4. Don't assume peer-to-peer - check hierarchy first!\n",
+  "summary": {
+    "num_architectures": 3,
+    "num_relationships": 3,
+    "num_gaps": 2,
+    "hierarchy_levels": {
+      "Authentication Service": "system",
+      "API Gateway Service": "system",
+      "User Management Service": "system"
+    }
+  },
+  "hierarchy_metadata": {
+    "Authentication Service": {
+      "architecture_name": "Authentication Service",
+      "declared_level": "system",
+      "inferred_level": "system",
+      "confidence": 0.9,
+      "evidence": [
+        "Explicitly declared as system"
+      ],
+      "scope_indicators": {
+        "component_count": 3,
+        "connection_count": 0,
+        "domain": "unknown",
+        "framework": "uaf",
+        "has_external_interfaces": false,
+        "has_subarchitectures": false
+      }
+    },
+    "API Gateway Service": {
+      "architecture_name": "API Gateway Service",
+      "declared_level": "system",
+      "inferred_level": "system",
+      "confidence": 0.9,
+      "evidence": [
+        "Explicitly declared as system"
+      ],
+      "scope_indicators": {
+        "component_count": 3,
+        "connection_count": 0,
+        "domain": "unknown",
+        "framework": "uaf",
+        "has_external_interfaces": false,
+        "has_subarchitectures": false
+      }
+    },
+    "User Management Service": {
+      "architecture_name": "User Management Service",
+      "declared_level": "system",
+      "inferred_level": "system",
+      "confidence": 0.9,
+      "evidence": [
+        "Explicitly declared as system"
+      ],
+      "scope_indicators": {
+        "component_count": 3,
+        "connection_count": 0,
+        "domain": "unknown",
+        "framework": "uaf",
+        "has_external_interfaces": false,
+        "has_subarchitectures": false
+      }
+    }
+  },
+  "relationships": [
+    {
+      "id": "rel_Authentication Service_API Gateway Service",
+      "parent_architecture": "Authentication Service",
+      "child_architecture": "API Gateway Service",
+      "parent_level": "system",
+      "child_level": "system",
+      "relationship_type": "peer",
+      "evidence": [
+        "Both at system level"
+      ],
+      "confidence": 0.9,
+      "direct_containment": false
+    },
+    {
+      "id": "rel_Authentication Service_User Management Service",
+      "parent_architecture": "Authentication Service",
+      "child_architecture": "User Management Service",
+      "parent_level": "system",
+      "child_level": "system",
+      "relationship_type": "peer",
+      "evidence": [
+        "Both at system level"
+      ],
+      "confidence": 0.9,
+      "direct_containment": false
+    },
+    {
+      "id": "rel_API Gateway Service_User Management Service",
+      "parent_architecture": "API Gateway Service",
+      "child_architecture": "User Management Service",
+      "parent_level": "system",
+      "child_level": "system",
+      "relationship_type": "peer",
+      "evidence": [
+        "Both at system level"
+      ],
+      "confidence": 0.9,
+      "direct_containment": false
+    }
+  ],
+  "gaps": [
+    {
+      "id": "gap_common_parent_Authentication Service_API Gateway Service_User Management Service",
+      "architecture_a": "Authentication Service",
+      "architecture_b": "API Gateway Service",
+      "level_a": "system",
+      "level_b": "system",
+      "missing_level": "system_of_systems",
+      "hypothesis": "Unknown system_of_systems architecture that contains Authentication Service, API Gateway Service, User Management Service",
+      "evidence": [
+        "3 peer architectures at system level",
+        "No common parent identified",
+        "Expected parent at system_of_systems level"
+      ],
+      "gap_type": "missing_parent"
+    },
+    {
+      "id": "gap_parent_Authentication Service",
+      "architecture_a": "Authentication Service",
+      "architecture_b": "unknown",
+      "level_a": "system",
+      "level_b": "unknown",
+      "missing_level": "system_of_systems",
+      "hypothesis": "Unknown system_of_systems architecture that contains Authentication Service",
+      "evidence": [
+        "Authentication Service at system level",
+        "No parent architecture identified",
+        "Expected parent at system_of_systems level"
+      ],
+      "gap_type": "missing_parent"
+    }
+  ]
+}
