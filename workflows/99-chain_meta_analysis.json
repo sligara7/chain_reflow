@@ -9,7 +9,7 @@
     "purpose": "Self-analysis of chain_reflow using functional architecture methodology + chain_reflow's specialized analysis engines",
     "key_innovation": "Uses chain_reflow's own tools (matryoshka, causality, creative_linking) during meta-analysis to prove they work on real systems (dogfooding)",
     "when_to_use": "Quarterly health checks, before major releases, after multiple feature updates",
-    "trigger_command": "python3 src/workflow_runner.py workflows/99-chain_meta_analysis.json"
+    "execution_model": "LLM-assisted - Claude Code reads workflow and executes steps intelligently"
   },
   "prerequisites": {
     "required_conditions": [
@@ -224,9 +224,27 @@
             "Orphaned/unreachable functions",
             "Cycles detected"
           ]
+        },
+        {
+          "action_id": "META-04-A03",
+          "description": "Generate system-of-systems graph with comprehensive analysis",
+          "tool": "system_of_systems_graph_v2.py",
+          "command": "python3 {reflow_root}/tools/system_of_systems_graph_v2.py {system_root}/specs/functional/index.json --detect-gaps --analyze-issues --context-flow --context-threshold 160000 --centrality --connectivity --cycles -o {system_root}/specs/functional/graphs/system_of_systems_graph.json",
+          "analyses_performed": [
+            "Knowledge gap detection (orphaned interfaces, unmet dependencies)",
+            "Architectural issue detection (circular dependencies, bottlenecks)",
+            "Context flow analysis (LLM token consumption tracking)",
+            "Centrality measures (identify critical functions)",
+            "Connectivity metrics (detect isolated components)",
+            "Cycle detection (feedback loops)"
+          ],
+          "prerequisite": "specs/functional/index.json must exist (created in next step if missing)"
         }
       ],
-      "outputs": ["specs/functional/functional_architecture_analysis.json"],
+      "outputs": [
+        "specs/functional/functional_architecture_analysis.json",
+        "specs/functional/graphs/system_of_systems_graph.json"
+      ],
       "typical_time": "5-10 minutes",
       "next_step": "CHAIN-META-04A"
     },
@@ -326,9 +344,10 @@
         },
         {
           "action_id": "CHAIN-META-04C-A02",
-          "description": "Run chain_reflow's linking workflow",
+          "description": "Execute chain_reflow's linking workflow via Claude Code",
           "workflow": "workflows/chain-01-link-architectures.json",
-          "command": "python3 /home/ajs7/project/chain_reflow/src/workflow_runner.py /home/ajs7/project/chain_reflow/workflows/chain-01-link-architectures.json --input-graphs /tmp/meta_graph_list.json",
+          "llm_instructions": "Read and execute workflow chain-01-link-architectures.json with the graph list from /tmp/meta_graph_list.json. This workflow discovers touchpoints, integration patterns, missing interfaces, and dependency chains between chain_reflow and reflow.",
+          "execution_model": "LLM-assisted - Claude Code reads workflow JSON and intelligently executes each step",
           "discovers": [
             "Touchpoints (where chain_reflow calls reflow)",
             "Integration patterns",

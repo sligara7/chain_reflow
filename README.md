@@ -175,36 +175,48 @@ Each level can be analyzed for orphans, gaps, and misalignments using reflow too
 
 ## Getting Started
 
-### Run the Setup Workflow
-```bash
-python3 run_setup_demo.py
-```
+### Workflow Execution
 
-### Link Two Architectures
-```bash
-python3 src/workflow_runner.py workflows/chain-01-link-architectures.json
-```
+**Chain_reflow uses LLM-assisted execution** (following reflow's philosophy):
+- Workflows are JSON specifications that Claude Code (or similar AI) reads and executes
+- No automated workflow runner - AI agents provide intelligent orchestration
+- Tell Claude Code: "Execute workflow `workflows/99-chain_meta_analysis.json`"
 
-### Test Creative Linking
+See `CLAUDE.md` for detailed workflow execution guidance.
+
+### Analysis Tools
+
 ```bash
-python3 src/creative_linking.py
+# Matryoshka hierarchical analysis
+python3 src/matryoshka_analysis.py system_of_systems_graph.json --output report.json
+
+# Causality analysis (correlation vs causation)
+python3 src/causality_analysis.py graph1.json graph2.json --format markdown
+
+# Creative linking for orthogonal architectures
+python3 src/creative_linking.py graph1.json graph2.json --context "user hint"
+
+# All tools support --help for usage information
+python3 src/matryoshka_analysis.py --help
 ```
 
 ## Project Structure
 
 ```
 chain_reflow/
-├── src/
-│   ├── workflow_runner.py          # Core workflow execution engine
-│   ├── interactive_executor.py     # Interactive workflow execution
-│   └── creative_linking.py         # Creative linking engine
-├── workflows/
-│   ├── 00-setup.json              # System setup workflow
-│   └── chain-01-link-architectures.json  # Architecture linking workflow
-├── context/                        # Execution context and state
-├── docs/                          # Generated documentation
-├── specs/                         # Interface specifications
-└── architectures/                 # Integrated architecture graphs
+├── src/                            # Analysis tools with CLI support
+│   ├── matryoshka_analysis.py     # Hierarchical nesting analysis
+│   ├── causality_analysis.py      # Correlation vs causation analysis
+│   ├── creative_linking.py        # Creative linking for orthogonal architectures
+│   └── interactive_executor.py    # Interactive workflow execution
+├── workflows/                      # Workflow specifications (JSON)
+│   ├── 98-chain_feature_update.json           # Auto meta-analysis after features
+│   ├── 99-chain_meta_analysis.json            # Comprehensive self-analysis
+│   └── chain-01-link-architectures.json       # Architecture linking workflow
+├── context/                        # Execution context and working memory
+├── docs/                          # Generated documentation and reports
+├── specs/                         # Interface specifications and architectures
+└── test_architectures/            # Test data for validation
 ```
 
 ## Philosophy
