@@ -176,6 +176,27 @@
         "F-072",
         "F-073"
       ]
+    },
+    {
+      "flow_id": "FLOW-009",
+      "flow_name": "Matrix Gap Detection Flow",
+      "description": "Mathematically infer missing intermediate systems using linear algebra (homography matrix approach)",
+      "entry_point": "F-080",
+      "exit_points": [
+        "F-085"
+      ],
+      "implements_requirements": [
+        "FR-001",
+        "FR-003"
+      ],
+      "functions": [
+        "F-080",
+        "F-081",
+        "F-082",
+        "F-083",
+        "F-084",
+        "F-085"
+      ]
     }
   ],
   "functions": [
@@ -855,6 +876,106 @@
       ],
       "context_consumption": 3000,
       "execution_time_seconds": 5
+    },
+    {
+      "function_id": "F-080",
+      "function_name": "Load Systems for Gap Detection",
+      "function_type": "read",
+      "description": "Load two system graphs (A and C) for missing system inference",
+      "inputs": [
+        "system_a_path",
+        "system_c_path"
+      ],
+      "outputs": [
+        "system_a_graph",
+        "system_c_graph"
+      ],
+      "context_consumption": 20000,
+      "implements": "FR-001",
+      "execution_time_seconds": 3
+    },
+    {
+      "function_id": "F-081",
+      "function_name": "Convert Graphs to Adjacency Matrices",
+      "function_type": "process",
+      "description": "Transform graph representations into matrix form",
+      "inputs": [
+        "system_a_graph",
+        "system_c_graph"
+      ],
+      "outputs": [
+        "matrix_a",
+        "matrix_c"
+      ],
+      "context_consumption": 5000,
+      "execution_time_seconds": 2
+    },
+    {
+      "function_id": "F-082",
+      "function_name": "Solve for Transformation Matrix",
+      "function_type": "process",
+      "description": "Compute missing system B using pseudoinverse: B = C * A^(-1)",
+      "inputs": [
+        "matrix_a",
+        "matrix_c"
+      ],
+      "outputs": [
+        "transformation_matrix_b"
+      ],
+      "context_consumption": 3000,
+      "execution_time_seconds": 1
+    },
+    {
+      "function_id": "F-083",
+      "function_name": "SVD Decomposition",
+      "function_type": "process",
+      "description": "Apply SVD to detect multi-layer subsystem structure",
+      "inputs": [
+        "transformation_matrix_b"
+      ],
+      "outputs": [
+        "singular_values",
+        "left_vectors",
+        "right_vectors"
+      ],
+      "context_consumption": 4000,
+      "execution_time_seconds": 2
+    },
+    {
+      "function_id": "F-084",
+      "function_name": "Interpret Matrix Properties",
+      "function_type": "process",
+      "description": "Generate hypotheses about missing system from matrix characteristics",
+      "inputs": [
+        "transformation_matrix_b",
+        "singular_values",
+        "system_a_graph",
+        "system_c_graph"
+      ],
+      "outputs": [
+        "subsystem_descriptions",
+        "hypotheses",
+        "confidence_scores"
+      ],
+      "context_consumption": 8000,
+      "implements": "FR-003",
+      "execution_time_seconds": 5
+    },
+    {
+      "function_id": "F-085",
+      "function_name": "Generate Gap Detection Report",
+      "function_type": "generate",
+      "description": "Create human-readable report of missing system inference",
+      "inputs": [
+        "subsystem_descriptions",
+        "hypotheses",
+        "confidence_scores"
+      ],
+      "outputs": [
+        "gap_detection_report"
+      ],
+      "context_consumption": 6000,
+      "execution_time_seconds": 3
     }
   ],
   "function_dependencies": [
@@ -1112,16 +1233,51 @@
       "type": "control_flow",
       "weight": 500,
       "condition": "refresh needed"
+    },
+    {
+      "source": "F-080",
+      "target": "F-081",
+      "type": "data_flow",
+      "weight": 20000
+    },
+    {
+      "source": "F-081",
+      "target": "F-082",
+      "type": "data_flow",
+      "weight": 5000
+    },
+    {
+      "source": "F-082",
+      "target": "F-083",
+      "type": "data_flow",
+      "weight": 3000
+    },
+    {
+      "source": "F-083",
+      "target": "F-084",
+      "type": "data_flow",
+      "weight": 4000
+    },
+    {
+      "source": "F-084",
+      "target": "F-085",
+      "type": "data_flow",
+      "weight": 8000
     }
   ],
   "context_analysis": {
-    "total_functions": 48,
-    "total_flows": 8,
+    "total_functions": 54,
+    "total_flows": 9,
     "high_context_functions": [
       {
         "function_id": "F-010",
         "context": 25000,
         "reason": "Loads multiple large graphs"
+      },
+      {
+        "function_id": "F-080",
+        "context": 20000,
+        "reason": "Loads two systems for matrix gap detection"
       },
       {
         "function_id": "F-030",
@@ -1146,6 +1302,12 @@
         "cumulative_context": 82000,
         "severity": "ACCEPTABLE",
         "reasoning": "Well below 160k threshold"
+      },
+      {
+        "path": "F-080 \u2192 F-081 \u2192 F-082 \u2192 F-083 \u2192 F-084 \u2192 F-085",
+        "cumulative_context": 46000,
+        "severity": "ACCEPTABLE",
+        "reasoning": "Matrix gap detection flow - well below threshold"
       }
     ],
     "max_context_path": 82000,
@@ -1162,13 +1324,14 @@
       "FLOW-005": "Test creative linking with orthogonal architectures",
       "FLOW-006": "Test touchpoint discovery between compatible systems",
       "FLOW-007": "Test validation on integrated graph with known issues",
-      "FLOW-008": "Test context management and refresh mechanism"
+      "FLOW-008": "Test context management and refresh mechanism",
+      "FLOW-009": "Test matrix gap detection with degraded and balanced ecosystem graphs"
     }
   },
   "summary": {
-    "total_functions": 48,
-    "total_flows": 8,
-    "total_dependencies": 42,
+    "total_functions": 54,
+    "total_flows": 9,
+    "total_dependencies": 47,
     "max_context_path_tokens": 82000,
     "context_threshold_tokens": 160000,
     "context_health_status": "HEALTHY",

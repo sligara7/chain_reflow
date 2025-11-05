@@ -1,0 +1,39 @@
+{
+  "architecture_metadata": {
+    "name": "Degraded Ecosystem (Before State)",
+    "description": "Ecosystem with unchecked herbivore population",
+    "framework": "systems_biology",
+    "version": "1.0.0",
+    "domain": "ecological"
+  },
+  "nodes": [
+    {"id": "vegetation", "name": "Vegetation Cover"},
+    {"id": "herbivores", "name": "Herbivore Population"},
+    {"id": "soil_health", "name": "Soil Quality"}
+  ],
+  "edges": [
+    {
+      "source": "vegetation",
+      "target": "soil_health",
+      "weight": 0.3,
+      "description": "Weak vegetation-soil interaction (degraded)"
+    },
+    {
+      "source": "herbivores",
+      "target": "vegetation",
+      "weight": -0.9,
+      "description": "Heavy herbivore pressure on vegetation"
+    },
+    {
+      "source": "vegetation",
+      "target": "herbivores",
+      "weight": 0.4,
+      "description": "Limited food for growing population"
+    }
+  ],
+  "components": [
+    {"id": "vegetation", "state": 0.3},
+    {"id": "herbivores", "state": 0.9},
+    {"id": "soil_health", "state": 0.4}
+  ]
+}

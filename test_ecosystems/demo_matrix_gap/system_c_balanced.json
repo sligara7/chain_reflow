@@ -1,0 +1,45 @@
+{
+  "architecture_metadata": {
+    "name": "Balanced Ecosystem (After State)",
+    "description": "Ecosystem with apex predator controlling herbivores",
+    "framework": "systems_biology",
+    "version": "1.0.0",
+    "domain": "ecological"
+  },
+  "nodes": [
+    {"id": "vegetation", "name": "Vegetation Cover"},
+    {"id": "herbivores", "name": "Herbivore Population"},
+    {"id": "soil_health", "name": "Soil Quality"}
+  ],
+  "edges": [
+    {
+      "source": "vegetation",
+      "target": "soil_health",
+      "weight": 0.8,
+      "description": "Strong vegetation-soil interaction (healthy)"
+    },
+    {
+      "source": "herbivores",
+      "target": "vegetation",
+      "weight": -0.4,
+      "description": "Moderate herbivore pressure (controlled)"
+    },
+    {
+      "source": "vegetation",
+      "target": "herbivores",
+      "weight": 0.7,
+      "description": "Abundant food supply"
+    },
+    {
+      "source": "soil_health",
+      "target": "vegetation",
+      "weight": 0.6,
+      "description": "Healthy soil supports vegetation"
+    }
+  ],
+  "components": [
+    {"id": "vegetation", "state": 0.8},
+    {"id": "herbivores", "state": 0.6},
+    {"id": "soil_health", "state": 0.7}
+  ]
+}
