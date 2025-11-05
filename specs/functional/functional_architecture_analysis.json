@@ -1,0 +1,451 @@
+{
+  "metadata": {
+    "input_file": "/home/ajs7/project/chain_reflow/specs/functional/functional_architecture.json",
+    "timestamp": "2025-11-04",
+    "analyzer_version": "1.0.0"
+  },
+  "graph_summary": {
+    "total_functions": 45,
+    "total_dependencies": 42
+  },
+  "context_analysis": {
+    "bottleneck_paths": [],
+    "warning_paths": [],
+    "safe_paths": [
+      {
+        "path": [
+          "F-001",
+          "F-002",
+          "F-003",
+          "F-004",
+          "F-005",
+          "F-006"
+        ],
+        "context_consumption": 34500,
+        "length": 6,
+        "source": "F-001",
+        "sink": "F-006"
+      },
+      {
+        "path": [
+          "F-010",
+          "F-011",
+          "F-012",
+          "F-013",
+          "F-014",
+          "F-015",
+          "F-016",
+          "F-017"
+        ],
+        "context_consumption": 136000,
+        "length": 8,
+        "source": "F-010",
+        "sink": "F-017"
+      },
+      {
+        "path": [
+          "F-020",
+          "F-021",
+          "F-022",
+          "F-023",
+          "F-024"
+        ],
+        "context_consumption": 68000,
+        "length": 5,
+        "source": "F-020",
+        "sink": "F-024"
+      },
+      {
+        "path": [
+          "F-030",
+          "F-031",
+          "F-032",
+          "F-033",
+          "F-035"
+        ],
+        "context_consumption": 98000,
+        "length": 5,
+        "source": "F-030",
+        "sink": "F-035"
+      },
+      {
+        "path": [
+          "F-030",
+          "F-034",
+          "F-035"
+        ],
+        "context_consumption": 66000,
+        "length": 3,
+        "source": "F-030",
+        "sink": "F-035"
+      },
+      {
+        "path": [
+          "F-040",
+          "F-041",
+          "F-042",
+          "F-043",
+          "F-045"
+        ],
+        "context_consumption": 46000,
+        "length": 5,
+        "source": "F-040",
+        "sink": "F-045"
+      },
+      {
+        "path": [
+          "F-040",
+          "F-041",
+          "F-044",
+          "F-045"
+        ],
+        "context_consumption": 40000,
+        "length": 4,
+        "source": "F-040",
+        "sink": "F-045"
+      },
+      {
+        "path": [
+          "F-050",
+          "F-051",
+          "F-052",
+          "F-053",
+          "F-054"
+        ],
+        "context_consumption": 53000,
+        "length": 5,
+        "source": "F-050",
+        "sink": "F-054"
+      },
+      {
+        "path": [
+          "F-060",
+          "F-061",
+          "F-064"
+        ],
+        "context_consumption": 54000,
+        "length": 3,
+        "source": "F-060",
+        "sink": "F-064"
+      },
+      {
+        "path": [
+          "F-060",
+          "F-062",
+          "F-064"
+        ],
+        "context_consumption": 56000,
+        "length": 3,
+        "source": "F-060",
+        "sink": "F-064"
+      },
+      {
+        "path": [
+          "F-060",
+          "F-063",
+          "F-064"
+        ],
+        "context_consumption": 58000,
+        "length": 3,
+        "source": "F-060",
+        "sink": "F-064"
+      },
+      {
+        "path": [
+          "F-070",
+          "F-072",
+          "F-073"
+        ],
+        "context_consumption": 8000,
+        "length": 3,
+        "source": "F-070",
+        "sink": "F-073"
+      }
+    ],
+    "critical_functions": [
+      [
+        "F-010",
+        25000
+      ],
+      [
+        "F-030",
+        24000
+      ],
+      [
+        "F-060",
+        18000
+      ],
+      [
+        "F-016",
+        15000
+      ],
+      [
+        "F-015",
+        12000
+      ],
+      [
+        "F-020",
+        12000
+      ],
+      [
+        "F-043",
+        10000
+      ],
+      [
+        "F-050",
+        10000
+      ],
+      [
+        "F-044",
+        9000
+      ],
+      [
+        "F-001",
+        8000
+      ]
+    ],
+    "summary": {
+      "total_paths_analyzed": 12,
+      "bottleneck_paths": 0,
+      "warning_paths": 0,
+      "safe_paths": 12,
+      "max_context_path": 136000,
+      "avg_context_path": 59791.666666666664,
+      "context_threshold": 160000,
+      "bottleneck_percentage": 0.0
+    }
+  },
+  "gap_analysis": {
+    "orphaned_functions": [],
+    "unreachable_functions": [],
+    "dead_end_functions": [
+      {
+        "function_id": "F-024",
+        "function_name": "Generate Hierarchy Analysis Report"
+      },
+      {
+        "function_id": "F-035",
+        "function_name": "Generate Causality Report"
+      },
+      {
+        "function_id": "F-045",
+        "function_name": "Mark Links as Exploratory"
+      },
+      {
+        "function_id": "F-054",
+        "function_name": "Generate Touchpoint Catalog"
+      },
+      {
+        "function_id": "F-064",
+        "function_name": "Generate Validation Report"
+      },
+      {
+        "function_id": "F-071",
+        "function_name": "Update Working Memory"
+      },
+      {
+        "function_id": "F-073",
+        "function_name": "Execute Context Refresh"
+      }
+    ],
+    "missing_error_handlers": [
+      {
+        "function_id": "F-002",
+        "function_name": "Initialize Workflow State"
+      },
+      {
+        "function_id": "F-003",
+        "function_name": "Get Current Step"
+      },
+      {
+        "function_id": "F-004",
+        "function_name": "Execute Step Actions"
+      },
+      {
+        "function_id": "F-005",
+        "function_name": "Update Progress Tracker"
+      },
+      {
+        "function_id": "F-006",
+        "function_name": "Check Workflow Complete"
+      },
+      {
+        "function_id": "F-010",
+        "function_name": "Load Multiple System Graphs"
+      },
+      {
+        "function_id": "F-011",
+        "function_name": "Extract Framework IDs"
+      },
+      {
+        "function_id": "F-012",
+        "function_name": "Check Framework Compatibility"
+      },
+      {
+        "function_id": "F-013",
+        "function_name": "Assess Orthogonality"
+      },
+      {
+        "function_id": "F-014",
+        "function_name": "Select Linking Strategy"
+      },
+      {
+        "function_id": "F-015",
+        "function_name": "Discover Touchpoints"
+      },
+      {
+        "function_id": "F-016",
+        "function_name": "Merge Graphs"
+      },
+      {
+        "function_id": "F-017",
+        "function_name": "Write Integrated Graph"
+      },
+      {
+        "function_id": "F-020",
+        "function_name": "Load Architecture for Hierarchy Analysis"
+      },
+      {
+        "function_id": "F-021",
+        "function_name": "Infer Hierarchy Levels"
+      },
+      {
+        "function_id": "F-022",
+        "function_name": "Detect Parent-Child Relationships"
+      },
+      {
+        "function_id": "F-023",
+        "function_name": "Detect Missing Intermediate Levels"
+      },
+      {
+        "function_id": "F-024",
+        "function_name": "Generate Hierarchy Analysis Report"
+      },
+      {
+        "function_id": "F-030",
+        "function_name": "Load Paired Architectures"
+      },
+      {
+        "function_id": "F-031",
+        "function_name": "Detect Correlations"
+      },
+      {
+        "function_id": "F-032",
+        "function_name": "Generate Causal Hypotheses"
+      },
+      {
+        "function_id": "F-033",
+        "function_name": "Design Validation Experiments"
+      },
+      {
+        "function_id": "F-034",
+        "function_name": "Analyze Temporal Relationships"
+      },
+      {
+        "function_id": "F-035",
+        "function_name": "Generate Causality Report"
+      },
+      {
+        "function_id": "F-040",
+        "function_name": "Load Synesthetic Mapping Library"
+      },
+      {
+        "function_id": "F-041",
+        "function_name": "Assess Orthogonality for Creative Linking"
+      },
+      {
+        "function_id": "F-042",
+        "function_name": "Request User Consent"
+      },
+      {
+        "function_id": "F-043",
+        "function_name": "Apply Synesthetic Mappings"
+      },
+      {
+        "function_id": "F-044",
+        "function_name": "Find Structural Analogies"
+      },
+      {
+        "function_id": "F-045",
+        "function_name": "Mark Links as Exploratory"
+      },
+      {
+        "function_id": "F-050",
+        "function_name": "Identify Potential Interfaces"
+      },
+      {
+        "function_id": "F-051",
+        "function_name": "Match Interface Types"
+      },
+      {
+        "function_id": "F-052",
+        "function_name": "Verify Protocol Compatibility"
+      },
+      {
+        "function_id": "F-053",
+        "function_name": "Calculate Touchpoint Confidence"
+      },
+      {
+        "function_id": "F-054",
+        "function_name": "Generate Touchpoint Catalog"
+      },
+      {
+        "function_id": "F-060",
+        "function_name": "Load Integrated Graph for Validation"
+      },
+      {
+        "function_id": "F-061",
+        "function_name": "Detect Orphaned Nodes"
+      },
+      {
+        "function_id": "F-062",
+        "function_name": "Detect Orphaned Interfaces"
+      },
+      {
+        "function_id": "F-063",
+        "function_name": "Detect Circular Dependencies"
+      },
+      {
+        "function_id": "F-064",
+        "function_name": "Generate Validation Report"
+      },
+      {
+        "function_id": "F-070",
+        "function_name": "Load Working Memory"
+      },
+      {
+        "function_id": "F-071",
+        "function_name": "Update Working Memory"
+      },
+      {
+        "function_id": "F-072",
+        "function_name": "Check Operations Counter"
+      },
+      {
+        "function_id": "F-073",
+        "function_name": "Execute Context Refresh"
+      }
+    ]
+  },
+  "efficiency_analysis": {
+    "cycles": [
+      {
+        "cycle": [
+          "F-004",
+          "F-005",
+          "F-006",
+          "F-003"
+        ],
+        "length": 4,
+        "note": "Cycles may indicate iterative refinement (expected) or circular dependency (problematic)"
+      }
+    ],
+    "excessive_handoffs": [],
+    "high_fan_out": [],
+    "high_fan_in": []
+  },
+  "recommendations": [
+    "Highest context consumer: F-010 (25000 tokens). Consider refactoring to reduce context consumption.",
+    "Found 1 cycles. Review to determine if these are intentional iterative refinement loops or problematic circular dependencies."
+  ]
+}

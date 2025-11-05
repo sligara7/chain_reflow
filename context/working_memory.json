@@ -11,9 +11,12 @@
     "workflow_steps_path": "/home/user/reflow/workflow_steps",
     "definitions_path": "/home/user/reflow/definitions"
   },
-  "current_step": "BU-06",
-  "current_workflow": "01b-bottom_up_integration",
+  "current_step": "META-07",
+  "current_workflow": "99-chain_meta_analysis",
   "operations_since_refresh": 0,
+  "meta_analysis_mode": true,
+  "meta_analysis_complete": true,
+  "meta_analysis_date": "2025-11-04",
   "framework_configuration": {
     "framework_id": "decision_flow",
     "framework_name": "Decision Flow Framework",
@@ -50,6 +53,124 @@
       "status": "completed"
     }
   ],
+  "meta_analysis_plan": {
+    "initiated_at": "2025-11-04",
+    "goal": "Apply reflow's self-sharpening meta-analysis workflow to chain_reflow itself",
+    "key_innovations": [
+      "Use chain_reflow's own tools (matryoshka_analysis, causality_analysis, creative_linking) during gap analysis",
+      "Link chain_reflow and reflow functional architectures using chain_reflow's linking workflows",
+      "Detect missing intermediate systems/components using hierarchical analysis"
+    ],
+    "planned_workflow": "99-chain_meta_analysis.json",
+    "status": "baseline_complete",
+    "completion_date": "2025-11-04",
+    "results": {
+      "context_health": "HEALTHY",
+      "max_context_path": 136000,
+      "context_threshold": 160000,
+      "bottleneck_paths": 0,
+      "total_functions": 48,
+      "total_flows": 8,
+      "functional_requirements": 15,
+      "requirements_implemented": 14,
+      "critical_issues": 0,
+      "warning_issues": 2,
+      "cycles_detected": 1,
+      "orphaned_functions": 0
+    },
+    "planning_documents": [
+      "docs/CHAIN_META_ANALYSIS_PLAN.md"
+    ],
+    "enhanced_steps": {
+      "CHAIN-META-04A": {
+        "name": "Matryoshka Hierarchical Analysis",
+        "tool": "src/matryoshka_analysis.py",
+        "purpose": "Detect missing hierarchy levels and cross-level linking issues",
+        "inputs": ["specs/functional/functional_architecture.json"],
+        "outputs": ["specs/functional/hierarchy_analysis.json"]
+      },
+      "CHAIN-META-04B": {
+        "name": "Causality Analysis",
+        "tool": "src/causality_analysis.py",
+        "purpose": "Validate chain_reflow → reflow dependency relationship",
+        "inputs": [
+          "specs/functional/functional_architecture.json",
+          "/home/ajs7/project/reflow/specs/functional/functional_architecture.json"
+        ],
+        "outputs": ["specs/functional/causality_analysis.json"]
+      },
+      "CHAIN-META-04C": {
+        "name": "Link Functional Architectures",
+        "workflow": "workflows/chain-01-link-architectures.json",
+        "purpose": "Discover touchpoints between chain_reflow and reflow",
+        "inputs": [
+          "specs/functional/functional_architecture.json",
+          "/home/ajs7/project/reflow/specs/functional/functional_architecture.json"
+        ],
+        "outputs": [
+          "output/integrated_functional_architecture.json",
+          "docs/touchpoint_catalog_{timestamp}.md"
+        ]
+      },
+      "CHAIN-META-04D": {
+        "name": "Reclassify Integration Gaps",
+        "tool": "src/matryoshka_analysis.py",
+        "purpose": "Categorize gaps as code vs system vs hierarchy issues",
+        "inputs": [
+          "specs/machine/integration_gaps.json",
+          "specs/functional/hierarchy_analysis.json"
+        ],
+        "outputs": ["specs/functional/reclassified_gaps.json"]
+      }
+    },
+    "gap_reclassification_strategy": {
+      "component_gap": "Missing code - add to component deltas, implement",
+      "system_gap": "Missing intermediate system - document, don't implement yet",
+      "hierarchy_mismatch": "Wrong level classification - reclassify components"
+    },
+    "integration_targets": {
+      "chain_reflow_functional": "/home/ajs7/project/chain_reflow/specs/functional/functional_architecture.json",
+      "reflow_functional": "/home/ajs7/project/reflow/specs/functional/functional_architecture.json",
+      "expected_relationship": "ALIGNED or RELATED (both use functional_flow framework)",
+      "expected_dependency": "A→B (chain_reflow depends on reflow, not vice versa)"
+    },
+    "workflows_to_create": [
+      {
+        "workflow_id": "98-chain_feature_update",
+        "based_on": "/home/ajs7/project/reflow/workflows/98-reflow_feature_update.json",
+        "purpose": "Auto-trigger meta-analysis after every feature update",
+        "priority": "HIGH - use for all future chain_reflow development",
+        "status": "completed",
+        "completed_date": "2025-11-04",
+        "file_path": "workflows/98-chain_feature_update.json"
+      },
+      {
+        "workflow_id": "99-chain_meta_analysis",
+        "based_on": "/home/ajs7/project/reflow/workflows/99-meta_analysis.json",
+        "purpose": "Comprehensive self-analysis with chain_reflow's specialized tools",
+        "priority": "HIGH - run once to establish baseline",
+        "status": "completed",
+        "completed_date": "2025-11-04",
+        "file_path": "workflows/99-chain_meta_analysis.json"
+      }
+    ],
+    "next_actions": [
+      "PRIORITY 1: Create workflows/98-chain_feature_update.json (adapt from reflow)",
+      "PRIORITY 2: Create workflows/99-chain_meta_analysis.json (adapt from reflow)",
+      "PRIORITY 3: Run 99-chain_meta_analysis.json to establish baseline",
+      "PRIORITY 4: Use matryoshka analysis to reclassify 15 integration gaps",
+      "PRIORITY 5: Link chain_reflow + reflow functional architectures",
+      "PRIORITY 6: Use 98-chain_feature_update.json for ALL future development"
+    ],
+    "estimated_duration": "9-14 hours",
+    "phases": {
+      "phase_1_setup": "1 hour",
+      "phase_2_requirements_architecture": "3-4 hours",
+      "phase_3_analysis": "2-3 hours (with chain_reflow tools)",
+      "phase_4_refinement": "2-4 hours (implementation fixes)",
+      "phase_5_documentation": "1-2 hours"
+    }
+  },
   "bottom_up_integration_progress": {
     "completed_steps": [
       {

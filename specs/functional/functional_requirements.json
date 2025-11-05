@@ -1,0 +1,243 @@
+{
+  "document_metadata": {
+    "document_type": "functional_requirements",
+    "system_name": "Chain Reflow System",
+    "version": "1.0.0",
+    "created": "2025-11-04",
+    "framework": "functional_flow",
+    "purpose": "Define WHAT chain_reflow must do (not HOW)"
+  },
+  "functional_requirements": [
+    {
+      "requirement_id": "FR-001",
+      "name": "Discover Touchpoints Between Architectures",
+      "description": "Identify connection points where independently developed system architectures can be linked",
+      "acceptance_criteria": [
+        "Identify all potential touchpoints between two or more system_of_systems_graph.json files",
+        "Document each touchpoint with source, target, and interface details",
+        "Classify touchpoints by type (direct, analogical, synesthetic, emergent)"
+      ],
+      "priority": "CRITICAL",
+      "traced_from": ["Success Criteria #1", "User Scenario #1"]
+    },
+    {
+      "requirement_id": "FR-002",
+      "name": "Assess Orthogonality Level",
+      "description": "Determine how related or unrelated two architectures are",
+      "acceptance_criteria": [
+        "Classify architecture pairs as ALIGNED, RELATED, DIVERGENT, or ORTHOGONAL",
+        "Provide reasoning for classification",
+        "Use classification to select appropriate linking strategy"
+      ],
+      "priority": "HIGH",
+      "traced_from": ["Mission Statement - Core Capabilities"]
+    },
+    {
+      "requirement_id": "FR-003",
+      "name": "Perform Matryoshka Hierarchical Analysis",
+      "description": "Detect hierarchy levels and relationships (component → subsystem → system → system-of-systems → enterprise)",
+      "acceptance_criteria": [
+        "Infer hierarchy level for each architecture",
+        "Detect parent-child vs peer relationships",
+        "Identify missing intermediate levels",
+        "Prevent cross-level linking errors"
+      ],
+      "priority": "CRITICAL",
+      "traced_from": ["Mission Statement - Matryoshka Analysis", "User Scenario #3"]
+    },
+    {
+      "requirement_id": "FR-004",
+      "name": "Perform Causality Analysis",
+      "description": "Distinguish correlation from causation in architecture relationships",
+      "acceptance_criteria": [
+        "Detect when systems appear correlated",
+        "Generate competing causal hypotheses (A→B, B→A, A↔B, spurious)",
+        "Design validation experiments",
+        "Clearly label correlations vs validated causations"
+      ],
+      "priority": "HIGH",
+      "traced_from": ["Mission Statement - Correlation vs Causation Analysis"]
+    },
+    {
+      "requirement_id": "FR-005",
+      "name": "Execute Creative Linking for Orthogonal Architectures",
+      "description": "Use synesthetic mapping and metaphorical reasoning to link unrelated domains",
+      "acceptance_criteria": [
+        "Apply synesthetic mappings (e.g., biological → software)",
+        "Find structural analogies across domains",
+        "Require user consent for creative linking",
+        "Mark all creative links as exploratory"
+      ],
+      "priority": "MEDIUM",
+      "traced_from": ["Mission Statement - Creative Linking"]
+    },
+    {
+      "requirement_id": "FR-006",
+      "name": "Link Multiple system_of_systems_graph.json Files",
+      "description": "Integrate multiple independently developed architecture graphs",
+      "acceptance_criteria": [
+        "Accept 2+ system_of_systems_graph.json files as input",
+        "Generate integrated system_of_systems_graph.json as output",
+        "Preserve original graph metadata",
+        "Support multiple linking strategies (pairwise, hierarchical, network)"
+      ],
+      "priority": "CRITICAL",
+      "traced_from": ["Success Criteria #1", "User Scenario #2"]
+    },
+    {
+      "requirement_id": "FR-007",
+      "name": "Generate Integrated Architecture",
+      "description": "Produce final integrated system_of_systems_graph.json with all touchpoints",
+      "acceptance_criteria": [
+        "Merge nodes from all input graphs",
+        "Consolidate edges (including new touchpoints)",
+        "Assign hierarchy levels/tiers",
+        "Generate compatible output for reflow analysis tools"
+      ],
+      "priority": "CRITICAL",
+      "traced_from": ["Success Criteria #3"]
+    },
+    {
+      "requirement_id": "FR-008",
+      "name": "Validate Integrated Architecture",
+      "description": "Detect orphans, gaps, and inconsistencies in integrated architecture",
+      "acceptance_criteria": [
+        "Detect orphaned nodes (no connections)",
+        "Detect orphaned interfaces (missing providers/consumers)",
+        "Detect circular dependencies",
+        "Detect misaligned edges across system boundaries",
+        "Generate validation report"
+      ],
+      "priority": "HIGH",
+      "traced_from": ["Success Criteria #2"]
+    },
+    {
+      "requirement_id": "FR-009",
+      "name": "Execute Workflows",
+      "description": "Orchestrate multi-step integration workflows using workflow_runner",
+      "acceptance_criteria": [
+        "Load workflow JSON files",
+        "Execute steps sequentially",
+        "Manage workflow state in working_memory.json",
+        "Support workflow branching and entry points"
+      ],
+      "priority": "CRITICAL",
+      "traced_from": ["Core system capability"]
+    },
+    {
+      "requirement_id": "FR-010",
+      "name": "Manage Working Memory and Context",
+      "description": "Track workflow state and prevent context overflow",
+      "acceptance_criteria": [
+        "Maintain working_memory.json with current state",
+        "Track operations since last refresh",
+        "Store paths to reflow tools",
+        "Enable workflow resumption"
+      ],
+      "priority": "HIGH",
+      "traced_from": ["Core system capability"]
+    },
+    {
+      "requirement_id": "FR-011",
+      "name": "Support Framework-Aware Linking",
+      "description": "Respect framework boundaries and semantic differences",
+      "acceptance_criteria": [
+        "Detect framework_id from each graph",
+        "Warn when linking different framework types",
+        "Support same-framework linking (Functional Flow, UAF, etc.)",
+        "Mark cross-framework links as experimental"
+      ],
+      "priority": "HIGH",
+      "traced_from": ["CLAUDE.md - Framework Compatibility"]
+    },
+    {
+      "requirement_id": "FR-012",
+      "name": "Enable Independent Development",
+      "description": "Allow teams to develop architectures independently then integrate",
+      "acceptance_criteria": [
+        "Accept graphs from different teams/repos",
+        "No requirement for coordination during development",
+        "Integration happens after independent development",
+        "Preserve team ownership of original graphs"
+      ],
+      "priority": "MEDIUM",
+      "traced_from": ["Success Criteria #4"]
+    },
+    {
+      "requirement_id": "FR-013",
+      "name": "Support User-Specified Relationships",
+      "description": "Allow users to guide integration with domain expertise",
+      "acceptance_criteria": [
+        "Accept user input on relationships",
+        "Interactive consent for creative linking",
+        "User validation of discovered touchpoints",
+        "User specification of hierarchy levels"
+      ],
+      "priority": "MEDIUM",
+      "traced_from": ["Success Criteria #5"]
+    },
+    {
+      "requirement_id": "FR-014",
+      "name": "Support AI-Discovered Relationships",
+      "description": "Automatically discover touchpoints and relationships",
+      "acceptance_criteria": [
+        "Analyze graphs to find potential touchpoints",
+        "Infer hierarchy levels automatically",
+        "Assess orthogonality without user input",
+        "Generate linking recommendations"
+      ],
+      "priority": "MEDIUM",
+      "traced_from": ["Success Criteria #5"]
+    },
+    {
+      "requirement_id": "FR-015",
+      "name": "Generate Multi-Level Views",
+      "description": "Produce integrated architecture views at different hierarchy levels",
+      "acceptance_criteria": [
+        "Component-level view",
+        "Subsystem-level view",
+        "System-level view",
+        "System-of-systems level view",
+        "Each view shows appropriate level of detail"
+      ],
+      "priority": "LOW",
+      "traced_from": ["Success Criteria #3"]
+    }
+  ],
+  "requirement_traceability": {
+    "user_scenario_1": ["FR-001", "FR-006"],
+    "user_scenario_2": ["FR-006", "FR-007", "FR-008"],
+    "user_scenario_3": ["FR-003", "FR-015"],
+    "success_criteria_1": ["FR-001", "FR-006"],
+    "success_criteria_2": ["FR-008"],
+    "success_criteria_3": ["FR-007", "FR-015"],
+    "success_criteria_4": ["FR-012"],
+    "success_criteria_5": ["FR-013", "FR-014"],
+    "mission_statement_matryoshka": ["FR-003"],
+    "mission_statement_causality": ["FR-004"],
+    "mission_statement_creative_linking": ["FR-005"],
+    "mission_statement_standard_linking": ["FR-001"],
+    "framework_awareness": ["FR-011"]
+  },
+  "estimated_context_consumption": {
+    "low": ["FR-009", "FR-010", "FR-012"],
+    "medium": ["FR-002", "FR-005", "FR-013", "FR-014", "FR-015"],
+    "high": ["FR-001", "FR-003", "FR-004", "FR-006", "FR-007", "FR-008", "FR-011"],
+    "rationale": "High-context requirements involve reading/analyzing multiple large graph files and generating complex outputs"
+  },
+  "user_scenario_coverage": {
+    "scenario_1_covered": true,
+    "scenario_2_covered": true,
+    "scenario_3_covered": true,
+    "all_scenarios_covered": true
+  },
+  "summary": {
+    "total_requirements": 15,
+    "critical_requirements": 5,
+    "high_priority_requirements": 5,
+    "medium_priority_requirements": 4,
+    "low_priority_requirements": 1,
+    "all_user_scenarios_covered": true,
+    "all_success_criteria_covered": true
+  }
+}

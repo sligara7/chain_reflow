@@ -1,0 +1,577 @@
+{
+  "workflow_metadata": {
+    "workflow_id": "99-chain_meta_analysis",
+    "name": "Chain Reflow Meta-Analysis Workflow (Self-Sharpening)",
+    "version": "1.0.0",
+    "description": "Use Reflow's functional architecture methodology to analyze Chain Reflow itself, with enhancements using chain_reflow's own specialized tools (matryoshka, causality, linking)",
+    "created": "2025-11-04",
+    "based_on": "reflow/99-meta_analysis.json v2.0.0",
+    "purpose": "Self-analysis of chain_reflow using functional architecture methodology + chain_reflow's specialized analysis engines",
+    "key_innovation": "Uses chain_reflow's own tools (matryoshka, causality, creative_linking) during meta-analysis to prove they work on real systems (dogfooding)",
+    "when_to_use": "Quarterly health checks, before major releases, after multiple feature updates",
+    "trigger_command": "python3 src/workflow_runner.py workflows/99-chain_meta_analysis.json"
+  },
+  "prerequisites": {
+    "required_conditions": [
+      "Chain Reflow repository exists at /home/ajs7/project/chain_reflow",
+      "Reflow repository exists at /home/ajs7/project/reflow",
+      "Python 3.8+ installed",
+      "NetworkX library available"
+    ],
+    "not_required": [
+      "Separate system_root (chain_reflow analyzes itself)"
+    ]
+  },
+  "entry_points": {
+    "standard": {
+      "id": "standard",
+      "description": "Full meta-analysis with chain_reflow specialized tools",
+      "first_step": "META-01"
+    }
+  },
+  "workflow_steps": [
+    {
+      "step_id": "META-01",
+      "name": "Setup Meta-Analysis Configuration",
+      "description": "Configure working_memory.json for chain_reflow self-analysis",
+      "phase": "setup",
+      "actions": [
+        {
+          "action_id": "META-01-A01",
+          "description": "Update working_memory.json for meta-analysis mode",
+          "file": "context/working_memory.json",
+          "updates": {
+            "system_name": "Chain Reflow System",
+            "current_workflow": "99-chain_meta_analysis",
+            "current_step": "META-01",
+            "operations_since_refresh": 0,
+            "meta_analysis_mode": true,
+            "framework_configuration": {
+              "framework_id": "functional_flow",
+              "framework_name": "Functional Flow Framework",
+              "component_term": "function",
+              "connection_term": "function_call_or_data_flow",
+              "context_aware_analysis": {
+                "enabled": true,
+                "rationale": "AI agents have limited context windows - must track consumption"
+              }
+            }
+          }
+        },
+        {
+          "action_id": "META-01-A02",
+          "description": "Ensure functional specs directories exist",
+          "commands": [
+            "mkdir -p /home/ajs7/project/chain_reflow/specs/functional",
+            "mkdir -p /home/ajs7/project/chain_reflow/specs/functional/graphs"
+          ]
+        }
+      ],
+      "outputs": [
+        "context/working_memory.json updated for meta-analysis",
+        "specs/functional/ directories created"
+      ],
+      "next_step": "META-02"
+    },
+    {
+      "step_id": "META-02",
+      "name": "Define Functional Requirements",
+      "description": "Document WHAT chain_reflow must do (functional requirements)",
+      "phase": "functional_requirements",
+      "maps_to": "SE-00A from reflow (Functional Requirements Definition)",
+      "actions": [
+        {
+          "action_id": "META-02-A01",
+          "description": "Read chain_reflow's foundational documents",
+          "inputs": [
+            "README.md",
+            "docs/mission_statement.md",
+            "docs/user_scenarios.md",
+            "docs/success_criteria.md",
+            "docs/WORKFLOW_ARCHITECTURE.md"
+          ],
+          "purpose": "Understand what chain_reflow is supposed to do"
+        },
+        {
+          "action_id": "META-02-A02",
+          "description": "Extract functional requirements",
+          "method": "Analyze each user scenario and capability to identify required functions",
+          "example_requirements": [
+            "FR-001: Discover touchpoints between system architectures",
+            "FR-002: Assess orthogonality level (ALIGNED/RELATED/DIVERGENT/ORTHOGONAL)",
+            "FR-003: Perform matryoshka hierarchical analysis",
+            "FR-004: Perform causality analysis (correlation vs causation)",
+            "FR-005: Execute creative linking for orthogonal architectures",
+            "FR-006: Link multiple system_of_systems_graph.json files",
+            "FR-007: Generate integrated architecture",
+            "FR-008: Validate integrated architecture",
+            "FR-009: Execute workflows (workflow_runner)",
+            "FR-010: Manage working memory and context"
+          ]
+        },
+        {
+          "action_id": "META-02-A03",
+          "description": "Create specs/functional/functional_requirements.json",
+          "output_file": "specs/functional/functional_requirements.json",
+          "required_fields": [
+            "functional_requirements (array of FR objects with id, description, acceptance_criteria)",
+            "requirement_traceability (user scenarios → requirements)",
+            "estimated_context_consumption",
+            "user_scenario_coverage"
+          ]
+        }
+      ],
+      "outputs": ["specs/functional/functional_requirements.json"],
+      "typical_time": "30-60 minutes",
+      "next_step": "META-03"
+    },
+    {
+      "step_id": "META-03",
+      "name": "Define Functional Architecture with Context Tracking",
+      "description": "Document HOW chain_reflow achieves requirements through functional flows with context consumption tracking",
+      "phase": "functional_architecture",
+      "maps_to": "SE-00B from reflow (Functional Architecture Definition)",
+      "actions": [
+        {
+          "action_id": "META-03-A01",
+          "description": "Identify major functional flows in chain_reflow",
+          "flows": [
+            "Workflow Execution Flow",
+            "Architecture Linking Flow",
+            "Matryoshka Analysis Flow",
+            "Causality Analysis Flow",
+            "Creative Linking Flow",
+            "Orthogonality Assessment Flow",
+            "Touchpoint Discovery Flow",
+            "Integration Validation Flow"
+          ]
+        },
+        {
+          "action_id": "META-03-A02",
+          "description": "Decompose each flow into atomic functions",
+          "function_attributes": [
+            "function_id (F-001, F-002, etc.)",
+            "function_name",
+            "function_type (read, process, analyze, generate, validate, decide)",
+            "inputs/outputs",
+            "context_consumption (CRITICAL - estimated tokens)",
+            "execution_time",
+            "error_handling"
+          ],
+          "context_estimation_guidelines": {
+            "read_small_file": "1000-2000 tokens",
+            "read_workflow_json": "5000-15000 tokens",
+            "read_system_graph": "10000-30000 tokens",
+            "run_analysis": "5000-10000 tokens",
+            "generate_report": "5000-15000 tokens"
+          }
+        },
+        {
+          "action_id": "META-03-A03",
+          "description": "Define function dependencies (edges)",
+          "edge_attributes": [
+            "source → target",
+            "type (function_call, data_flow, control_flow, error_flow)",
+            "weight (context_consumption as primary weight)",
+            "probability (execution likelihood)",
+            "condition (when edge is taken)"
+          ]
+        },
+        {
+          "action_id": "META-03-A04",
+          "description": "Create specs/functional/functional_architecture.json",
+          "output_file": "specs/functional/functional_architecture.json",
+          "required_sections": [
+            "functional_flows (array of FLOW objects)",
+            "functions (array with context_consumption)",
+            "function_dependencies (edges with context weights)",
+            "context_analysis (summary)",
+            "framework_configuration"
+          ]
+        }
+      ],
+      "outputs": ["specs/functional/functional_architecture.json"],
+      "typical_time": "2-3 hours",
+      "next_step": "META-04"
+    },
+    {
+      "step_id": "META-04",
+      "name": "Analyze Functional Architecture for Bottlenecks",
+      "description": "Run standard functional architecture analysis (from reflow) to detect gaps and bottlenecks",
+      "phase": "analysis",
+      "actions": [
+        {
+          "action_id": "META-04-A01",
+          "description": "Run reflow's functional architecture analysis tool",
+          "tool": "analyze_functional_architecture.py",
+          "command": "python3 /home/ajs7/project/reflow/tools/analyze_functional_architecture.py /home/ajs7/project/chain_reflow/specs/functional/functional_architecture.json",
+          "analyses_performed": [
+            "Context path analysis (cumulative context along all paths)",
+            "Context bottleneck detection (paths exceeding 160k tokens)",
+            "Gap detection (orphaned, unreachable, dead-end functions)",
+            "Cycle detection (circular dependencies)",
+            "Flow efficiency analysis"
+          ]
+        },
+        {
+          "action_id": "META-04-A02",
+          "description": "Review analysis output",
+          "output_file": "specs/functional/functional_architecture_analysis.json",
+          "key_metrics": [
+            "Bottleneck paths (CRITICAL if > 160k tokens)",
+            "Warning paths (approaching limits)",
+            "Top context-consuming functions",
+            "Orphaned/unreachable functions",
+            "Cycles detected"
+          ]
+        }
+      ],
+      "outputs": ["specs/functional/functional_architecture_analysis.json"],
+      "typical_time": "5-10 minutes",
+      "next_step": "CHAIN-META-04A"
+    },
+    {
+      "step_id": "CHAIN-META-04A",
+      "name": "Apply Matryoshka Hierarchical Analysis",
+      "description": "Use chain_reflow's matryoshka_analysis.py to detect missing hierarchy levels in chain_reflow's own architecture",
+      "phase": "chain_reflow_analysis",
+      "actions": [
+        {
+          "action_id": "CHAIN-META-04A-A01",
+          "description": "Run matryoshka analysis on chain_reflow's functional architecture",
+          "tool": "src/matryoshka_analysis.py",
+          "command": "python3 /home/ajs7/project/chain_reflow/src/matryoshka_analysis.py --analyze /home/ajs7/project/chain_reflow/specs/functional/functional_architecture.json",
+          "detects": [
+            "Missing hierarchy levels (component → subsystem → system → system-of-systems)",
+            "Cross-level linking issues",
+            "Parent-child vs peer relationships",
+            "Hierarchy gaps (e.g., components linking directly to system without subsystem)"
+          ]
+        },
+        {
+          "action_id": "CHAIN-META-04A-A02",
+          "description": "Review matryoshka analysis results",
+          "output_file": "specs/functional/hierarchy_analysis.json",
+          "look_for": [
+            "Missing intermediate levels",
+            "Components that should be grouped into subsystems",
+            "Hierarchy mismatches"
+          ]
+        }
+      ],
+      "outputs": ["specs/functional/hierarchy_analysis.json"],
+      "typical_time": "10-15 minutes",
+      "next_step": "CHAIN-META-04B"
+    },
+    {
+      "step_id": "CHAIN-META-04B",
+      "name": "Apply Causality Analysis",
+      "description": "Use chain_reflow's causality_analysis.py to validate chain_reflow → reflow dependency relationship",
+      "phase": "chain_reflow_analysis",
+      "actions": [
+        {
+          "action_id": "CHAIN-META-04B-A01",
+          "description": "Run causality analysis between chain_reflow and reflow",
+          "tool": "src/causality_analysis.py",
+          "command": "python3 /home/ajs7/project/chain_reflow/src/causality_analysis.py --system-a /home/ajs7/project/chain_reflow/specs/functional/functional_architecture.json --system-b /home/ajs7/project/reflow/specs/functional/functional_architecture.json --analyze-correlation",
+          "validates": [
+            "Chain_reflow → reflow dependency (should exist)",
+            "Reflow → chain_reflow dependency (should NOT exist!)",
+            "Correlation vs causation",
+            "Spurious correlations"
+          ]
+        },
+        {
+          "action_id": "CHAIN-META-04B-A02",
+          "description": "Review causality analysis results",
+          "output_file": "specs/functional/causality_analysis.json",
+          "expected_relationship": "A→B (chain_reflow depends on reflow, not vice versa)",
+          "verify": [
+            "No circular dependency between chain_reflow and reflow",
+            "Dependency is causal, not just correlational",
+            "Touchpoints are documented"
+          ]
+        }
+      ],
+      "outputs": ["specs/functional/causality_analysis.json"],
+      "typical_time": "10-15 minutes",
+      "next_step": "CHAIN-META-04C"
+    },
+    {
+      "step_id": "CHAIN-META-04C",
+      "name": "Link Chain_reflow + Reflow Functional Architectures",
+      "description": "Use chain_reflow's linking workflow to actually link the two functional architectures",
+      "phase": "chain_reflow_analysis",
+      "actions": [
+        {
+          "action_id": "CHAIN-META-04C-A01",
+          "description": "Prepare graph list for linking",
+          "create_file": "/tmp/meta_graph_list.json",
+          "content": {
+            "graphs": [
+              {
+                "graph_id": "chain_reflow_functional",
+                "path": "/home/ajs7/project/chain_reflow/specs/functional/functional_architecture.json",
+                "system_name": "Chain Reflow",
+                "framework_id": "functional_flow"
+              },
+              {
+                "graph_id": "reflow_functional",
+                "path": "/home/ajs7/project/reflow/specs/functional/functional_architecture.json",
+                "system_name": "Reflow",
+                "framework_id": "functional_flow"
+              }
+            ]
+          }
+        },
+        {
+          "action_id": "CHAIN-META-04C-A02",
+          "description": "Run chain_reflow's linking workflow",
+          "workflow": "workflows/chain-01-link-architectures.json",
+          "command": "python3 /home/ajs7/project/chain_reflow/src/workflow_runner.py /home/ajs7/project/chain_reflow/workflows/chain-01-link-architectures.json --input-graphs /tmp/meta_graph_list.json",
+          "discovers": [
+            "Touchpoints (where chain_reflow calls reflow)",
+            "Integration patterns",
+            "Missing interfaces",
+            "Dependency chain"
+          ]
+        },
+        {
+          "action_id": "CHAIN-META-04C-A03",
+          "description": "Review integrated architecture",
+          "outputs": [
+            "output/integrated_functional_architecture.json",
+            "docs/touchpoint_catalog_meta_analysis.md"
+          ]
+        }
+      ],
+      "outputs": [
+        "output/integrated_functional_architecture.json",
+        "docs/touchpoint_catalog_meta_analysis.md"
+      ],
+      "typical_time": "15-20 minutes",
+      "next_step": "CHAIN-META-04D"
+    },
+    {
+      "step_id": "CHAIN-META-04D",
+      "name": "Reclassify Integration Gaps",
+      "description": "Use matryoshka analysis results to reclassify the 15 integration gaps from BU-03",
+      "phase": "chain_reflow_analysis",
+      "actions": [
+        {
+          "action_id": "CHAIN-META-04D-A01",
+          "description": "Load integration gaps from BU-03",
+          "input_file": "specs/machine/integration_gaps.json",
+          "gap_count": 15
+        },
+        {
+          "action_id": "CHAIN-META-04D-A02",
+          "description": "Categorize each gap using hierarchy analysis",
+          "categories": {
+            "component_gap": "Missing code - add to deltas, implement",
+            "system_gap": "Missing intermediate system - document, don't implement yet",
+            "hierarchy_mismatch": "Wrong level classification - reclassify components"
+          },
+          "apply_matryoshka_insights": "Use hierarchy_analysis.json to determine if gap is cross-level linking issue"
+        },
+        {
+          "action_id": "CHAIN-META-04D-A03",
+          "description": "Create reclassified gaps document",
+          "output_file": "specs/functional/reclassified_gaps.json",
+          "for_each_gap": {
+            "gap_id": "Original gap ID",
+            "original_description": "From BU-03",
+            "classification": "component_gap | system_gap | hierarchy_mismatch",
+            "action": "implement | document | reclassify",
+            "reasoning": "Based on matryoshka analysis"
+          }
+        }
+      ],
+      "outputs": ["specs/functional/reclassified_gaps.json"],
+      "typical_time": "15-20 minutes",
+      "next_step": "META-05"
+    },
+    {
+      "step_id": "META-05",
+      "name": "Address Critical Issues (Iterative Refinement)",
+      "description": "Fix critical issues found in analysis before proceeding",
+      "phase": "refinement",
+      "actions": [
+        {
+          "action_id": "META-05-A01",
+          "description": "Review all critical and warning issues",
+          "inputs": [
+            "specs/functional/functional_architecture_analysis.json",
+            "specs/functional/hierarchy_analysis.json",
+            "specs/functional/causality_analysis.json",
+            "specs/functional/reclassified_gaps.json"
+          ]
+        },
+        {
+          "action_id": "META-05-A02",
+          "description": "Refine functional architecture to address issues",
+          "update_file": "specs/functional/functional_architecture.json",
+          "common_fixes": [
+            "Break long context paths with refresh points",
+            "Add missing function dependencies",
+            "Document missing intermediate systems",
+            "Fix hierarchy level mismatches"
+          ]
+        },
+        {
+          "action_id": "META-05-A03",
+          "description": "Re-run analysis after refinement",
+          "command": "python3 /home/ajs7/project/reflow/tools/analyze_functional_architecture.py /home/ajs7/project/chain_reflow/specs/functional/functional_architecture.json",
+          "loop_condition": "If critical issues remain, return to META-05-A02",
+          "termination": "No critical issues, warnings acceptable"
+        }
+      ],
+      "outputs": ["Refined functional_architecture.json"],
+      "typical_time": "30-60 minutes per iteration",
+      "iteration_expected": true,
+      "next_step": "META-05B"
+    },
+    {
+      "step_id": "META-05B",
+      "name": "Implementation Refinement (Self-Sharpening)",
+      "description": "Fix actual implementation files (workflows, tools) based on analysis results",
+      "phase": "implementation_refinement",
+      "actions": [
+        {
+          "action_id": "META-05B-A01",
+          "description": "Map functional architecture issues to implementation files",
+          "identify_files_to_fix": [
+            "workflows/*.json (add context refresh points, missing steps)",
+            "src/*.py (optimize high-context functions, add missing features)",
+            "Add missing subsystems if hierarchy analysis identified gaps"
+          ]
+        },
+        {
+          "action_id": "META-05B-A02",
+          "description": "Fix workflows/*.json files",
+          "examples": [
+            "Add context refresh points between high-context steps",
+            "Add missing error handlers",
+            "Split large workflows if bottlenecks detected"
+          ]
+        },
+        {
+          "action_id": "META-05B-A03",
+          "description": "Fix src/*.py files",
+          "examples": [
+            "Optimize high-context functions",
+            "Add lazy loading where appropriate",
+            "Implement missing subsystems identified by matryoshka"
+          ]
+        },
+        {
+          "action_id": "META-05B-A04",
+          "description": "Test implementation changes",
+          "tests": [
+            "Verify workflows execute without errors",
+            "Verify tools produce valid outputs",
+            "Integration test: Run sample workflow end-to-end"
+          ]
+        },
+        {
+          "action_id": "META-05B-A05",
+          "description": "Update functional_architecture.json to reflect implementation changes",
+          "sync": "Ensure functional architecture matches actual implementation"
+        },
+        {
+          "action_id": "META-05B-A06",
+          "description": "Re-run analysis to verify fixes",
+          "command": "python3 /home/ajs7/project/reflow/tools/analyze_functional_architecture.py /home/ajs7/project/chain_reflow/specs/functional/functional_architecture.json",
+          "expected": "Critical issues resolved, context consumption reduced"
+        }
+      ],
+      "outputs": [
+        "Updated workflows/*.json",
+        "Updated src/*.py",
+        "Synchronized functional_architecture.json"
+      ],
+      "typical_time": "1-2 hours",
+      "next_step": "META-07"
+    },
+    {
+      "step_id": "META-07",
+      "name": "Document Meta-Analysis Results",
+      "description": "Create comprehensive report of meta-analysis findings",
+      "phase": "documentation",
+      "actions": [
+        {
+          "action_id": "META-07-A01",
+          "description": "Create meta-analysis report",
+          "output_file": "docs/CHAIN_META_ANALYSIS_REPORT_2025-11-04.md",
+          "sections": [
+            "Executive Summary",
+            "Functional Architecture Overview",
+            "Context Consumption Analysis",
+            "Hierarchy Analysis (Matryoshka)",
+            "Causality Analysis (Chain_reflow → Reflow)",
+            "Architecture Linking Results",
+            "Gap Reclassification (15 gaps)",
+            "Issues Found and Resolved",
+            "Implementation Fixes Applied",
+            "Chain_reflow's Position in Ecosystem",
+            "Recommendations for Future Development"
+          ]
+        },
+        {
+          "action_id": "META-07-A02",
+          "description": "Update CLAUDE.md with findings",
+          "updates": [
+            "Document hierarchy structure discovered",
+            "Document chain_reflow → reflow relationship",
+            "Add any new best practices identified"
+          ]
+        },
+        {
+          "action_id": "META-07-A03",
+          "description": "Update README.md if needed",
+          "if": "Major architectural insights discovered"
+        }
+      ],
+      "outputs": [
+        "docs/CHAIN_META_ANALYSIS_REPORT_2025-11-04.md",
+        "Updated CLAUDE.md",
+        "Updated README.md (if needed)"
+      ],
+      "typical_time": "30-45 minutes",
+      "next_step": "COMPLETE"
+    }
+  ],
+  "completion_criteria": {
+    "required": [
+      "Functional requirements document created",
+      "Functional architecture document created with context tracking",
+      "Standard analysis run (context bottlenecks, gaps, cycles)",
+      "Matryoshka analysis run (hierarchy structure identified)",
+      "Causality analysis run (chain_reflow → reflow dependency validated)",
+      "Architectures linked (touchpoints discovered)",
+      "15 integration gaps reclassified (code vs system vs hierarchy)",
+      "Critical issues resolved in functional architecture",
+      "Implementation fixes applied where needed",
+      "Meta-analysis report created"
+    ]
+  },
+  "success_criteria": {
+    "context_health": "All functional paths consume < 160k tokens",
+    "functional_completeness": "All functional requirements implemented by functions",
+    "hierarchy_clarity": "Hierarchy levels identified (component/subsystem/system/system-of-systems)",
+    "dependency_validation": "Chain_reflow → reflow relationship is A→B (not circular)",
+    "gap_understanding": "15 gaps categorized correctly (prevents wasted implementation effort)",
+    "ecosystem_position": "Chain_reflow's role relative to reflow documented",
+    "self_improvement": "Implementation fixes applied - chain_reflow has sharpened itself"
+  },
+  "llm_agent_guidance": {
+    "critical_reminders": [
+      "This is chain_reflow analyzing ITSELF - system_root = /home/ajs7/project/chain_reflow",
+      "Context consumption is PRIMARY metric - track it for all functions",
+      "Chain_reflow's specialized tools (matryoshka, causality, creative_linking) are used during analysis",
+      "Not all gaps are missing code - use matryoshka to identify missing systems",
+      "Chain_reflow depends on reflow (A→B) but reflow should NOT depend on chain_reflow"
+    ],
+    "workflow_philosophy": "Meta-analysis uses reflow's functional architecture methodology + chain_reflow's specialized tools to ensure chain_reflow is well-architected and properly positioned in the ecosystem"
+  }
+}
