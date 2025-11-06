@@ -1,12 +1,12 @@
 {
   "metadata": {
-    "input_file": "/home/ajs7/project/chain_reflow/specs/functional/functional_architecture.json",
+    "input_file": "specs/functional/functional_architecture.json",
     "timestamp": "2025-11-04",
     "analyzer_version": "1.0.0"
   },
   "graph_summary": {
-    "total_functions": 45,
-    "total_dependencies": 42
+    "total_functions": 51,
+    "total_dependencies": 47
   },
   "context_analysis": {
     "bottleneck_paths": [],
@@ -160,6 +160,20 @@
         "length": 3,
         "source": "F-070",
         "sink": "F-073"
+      },
+      {
+        "path": [
+          "F-080",
+          "F-081",
+          "F-082",
+          "F-083",
+          "F-084",
+          "F-085"
+        ],
+        "context_consumption": 86000,
+        "length": 6,
+        "source": "F-080",
+        "sink": "F-085"
       }
     ],
     "critical_functions": [
@@ -170,6 +184,10 @@
       [
         "F-030",
         24000
+      ],
+      [
+        "F-080",
+        20000
       ],
       [
         "F-060",
@@ -198,19 +216,15 @@
       [
         "F-044",
         9000
-      ],
-      [
-        "F-001",
-        8000
       ]
     ],
     "summary": {
-      "total_paths_analyzed": 12,
+      "total_paths_analyzed": 13,
       "bottleneck_paths": 0,
       "warning_paths": 0,
-      "safe_paths": 12,
+      "safe_paths": 13,
       "max_context_path": 136000,
-      "avg_context_path": 59791.666666666664,
+      "avg_context_path": 61807.692307692305,
       "context_threshold": 160000,
       "bottleneck_percentage": 0.0
     }
@@ -246,6 +260,10 @@
       {
         "function_id": "F-073",
         "function_name": "Execute Context Refresh"
+      },
+      {
+        "function_id": "F-085",
+        "function_name": "Generate Gap Detection Report"
       }
     ],
     "missing_error_handlers": [
@@ -424,6 +442,30 @@
       {
         "function_id": "F-073",
         "function_name": "Execute Context Refresh"
+      },
+      {
+        "function_id": "F-080",
+        "function_name": "Load Systems for Gap Detection"
+      },
+      {
+        "function_id": "F-081",
+        "function_name": "Convert Graphs to Adjacency Matrices"
+      },
+      {
+        "function_id": "F-082",
+        "function_name": "Solve for Transformation Matrix"
+      },
+      {
+        "function_id": "F-083",
+        "function_name": "SVD Decomposition"
+      },
+      {
+        "function_id": "F-084",
+        "function_name": "Interpret Matrix Properties"
+      },
+      {
+        "function_id": "F-085",
+        "function_name": "Generate Gap Detection Report"
       }
     ]
   },
@@ -431,10 +473,10 @@
     "cycles": [
       {
         "cycle": [
-          "F-004",
-          "F-005",
           "F-006",
-          "F-003"
+          "F-003",
+          "F-004",
+          "F-005"
         ],
         "length": 4,
         "note": "Cycles may indicate iterative refinement (expected) or circular dependency (problematic)"
