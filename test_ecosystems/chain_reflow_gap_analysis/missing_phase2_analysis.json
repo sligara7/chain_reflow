@@ -1,0 +1,186 @@
+{
+  "num_subsystems": 2,
+  "subsystems": [
+    {
+      "id": "B1",
+      "name": "Primary_Mechanism",
+      "rank": 1,
+      "description": "First-order effect (direct interaction)",
+      "strength": 1.0,
+      "characteristics": [
+        "Targeted/selective mechanism",
+        "Self-regulation dominant"
+      ],
+      "matrix_summary": {
+        "type": "left singular vectors (U * \u221a\u03a3)",
+        "dominant_components": [
+          "Component_1",
+          "Component_0",
+          "Component_4"
+        ]
+      }
+    },
+    {
+      "id": "B2",
+      "name": "Secondary_Cascade",
+      "rank": 2,
+      "description": "Second-order effect (cascading consequences)",
+      "strength": 1.0,
+      "characteristics": [
+        "Targeted/selective mechanism",
+        "Self-regulation dominant"
+      ],
+      "matrix_summary": {
+        "type": "right singular vectors (\u221a\u03a3 * V^T)",
+        "dominant_components": [
+          "phase1_analyze",
+          "phase0_setup",
+          "phase3_merge"
+        ]
+      }
+    }
+  ],
+  "singular_values": [
+    1.0,
+    1.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "singular_values_normalized": [
+    1.0,
+    1.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "threshold": 0.1,
+  "decomposition_method": "SVD",
+  "confidence": {
+    "overall": 1.0,
+    "singular_value_gap": 1.0,
+    "cumulative_energy": 1.0,
+    "interpretation": "HIGH - Clear layer separation"
+  },
+  "original_solution": {
+    "transformation_matrix": [
+      [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    ],
+    "dimensions": [
+      6,
+      6
+    ],
+    "properties": {
+      "rank": 2,
+      "full_rank": false,
+      "eigenvalue_magnitudes": [
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "dominant_eigenvalue": 1.0,
+      "is_identity": false,
+      "is_sparse": true,
+      "is_diagonal": true,
+      "sparsity": 0.05555555555555555,
+      "frobenius_norm": 1.4142135623730951
+    },
+    "confidence": {
+      "overall": 0.37067301634577293,
+      "reconstruction_quality": 0.22313016014842982,
+      "rank_quality": 0.3333333333333333,
+      "sparsity_quality": 0.5555555555555556,
+      "interpretation": "VERY_LOW - Insufficient data or poorly constrained"
+    },
+    "hypotheses": [
+      {
+        "type": "simple_system",
+        "description": "Low-rank transformation suggests simple regulatory mechanism",
+        "confidence": 0.8,
+        "characteristics": [
+          "single dominant mechanism",
+          "centralized control"
+        ]
+      },
+      {
+        "type": "targeted_intervention",
+        "description": "Sparse matrix suggests targeted intervention on specific components",
+        "confidence": 0.75,
+        "characteristics": [
+          "selective pressure",
+          "keystone species",
+          "critical component"
+        ]
+      }
+    ],
+    "reconstruction_error": 1.5,
+    "solver_method": "pseudoinverse"
+  },
+  "analysis_metadata": {
+    "timestamp": "2025-11-05T22:44:44.205705",
+    "system_a": {
+      "name": "Chain Reflow Workflow Architecture - Phase 1 Complete (Before State)",
+      "path": "/home/user/chain_reflow/test_ecosystems/chain_reflow_gap_analysis/system_a_phase1_complete.json",
+      "nodes": 4
+    },
+    "system_c": {
+      "name": "Chain Reflow Workflow Architecture - Phase 3+ Complete (After State)",
+      "path": "/home/user/chain_reflow/test_ecosystems/chain_reflow_gap_analysis/system_c_phase3_complete.json",
+      "nodes": 6
+    },
+    "analysis_type": "multilayer",
+    "tool": "matrix_gap_detection.py",
+    "version": "1.0.0"
+  }
+}
