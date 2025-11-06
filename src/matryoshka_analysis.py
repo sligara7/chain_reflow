@@ -693,7 +693,7 @@ def load_graph(file_path: str) -> dict:
 
 def graph_to_architectures(graph: dict) -> List[dict]:
     """
-    Convert system_of_systems_graph nodes to architecture format expected by analyzer
+    Convert system_of_systems_graph nodes to architecture format with format auto-detection
 
     Maps from graph node format to the format expected by MatryoshkaAnalyzer:
     - node.name → architecture.name
@@ -701,11 +701,33 @@ def graph_to_architectures(graph: dict) -> List[dict]:
     - node.raw.hierarchical_tier → architecture.hierarchy_level
     - node.functions → architecture.components (for counting)
     - node.raw.framework → architecture.framework
+
+    Supports three formats:
+    1. Ecosystem format: {graph: {nodes: [...]}}
+    2. System of systems format: {system_of_systems_graph: {nodes: [...]}}
+    3. Direct format: {nodes: [...]}
     """
-    nodes = graph.get('graph', {}).get('nodes', [])
+    # Format detection
+    nodes = []
+    if 'system_of_systems_graph' in graph:
+        # Format 2: System of systems graph
+        nodes = graph['system_of_systems_graph'].get('nodes', [])
+    elif 'graph' in graph and isinstance(graph['graph'], dict):
+        # Format 1: Ecosystem format
+        nodes = graph['graph'].get('nodes', [])
+    elif 'nodes' in graph:
+        # Format 3: Direct nodes
+        nodes = graph['nodes']
+    else:
+        # Return empty if no recognizable format
+        return []
+
     architectures = []
 
     for node in nodes:
+        # Normalize node field names
+        node_name = node.get('node_name', node.get('name', 'Unknown'))
+
         raw = node.get('raw', {})
 
         # Map hierarchical_tier to standard hierarchy levels
@@ -718,27 +740,40 @@ def graph_to_architectures(graph: dict) -> List[dict]:
             'subsystem': 'subsystem',
             'system': 'system',
             'system_of_systems': 'system_of_systems',
-            'enterprise': 'enterprise'
+            'enterprise': 'enterprise',
+            'orchestration': 'system',
+            'infrastructure': 'component',
+            'analysis': 'system',
+            'integration': 'system_of_systems',
+            'external': 'enterprise'
         }
 
-        hierarchical_tier = raw.get('hierarchical_tier', '')
+        # Check raw.hierarchical_tier first, then node.tier, then node.hierarchical_tier
+        hierarchical_tier = raw.get('hierarchical_tier', node.get('tier', node.get('hierarchical_tier', '')))
         hierarchy_level = tier_to_level.get(hierarchical_tier, None)
 
-        # Use functions as components for counting purposes
+        # Use functions as components for counting purposes (if available)
         functions = node.get('functions', [])
+
+        # For system_of_systems_graph format, extract capabilities as components
+        if not functions and 'capabilities' in node:
+            functions = node['capabilities']
 
         # Build architecture dict
         arch = {
-            'name': node.get('name', 'Unknown'),
-            'description': raw.get('description', ''),
-            'framework': raw.get('framework', 'unknown'),
+            'name': node_name,
+            'description': raw.get('description', node.get('description', '')),
+            'framework': raw.get('framework', node.get('framework', 'unknown')),
             'components': functions,  # Use functions as components
-            'domain': raw.get('domain', 'unknown'),
+            'domain': raw.get('domain', node.get('component_type', 'unknown')),
         }
 
         # Add hierarchy_level if it was declared
         if hierarchy_level:
             arch['hierarchy_level'] = hierarchy_level
+
+        # Add node ID
+        arch['id'] = node.get('node_id', node.get('id', node_name))
 
         # Add dependencies if present
         if 'dependencies' in node:
@@ -747,6 +782,15 @@ def graph_to_architectures(graph: dict) -> List[dict]:
         # Add interfaces for additional context
         if 'interfaces' in node:
             arch['interfaces'] = node['interfaces']
+        elif 'interfaces_provided' in node or 'interfaces_required' in node:
+            arch['interfaces'] = {
+                'provided': node.get('interfaces_provided', []),
+                'required': node.get('interfaces_required', [])
+            }
+
+        # Add metadata
+        if 'status' in node:
+            arch['status'] = node['status']
 
         architectures.append(arch)
 

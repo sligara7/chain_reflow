@@ -1,78 +1,55 @@
 {
   "system_name": "Chain Reflow System",
-  "workflow_id": "01b-bottom_up_integration",
-  "workflow_version": "1.0.0",
-  "started_at": "2025-10-28T03:00:00.000000",
+  "workflow_id": "feature_update",
+  "workflow_version": "2.0.0",
+  "started_at": "2025-11-05T22:00:00.000000",
   "paths": {
-    "system_root": "/home/user/chain_reflow",
-    "reflow_root": "/home/user/reflow",
-    "tools_path": "/home/user/reflow/tools",
-    "templates_path": "/home/user/reflow/templates",
-    "workflow_steps_path": "/home/user/reflow/workflow_steps",
-    "definitions_path": "/home/user/reflow/definitions"
+    "system_root": "/home/ajs7/project/chain_reflow",
+    "reflow_root": "/home/ajs7/project/reflow",
+    "tools_path": "/home/ajs7/project/reflow/tools",
+    "templates_path": "/home/ajs7/project/reflow/templates",
+    "workflow_steps_path": "/home/ajs7/project/reflow/workflow_steps",
+    "definitions_path": "/home/ajs7/project/reflow/definitions"
   },
-  "current_step": "COMPLETE",
-  "current_workflow": "98-chain_feature_update",
-  "current_phase": "chain_reflow_feature_update",
+  "current_workflow": "feature_update",
+  "current_step": "FU-01",
+  "current_phase": "analysis",
   "operations_since_refresh": 0,
-  "chain_reflow_self_update_mode": true,
-  "auto_meta_analysis": true,
-  "chain_reflow_feature_description": "Adding matrix-based gap detection tool - mathematical system inference using linear algebra (homography matrix approach for detecting missing intermediate systems)",
-  "chain_reflow_feature_integration_complete": true,
-  "chain_reflow_feature_integration_date": "2025-11-06",
-  "chain_reflow_system_graph_version": "1.1.0",
-  "chain_reflow_system_graph_updates": {
-    "nodes_added": 1,
-    "edges_added": 3,
-    "new_node": "matrix_gap_detection",
-    "new_edges": ["E16", "E17", "E18"],
-    "versioned_file": "specs/machine/graphs/system_of_systems_graph_v1.1.0.json"
+  "feature_update_context": {
+    "feature_description": "Causality Analysis Format Bug Fix",
+    "trigger": "Bug discovered during integrated_reflow validation",
+    "discovery_date": "2025-11-05",
+    "discovery_context": "While validating integrated_reflow merged architecture, discovered causality_analysis.py cannot process system_of_systems_graph format due to string components issue",
+    "bug_fixes": [
+      {
+        "bug_id": "BUG-001",
+        "priority": "HIGH",
+        "title": "Fix causality_analysis string components issue",
+        "issue_ref": "Discovered during integrated_reflow validation run",
+        "description": "causality_analysis.py graph_to_architectures function converts node['capabilities'] (string array) to components, but correlation detector expects components to be dictionaries with .get() method. This causes AttributeError when processing system_of_systems_graph format.",
+        "error_message": "AttributeError: 'str' object has no attribute 'get' at line 182 in _detect_temporal_correlation",
+        "current_behavior": "Line 730-740 sets 'components': functions where functions = node['capabilities'] (strings like ['C01', 'C07']). Line 182 calls comp.get('name') on string, causing crash.",
+        "desired_behavior": "Convert string capabilities to dict format: [{'name': cap, 'type': 'capability'}] for compatibility with correlation detector",
+        "root_cause": "ENH-003 (v1.3.0) added format support but used capabilities field directly without converting to expected dict format",
+        "impact": "Causality analysis tool completely broken for system_of_systems_graph format (75% of Chain Reflow use cases)",
+        "severity": "CRITICAL - Tool unusable for primary format",
+        "affected_files": ["src/causality_analysis.py"],
+        "affected_lines": ["730-740 (graph_to_architectures function)"],
+        "fix_location": "Line 730-731 - add dict conversion",
+        "regression_introduced_in": "v1.3.0 (ENH-003)"
+      }
+    ],
+    "total_bug_fixes": 1,
+    "critical_priority": 1
   },
-  "chain_reflow_feature_update_meta_analysis": {
-    "max_context_path": 136000,
-    "context_threshold": 160000,
-    "context_health": "HEALTHY",
-    "bottleneck_paths": 0,
-    "warning_paths": 0,
-    "safe_paths": 13,
-    "total_functions": 51,
-    "total_flows": 9,
-    "critical_issues": 0,
-    "new_functions_added": 6,
-    "new_flow_added": "FLOW-009",
-    "top_context_consumer": "F-080 (Load Systems for Gap Detection) - 20k tokens"
-  },
-  "chain_reflow_feature_update_documentation": {
-    "claude_md_updated": true,
-    "changelog_created": true,
-    "feature_report_created": "docs/FEATURE_UPDATE_matrix_gap_detection_2025-11-06.md"
-  },
-  "chain_reflow_workflow_complete": true,
-  "chain_reflow_workflow_completion_timestamp": "2025-11-06",
-  "previous_meta_analysis_mode": true,
-  "previous_meta_analysis_complete": true,
-  "previous_meta_analysis_date": "2025-11-05",
-  "previous_meta_analysis_reason": "Re-running after Priorities 1-3 completion (CLI tools, execution model, integration tests)",
-  "previous_meta_analysis_result": "SUCCESS - All priorities complete, tools validated, 19/19 tests passing",
   "framework_configuration": {
-    "framework_id": "functional_flow",
-    "framework_name": "Functional Flow Framework",
-    "component_term": "function",
-    "connection_term": "function_call_or_data_flow",
-    "context_aware_analysis": {
-      "enabled": true,
-      "rationale": "AI agents have limited context windows - must track consumption"
-    },
-    "selected_framework_rationale": "Chain reflow's functional architecture uses functional flow framework",
+    "framework_id": "decision_flow",
+    "framework_name": "Decision Flow Framework",
+    "component_term": "component",
+    "connection_term": "interface",
+    "selected_framework_rationale": "Chain Reflow v1.1.0 uses decision_flow for system architecture",
     "user_confirmed": true,
-    "confirmation_timestamp": "2025-11-05T00:00:00.000000"
-  },
-  "detected_approach": {
-    "approach": "bottom_up",
-    "confidence": "high",
-    "detected_at": "2025-10-28T02:35:00.000000",
-    "next_workflow": "01b-bottom_up_integration",
-    "rationale": "Existing Python modules need architectural documentation. Bottom-up integration will reverse-engineer architecture from code."
+    "confirmation_timestamp": "2025-11-05T22:00:00.000000"
   },
   "workflow_history": [
     {
@@ -91,235 +68,30 @@
       "started_at": "2025-10-28T03:00:00.000000",
       "completed_at": "2025-10-28T05:00:00.000000",
       "status": "completed"
+    },
+    {
+      "workflow_id": "98-chain_feature_update",
+      "started_at": "2025-11-04T00:00:00.000000",
+      "completed_at": "2025-11-06T00:00:00.000000",
+      "status": "completed",
+      "feature": "Matrix Gap Detection (v1.1.0)"
+    },
+    {
+      "workflow_id": "feature_update",
+      "started_at": "2025-11-05T22:00:00.000000",
+      "completed_at": "2025-11-06T05:00:00.000000",
+      "status": "completed",
+      "feature": "Tool Enhancements Package (v1.3.0)"
+    },
+    {
+      "workflow_id": "feature_update",
+      "started_at": "2025-11-05T23:00:00.000000",
+      "completed_at": "2025-11-05T23:30:00.000000",
+      "status": "completed",
+      "feature": "Causality Analysis Bug Fix (v1.3.1)"
     }
   ],
-  "meta_analysis_plan": {
-    "initiated_at": "2025-11-04",
-    "goal": "Apply reflow's self-sharpening meta-analysis workflow to chain_reflow itself",
-    "key_innovations": [
-      "Use chain_reflow's own tools (matryoshka_analysis, causality_analysis, creative_linking) during gap analysis",
-      "Link chain_reflow and reflow functional architectures using chain_reflow's linking workflows",
-      "Detect missing intermediate systems/components using hierarchical analysis"
-    ],
-    "planned_workflow": "99-chain_meta_analysis.json",
-    "status": "baseline_complete",
-    "completion_date": "2025-11-04",
-    "results": {
-      "context_health": "HEALTHY",
-      "max_context_path": 136000,
-      "context_threshold": 160000,
-      "bottleneck_paths": 0,
-      "total_functions": 48,
-      "total_flows": 8,
-      "functional_requirements": 15,
-      "requirements_implemented": 14,
-      "critical_issues": 0,
-      "warning_issues": 2,
-      "cycles_detected": 1,
-      "orphaned_functions": 0
-    },
-    "planning_documents": [
-      "docs/CHAIN_META_ANALYSIS_PLAN.md"
-    ],
-    "enhanced_steps": {
-      "CHAIN-META-04A": {
-        "name": "Matryoshka Hierarchical Analysis",
-        "tool": "src/matryoshka_analysis.py",
-        "purpose": "Detect missing hierarchy levels and cross-level linking issues",
-        "inputs": ["specs/functional/functional_architecture.json"],
-        "outputs": ["specs/functional/hierarchy_analysis.json"]
-      },
-      "CHAIN-META-04B": {
-        "name": "Causality Analysis",
-        "tool": "src/causality_analysis.py",
-        "purpose": "Validate chain_reflow → reflow dependency relationship",
-        "inputs": [
-          "specs/functional/functional_architecture.json",
-          "/home/ajs7/project/reflow/specs/functional/functional_architecture.json"
-        ],
-        "outputs": ["specs/functional/causality_analysis.json"]
-      },
-      "CHAIN-META-04C": {
-        "name": "Link Functional Architectures",
-        "workflow": "workflows/chain-01-link-architectures.json",
-        "purpose": "Discover touchpoints between chain_reflow and reflow",
-        "inputs": [
-          "specs/functional/functional_architecture.json",
-          "/home/ajs7/project/reflow/specs/functional/functional_architecture.json"
-        ],
-        "outputs": [
-          "output/integrated_functional_architecture.json",
-          "docs/touchpoint_catalog_{timestamp}.md"
-        ]
-      },
-      "CHAIN-META-04D": {
-        "name": "Reclassify Integration Gaps",
-        "tool": "src/matryoshka_analysis.py",
-        "purpose": "Categorize gaps as code vs system vs hierarchy issues",
-        "inputs": [
-          "specs/machine/integration_gaps.json",
-          "specs/functional/hierarchy_analysis.json"
-        ],
-        "outputs": ["specs/functional/reclassified_gaps.json"]
-      }
-    },
-    "gap_reclassification_strategy": {
-      "component_gap": "Missing code - add to component deltas, implement",
-      "system_gap": "Missing intermediate system - document, don't implement yet",
-      "hierarchy_mismatch": "Wrong level classification - reclassify components"
-    },
-    "integration_targets": {
-      "chain_reflow_functional": "/home/ajs7/project/chain_reflow/specs/functional/functional_architecture.json",
-      "reflow_functional": "/home/ajs7/project/reflow/specs/functional/functional_architecture.json",
-      "expected_relationship": "ALIGNED or RELATED (both use functional_flow framework)",
-      "expected_dependency": "A→B (chain_reflow depends on reflow, not vice versa)"
-    },
-    "workflows_to_create": [
-      {
-        "workflow_id": "98-chain_feature_update",
-        "based_on": "/home/ajs7/project/reflow/workflows/98-reflow_feature_update.json",
-        "purpose": "Auto-trigger meta-analysis after every feature update",
-        "priority": "HIGH - use for all future chain_reflow development",
-        "status": "completed",
-        "completed_date": "2025-11-04",
-        "file_path": "workflows/98-chain_feature_update.json"
-      },
-      {
-        "workflow_id": "99-chain_meta_analysis",
-        "based_on": "/home/ajs7/project/reflow/workflows/99-meta_analysis.json",
-        "purpose": "Comprehensive self-analysis with chain_reflow's specialized tools",
-        "priority": "HIGH - run once to establish baseline",
-        "status": "completed",
-        "completed_date": "2025-11-04",
-        "file_path": "workflows/99-chain_meta_analysis.json"
-      }
-    ],
-    "next_actions": [
-      "PRIORITY 1: Create workflows/98-chain_feature_update.json (adapt from reflow)",
-      "PRIORITY 2: Create workflows/99-chain_meta_analysis.json (adapt from reflow)",
-      "PRIORITY 3: Run 99-chain_meta_analysis.json to establish baseline",
-      "PRIORITY 4: Use matryoshka analysis to reclassify 15 integration gaps",
-      "PRIORITY 5: Link chain_reflow + reflow functional architectures",
-      "PRIORITY 6: Use 98-chain_feature_update.json for ALL future development"
-    ],
-    "estimated_duration": "9-14 hours",
-    "phases": {
-      "phase_1_setup": "1 hour",
-      "phase_2_requirements_architecture": "3-4 hours",
-      "phase_3_analysis": "2-3 hours (with chain_reflow tools)",
-      "phase_4_refinement": "2-4 hours (implementation fixes)",
-      "phase_5_documentation": "1-2 hours"
-    }
-  },
-  "bottom_up_integration_progress": {
-    "completed_steps": [
-      {
-        "step_id": "BU-01",
-        "name": "Component Inventory & Discovery",
-        "completed_at": "2025-10-28T03:15:00.000000",
-        "outputs": [
-          "specs/machine/component_inventory.json",
-          "docs/COMPONENT_INVENTORY_SUMMARY.md"
-        ],
-        "components_discovered": 5,
-        "total_loc": 2875
-      },
-      {
-        "step_id": "BU-02",
-        "name": "Integration Requirements Definition",
-        "completed_at": "2025-10-28T03:30:00.000000",
-        "outputs": [
-          "specs/machine/integration_requirements.json",
-          "docs/INTEGRATION_REQUIREMENTS_SUMMARY.md"
-        ],
-        "capabilities_identified": 8,
-        "interactions_identified": 8,
-        "nfrs_identified": 9
-      },
-      {
-        "step_id": "BU-03",
-        "name": "Integration Gap Analysis",
-        "completed_at": "2025-10-28T03:45:00.000000",
-        "outputs": [
-          "specs/machine/integration_gaps.json",
-          "docs/INTEGRATION_GAPS_SUMMARY.md"
-        ],
-        "gaps_identified": 15,
-        "critical_gaps": 5,
-        "high_priority_gaps": 6
-      },
-      {
-        "step_id": "BU-04",
-        "name": "Component Delta Analysis",
-        "completed_at": "2025-10-28T04:00:00.000000",
-        "outputs": [
-          "specs/machine/component_deltas/workflow_runner_delta.json",
-          "specs/machine/component_deltas/adapters_delta.json",
-          "specs/machine/component_deltas/exceptions_delta.json",
-          "specs/machine/component_deltas/analysis_engines_delta.json",
-          "specs/machine/component_deltas/infrastructure_delta.json",
-          "docs/COMPONENT_DELTAS_SUMMARY.md"
-        ],
-        "deltas_generated": 5,
-        "total_lines_to_add": 700,
-        "estimated_effort_days": "14-19",
-        "gaps_addressed": ["GAP-008", "GAP-010", "GAP-011", "GAP-013", "GAP-014"]
-      },
-      {
-        "step_id": "BU-05",
-        "name": "Integration Architecture Design",
-        "completed_at": "2025-10-28T04:30:00.000000",
-        "outputs": [
-          "specs/machine/service_arch/creative_linking_architecture.json",
-          "specs/machine/service_arch/causality_analysis_architecture.json",
-          "specs/machine/service_arch/matryoshka_analysis_architecture.json",
-          "specs/machine/service_arch/workflow_runner_architecture.json",
-          "specs/machine/service_arch/interactive_executor_architecture.json",
-          "specs/machine/interfaces/creative_linking_interface.json",
-          "specs/machine/interfaces/causality_analysis_interface.json",
-          "specs/machine/interfaces/matryoshka_analysis_interface.json",
-          "specs/machine/interface_registry.json"
-        ],
-        "service_architectures_created": 5,
-        "interface_specifications_created": 3,
-        "total_interfaces_registered": 8,
-        "gaps_addressed": ["GAP-001", "GAP-002", "GAP-003", "GAP-004", "GAP-005", "GAP-006"]
-      },
-      {
-        "step_id": "BU-06",
-        "name": "Validation & Verification",
-        "completed_at": "2025-10-28T05:00:00.000000",
-        "outputs": [
-          "specs/machine/validation_results.json",
-          "specs/machine/index.json",
-          "specs/machine/graphs/system_of_systems_graph.json",
-          "docs/BU06_VALIDATION_REPORT.md"
-        ],
-        "files_validated": 18,
-        "validation_status": "all_valid",
-        "graph_nodes": 9,
-        "graph_edges": 15,
-        "orphans_found": 0,
-        "circular_dependencies_found": 0,
-        "success_criteria_satisfied": ["SC01", "SC02", "SC03", "SC05", "SC06", "SC07"],
-        "success_criteria_pending": ["SC04"],
-        "gaps_resolved": 7,
-        "total_gaps": 15
-      }
-    ],
-    "workflow_complete": true,
-    "completion_summary": {
-      "total_steps": 6,
-      "components_analyzed": 5,
-      "total_loc": 2875,
-      "capabilities_identified": 8,
-      "gaps_identified": 15,
-      "gaps_resolved_specs": 7,
-      "gaps_resolved_code": 0,
-      "service_architectures": 5,
-      "interface_specifications": 8,
-      "component_deltas": 5,
-      "estimated_implementation_effort": "14-19 days"
-    }
-  }
+  "previous_version": "1.3.0",
+  "target_version": "1.3.1",
+  "version_increment_rationale": "Patch version increment - bugfix for causality_analysis format regression introduced in v1.3.0"
 }

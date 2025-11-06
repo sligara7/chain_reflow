@@ -1,0 +1,546 @@
+{
+  "system_of_systems_graph": {
+    "metadata": {
+      "system_name": "Chain Reflow System",
+      "version": "1.3.0",
+      "created": "2025-10-28",
+      "updated": "2025-11-05",
+      "framework": "decision_flow",
+      "graph_type": "component_integration",
+      "approach": "bottom_up",
+      "workflow": "feature_update",
+      "step": "FU-05",
+      "changelog": {
+        "v1_2_0": "Enhanced matrix_gap_detection.py with format auto-detection (ecosystem + system_of_systems_graph + simple formats)",
+        "v1_3_0": "Major tooling enhancement: Added validate_merged_architecture.py tool, enhanced all analysis engines (causality, matryoshka, creative_linking) with format support, created FRAMEWORK_ADAPTERS.md documentation. Complete Reflow interoperability achieved."
+      }
+    },
+
+    "nodes": [
+      {
+        "node_id": "creative_linking",
+        "node_name": "Creative Linking Engine",
+        "node_type": "component",
+        "tier": "analysis",
+        "component_type": "analysis_service",
+        "source_file": "src/creative_linking.py",
+        "lines_of_code": 655,
+        "capabilities": ["C03", "C06"],
+        "interfaces_provided": ["ICreativeLinking"],
+        "interfaces_required": ["IArchitectureSchema (future)"],
+        "status": "production_ready",
+        "position": {"x": 100, "y": 300}
+      },
+      {
+        "node_id": "causality_analysis",
+        "node_name": "Causality Analysis Engine",
+        "node_type": "component",
+        "tier": "analysis",
+        "component_type": "analysis_service",
+        "source_file": "src/causality_analysis.py",
+        "lines_of_code": 779,
+        "capabilities": ["C04", "C06"],
+        "interfaces_provided": ["ICausalityAnalysis"],
+        "interfaces_required": ["IArchitectureSchema (future)"],
+        "status": "production_ready",
+        "position": {"x": 300, "y": 300}
+      },
+      {
+        "node_id": "matryoshka_analysis",
+        "node_name": "Matryoshka Analysis Engine",
+        "node_type": "component",
+        "tier": "analysis",
+        "component_type": "analysis_service",
+        "source_file": "src/matryoshka_analysis.py",
+        "lines_of_code": 715,
+        "capabilities": ["C05", "C06"],
+        "interfaces_provided": ["IMatryoshkaAnalysis"],
+        "interfaces_required": ["IArchitectureSchema (future)"],
+        "status": "production_ready",
+        "position": {"x": 500, "y": 300}
+      },
+      {
+        "node_id": "matrix_gap_detection",
+        "node_name": "Matrix Gap Detection Engine",
+        "node_type": "component",
+        "tier": "analysis",
+        "component_type": "analysis_service",
+        "source_file": "src/matrix_gap_detection.py",
+        "lines_of_code": 879,
+        "capabilities": ["C09"],
+        "interfaces_provided": ["IMatrixGapDetection"],
+        "interfaces_required": ["IArchitectureSchema (future)"],
+        "status": "production_ready",
+        "position": {"x": 700, "y": 300}
+      },
+      {
+        "node_id": "workflow_runner",
+        "node_name": "Workflow Execution Engine",
+        "node_type": "component",
+        "tier": "orchestration",
+        "component_type": "orchestration_service",
+        "source_file": "src/workflow_runner.py",
+        "lines_of_code": 243,
+        "capabilities": ["C01", "C07"],
+        "interfaces_provided": ["IWorkflowRunner"],
+        "interfaces_required": [
+          "ICreativeLinking (future)",
+          "ICausalityAnalysis (future)",
+          "IMatryoshkaAnalysis (future)",
+          "IMatrixGapDetection (future)",
+          "IWorkingMemory",
+          "IConfiguration (future)"
+        ],
+        "status": "production_ready",
+        "position": {"x": 300, "y": 100}
+      },
+      {
+        "node_id": "interactive_executor",
+        "node_name": "Interactive Workflow Executor",
+        "node_type": "component",
+        "tier": "orchestration",
+        "component_type": "orchestration_service",
+        "source_file": "src/interactive_executor.py",
+        "lines_of_code": 483,
+        "capabilities": ["C02", "C07", "C08"],
+        "interfaces_provided": ["IInteractiveExecutor"],
+        "interfaces_required": [
+          "IWorkingMemory",
+          "IConfiguration (future)"
+        ],
+        "status": "production_ready",
+        "position": {"x": 500, "y": 100}
+      },
+      {
+        "node_id": "working_memory",
+        "node_name": "Working Memory (File System)",
+        "node_type": "infrastructure",
+        "tier": "infrastructure",
+        "component_type": "data_store",
+        "source_file": "context/working_memory.json",
+        "interfaces_provided": ["IWorkingMemory"],
+        "interfaces_required": [],
+        "status": "operational",
+        "position": {"x": 400, "y": 200}
+      },
+      {
+        "node_id": "configuration",
+        "node_name": "Configuration (Future)",
+        "node_type": "infrastructure",
+        "tier": "infrastructure",
+        "component_type": "configuration_service",
+        "source_file": "config/default_config.json (future)",
+        "interfaces_provided": ["IConfiguration"],
+        "interfaces_required": [],
+        "status": "planned",
+        "position": {"x": 600, "y": 200}
+      },
+      {
+        "node_id": "schema_validation",
+        "node_name": "Architecture Schema Validation (Future)",
+        "node_type": "infrastructure",
+        "tier": "infrastructure",
+        "component_type": "validation_service",
+        "source_file": "specs/schemas/architecture_schema.json (future)",
+        "interfaces_provided": ["IArchitectureSchema"],
+        "interfaces_required": [],
+        "status": "planned",
+        "position": {"x": 200, "y": 400}
+      },
+      {
+        "node_id": "external_user",
+        "node_name": "External User / Scripts",
+        "node_type": "external",
+        "tier": "external",
+        "component_type": "user",
+        "interfaces_provided": [],
+        "interfaces_required": ["IWorkflowRunner", "IInteractiveExecutor"],
+        "status": "operational",
+        "position": {"x": 400, "y": 0}
+      }
+    ],
+
+    "edges": [
+      {
+        "edge_id": "E01",
+        "source": "workflow_runner",
+        "target": "creative_linking",
+        "edge_type": "invocation",
+        "interface": "ICreativeLinking",
+        "status": "future",
+        "description": "Workflow runner invokes creative linking for orthogonal architectures",
+        "workflow_step": "C-03A",
+        "via_adapter": "CreativeLinkingAdapter",
+        "gap_resolution": "GAP-001, GAP-008, GAP-014",
+        "weight": 1.0,
+        "bidirectional": false
+      },
+      {
+        "edge_id": "E02",
+        "source": "workflow_runner",
+        "target": "causality_analysis",
+        "edge_type": "invocation",
+        "interface": "ICausalityAnalysis",
+        "status": "future",
+        "description": "Workflow runner invokes causality analysis for correlation detection",
+        "workflow_step": "C-01A",
+        "via_adapter": "CausalityAnalysisAdapter",
+        "gap_resolution": "GAP-002, GAP-008, GAP-014",
+        "weight": 1.0,
+        "bidirectional": false
+      },
+      {
+        "edge_id": "E03",
+        "source": "workflow_runner",
+        "target": "matryoshka_analysis",
+        "edge_type": "invocation",
+        "interface": "IMatryoshkaAnalysis",
+        "status": "future",
+        "description": "Workflow runner invokes matryoshka analysis for hierarchy detection",
+        "workflow_step": "C-01B",
+        "via_adapter": "MatryoshkaAnalysisAdapter",
+        "gap_resolution": "GAP-003, GAP-008, GAP-014",
+        "weight": 1.0,
+        "bidirectional": false
+      },
+      {
+        "edge_id": "E04",
+        "source": "workflow_runner",
+        "target": "working_memory",
+        "edge_type": "data_access",
+        "interface": "IWorkingMemory",
+        "status": "current",
+        "description": "Workflow runner reads and writes working memory state",
+        "data_flow": "bidirectional",
+        "weight": 1.0,
+        "bidirectional": true
+      },
+      {
+        "edge_id": "E05",
+        "source": "interactive_executor",
+        "target": "working_memory",
+        "edge_type": "data_access",
+        "interface": "IWorkingMemory",
+        "status": "current",
+        "description": "Interactive executor writes configuration to working memory",
+        "data_flow": "write_only",
+        "weight": 1.0,
+        "bidirectional": false
+      },
+      {
+        "edge_id": "E06",
+        "source": "external_user",
+        "target": "workflow_runner",
+        "edge_type": "invocation",
+        "interface": "IWorkflowRunner",
+        "status": "current",
+        "description": "User/scripts invoke workflow runner to execute workflows",
+        "weight": 1.0,
+        "bidirectional": false
+      },
+      {
+        "edge_id": "E07",
+        "source": "external_user",
+        "target": "interactive_executor",
+        "edge_type": "invocation",
+        "interface": "IInteractiveExecutor",
+        "status": "current",
+        "description": "User/scripts invoke interactive executor for system setup",
+        "weight": 1.0,
+        "bidirectional": false
+      },
+      {
+        "edge_id": "E08",
+        "source": "creative_linking",
+        "target": "schema_validation",
+        "edge_type": "validation",
+        "interface": "IArchitectureSchema",
+        "status": "future",
+        "description": "Creative linking validates architecture inputs against schema",
+        "gap_resolution": "GAP-013",
+        "weight": 0.5,
+        "bidirectional": false
+      },
+      {
+        "edge_id": "E09",
+        "source": "causality_analysis",
+        "target": "schema_validation",
+        "edge_type": "validation",
+        "interface": "IArchitectureSchema",
+        "status": "future",
+        "description": "Causality analysis validates architecture inputs against schema",
+        "gap_resolution": "GAP-013",
+        "weight": 0.5,
+        "bidirectional": false
+      },
+      {
+        "edge_id": "E10",
+        "source": "matryoshka_analysis",
+        "target": "schema_validation",
+        "edge_type": "validation",
+        "interface": "IArchitectureSchema",
+        "status": "future",
+        "description": "Matryoshka analysis validates architecture inputs against schema",
+        "gap_resolution": "GAP-013",
+        "weight": 0.5,
+        "bidirectional": false
+      },
+      {
+        "edge_id": "E11",
+        "source": "workflow_runner",
+        "target": "configuration",
+        "edge_type": "configuration_read",
+        "interface": "IConfiguration",
+        "status": "future",
+        "description": "Workflow runner reads configuration settings",
+        "gap_resolution": "GAP-011",
+        "weight": 0.5,
+        "bidirectional": false
+      },
+      {
+        "edge_id": "E12",
+        "source": "interactive_executor",
+        "target": "configuration",
+        "edge_type": "configuration_read",
+        "interface": "IConfiguration",
+        "status": "future",
+        "description": "Interactive executor reads configuration settings",
+        "gap_resolution": "GAP-011",
+        "weight": 0.5,
+        "bidirectional": false
+      },
+      {
+        "edge_id": "E13",
+        "source": "creative_linking",
+        "target": "configuration",
+        "edge_type": "configuration_read",
+        "interface": "IConfiguration",
+        "status": "future",
+        "description": "Creative linking reads engine configuration",
+        "gap_resolution": "GAP-011",
+        "weight": 0.5,
+        "bidirectional": false
+      },
+      {
+        "edge_id": "E14",
+        "source": "causality_analysis",
+        "target": "configuration",
+        "edge_type": "configuration_read",
+        "interface": "IConfiguration",
+        "status": "future",
+        "description": "Causality analysis reads engine configuration",
+        "gap_resolution": "GAP-011",
+        "weight": 0.5,
+        "bidirectional": false
+      },
+      {
+        "edge_id": "E15",
+        "source": "matryoshka_analysis",
+        "target": "configuration",
+        "edge_type": "configuration_read",
+        "interface": "IConfiguration",
+        "status": "future",
+        "description": "Matryoshka analysis reads engine configuration",
+        "gap_resolution": "GAP-011",
+        "weight": 0.5,
+        "bidirectional": false
+      },
+      {
+        "edge_id": "E16",
+        "source": "workflow_runner",
+        "target": "matrix_gap_detection",
+        "edge_type": "invocation",
+        "interface": "IMatrixGapDetection",
+        "status": "future",
+        "description": "Workflow runner invokes matrix gap detection for missing system inference",
+        "workflow_step": "C-05",
+        "via_adapter": "MatrixGapDetectionAdapter",
+        "gap_resolution": "GAP-008, GAP-014",
+        "weight": 1.0,
+        "bidirectional": false
+      },
+      {
+        "edge_id": "E17",
+        "source": "matrix_gap_detection",
+        "target": "schema_validation",
+        "edge_type": "validation",
+        "interface": "IArchitectureSchema",
+        "status": "future",
+        "description": "Matrix gap detection validates architecture inputs against schema",
+        "gap_resolution": "GAP-013",
+        "weight": 0.5,
+        "bidirectional": false
+      },
+      {
+        "edge_id": "E18",
+        "source": "matrix_gap_detection",
+        "target": "configuration",
+        "edge_type": "configuration_read",
+        "interface": "IConfiguration",
+        "status": "future",
+        "description": "Matrix gap detection reads engine configuration",
+        "gap_resolution": "GAP-011",
+        "weight": 0.5,
+        "bidirectional": false
+      }
+    ],
+
+    "tiers": [
+      {
+        "tier_name": "external",
+        "description": "External users and scripts",
+        "nodes": ["external_user"],
+        "level": 0
+      },
+      {
+        "tier_name": "orchestration",
+        "description": "Workflow execution and orchestration layer",
+        "nodes": ["workflow_runner", "interactive_executor"],
+        "level": 1
+      },
+      {
+        "tier_name": "infrastructure",
+        "description": "Shared infrastructure (state, config, validation)",
+        "nodes": ["working_memory", "configuration", "schema_validation"],
+        "level": 2
+      },
+      {
+        "tier_name": "analysis",
+        "description": "Architecture analysis engines",
+        "nodes": ["creative_linking", "causality_analysis", "matryoshka_analysis", "matrix_gap_detection"],
+        "level": 3
+      }
+    ],
+
+    "graph_statistics": {
+      "total_nodes": 10,
+      "component_nodes": 6,
+      "infrastructure_nodes": 3,
+      "external_nodes": 1,
+      "total_edges": 18,
+      "current_edges": 5,
+      "future_edges": 13,
+      "invocation_edges": 7,
+      "data_access_edges": 2,
+      "validation_edges": 4,
+      "configuration_edges": 6,
+      "bidirectional_edges": 1
+    },
+
+    "validation": {
+      "orphan_detection": {
+        "description": "Check for nodes with no incoming or outgoing edges",
+        "orphans_found": 0,
+        "result": "PASS - No orphan nodes detected",
+        "details": "All nodes have at least one connection"
+      },
+
+      "circular_dependency_detection": {
+        "description": "Check for circular dependencies in the graph",
+        "method": "Depth-first search for cycles",
+        "cycles_found": 0,
+        "result": "PASS - No circular dependencies detected",
+        "details": "Graph is acyclic (DAG structure)"
+      },
+
+      "tier_consistency": {
+        "description": "Check that edges respect tier hierarchy",
+        "violations_found": 0,
+        "result": "PASS - All edges respect tier boundaries",
+        "details": "Orchestration layer correctly depends on both infrastructure and analysis tiers"
+      },
+
+      "interface_coverage": {
+        "description": "Check that all required interfaces are provided",
+        "total_required": 9,
+        "total_provided": 9,
+        "unmet_requirements": 0,
+        "result": "PASS - All interface requirements are met (current + future)",
+        "details": "All required interfaces have providers defined"
+      },
+
+      "completeness": {
+        "description": "Check that all components from inventory are in graph",
+        "components_in_inventory": 6,
+        "components_in_graph": 6,
+        "missing_components": 0,
+        "result": "PASS - All components are represented in graph"
+      }
+    },
+
+    "integration_status": {
+      "current": {
+        "description": "Currently operational connections",
+        "edges": ["E04", "E05", "E06", "E07"],
+        "nodes_integrated": ["workflow_runner", "interactive_executor", "working_memory", "external_user"],
+        "status": "operational"
+      },
+
+      "future": {
+        "description": "Planned connections after gap resolution",
+        "edges": ["E01", "E02", "E03", "E08", "E09", "E10", "E11", "E12", "E13", "E14", "E15", "E16", "E17", "E18"],
+        "nodes_to_integrate": ["configuration", "schema_validation"],
+        "gap_resolution_required": ["GAP-001", "GAP-002", "GAP-003", "GAP-008", "GAP-011", "GAP-013", "GAP-014"],
+        "status": "planned"
+      }
+    },
+
+    "visualization_hints": {
+      "layout": "hierarchical_top_down",
+      "tier_separation": 150,
+      "node_spacing": 200,
+      "edge_colors": {
+        "current": "#00ff00",
+        "future": "#0000ff",
+        "invocation": "#ff9900",
+        "data_access": "#9900ff",
+        "validation": "#ff0099",
+        "configuration": "#00ffff"
+      },
+      "node_colors": {
+        "analysis": "#ffcc00",
+        "orchestration": "#00ccff",
+        "infrastructure": "#cc00ff",
+        "external": "#cccccc"
+      }
+    },
+
+    "graph_summary": {
+      "description": "Chain Reflow system-of-systems graph showing 2-tier architecture (orchestration + analysis) with 3 shared infrastructure services",
+      "current_state": "6 production-ready components with basic orchestration operational",
+      "future_state": "Full integration with workflow invoking all 4 analysis engines via adapters, with configuration and validation infrastructure",
+      "key_insight": "Clean tier separation: orchestration layer (2 components) invokes analysis layer (4 independent engines) via well-defined interfaces",
+      "next_steps": "Implement gaps GAP-001 through GAP-014 to achieve full integration",
+      "version_history": {
+        "v1.0.0": "Initial bottom-up integration with 5 components",
+        "v1.1.0": "Added Matrix Gap Detection Engine - mathematical system inference using linear algebra",
+        "v1.2.0": "Enhanced matrix_gap_detection.py with format auto-detection (supports ecosystem + system_of_systems_graph + simple formats). Improved interoperability with Reflow tools. No structural changes.",
+        "v1.3.0": "MAJOR ENHANCEMENT PACKAGE: Added validate_merged_architecture.py tool (ENH-002), enhanced ALL analysis engines with format support (ENH-003: causality_analysis, matryoshka_analysis, creative_linking), created comprehensive FRAMEWORK_ADAPTERS.md documentation (ENH-004). Complete Reflow interoperability achieved across all tools."
+      },
+      "enhancements_v1_3_0": {
+        "new_tools": [
+          "validate_merged_architecture.py - Post-merge validation (orphans, cycles, interfaces, connectivity, metadata)"
+        ],
+        "enhanced_tools": [
+          "causality_analysis.py - Format auto-detection added",
+          "matryoshka_analysis.py - Format auto-detection added (+ tier mapping enhancements)",
+          "creative_linking.py - Format auto-detection added"
+        ],
+        "documentation": [
+          "docs/FRAMEWORK_ADAPTERS.md - Comprehensive framework guide with examples and conversion scripts"
+        ],
+        "interoperability": [
+          "All 4 analysis engines now support ecosystem + system_of_systems_graph + direct formats",
+          "Normalized field mapping across all tools",
+          "Framework compatibility matrix documented",
+          "Conversion utilities provided"
+        ],
+        "testing": [
+          "validate_merged_architecture tested with integrated_reflow (13 nodes)",
+          "All analysis engines tested with multiple format types",
+          "Backwards compatibility verified with original ecosystem examples"
+        ]
+      }
+    }
+  }
+}

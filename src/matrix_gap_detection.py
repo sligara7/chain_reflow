@@ -127,37 +127,96 @@ class GraphSystem:
 
     @classmethod
     def from_json(cls, filepath: Path) -> 'GraphSystem':
-        """Load system from system_of_systems_graph.json format"""
+        """
+        Load system from JSON file with auto-format detection.
+
+        Supports three formats:
+        1. Ecosystem format: {graph: {nodes: [{id, name}], links: [{source, target, strength}]}}
+        2. System of systems format: {system_of_systems_graph: {nodes: [{node_id, node_name}], edges: [...]}}
+        3. Simple format: {nodes: [{id}], edges: [{source, target}]}
+        """
         with open(filepath, 'r') as f:
             data = json.load(f)
 
-        # Extract nodes
-        nodes = []
-        if 'nodes' in data:
-            nodes = [n['id'] for n in data['nodes']]
+        # Format detection and normalization
+        graph_data = None
+        system_name = filepath.stem
+        metadata = {}
+
+        # Format 1: Check for ecosystem format {metadata: {...}, graph: {nodes, links}}
+        if 'graph' in data and isinstance(data['graph'], dict):
+            graph_data = data['graph']
+            system_name = data.get('metadata', {}).get('system_name', filepath.stem)
+            metadata = data.get('metadata', {})
+            # Normalize ecosystem format: links → edges, strength → weight
+            if 'links' in graph_data and 'edges' not in graph_data:
+                graph_data['edges'] = graph_data.pop('links')
+            # Extract nodes
+            if 'nodes' in graph_data:
+                nodes = [n.get('id', n.get('name', f"node_{i}")) for i, n in enumerate(graph_data['nodes'])]
+            else:
+                raise ValueError("No nodes found in ecosystem graph")
+
+        # Format 2: Check for system_of_systems_graph format
+        elif 'system_of_systems_graph' in data:
+            sos_graph = data['system_of_systems_graph']
+            graph_data = sos_graph
+            system_name = sos_graph.get('metadata', {}).get('system_name', filepath.stem)
+            metadata = sos_graph.get('metadata', {})
+            # Normalize field names: node_id → id
+            if 'nodes' in graph_data:
+                nodes = [n.get('node_id', n.get('id', f"node_{i}")) for i, n in enumerate(graph_data['nodes'])]
+            else:
+                raise ValueError("No nodes found in system_of_systems_graph")
+
+        # Format 3: Simple direct format {nodes: [...], edges: [...]}
+        elif 'nodes' in data:
+            graph_data = data
+            nodes = [n.get('id', n.get('node_id', f"node_{i}")) for i, n in enumerate(data['nodes'])]
+            metadata = data.get('architecture_metadata', {})
+
         elif 'components' in data:
-            nodes = [c['id'] for c in data['components']]
+            graph_data = data
+            nodes = [c.get('id', c.get('component_id', f"comp_{i}")) for i, c in enumerate(data['components'])]
+            metadata = data.get('architecture_metadata', {})
+
         else:
-            raise ValueError("No nodes or components found in graph")
+            raise ValueError(f"Unknown graph format in {filepath}. Expected 'graph', 'system_of_systems_graph', 'nodes', or 'components' key")
 
         # Create system
         system = cls(
-            name=data.get('architecture_metadata', {}).get('name', filepath.stem),
+            name=system_name,
             nodes=nodes,
-            metadata=data.get('architecture_metadata', {})
+            metadata=metadata
         )
 
-        # Load edges
-        if 'edges' in data:
-            for edge in data['edges']:
-                weight = edge.get('weight', 1.0)
-                system.add_edge(edge['source'], edge['target'], weight)
+        # Load edges (supports both 'edges' and 'links' naming)
+        edges_key = 'edges' if 'edges' in graph_data else 'links' if 'links' in graph_data else None
+        if edges_key:
+            for edge in graph_data[edges_key]:
+                # Support various weight field names
+                weight = edge.get('weight', edge.get('strength', 1.0))
+                # Handle different edge formats
+                source = edge.get('source', edge.get('from'))
+                target = edge.get('target', edge.get('to'))
+                if source and target:
+                    try:
+                        system.add_edge(source, target, weight)
+                    except ValueError:
+                        # Skip edges referencing nodes not in our node list
+                        # (e.g., "MISSING_SYSTEM" placeholders)
+                        pass
 
         # Load node states if available
-        if 'components' in data:
-            for comp in data['components']:
+        if 'components' in graph_data:
+            for comp in graph_data['components']:
                 if 'state' in comp:
-                    system.set_node_state(comp['id'], comp['state'])
+                    comp_id = comp.get('id', comp.get('component_id'))
+                    if comp_id:
+                        try:
+                            system.set_node_state(comp_id, comp['state'])
+                        except ValueError:
+                            pass
 
         return system
 

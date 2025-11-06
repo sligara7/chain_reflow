@@ -690,25 +690,65 @@ def load_graph(file_path: str) -> dict:
 
 def graph_to_architectures(graph: dict) -> List[dict]:
     """
-    Convert system_of_systems_graph nodes to architecture format
+    Convert system_of_systems_graph nodes to architecture format with format auto-detection
 
     Maps from graph node format to the format expected by CausalityAnalyzer
+
+    Supports three formats:
+    1. Ecosystem format: {graph: {nodes: [...]}}
+    2. System of systems format: {system_of_systems_graph: {nodes: [...]}}
+    3. Direct format: {nodes: [...]}
     """
-    nodes = graph.get('graph', {}).get('nodes', [])
+    # Format detection
+    nodes = []
+    if 'system_of_systems_graph' in graph:
+        # Format 2: System of systems graph
+        nodes = graph['system_of_systems_graph'].get('nodes', [])
+    elif 'graph' in graph and isinstance(graph['graph'], dict):
+        # Format 1: Ecosystem format
+        nodes = graph['graph'].get('nodes', [])
+    elif 'nodes' in graph:
+        # Format 3: Direct nodes
+        nodes = graph['nodes']
+    else:
+        # Return empty if no recognizable format
+        return []
+
     architectures = []
 
     for node in nodes:
+        # Normalize node field names (node_id vs id, node_name vs name)
+        node_id = node.get('node_id', node.get('id', 'unknown'))
+        node_name = node.get('node_name', node.get('name', 'Unknown'))
+
         raw = node.get('raw', {})
 
-        # Use functions as components for analysis
+        # Use functions as components for analysis (if available)
         functions = node.get('functions', [])
+
+        # For system_of_systems_graph format, extract capabilities as components
+        # Convert string capabilities to dict format for compatibility
+        if not functions and 'capabilities' in node:
+            capabilities = node['capabilities']
+            if isinstance(capabilities, list) and len(capabilities) > 0:
+                # Check if capabilities are strings (need conversion)
+                if isinstance(capabilities[0], str):
+                    # Convert strings to dict format expected by correlation detector
+                    functions = [
+                        {'name': cap, 'type': 'capability'}
+                        for cap in capabilities
+                    ]
+                else:
+                    # Already in dict format (for backwards compatibility)
+                    functions = capabilities
 
         # Build architecture dict
         arch = {
-            'name': node.get('name', 'Unknown'),
-            'description': raw.get('description', ''),
-            'framework': raw.get('framework', 'unknown'),
-            'domain': raw.get('domain', 'software'),
+            'id': node_id,
+            'name': node_name,
+            'description': raw.get('description', node.get('description', '')),
+            'framework': raw.get('framework', node.get('framework', 'unknown')),
+            'domain': raw.get('domain', node.get('component_type', 'software')),
             'components': functions,
         }
 
@@ -719,6 +759,17 @@ def graph_to_architectures(graph: dict) -> List[dict]:
         # Add interfaces for additional context
         if 'interfaces' in node:
             arch['interfaces'] = node['interfaces']
+        elif 'interfaces_provided' in node or 'interfaces_required' in node:
+            arch['interfaces'] = {
+                'provided': node.get('interfaces_provided', []),
+                'required': node.get('interfaces_required', [])
+            }
+
+        # Add metadata
+        if 'status' in node:
+            arch['status'] = node['status']
+        if 'tier' in node:
+            arch['tier'] = node['tier']
 
         architectures.append(arch)
 
