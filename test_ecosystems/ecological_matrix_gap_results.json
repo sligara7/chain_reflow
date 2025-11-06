@@ -1,0 +1,145 @@
+{
+  "num_subsystems": 1,
+  "subsystems": [
+    {
+      "id": "B1",
+      "name": "Primary_Mechanism",
+      "rank": 1,
+      "description": "Single dominant mechanism linking systems",
+      "strength": 1.2680791345014808,
+      "characteristics": [
+        "Direct transformation",
+        "No intermediate cascades",
+        "Simple regulatory mechanism"
+      ],
+      "matrix_summary": {
+        "type": "rank-1 approximation",
+        "dominant_singular_value": 1.2680791345014808
+      }
+    }
+  ],
+  "singular_values": [
+    1.2680791345014808,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "singular_values_normalized": [
+    1.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "threshold": 0.1,
+  "decomposition_method": "SVD",
+  "confidence": {
+    "overall": 1.0,
+    "singular_value_gap": 1.0,
+    "cumulative_energy": 1.0,
+    "interpretation": "HIGH - Clear layer separation"
+  },
+  "original_solution": {
+    "transformation_matrix": [
+      [
+        0.0,
+        0.9444444444444444,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.3333333333333333,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.7777777777777778,
+        0.0,
+        0.0
+      ]
+    ],
+    "dimensions": [
+      4,
+      4
+    ],
+    "properties": {
+      "rank": 1,
+      "full_rank": false,
+      "eigenvalue_magnitudes": [
+        0.0,
+        0.0,
+        0.3333333333333333,
+        0.0
+      ],
+      "dominant_eigenvalue": 0.3333333333333333,
+      "is_identity": false,
+      "is_sparse": true,
+      "is_diagonal": false,
+      "sparsity": 0.1875,
+      "frobenius_norm": 1.2680791345014808
+    },
+    "confidence": {
+      "overall": 0.3856540799846268,
+      "reconstruction_quality": 0.21946223995388048,
+      "rank_quality": 0.25,
+      "sparsity_quality": 0.6875,
+      "interpretation": "VERY_LOW - Insufficient data or poorly constrained"
+    },
+    "hypotheses": [
+      {
+        "type": "simple_system",
+        "description": "Low-rank transformation suggests simple regulatory mechanism",
+        "confidence": 0.8,
+        "characteristics": [
+          "single dominant mechanism",
+          "centralized control"
+        ]
+      },
+      {
+        "type": "targeted_intervention",
+        "description": "Sparse matrix suggests targeted intervention on specific components",
+        "confidence": 0.75,
+        "characteristics": [
+          "selective pressure",
+          "keystone species",
+          "critical component"
+        ]
+      },
+      {
+        "type": "dampening_system",
+        "description": "Dominant eigenvalue < 1 suggests dampening or stabilizing mechanism",
+        "confidence": 0.7,
+        "characteristics": [
+          "negative feedback",
+          "regulatory control",
+          "homeostasis"
+        ]
+      }
+    ],
+    "reconstruction_error": 1.51657508881031,
+    "solver_method": "pseudoinverse"
+  },
+  "analysis_metadata": {
+    "timestamp": "2025-11-06T23:04:19.878098",
+    "system_a": {
+      "name": "Degraded Ecosystem (Missing Apex Predator)",
+      "path": "test_ecosystems/without_wolves/ecosystem_graph.json",
+      "nodes": 3
+    },
+    "system_c": {
+      "name": "Balanced Ecosystem (With Apex Predator)",
+      "path": "test_ecosystems/with_wolves/ecosystem_graph.json",
+      "nodes": 4
+    },
+    "analysis_type": "multilayer",
+    "tool": "matrix_gap_detection.py",
+    "version": "1.0.0"
+  }
+}
