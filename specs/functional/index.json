@@ -8,7 +8,7 @@
     "analysis_context": "Self-analysis using reflow's system_of_systems_graph_v2.py tool"
   },
   "components": {
-    "chain_reflow_functional": "functional_architecture.json"
+    "chain_reflow_functional": "specs/functional/functional_architecture.json"
   },
   "component_metadata": {
     "chain_reflow_functional": {

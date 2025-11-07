@@ -15,6 +15,24 @@ Chain Reflow extends the reflow systems engineering workflows (https://github.co
 
 **CRITICAL**: Chain_reflow builds on top of reflow. Reflow creates individual architectures → Chain_reflow links them together.
 
+## Prerequisites and Dependencies
+
+### Python Requirements
+- **Python 3.8+** (tested with Python 3.13.5)
+- **No external Python dependencies** for core functionality
+- Optional: `pytest` for running integration tests (`pip3 install pytest`)
+
+### Related Repositories
+- **Reflow** (parent framework): `/home/ajs7/project/reflow`
+  - Chain_reflow extends reflow's workflows
+  - Reflow tools can analyze chain_reflow's output
+  - Used for meta-analysis validation
+
+### File System Requirements
+- Workflows expect paths relative to repository root
+- Context files stored in `context/` directory
+- Analysis tools read/write to `specs/`, `docs/`, `output/` directories
+
 ## Framework Compatibility
 
 ### ⚠️ CRITICAL: Framework-Aware Linking
@@ -157,7 +175,7 @@ python3 src/matrix_gap_detection.py --help
 ### Development Commands
 
 ```bash
-# Check Python version (requires 3.8+)
+# Check Python version (requires 3.8+, tested with 3.13.5)
 python3 --version
 
 # View working memory state
@@ -168,6 +186,18 @@ cat context/step_progress_tracker.json
 
 # View current focus
 cat context/current_focus.md
+
+# Run integration tests (requires pytest)
+pip3 install pytest  # Install pytest if needed
+pytest tests/test_integration_end_to_end.py -v
+
+# Run specific test class
+pytest tests/test_integration_end_to_end.py::TestMatryoshkaAnalysis -v
+pytest tests/test_integration_end_to_end.py::TestCausalityAnalysis -v
+pytest tests/test_integration_end_to_end.py::TestCreativeLinking -v
+
+# Validate Python syntax (useful before commits)
+python3 -m py_compile src/*.py
 ```
 
 ## Architecture
@@ -238,9 +268,42 @@ chain_reflow/
 ├── context/                # Working memory and session state
 ├── docs/                   # Generated documentation and reports
 ├── specs/                  # Interface specifications and graph schemas
+│   ├── functional/         # Functional architecture specs (for meta-analysis)
+│   └── machine/            # Machine-readable specs and graphs
 ├── examples/               # Example code (e.g., carburetor_body_example.py)
-└── architectures/          # Integrated architecture graphs (output)
+├── test_architectures/     # UAF test suite (auth, API gateway, user mgmt)
+├── test_ecosystems/        # Ecological examples (Yellowstone wolf reintroduction)
+│   ├── with_wolves/        # System state with wolves present
+│   ├── without_wolves/     # System state without wolves (degraded)
+│   └── demo_matrix_gap/    # Matrix gap detection demo data
+├── tests/                  # Integration tests (pytest)
+└── output/                 # Generated output files (integrated graphs, reports)
 ```
+
+### Test Ecosystems
+
+Chain_reflow includes comprehensive test data in `test_ecosystems/`:
+
+**Yellowstone Wolf Reintroduction** - Real-world ecological case study:
+- `with_wolves/`: Ecosystem after wolf reintroduction (balanced state)
+  - Wolf predation controls deer population
+  - Vegetation recovers, beaver populations increase
+  - River morphology changes (trophic cascade)
+- `without_wolves/`: Ecosystem without wolves (degraded state)
+  - Deer overpopulation, vegetation decline
+  - Beaver disappearance, river channel changes
+- **Purpose**: Demonstrates matrix gap detection finding missing intermediate system (wolves)
+
+**Matrix Gap Detection Demo** - Synthetic examples:
+- `system_a_degraded.json`: Initial degraded state
+- `system_c_balanced.json`: Final balanced state
+- **Purpose**: Mathematical validation of B = C × A^(-1) gap detection
+
+**UAF Service Architecture** - Software system examples:
+- Authentication service, API gateway, user management
+- **Purpose**: Test matryoshka/causality/creative_linking on software architectures
+
+These test ecosystems are actively used in integration tests and meta-analysis validation.
 
 ## Key Concepts
 
