@@ -11,9 +11,10 @@
     "workflow_steps_path": "/home/ajs7/project/reflow/workflow_steps",
     "definitions_path": "/home/ajs7/project/reflow/definitions"
   },
-  "current_workflow": "feature_update",
-  "current_step": "FU-01",
-  "current_phase": "analysis",
+  "current_workflow": "99-meta_analysis",
+  "current_step": "META-01",
+  "current_phase": "meta_analysis",
+  "detected_approach": "meta_analysis",
   "operations_since_refresh": 0,
   "feature_update_context": {
     "feature_description": "Causality Analysis Format Bug Fix",
@@ -43,13 +44,17 @@
     "critical_priority": 1
   },
   "framework_configuration": {
-    "framework_id": "decision_flow",
-    "framework_name": "Decision Flow Framework",
-    "component_term": "component",
-    "connection_term": "interface",
-    "selected_framework_rationale": "Chain Reflow v1.1.0 uses decision_flow for system architecture",
+    "framework_id": "functional_flow",
+    "framework_name": "Functional Flow Framework (based on Decision Flow)",
+    "component_term": "function",
+    "connection_term": "function_call_or_data_flow",
+    "selected_framework_rationale": "Using Functional Flow for meta-analysis of Chain Reflow's functional architecture",
+    "context_aware_analysis": {
+      "enabled": true,
+      "rationale": "AI agents have limited context windows - must track consumption"
+    },
     "user_confirmed": true,
-    "confirmation_timestamp": "2025-11-05T22:00:00.000000"
+    "confirmation_timestamp": "2025-11-06T23:10:00.000000"
   },
   "workflow_history": [
     {

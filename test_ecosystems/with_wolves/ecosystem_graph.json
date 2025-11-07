@@ -1,0 +1,119 @@
+{
+  "metadata": {
+    "system_name": "Balanced Ecosystem (With Apex Predator)",
+    "framework": "systems_biology",
+    "num_nodes": 4,
+    "num_edges": 7,
+    "test_purpose": "Reference balanced ecosystem showing complete trophic cascade",
+    "created": "2025-11-06"
+  },
+  "graph": {
+    "nodes": [
+      {
+        "id": "wolf_predation",
+        "name": "Wolf Predation System (Apex Predator)",
+        "type": "population",
+        "hierarchical_tier": "population",
+        "status": "ACTIVE",
+        "components": 8,
+        "ecological_role": "KEYSTONE_SPECIES",
+        "regulatory_function": "top_down_control"
+      },
+      {
+        "id": "deer_population",
+        "name": "Deer Population System",
+        "type": "population",
+        "hierarchical_tier": "population",
+        "status": "BALANCED",
+        "components": 8,
+        "population_state": "HEALTHY_DENSITY",
+        "browsing_pressure": "SUSTAINABLE"
+      },
+      {
+        "id": "vegetation_ecosystem",
+        "name": "Vegetation Ecosystem System",
+        "type": "ecosystem",
+        "hierarchical_tier": "ecosystem",
+        "status": "HEALTHY",
+        "components": 8,
+        "regeneration_status": "ACTIVE",
+        "protected_zones": "PRESENT"
+      },
+      {
+        "id": "beaver_ecosystem",
+        "name": "Beaver Ecosystem Engineering System",
+        "type": "population",
+        "hierarchical_tier": "population",
+        "status": "THRIVING",
+        "components": 8,
+        "key_dependency": "young_tree_requirement",
+        "dependency_status": "MET"
+      }
+    ],
+    "links": [
+      {
+        "source": "wolf_predation",
+        "target": "deer_population",
+        "type": "inhibition",
+        "description": "Wolf predation controls deer population through direct killing and landscape of fear",
+        "strength": 0.8,
+        "mechanisms": ["direct_predation", "behavioral_modification"]
+      },
+      {
+        "source": "wolf_predation",
+        "target": "vegetation_ecosystem",
+        "type": "activation",
+        "description": "Wolf presence creates refugia where deer avoid, allowing vegetation recovery",
+        "strength": 0.85,
+        "mechanism": "landscape_of_fear_creates_protected_zones"
+      },
+      {
+        "source": "deer_population",
+        "target": "vegetation_ecosystem",
+        "type": "inhibition",
+        "description": "Deer browsing on vegetation (controlled to sustainable levels)",
+        "strength": 0.3,
+        "note": "SUSTAINABLE - Controlled by wolf predation"
+      },
+      {
+        "source": "vegetation_ecosystem",
+        "target": "deer_population",
+        "type": "activation",
+        "description": "Vegetation provides food for deer population",
+        "strength": 0.7,
+        "note": "HEALTHY - Sufficient regeneration"
+      },
+      {
+        "source": "vegetation_ecosystem",
+        "target": "beaver_ecosystem",
+        "type": "activation",
+        "description": "Healthy vegetation provides abundant young trees for beavers",
+        "strength": 0.9,
+        "note": "OPTIMAL - Regeneration supports beaver recovery"
+      },
+      {
+        "source": "beaver_ecosystem",
+        "target": "vegetation_ecosystem",
+        "type": "activation",
+        "description": "Beaver dams create wetlands that support vegetation diversity",
+        "strength": 0.7,
+        "note": "Positive feedback loop"
+      },
+      {
+        "source": "wolf_predation",
+        "target": "beaver_ecosystem",
+        "type": "activation",
+        "description": "Indirect support: Wolf-controlled deer allow vegetation recovery, benefiting beavers",
+        "strength": 0.6,
+        "note": "TROPHIC CASCADE - Multi-step indirect effect"
+      }
+    ]
+  },
+  "trophic_cascade": {
+    "description": "Complete top-down regulation cascade",
+    "cascade_flow": "Wolves → Deer behavior → Vegetation regeneration → Beaver recovery → Wetland creation",
+    "status": "FUNCTIONING",
+    "keystone_species": "wolf_predation",
+    "cascade_strength": "STRONG"
+  }
+}
