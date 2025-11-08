@@ -1,0 +1,19 @@
+{
+  "metadata": {
+    "generated": "2025-11-08T00:58:40.178512",
+    "framework": "UAF 1.2",
+    "framework_id": "uaf",
+    "component_term": "service",
+    "connection_term": "interface",
+    "num_nodes": 0,
+    "num_edges": 0,
+    "tool_version": "2.0"
+  },
+  "graph": {
+    "directed": true,
+    "multigraph": false,
+    "graph": {},
+    "nodes": [],
+    "links": []
+  }
+}
