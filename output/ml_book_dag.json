@@ -1,0 +1,3806 @@
+{
+  "graph_metadata": {
+    "graph_id": "word_dag_machine_learning_fundamentals",
+    "graph_name": "Word Frequency DAG: Machine Learning Fundamentals",
+    "version": "1.0.0",
+    "description": "Word frequency directed graph for 'Machine Learning Fundamentals'",
+    "creation_timestamp": "2025-11-08T00:00:00Z",
+    "source_text": "/home/user/chain_reflow/test_books/technical_ml.txt",
+    "total_tokens": 251,
+    "unique_tokens": 133,
+    "total_transitions": 222
+  },
+  "framework_configuration": {
+    "framework_id": "word_frequency",
+    "framework_name": "Word Frequency Network Framework",
+    "framework_version": "1.0.0",
+    "description": "Natural language processing framework using word transition networks"
+  },
+  "nodes": [
+    {
+      "node_id": "machine",
+      "node_type": "word_token",
+      "label": "machine",
+      "metadata": {
+        "frequency_count": 6,
+        "probability": 0.02390438247011952,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "learning",
+      "node_type": "word_token",
+      "label": "learning",
+      "metadata": {
+        "frequency_count": 10,
+        "probability": 0.0398406374501992,
+        "outgoing_transitions": 8
+      }
+    },
+    {
+      "node_id": "fundamentals",
+      "node_type": "word_token",
+      "label": "fundamentals",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "is",
+      "node_type": "word_token",
+      "label": "is",
+      "metadata": {
+        "frequency_count": 8,
+        "probability": 0.03187250996015936,
+        "outgoing_transitions": 6
+      }
+    },
+    {
+      "node_id": "a",
+      "node_type": "word_token",
+      "label": "a",
+      "metadata": {
+        "frequency_count": 6,
+        "probability": 0.02390438247011952,
+        "outgoing_transitions": 4
+      }
+    },
+    {
+      "node_id": "subset",
+      "node_type": "word_token",
+      "label": "subset",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "of",
+      "node_type": "word_token",
+      "label": "of",
+      "metadata": {
+        "frequency_count": 8,
+        "probability": 0.03187250996015936,
+        "outgoing_transitions": 7
+      }
+    },
+    {
+      "node_id": "artificial",
+      "node_type": "word_token",
+      "label": "artificial",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "intelligence",
+      "node_type": "word_token",
+      "label": "intelligence",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "the",
+      "node_type": "word_token",
+      "label": "the",
+      "metadata": {
+        "frequency_count": 14,
+        "probability": 0.055776892430278883,
+        "outgoing_transitions": 8
+      }
+    },
+    {
+      "node_id": "core",
+      "node_type": "word_token",
+      "label": "core",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "concept",
+      "node_type": "word_token",
+      "label": "concept",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "to",
+      "node_type": "word_token",
+      "label": "to",
+      "metadata": {
+        "frequency_count": 6,
+        "probability": 0.02390438247011952,
+        "outgoing_transitions": 5
+      }
+    },
+    {
+      "node_id": "enable",
+      "node_type": "word_token",
+      "label": "enable",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "computers",
+      "node_type": "word_token",
+      "label": "computers",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "learn",
+      "node_type": "word_token",
+      "label": "learn",
+      "metadata": {
+        "frequency_count": 2,
+        "probability": 0.00796812749003984,
+        "outgoing_transitions": 2
+      }
+    },
+    {
+      "node_id": "from",
+      "node_type": "word_token",
+      "label": "from",
+      "metadata": {
+        "frequency_count": 2,
+        "probability": 0.00796812749003984,
+        "outgoing_transitions": 2
+      }
+    },
+    {
+      "node_id": "data",
+      "node_type": "word_token",
+      "label": "data",
+      "metadata": {
+        "frequency_count": 7,
+        "probability": 0.027888446215139442,
+        "outgoing_transitions": 6
+      }
+    },
+    {
+      "node_id": "neural",
+      "node_type": "word_token",
+      "label": "neural",
+      "metadata": {
+        "frequency_count": 6,
+        "probability": 0.02390438247011952,
+        "outgoing_transitions": 2
+      }
+    },
+    {
+      "node_id": "networks",
+      "node_type": "word_token",
+      "label": "networks",
+      "metadata": {
+        "frequency_count": 5,
+        "probability": 0.0199203187250996,
+        "outgoing_transitions": 4
+      }
+    },
+    {
+      "node_id": "are",
+      "node_type": "word_token",
+      "label": "are",
+      "metadata": {
+        "frequency_count": 3,
+        "probability": 0.01195219123505976,
+        "outgoing_transitions": 3
+      }
+    },
+    {
+      "node_id": "fundamental",
+      "node_type": "word_token",
+      "label": "fundamental",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "architecture",
+      "node_type": "word_token",
+      "label": "architecture",
+      "metadata": {
+        "frequency_count": 2,
+        "probability": 0.00796812749003984,
+        "outgoing_transitions": 2
+      }
+    },
+    {
+      "node_id": "in",
+      "node_type": "word_token",
+      "label": "in",
+      "metadata": {
+        "frequency_count": 4,
+        "probability": 0.01593625498007968,
+        "outgoing_transitions": 3
+      }
+    },
+    {
+      "node_id": "network",
+      "node_type": "word_token",
+      "label": "network",
+      "metadata": {
+        "frequency_count": 7,
+        "probability": 0.027888446215139442,
+        "outgoing_transitions": 6
+      }
+    },
+    {
+      "node_id": "consists",
+      "node_type": "word_token",
+      "label": "consists",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "layers",
+      "node_type": "word_token",
+      "label": "layers",
+      "metadata": {
+        "frequency_count": 3,
+        "probability": 0.01195219123505976,
+        "outgoing_transitions": 3
+      }
+    },
+    {
+      "node_id": "interconnected",
+      "node_type": "word_token",
+      "label": "interconnected",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "nodes",
+      "node_type": "word_token",
+      "label": "nodes",
+      "metadata": {
+        "frequency_count": 3,
+        "probability": 0.01195219123505976,
+        "outgoing_transitions": 3
+      }
+    },
+    {
+      "node_id": "each",
+      "node_type": "word_token",
+      "label": "each",
+      "metadata": {
+        "frequency_count": 4,
+        "probability": 0.01593625498007968,
+        "outgoing_transitions": 4
+      }
+    },
+    {
+      "node_id": "node",
+      "node_type": "word_token",
+      "label": "node",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "processes",
+      "node_type": "word_token",
+      "label": "processes",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "information",
+      "node_type": "word_token",
+      "label": "information",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "and",
+      "node_type": "word_token",
+      "label": "and",
+      "metadata": {
+        "frequency_count": 3,
+        "probability": 0.01195219123505976,
+        "outgoing_transitions": 3
+      }
+    },
+    {
+      "node_id": "passes",
+      "node_type": "word_token",
+      "label": "passes",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "signals",
+      "node_type": "word_token",
+      "label": "signals",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "other",
+      "node_type": "word_token",
+      "label": "other",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "training",
+      "node_type": "word_token",
+      "label": "training",
+      "metadata": {
+        "frequency_count": 4,
+        "probability": 0.01593625498007968,
+        "outgoing_transitions": 4
+      }
+    },
+    {
+      "node_id": "requires",
+      "node_type": "word_token",
+      "label": "requires",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "fed",
+      "node_type": "word_token",
+      "label": "fed",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "through",
+      "node_type": "word_token",
+      "label": "through",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "iterations",
+      "node_type": "word_token",
+      "label": "iterations",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "called",
+      "node_type": "word_token",
+      "label": "called",
+      "metadata": {
+        "frequency_count": 2,
+        "probability": 0.00796812749003984,
+        "outgoing_transitions": 2
+      }
+    },
+    {
+      "node_id": "epochs",
+      "node_type": "word_token",
+      "label": "epochs",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "during",
+      "node_type": "word_token",
+      "label": "during",
+      "metadata": {
+        "frequency_count": 2,
+        "probability": 0.00796812749003984,
+        "outgoing_transitions": 2
+      }
+    },
+    {
+      "node_id": "epoch",
+      "node_type": "word_token",
+      "label": "epoch",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "adjusts",
+      "node_type": "word_token",
+      "label": "adjusts",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "its",
+      "node_type": "word_token",
+      "label": "its",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "weights",
+      "node_type": "word_token",
+      "label": "weights",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "based",
+      "node_type": "word_token",
+      "label": "based",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "on",
+      "node_type": "word_token",
+      "label": "on",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "error",
+      "node_type": "word_token",
+      "label": "error",
+      "metadata": {
+        "frequency_count": 3,
+        "probability": 0.01195219123505976,
+        "outgoing_transitions": 3
+      }
+    },
+    {
+      "node_id": "between",
+      "node_type": "word_token",
+      "label": "between",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "predicted",
+      "node_type": "word_token",
+      "label": "predicted",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "actual",
+      "node_type": "word_token",
+      "label": "actual",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "outputs",
+      "node_type": "word_token",
+      "label": "outputs",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "this",
+      "node_type": "word_token",
+      "label": "this",
+      "metadata": {
+        "frequency_count": 2,
+        "probability": 0.00796812749003984,
+        "outgoing_transitions": 2
+      }
+    },
+    {
+      "node_id": "process",
+      "node_type": "word_token",
+      "label": "process",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "backpropagation",
+      "node_type": "word_token",
+      "label": "backpropagation",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "deep",
+      "node_type": "word_token",
+      "label": "deep",
+      "metadata": {
+        "frequency_count": 3,
+        "probability": 0.01195219123505976,
+        "outgoing_transitions": 2
+      }
+    },
+    {
+      "node_id": "an",
+      "node_type": "word_token",
+      "label": "an",
+      "metadata": {
+        "frequency_count": 2,
+        "probability": 0.00796812749003984,
+        "outgoing_transitions": 2
+      }
+    },
+    {
+      "node_id": "advanced",
+      "node_type": "word_token",
+      "label": "advanced",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "form",
+      "node_type": "word_token",
+      "label": "form",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "uses",
+      "node_type": "word_token",
+      "label": "uses",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "with",
+      "node_type": "word_token",
+      "label": "with",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "many",
+      "node_type": "word_token",
+      "label": "many",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "layer",
+      "node_type": "word_token",
+      "label": "layer",
+      "metadata": {
+        "frequency_count": 3,
+        "probability": 0.01195219123505976,
+        "outgoing_transitions": 3
+      }
+    },
+    {
+      "node_id": "extracts",
+      "node_type": "word_token",
+      "label": "extracts",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "different",
+      "node_type": "word_token",
+      "label": "different",
+      "metadata": {
+        "frequency_count": 2,
+        "probability": 0.00796812749003984,
+        "outgoing_transitions": 2
+      }
+    },
+    {
+      "node_id": "features",
+      "node_type": "word_token",
+      "label": "features",
+      "metadata": {
+        "frequency_count": 2,
+        "probability": 0.00796812749003984,
+        "outgoing_transitions": 2
+      }
+    },
+    {
+      "node_id": "first",
+      "node_type": "word_token",
+      "label": "first",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "might",
+      "node_type": "word_token",
+      "label": "might",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "detect",
+      "node_type": "word_token",
+      "label": "detect",
+      "metadata": {
+        "frequency_count": 3,
+        "probability": 0.01195219123505976,
+        "outgoing_transitions": 3
+      }
+    },
+    {
+      "node_id": "edges",
+      "node_type": "word_token",
+      "label": "edges",
+      "metadata": {
+        "frequency_count": 2,
+        "probability": 0.00796812749003984,
+        "outgoing_transitions": 2
+      }
+    },
+    {
+      "node_id": "image",
+      "node_type": "word_token",
+      "label": "image",
+      "metadata": {
+        "frequency_count": 2,
+        "probability": 0.00796812749003984,
+        "outgoing_transitions": 2
+      }
+    },
+    {
+      "node_id": "second",
+      "node_type": "word_token",
+      "label": "second",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "combines",
+      "node_type": "word_token",
+      "label": "combines",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "shapes",
+      "node_type": "word_token",
+      "label": "shapes",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "higher",
+      "node_type": "word_token",
+      "label": "higher",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "more",
+      "node_type": "word_token",
+      "label": "more",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "complex",
+      "node_type": "word_token",
+      "label": "complex",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "patterns",
+      "node_type": "word_token",
+      "label": "patterns",
+      "metadata": {
+        "frequency_count": 2,
+        "probability": 0.00796812749003984,
+        "outgoing_transitions": 2
+      }
+    },
+    {
+      "node_id": "optimization",
+      "node_type": "word_token",
+      "label": "optimization",
+      "metadata": {
+        "frequency_count": 2,
+        "probability": 0.00796812749003984,
+        "outgoing_transitions": 2
+      }
+    },
+    {
+      "node_id": "algorithms",
+      "node_type": "word_token",
+      "label": "algorithms",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "crucial",
+      "node_type": "word_token",
+      "label": "crucial",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "for",
+      "node_type": "word_token",
+      "label": "for",
+      "metadata": {
+        "frequency_count": 3,
+        "probability": 0.01195219123505976,
+        "outgoing_transitions": 3
+      }
+    },
+    {
+      "node_id": "gradient",
+      "node_type": "word_token",
+      "label": "gradient",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "descent",
+      "node_type": "word_token",
+      "label": "descent",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "common",
+      "node_type": "word_token",
+      "label": "common",
+      "metadata": {
+        "frequency_count": 2,
+        "probability": 0.00796812749003984,
+        "outgoing_transitions": 2
+      }
+    },
+    {
+      "node_id": "algorithm",
+      "node_type": "word_token",
+      "label": "algorithm",
+      "metadata": {
+        "frequency_count": 2,
+        "probability": 0.00796812749003984,
+        "outgoing_transitions": 2
+      }
+    },
+    {
+      "node_id": "calculates",
+      "node_type": "word_token",
+      "label": "calculates",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "gradients",
+      "node_type": "word_token",
+      "label": "gradients",
+      "metadata": {
+        "frequency_count": 2,
+        "probability": 0.00796812749003984,
+        "outgoing_transitions": 2
+      }
+    },
+    {
+      "node_id": "function",
+      "node_type": "word_token",
+      "label": "function",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "these",
+      "node_type": "word_token",
+      "label": "these",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "guide",
+      "node_type": "word_token",
+      "label": "guide",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "minimize",
+      "node_type": "word_token",
+      "label": "minimize",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "rate",
+      "node_type": "word_token",
+      "label": "rate",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "controls",
+      "node_type": "word_token",
+      "label": "controls",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "how",
+      "node_type": "word_token",
+      "label": "how",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "quickly",
+      "node_type": "word_token",
+      "label": "quickly",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "adapts",
+      "node_type": "word_token",
+      "label": "adapts",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "overfitting",
+      "node_type": "word_token",
+      "label": "overfitting",
+      "metadata": {
+        "frequency_count": 3,
+        "probability": 0.01195219123505976,
+        "outgoing_transitions": 3
+      }
+    },
+    {
+      "node_id": "problem",
+      "node_type": "word_token",
+      "label": "problem",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "occurs",
+      "node_type": "word_token",
+      "label": "occurs",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "when",
+      "node_type": "word_token",
+      "label": "when",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "model",
+      "node_type": "word_token",
+      "label": "model",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "memorizes",
+      "node_type": "word_token",
+      "label": "memorizes",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "instead",
+      "node_type": "word_token",
+      "label": "instead",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "general",
+      "node_type": "word_token",
+      "label": "general",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "regularization",
+      "node_type": "word_token",
+      "label": "regularization",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "techniques",
+      "node_type": "word_token",
+      "label": "techniques",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "help",
+      "node_type": "word_token",
+      "label": "help",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "prevent",
+      "node_type": "word_token",
+      "label": "prevent",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "dropout",
+      "node_type": "word_token",
+      "label": "dropout",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "randomly",
+      "node_type": "word_token",
+      "label": "randomly",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "disables",
+      "node_type": "word_token",
+      "label": "disables",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "forces",
+      "node_type": "word_token",
+      "label": "forces",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "robust",
+      "node_type": "word_token",
+      "label": "robust",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "convolutional",
+      "node_type": "word_token",
+      "label": "convolutional",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "excel",
+      "node_type": "word_token",
+      "label": "excel",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "at",
+      "node_type": "word_token",
+      "label": "at",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "processing",
+      "node_type": "word_token",
+      "label": "processing",
+      "metadata": {
+        "frequency_count": 2,
+        "probability": 0.00796812749003984,
+        "outgoing_transitions": 2
+      }
+    },
+    {
+      "node_id": "recurrent",
+      "node_type": "word_token",
+      "label": "recurrent",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "designed",
+      "node_type": "word_token",
+      "label": "designed",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "sequential",
+      "node_type": "word_token",
+      "label": "sequential",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "transformers",
+      "node_type": "word_token",
+      "label": "transformers",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "have",
+      "node_type": "word_token",
+      "label": "have",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "revolutionized",
+      "node_type": "word_token",
+      "label": "revolutionized",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "natural",
+      "node_type": "word_token",
+      "label": "natural",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "language",
+      "node_type": "word_token",
+      "label": "language",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "suited",
+      "node_type": "word_token",
+      "label": "suited",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "types",
+      "node_type": "word_token",
+      "label": "types",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "tasks",
+      "node_type": "word_token",
+      "label": "tasks",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00398406374501992,
+        "outgoing_transitions": 0
+      }
+    }
+  ],
+  "edges": [
+    {
+      "edge_id": "edge_1",
+      "source_node_id": "machine",
+      "target_node_id": "learning",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 6,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_2",
+      "source_node_id": "learning",
+      "target_node_id": "fundamentals",
+      "edge_type": "word_transition",
+      "weight": 0.1,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.1
+      }
+    },
+    {
+      "edge_id": "edge_3",
+      "source_node_id": "learning",
+      "target_node_id": "is",
+      "edge_type": "word_transition",
+      "weight": 0.3,
+      "metadata": {
+        "raw_count": 3,
+        "normalized_weight": 0.3
+      }
+    },
+    {
+      "edge_id": "edge_4",
+      "source_node_id": "learning",
+      "target_node_id": "a",
+      "edge_type": "word_transition",
+      "weight": 0.1,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.1
+      }
+    },
+    {
+      "edge_id": "edge_5",
+      "source_node_id": "learning",
+      "target_node_id": "deep",
+      "edge_type": "word_transition",
+      "weight": 0.1,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.1
+      }
+    },
+    {
+      "edge_id": "edge_6",
+      "source_node_id": "learning",
+      "target_node_id": "uses",
+      "edge_type": "word_transition",
+      "weight": 0.1,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.1
+      }
+    },
+    {
+      "edge_id": "edge_7",
+      "source_node_id": "learning",
+      "target_node_id": "rate",
+      "edge_type": "word_transition",
+      "weight": 0.1,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.1
+      }
+    },
+    {
+      "edge_id": "edge_8",
+      "source_node_id": "learning",
+      "target_node_id": "overfitting",
+      "edge_type": "word_transition",
+      "weight": 0.1,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.1
+      }
+    },
+    {
+      "edge_id": "edge_9",
+      "source_node_id": "learning",
+      "target_node_id": "general",
+      "edge_type": "word_transition",
+      "weight": 0.1,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.1
+      }
+    },
+    {
+      "edge_id": "edge_10",
+      "source_node_id": "fundamentals",
+      "target_node_id": "machine",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_11",
+      "source_node_id": "is",
+      "target_node_id": "a",
+      "edge_type": "word_transition",
+      "weight": 0.375,
+      "metadata": {
+        "raw_count": 3,
+        "normalized_weight": 0.375
+      }
+    },
+    {
+      "edge_id": "edge_12",
+      "source_node_id": "is",
+      "target_node_id": "to",
+      "edge_type": "word_transition",
+      "weight": 0.125,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.125
+      }
+    },
+    {
+      "edge_id": "edge_13",
+      "source_node_id": "is",
+      "target_node_id": "fed",
+      "edge_type": "word_transition",
+      "weight": 0.125,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.125
+      }
+    },
+    {
+      "edge_id": "edge_14",
+      "source_node_id": "is",
+      "target_node_id": "called",
+      "edge_type": "word_transition",
+      "weight": 0.125,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.125
+      }
+    },
+    {
+      "edge_id": "edge_15",
+      "source_node_id": "is",
+      "target_node_id": "an",
+      "edge_type": "word_transition",
+      "weight": 0.125,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.125
+      }
+    },
+    {
+      "edge_id": "edge_16",
+      "source_node_id": "is",
+      "target_node_id": "suited",
+      "edge_type": "word_transition",
+      "weight": 0.125,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.125
+      }
+    },
+    {
+      "edge_id": "edge_17",
+      "source_node_id": "a",
+      "target_node_id": "subset",
+      "edge_type": "word_transition",
+      "weight": 0.16666666666666666,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.16666666666666666
+      }
+    },
+    {
+      "edge_id": "edge_18",
+      "source_node_id": "a",
+      "target_node_id": "fundamental",
+      "edge_type": "word_transition",
+      "weight": 0.16666666666666666,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.16666666666666666
+      }
+    },
+    {
+      "edge_id": "edge_19",
+      "source_node_id": "a",
+      "target_node_id": "neural",
+      "edge_type": "word_transition",
+      "weight": 0.3333333333333333,
+      "metadata": {
+        "raw_count": 2,
+        "normalized_weight": 0.3333333333333333
+      }
+    },
+    {
+      "edge_id": "edge_20",
+      "source_node_id": "a",
+      "target_node_id": "common",
+      "edge_type": "word_transition",
+      "weight": 0.3333333333333333,
+      "metadata": {
+        "raw_count": 2,
+        "normalized_weight": 0.3333333333333333
+      }
+    },
+    {
+      "edge_id": "edge_21",
+      "source_node_id": "subset",
+      "target_node_id": "of",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_22",
+      "source_node_id": "of",
+      "target_node_id": "artificial",
+      "edge_type": "word_transition",
+      "weight": 0.125,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.125
+      }
+    },
+    {
+      "edge_id": "edge_23",
+      "source_node_id": "of",
+      "target_node_id": "machine",
+      "edge_type": "word_transition",
+      "weight": 0.25,
+      "metadata": {
+        "raw_count": 2,
+        "normalized_weight": 0.25
+      }
+    },
+    {
+      "edge_id": "edge_24",
+      "source_node_id": "of",
+      "target_node_id": "layers",
+      "edge_type": "word_transition",
+      "weight": 0.125,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.125
+      }
+    },
+    {
+      "edge_id": "edge_25",
+      "source_node_id": "of",
+      "target_node_id": "interconnected",
+      "edge_type": "word_transition",
+      "weight": 0.125,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.125
+      }
+    },
+    {
+      "edge_id": "edge_26",
+      "source_node_id": "of",
+      "target_node_id": "the",
+      "edge_type": "word_transition",
+      "weight": 0.125,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.125
+      }
+    },
+    {
+      "edge_id": "edge_27",
+      "source_node_id": "of",
+      "target_node_id": "learning",
+      "edge_type": "word_transition",
+      "weight": 0.125,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.125
+      }
+    },
+    {
+      "edge_id": "edge_28",
+      "source_node_id": "of",
+      "target_node_id": "data",
+      "edge_type": "word_transition",
+      "weight": 0.125,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.125
+      }
+    },
+    {
+      "edge_id": "edge_29",
+      "source_node_id": "artificial",
+      "target_node_id": "intelligence",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_30",
+      "source_node_id": "intelligence",
+      "target_node_id": "the",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_31",
+      "source_node_id": "the",
+      "target_node_id": "core",
+      "edge_type": "word_transition",
+      "weight": 0.07142857142857142,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.07142857142857142
+      }
+    },
+    {
+      "edge_id": "edge_32",
+      "source_node_id": "the",
+      "target_node_id": "data",
+      "edge_type": "word_transition",
+      "weight": 0.14285714285714285,
+      "metadata": {
+        "raw_count": 2,
+        "normalized_weight": 0.14285714285714285
+      }
+    },
+    {
+      "edge_id": "edge_33",
+      "source_node_id": "the",
+      "target_node_id": "network",
+      "edge_type": "word_transition",
+      "weight": 0.35714285714285715,
+      "metadata": {
+        "raw_count": 5,
+        "normalized_weight": 0.35714285714285715
+      }
+    },
+    {
+      "edge_id": "edge_34",
+      "source_node_id": "the",
+      "target_node_id": "error",
+      "edge_type": "word_transition",
+      "weight": 0.14285714285714285,
+      "metadata": {
+        "raw_count": 2,
+        "normalized_weight": 0.14285714285714285
+      }
+    },
+    {
+      "edge_id": "edge_35",
+      "source_node_id": "the",
+      "target_node_id": "first",
+      "edge_type": "word_transition",
+      "weight": 0.07142857142857142,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.07142857142857142
+      }
+    },
+    {
+      "edge_id": "edge_36",
+      "source_node_id": "the",
+      "target_node_id": "second",
+      "edge_type": "word_transition",
+      "weight": 0.07142857142857142,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.07142857142857142
+      }
+    },
+    {
+      "edge_id": "edge_37",
+      "source_node_id": "the",
+      "target_node_id": "algorithm",
+      "edge_type": "word_transition",
+      "weight": 0.07142857142857142,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.07142857142857142
+      }
+    },
+    {
+      "edge_id": "edge_38",
+      "source_node_id": "the",
+      "target_node_id": "model",
+      "edge_type": "word_transition",
+      "weight": 0.07142857142857142,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.07142857142857142
+      }
+    },
+    {
+      "edge_id": "edge_39",
+      "source_node_id": "core",
+      "target_node_id": "concept",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_40",
+      "source_node_id": "concept",
+      "target_node_id": "of",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_41",
+      "source_node_id": "to",
+      "target_node_id": "enable",
+      "edge_type": "word_transition",
+      "weight": 0.16666666666666666,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.16666666666666666
+      }
+    },
+    {
+      "edge_id": "edge_42",
+      "source_node_id": "to",
+      "target_node_id": "learn",
+      "edge_type": "word_transition",
+      "weight": 0.3333333333333333,
+      "metadata": {
+        "raw_count": 2,
+        "normalized_weight": 0.3333333333333333
+      }
+    },
+    {
+      "edge_id": "edge_43",
+      "source_node_id": "to",
+      "target_node_id": "other",
+      "edge_type": "word_transition",
+      "weight": 0.16666666666666666,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.16666666666666666
+      }
+    },
+    {
+      "edge_id": "edge_44",
+      "source_node_id": "to",
+      "target_node_id": "detect",
+      "edge_type": "word_transition",
+      "weight": 0.16666666666666666,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.16666666666666666
+      }
+    },
+    {
+      "edge_id": "edge_45",
+      "source_node_id": "to",
+      "target_node_id": "minimize",
+      "edge_type": "word_transition",
+      "weight": 0.16666666666666666,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.16666666666666666
+      }
+    },
+    {
+      "edge_id": "edge_46",
+      "source_node_id": "enable",
+      "target_node_id": "computers",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_47",
+      "source_node_id": "computers",
+      "target_node_id": "to",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_48",
+      "source_node_id": "learn",
+      "target_node_id": "from",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_49",
+      "source_node_id": "learn",
+      "target_node_id": "robust",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_50",
+      "source_node_id": "from",
+      "target_node_id": "data",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_51",
+      "source_node_id": "from",
+      "target_node_id": "the",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_52",
+      "source_node_id": "data",
+      "target_node_id": "neural",
+      "edge_type": "word_transition",
+      "weight": 0.14285714285714285,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.14285714285714285
+      }
+    },
+    {
+      "edge_id": "edge_53",
+      "source_node_id": "data",
+      "target_node_id": "the",
+      "edge_type": "word_transition",
+      "weight": 0.2857142857142857,
+      "metadata": {
+        "raw_count": 2,
+        "normalized_weight": 0.2857142857142857
+      }
+    },
+    {
+      "edge_id": "edge_54",
+      "source_node_id": "data",
+      "target_node_id": "is",
+      "edge_type": "word_transition",
+      "weight": 0.14285714285714285,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.14285714285714285
+      }
+    },
+    {
+      "edge_id": "edge_55",
+      "source_node_id": "data",
+      "target_node_id": "instead",
+      "edge_type": "word_transition",
+      "weight": 0.14285714285714285,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.14285714285714285
+      }
+    },
+    {
+      "edge_id": "edge_56",
+      "source_node_id": "data",
+      "target_node_id": "transformers",
+      "edge_type": "word_transition",
+      "weight": 0.14285714285714285,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.14285714285714285
+      }
+    },
+    {
+      "edge_id": "edge_57",
+      "source_node_id": "data",
+      "target_node_id": "and",
+      "edge_type": "word_transition",
+      "weight": 0.14285714285714285,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.14285714285714285
+      }
+    },
+    {
+      "edge_id": "edge_58",
+      "source_node_id": "neural",
+      "target_node_id": "networks",
+      "edge_type": "word_transition",
+      "weight": 0.6666666666666666,
+      "metadata": {
+        "raw_count": 4,
+        "normalized_weight": 0.6666666666666666
+      }
+    },
+    {
+      "edge_id": "edge_59",
+      "source_node_id": "neural",
+      "target_node_id": "network",
+      "edge_type": "word_transition",
+      "weight": 0.3333333333333333,
+      "metadata": {
+        "raw_count": 2,
+        "normalized_weight": 0.3333333333333333
+      }
+    },
+    {
+      "edge_id": "edge_60",
+      "source_node_id": "networks",
+      "target_node_id": "are",
+      "edge_type": "word_transition",
+      "weight": 0.4,
+      "metadata": {
+        "raw_count": 2,
+        "normalized_weight": 0.4
+      }
+    },
+    {
+      "edge_id": "edge_61",
+      "source_node_id": "networks",
+      "target_node_id": "with",
+      "edge_type": "word_transition",
+      "weight": 0.2,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.2
+      }
+    },
+    {
+      "edge_id": "edge_62",
+      "source_node_id": "networks",
+      "target_node_id": "gradient",
+      "edge_type": "word_transition",
+      "weight": 0.2,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.2
+      }
+    },
+    {
+      "edge_id": "edge_63",
+      "source_node_id": "networks",
+      "target_node_id": "excel",
+      "edge_type": "word_transition",
+      "weight": 0.2,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.2
+      }
+    },
+    {
+      "edge_id": "edge_64",
+      "source_node_id": "are",
+      "target_node_id": "a",
+      "edge_type": "word_transition",
+      "weight": 0.3333333333333333,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.3333333333333333
+      }
+    },
+    {
+      "edge_id": "edge_65",
+      "source_node_id": "are",
+      "target_node_id": "crucial",
+      "edge_type": "word_transition",
+      "weight": 0.3333333333333333,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.3333333333333333
+      }
+    },
+    {
+      "edge_id": "edge_66",
+      "source_node_id": "are",
+      "target_node_id": "designed",
+      "edge_type": "word_transition",
+      "weight": 0.3333333333333333,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.3333333333333333
+      }
+    },
+    {
+      "edge_id": "edge_67",
+      "source_node_id": "fundamental",
+      "target_node_id": "architecture",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_68",
+      "source_node_id": "architecture",
+      "target_node_id": "in",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_69",
+      "source_node_id": "architecture",
+      "target_node_id": "is",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_70",
+      "source_node_id": "in",
+      "target_node_id": "machine",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 2,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_71",
+      "source_node_id": "in",
+      "target_node_id": "iterations",
+      "edge_type": "word_transition",
+      "weight": 0.25,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.25
+      }
+    },
+    {
+      "edge_id": "edge_72",
+      "source_node_id": "in",
+      "target_node_id": "an",
+      "edge_type": "word_transition",
+      "weight": 0.25,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.25
+      }
+    },
+    {
+      "edge_id": "edge_73",
+      "source_node_id": "network",
+      "target_node_id": "consists",
+      "edge_type": "word_transition",
+      "weight": 0.14285714285714285,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.14285714285714285
+      }
+    },
+    {
+      "edge_id": "edge_74",
+      "source_node_id": "network",
+      "target_node_id": "requires",
+      "edge_type": "word_transition",
+      "weight": 0.14285714285714285,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.14285714285714285
+      }
+    },
+    {
+      "edge_id": "edge_75",
+      "source_node_id": "network",
+      "target_node_id": "in",
+      "edge_type": "word_transition",
+      "weight": 0.14285714285714285,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.14285714285714285
+      }
+    },
+    {
+      "edge_id": "edge_76",
+      "source_node_id": "network",
+      "target_node_id": "adjusts",
+      "edge_type": "word_transition",
+      "weight": 0.14285714285714285,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.14285714285714285
+      }
+    },
+    {
+      "edge_id": "edge_77",
+      "source_node_id": "network",
+      "target_node_id": "to",
+      "edge_type": "word_transition",
+      "weight": 0.2857142857142857,
+      "metadata": {
+        "raw_count": 2,
+        "normalized_weight": 0.2857142857142857
+      }
+    },
+    {
+      "edge_id": "edge_78",
+      "source_node_id": "network",
+      "target_node_id": "adapts",
+      "edge_type": "word_transition",
+      "weight": 0.14285714285714285,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.14285714285714285
+      }
+    },
+    {
+      "edge_id": "edge_79",
+      "source_node_id": "consists",
+      "target_node_id": "of",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_80",
+      "source_node_id": "layers",
+      "target_node_id": "of",
+      "edge_type": "word_transition",
+      "weight": 0.3333333333333333,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.3333333333333333
+      }
+    },
+    {
+      "edge_id": "edge_81",
+      "source_node_id": "layers",
+      "target_node_id": "each",
+      "edge_type": "word_transition",
+      "weight": 0.3333333333333333,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.3333333333333333
+      }
+    },
+    {
+      "edge_id": "edge_82",
+      "source_node_id": "layers",
+      "target_node_id": "detect",
+      "edge_type": "word_transition",
+      "weight": 0.3333333333333333,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.3333333333333333
+      }
+    },
+    {
+      "edge_id": "edge_83",
+      "source_node_id": "interconnected",
+      "target_node_id": "nodes",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_84",
+      "source_node_id": "nodes",
+      "target_node_id": "each",
+      "edge_type": "word_transition",
+      "weight": 0.3333333333333333,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.3333333333333333
+      }
+    },
+    {
+      "edge_id": "edge_85",
+      "source_node_id": "nodes",
+      "target_node_id": "training",
+      "edge_type": "word_transition",
+      "weight": 0.3333333333333333,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.3333333333333333
+      }
+    },
+    {
+      "edge_id": "edge_86",
+      "source_node_id": "nodes",
+      "target_node_id": "during",
+      "edge_type": "word_transition",
+      "weight": 0.3333333333333333,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.3333333333333333
+      }
+    },
+    {
+      "edge_id": "edge_87",
+      "source_node_id": "each",
+      "target_node_id": "node",
+      "edge_type": "word_transition",
+      "weight": 0.25,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.25
+      }
+    },
+    {
+      "edge_id": "edge_88",
+      "source_node_id": "each",
+      "target_node_id": "epoch",
+      "edge_type": "word_transition",
+      "weight": 0.25,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.25
+      }
+    },
+    {
+      "edge_id": "edge_89",
+      "source_node_id": "each",
+      "target_node_id": "layer",
+      "edge_type": "word_transition",
+      "weight": 0.25,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.25
+      }
+    },
+    {
+      "edge_id": "edge_90",
+      "source_node_id": "each",
+      "target_node_id": "architecture",
+      "edge_type": "word_transition",
+      "weight": 0.25,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.25
+      }
+    },
+    {
+      "edge_id": "edge_91",
+      "source_node_id": "node",
+      "target_node_id": "processes",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_92",
+      "source_node_id": "processes",
+      "target_node_id": "information",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_93",
+      "source_node_id": "information",
+      "target_node_id": "and",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_94",
+      "source_node_id": "and",
+      "target_node_id": "passes",
+      "edge_type": "word_transition",
+      "weight": 0.3333333333333333,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.3333333333333333
+      }
+    },
+    {
+      "edge_id": "edge_95",
+      "source_node_id": "and",
+      "target_node_id": "actual",
+      "edge_type": "word_transition",
+      "weight": 0.3333333333333333,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.3333333333333333
+      }
+    },
+    {
+      "edge_id": "edge_96",
+      "source_node_id": "and",
+      "target_node_id": "tasks",
+      "edge_type": "word_transition",
+      "weight": 0.3333333333333333,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.3333333333333333
+      }
+    },
+    {
+      "edge_id": "edge_97",
+      "source_node_id": "passes",
+      "target_node_id": "signals",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_98",
+      "source_node_id": "signals",
+      "target_node_id": "to",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_99",
+      "source_node_id": "other",
+      "target_node_id": "nodes",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_100",
+      "source_node_id": "training",
+      "target_node_id": "a",
+      "edge_type": "word_transition",
+      "weight": 0.25,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.25
+      }
+    },
+    {
+      "edge_id": "edge_101",
+      "source_node_id": "training",
+      "target_node_id": "networks",
+      "edge_type": "word_transition",
+      "weight": 0.25,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.25
+      }
+    },
+    {
+      "edge_id": "edge_102",
+      "source_node_id": "training",
+      "target_node_id": "data",
+      "edge_type": "word_transition",
+      "weight": 0.25,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.25
+      }
+    },
+    {
+      "edge_id": "edge_103",
+      "source_node_id": "training",
+      "target_node_id": "this",
+      "edge_type": "word_transition",
+      "weight": 0.25,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.25
+      }
+    },
+    {
+      "edge_id": "edge_104",
+      "source_node_id": "requires",
+      "target_node_id": "data",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_105",
+      "source_node_id": "fed",
+      "target_node_id": "through",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_106",
+      "source_node_id": "through",
+      "target_node_id": "the",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_107",
+      "source_node_id": "iterations",
+      "target_node_id": "called",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_108",
+      "source_node_id": "called",
+      "target_node_id": "epochs",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_109",
+      "source_node_id": "called",
+      "target_node_id": "backpropagation",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_110",
+      "source_node_id": "epochs",
+      "target_node_id": "during",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_111",
+      "source_node_id": "during",
+      "target_node_id": "each",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_112",
+      "source_node_id": "during",
+      "target_node_id": "training",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_113",
+      "source_node_id": "epoch",
+      "target_node_id": "the",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_114",
+      "source_node_id": "adjusts",
+      "target_node_id": "its",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_115",
+      "source_node_id": "its",
+      "target_node_id": "weights",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_116",
+      "source_node_id": "weights",
+      "target_node_id": "based",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_117",
+      "source_node_id": "based",
+      "target_node_id": "on",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_118",
+      "source_node_id": "on",
+      "target_node_id": "the",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_119",
+      "source_node_id": "error",
+      "target_node_id": "between",
+      "edge_type": "word_transition",
+      "weight": 0.3333333333333333,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.3333333333333333
+      }
+    },
+    {
+      "edge_id": "edge_120",
+      "source_node_id": "error",
+      "target_node_id": "function",
+      "edge_type": "word_transition",
+      "weight": 0.3333333333333333,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.3333333333333333
+      }
+    },
+    {
+      "edge_id": "edge_121",
+      "source_node_id": "error",
+      "target_node_id": "learning",
+      "edge_type": "word_transition",
+      "weight": 0.3333333333333333,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.3333333333333333
+      }
+    },
+    {
+      "edge_id": "edge_122",
+      "source_node_id": "between",
+      "target_node_id": "predicted",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_123",
+      "source_node_id": "predicted",
+      "target_node_id": "and",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_124",
+      "source_node_id": "actual",
+      "target_node_id": "outputs",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_125",
+      "source_node_id": "outputs",
+      "target_node_id": "this",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_126",
+      "source_node_id": "this",
+      "target_node_id": "process",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_127",
+      "source_node_id": "this",
+      "target_node_id": "forces",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_128",
+      "source_node_id": "process",
+      "target_node_id": "is",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_129",
+      "source_node_id": "backpropagation",
+      "target_node_id": "deep",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_130",
+      "source_node_id": "deep",
+      "target_node_id": "learning",
+      "edge_type": "word_transition",
+      "weight": 0.6666666666666666,
+      "metadata": {
+        "raw_count": 2,
+        "normalized_weight": 0.6666666666666666
+      }
+    },
+    {
+      "edge_id": "edge_131",
+      "source_node_id": "deep",
+      "target_node_id": "neural",
+      "edge_type": "word_transition",
+      "weight": 0.3333333333333333,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.3333333333333333
+      }
+    },
+    {
+      "edge_id": "edge_132",
+      "source_node_id": "an",
+      "target_node_id": "advanced",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_133",
+      "source_node_id": "an",
+      "target_node_id": "image",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_134",
+      "source_node_id": "advanced",
+      "target_node_id": "form",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_135",
+      "source_node_id": "form",
+      "target_node_id": "of",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_136",
+      "source_node_id": "uses",
+      "target_node_id": "deep",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_137",
+      "source_node_id": "with",
+      "target_node_id": "many",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_138",
+      "source_node_id": "many",
+      "target_node_id": "layers",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_139",
+      "source_node_id": "layer",
+      "target_node_id": "extracts",
+      "edge_type": "word_transition",
+      "weight": 0.3333333333333333,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.3333333333333333
+      }
+    },
+    {
+      "edge_id": "edge_140",
+      "source_node_id": "layer",
+      "target_node_id": "might",
+      "edge_type": "word_transition",
+      "weight": 0.3333333333333333,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.3333333333333333
+      }
+    },
+    {
+      "edge_id": "edge_141",
+      "source_node_id": "layer",
+      "target_node_id": "combines",
+      "edge_type": "word_transition",
+      "weight": 0.3333333333333333,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.3333333333333333
+      }
+    },
+    {
+      "edge_id": "edge_142",
+      "source_node_id": "extracts",
+      "target_node_id": "different",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_143",
+      "source_node_id": "different",
+      "target_node_id": "features",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_144",
+      "source_node_id": "different",
+      "target_node_id": "types",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_145",
+      "source_node_id": "features",
+      "target_node_id": "from",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_146",
+      "source_node_id": "features",
+      "target_node_id": "convolutional",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_147",
+      "source_node_id": "first",
+      "target_node_id": "layer",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_148",
+      "source_node_id": "might",
+      "target_node_id": "detect",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_149",
+      "source_node_id": "detect",
+      "target_node_id": "edges",
+      "edge_type": "word_transition",
+      "weight": 0.3333333333333333,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.3333333333333333
+      }
+    },
+    {
+      "edge_id": "edge_150",
+      "source_node_id": "detect",
+      "target_node_id": "shapes",
+      "edge_type": "word_transition",
+      "weight": 0.3333333333333333,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.3333333333333333
+      }
+    },
+    {
+      "edge_id": "edge_151",
+      "source_node_id": "detect",
+      "target_node_id": "more",
+      "edge_type": "word_transition",
+      "weight": 0.3333333333333333,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.3333333333333333
+      }
+    },
+    {
+      "edge_id": "edge_152",
+      "source_node_id": "edges",
+      "target_node_id": "in",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_153",
+      "source_node_id": "edges",
+      "target_node_id": "to",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_154",
+      "source_node_id": "image",
+      "target_node_id": "the",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_155",
+      "source_node_id": "image",
+      "target_node_id": "processing",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_156",
+      "source_node_id": "second",
+      "target_node_id": "layer",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_157",
+      "source_node_id": "combines",
+      "target_node_id": "edges",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_158",
+      "source_node_id": "shapes",
+      "target_node_id": "higher",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_159",
+      "source_node_id": "higher",
+      "target_node_id": "layers",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_160",
+      "source_node_id": "more",
+      "target_node_id": "complex",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_161",
+      "source_node_id": "complex",
+      "target_node_id": "patterns",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_162",
+      "source_node_id": "patterns",
+      "target_node_id": "optimization",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_163",
+      "source_node_id": "patterns",
+      "target_node_id": "regularization",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_164",
+      "source_node_id": "optimization",
+      "target_node_id": "algorithms",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_165",
+      "source_node_id": "optimization",
+      "target_node_id": "algorithm",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_166",
+      "source_node_id": "algorithms",
+      "target_node_id": "are",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_167",
+      "source_node_id": "crucial",
+      "target_node_id": "for",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_168",
+      "source_node_id": "for",
+      "target_node_id": "training",
+      "edge_type": "word_transition",
+      "weight": 0.3333333333333333,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.3333333333333333
+      }
+    },
+    {
+      "edge_id": "edge_169",
+      "source_node_id": "for",
+      "target_node_id": "sequential",
+      "edge_type": "word_transition",
+      "weight": 0.3333333333333333,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.3333333333333333
+      }
+    },
+    {
+      "edge_id": "edge_170",
+      "source_node_id": "for",
+      "target_node_id": "different",
+      "edge_type": "word_transition",
+      "weight": 0.3333333333333333,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.3333333333333333
+      }
+    },
+    {
+      "edge_id": "edge_171",
+      "source_node_id": "gradient",
+      "target_node_id": "descent",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_172",
+      "source_node_id": "descent",
+      "target_node_id": "is",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_173",
+      "source_node_id": "common",
+      "target_node_id": "optimization",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_174",
+      "source_node_id": "common",
+      "target_node_id": "problem",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_175",
+      "source_node_id": "algorithm",
+      "target_node_id": "the",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_176",
+      "source_node_id": "algorithm",
+      "target_node_id": "calculates",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_177",
+      "source_node_id": "calculates",
+      "target_node_id": "gradients",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_178",
+      "source_node_id": "gradients",
+      "target_node_id": "of",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_179",
+      "source_node_id": "gradients",
+      "target_node_id": "guide",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_180",
+      "source_node_id": "function",
+      "target_node_id": "these",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_181",
+      "source_node_id": "these",
+      "target_node_id": "gradients",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_182",
+      "source_node_id": "guide",
+      "target_node_id": "the",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_183",
+      "source_node_id": "minimize",
+      "target_node_id": "error",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_184",
+      "source_node_id": "rate",
+      "target_node_id": "controls",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_185",
+      "source_node_id": "controls",
+      "target_node_id": "how",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_186",
+      "source_node_id": "how",
+      "target_node_id": "quickly",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_187",
+      "source_node_id": "quickly",
+      "target_node_id": "the",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_188",
+      "source_node_id": "adapts",
+      "target_node_id": "overfitting",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_189",
+      "source_node_id": "overfitting",
+      "target_node_id": "is",
+      "edge_type": "word_transition",
+      "weight": 0.3333333333333333,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.3333333333333333
+      }
+    },
+    {
+      "edge_id": "edge_190",
+      "source_node_id": "overfitting",
+      "target_node_id": "occurs",
+      "edge_type": "word_transition",
+      "weight": 0.3333333333333333,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.3333333333333333
+      }
+    },
+    {
+      "edge_id": "edge_191",
+      "source_node_id": "overfitting",
+      "target_node_id": "dropout",
+      "edge_type": "word_transition",
+      "weight": 0.3333333333333333,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.3333333333333333
+      }
+    },
+    {
+      "edge_id": "edge_192",
+      "source_node_id": "problem",
+      "target_node_id": "in",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_193",
+      "source_node_id": "occurs",
+      "target_node_id": "when",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_194",
+      "source_node_id": "when",
+      "target_node_id": "the",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_195",
+      "source_node_id": "model",
+      "target_node_id": "memorizes",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_196",
+      "source_node_id": "memorizes",
+      "target_node_id": "training",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_197",
+      "source_node_id": "instead",
+      "target_node_id": "of",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_198",
+      "source_node_id": "general",
+      "target_node_id": "patterns",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_199",
+      "source_node_id": "regularization",
+      "target_node_id": "techniques",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_200",
+      "source_node_id": "techniques",
+      "target_node_id": "help",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_201",
+      "source_node_id": "help",
+      "target_node_id": "prevent",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_202",
+      "source_node_id": "prevent",
+      "target_node_id": "overfitting",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_203",
+      "source_node_id": "dropout",
+      "target_node_id": "randomly",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_204",
+      "source_node_id": "randomly",
+      "target_node_id": "disables",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_205",
+      "source_node_id": "disables",
+      "target_node_id": "nodes",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_206",
+      "source_node_id": "forces",
+      "target_node_id": "the",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_207",
+      "source_node_id": "robust",
+      "target_node_id": "features",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_208",
+      "source_node_id": "convolutional",
+      "target_node_id": "neural",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_209",
+      "source_node_id": "excel",
+      "target_node_id": "at",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_210",
+      "source_node_id": "at",
+      "target_node_id": "image",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_211",
+      "source_node_id": "processing",
+      "target_node_id": "recurrent",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_212",
+      "source_node_id": "processing",
+      "target_node_id": "each",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_213",
+      "source_node_id": "recurrent",
+      "target_node_id": "neural",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_214",
+      "source_node_id": "designed",
+      "target_node_id": "for",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_215",
+      "source_node_id": "sequential",
+      "target_node_id": "data",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_216",
+      "source_node_id": "transformers",
+      "target_node_id": "have",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_217",
+      "source_node_id": "have",
+      "target_node_id": "revolutionized",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_218",
+      "source_node_id": "revolutionized",
+      "target_node_id": "natural",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_219",
+      "source_node_id": "natural",
+      "target_node_id": "language",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_220",
+      "source_node_id": "language",
+      "target_node_id": "processing",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_221",
+      "source_node_id": "suited",
+      "target_node_id": "for",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_222",
+      "source_node_id": "types",
+      "target_node_id": "of",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    }
+  ],
+  "hierarchy": {
+    "levels": [
+      "token",
+      "sentence",
+      "paragraph",
+      "chapter",
+      "book"
+    ],
+    "current_level": "token",
+    "parent_system": null
+  }
+}

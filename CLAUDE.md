@@ -78,6 +78,65 @@ Chain_reflow automatically detects framework type from each `system_of_systems_g
 - **INTERACTIVE**: Require explicit consent for cross-framework linking
 - **EXPLORATORY**: Mark all cross-framework links as experimental
 
+## Word Frequency DAG Framework (NEW)
+
+**NEW**: Chain_reflow now supports **Word Frequency Directed Acyclic Graphs** for natural language analysis. This demonstrates how chain_reflow's architecture linking concepts extend beyond traditional systems engineering to linguistic analysis.
+
+### What is Word Frequency DAG?
+
+A **Word Frequency DAG** transforms books/text into network graphs where:
+- **Nodes** = Unique words (tokens)
+- **Edges** = Transitions from one word to the next
+- **Edge weights** = Normalized frequency (Markov chain style)
+- **Framework ID**: `word_frequency`
+
+This creates a "linguistic fingerprint" that can be analyzed, compared, and merged using chain_reflow's tools.
+
+### Quick Start
+
+```bash
+# 1. Build word DAG from a book
+python3 src/word_frequency_dag.py book.txt --title "Book Title" --output output/book_dag.json
+
+# 2. Build DAG for another book
+python3 src/word_frequency_dag.py book2.txt --title "Book 2" --output output/book2_dag.json
+
+# 3. Merge the two DAGs
+python3 src/merge_word_dags.py output/book_dag.json output/book2_dag.json --output output/merged_dag.json
+```
+
+### Use Cases
+
+1. **Comparative Literature**: Compare writing styles across authors/genres
+2. **Plagiarism Detection**: High overlap indicates potential plagiarism
+3. **Genre Classification**: Build DAGs as training data
+4. **Translation Quality**: Compare original vs translated texts
+5. **Finding Semantic Bridges**: Discover universal linguistic patterns in orthogonal texts
+
+### Example: Orthogonal Books
+
+Merging a **technical ML book** with a **poetry book** reveals:
+- **Only 6.4% word overlap** (18 common words: mostly grammatical connectors like "the", "in", "of")
+- **Only 5 common transitions** out of 438 total
+- **Common words are function words**, not domain-specific content
+- True orthogonality demonstrated quantitatively!
+
+See detailed documentation: `docs/WORD_FREQUENCY_DAG_USAGE.md`
+
+### Integration with Chain Reflow
+
+Word DAGs use the standard `system_of_systems_graph.json` format with:
+- `framework_id: "word_frequency"`
+- Compatible with chain_reflow's matryoshka, causality, and creative linking tools
+- Future: Multi-level hierarchical DAGs (word → sentence → paragraph → chapter → book)
+
+### Test Examples
+
+See `test_books/` directory:
+- `technical_ml.txt` - Technical machine learning text
+- `poetry_nature.txt` - Poetry about nature
+- Perfect for demonstrating orthogonal text merging!
+
 ## Self-Sharpening Meta-Analysis
 
 **NEW**: Chain_reflow can analyze itself using reflow's meta-analysis methodology + its own specialized tools.
@@ -166,6 +225,12 @@ python3 src/creative_linking.py graph1.json graph2.json
 
 # Matrix-based gap detection (NEW: detect missing intermediate systems)
 python3 src/matrix_gap_detection.py system_a.json system_c.json
+
+# Word frequency DAG builder (NEW: natural language analysis)
+python3 src/word_frequency_dag.py book.txt --title "Book Title" --output output/book_dag.json
+
+# Merge word frequency DAGs (NEW: compare and merge books)
+python3 src/merge_word_dags.py dag1.json dag2.json --output output/merged_dag.json
 
 # All tools support --help, --output, --format flags
 python3 src/matryoshka_analysis.py --help

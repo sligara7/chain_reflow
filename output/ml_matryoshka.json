@@ -1,0 +1,35 @@
+======================================================================
+MATRYOSHKA (HIERARCHICAL NESTING) ANALYSIS
+======================================================================
+
+Like Russian nesting dolls, system architectures are often nested
+hierarchically rather than linked peer-to-peer.
+
+⚠️  IMPORTANT: Don't assume peer-to-peer relationships!
+Architectures may be:
+• At the same level (peers)
+• At different levels (parent-child)
+• Nested through intermediate levels
+======================================================================
+
+DETECTED HIERARCHY LEVELS
+----------------------------------------------------------------------
+
+UNKNOWN Level:
+  • Unknown
+
+======================================================================
+HIERARCHICAL RELATIONSHIPS
+======================================================================
+======================================================================
+RECOMMENDED NEXT STEPS
+======================================================================
+1. Verify hierarchy levels for each architecture
+2. Investigate hierarchical gaps:
+   • Document missing intermediate levels if they exist
+   • Update architecture metadata if levels are incorrect
+3. Consider hierarchical relationships when linking:
+   • Peer-to-peer links: At same level
+   • Parent-child links: Containment relationships
+   • Indirect links: Through intermediate systems
+4. Don't assume peer-to-peer - check hierarchy first!

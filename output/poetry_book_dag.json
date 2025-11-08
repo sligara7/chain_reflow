@@ -1,0 +1,4135 @@
+{
+  "graph_metadata": {
+    "graph_id": "word_dag_whispers_of_the_forest",
+    "graph_name": "Word Frequency DAG: Whispers of the Forest",
+    "version": "1.0.0",
+    "description": "Word frequency directed graph for 'Whispers of the Forest'",
+    "creation_timestamp": "2025-11-08T00:00:00Z",
+    "source_text": "/home/user/chain_reflow/test_books/poetry_nature.txt",
+    "total_tokens": 235,
+    "unique_tokens": 167,
+    "total_transitions": 221
+  },
+  "framework_configuration": {
+    "framework_id": "word_frequency",
+    "framework_name": "Word Frequency Network Framework",
+    "framework_version": "1.0.0",
+    "description": "Natural language processing framework using word transition networks"
+  },
+  "nodes": [
+    {
+      "node_id": "whispers",
+      "node_type": "word_token",
+      "label": "whispers",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "of",
+      "node_type": "word_token",
+      "label": "of",
+      "metadata": {
+        "frequency_count": 4,
+        "probability": 0.01702127659574468,
+        "outgoing_transitions": 4
+      }
+    },
+    {
+      "node_id": "the",
+      "node_type": "word_token",
+      "label": "the",
+      "metadata": {
+        "frequency_count": 20,
+        "probability": 0.0851063829787234,
+        "outgoing_transitions": 11
+      }
+    },
+    {
+      "node_id": "forest",
+      "node_type": "word_token",
+      "label": "forest",
+      "metadata": {
+        "frequency_count": 7,
+        "probability": 0.029787234042553193,
+        "outgoing_transitions": 7
+      }
+    },
+    {
+      "node_id": "breathes",
+      "node_type": "word_token",
+      "label": "breathes",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "with",
+      "node_type": "word_token",
+      "label": "with",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "ancient",
+      "node_type": "word_token",
+      "label": "ancient",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "wisdom",
+      "node_type": "word_token",
+      "label": "wisdom",
+      "metadata": {
+        "frequency_count": 2,
+        "probability": 0.00851063829787234,
+        "outgoing_transitions": 2
+      }
+    },
+    {
+      "node_id": "trees",
+      "node_type": "word_token",
+      "label": "trees",
+      "metadata": {
+        "frequency_count": 3,
+        "probability": 0.01276595744680851,
+        "outgoing_transitions": 3
+      }
+    },
+    {
+      "node_id": "stand",
+      "node_type": "word_token",
+      "label": "stand",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "tall",
+      "node_type": "word_token",
+      "label": "tall",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "their",
+      "node_type": "word_token",
+      "label": "their",
+      "metadata": {
+        "frequency_count": 4,
+        "probability": 0.01702127659574468,
+        "outgoing_transitions": 4
+      }
+    },
+    {
+      "node_id": "roots",
+      "node_type": "word_token",
+      "label": "roots",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "deep",
+      "node_type": "word_token",
+      "label": "deep",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "in",
+      "node_type": "word_token",
+      "label": "in",
+      "metadata": {
+        "frequency_count": 10,
+        "probability": 0.0425531914893617,
+        "outgoing_transitions": 7
+      }
+    },
+    {
+      "node_id": "earth",
+      "node_type": "word_token",
+      "label": "earth",
+      "metadata": {
+        "frequency_count": 2,
+        "probability": 0.00851063829787234,
+        "outgoing_transitions": 2
+      }
+    },
+    {
+      "node_id": "leaves",
+      "node_type": "word_token",
+      "label": "leaves",
+      "metadata": {
+        "frequency_count": 2,
+        "probability": 0.00851063829787234,
+        "outgoing_transitions": 2
+      }
+    },
+    {
+      "node_id": "dance",
+      "node_type": "word_token",
+      "label": "dance",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "wind",
+      "node_type": "word_token",
+      "label": "wind",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "singing",
+      "node_type": "word_token",
+      "label": "singing",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "songs",
+      "node_type": "word_token",
+      "label": "songs",
+      "metadata": {
+        "frequency_count": 2,
+        "probability": 0.00851063829787234,
+        "outgoing_transitions": 2
+      }
+    },
+    {
+      "node_id": "seasons",
+      "node_type": "word_token",
+      "label": "seasons",
+      "metadata": {
+        "frequency_count": 2,
+        "probability": 0.00851063829787234,
+        "outgoing_transitions": 2
+      }
+    },
+    {
+      "node_id": "past",
+      "node_type": "word_token",
+      "label": "past",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "morning",
+      "node_type": "word_token",
+      "label": "morning",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "dew",
+      "node_type": "word_token",
+      "label": "dew",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "glistens",
+      "node_type": "word_token",
+      "label": "glistens",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "on",
+      "node_type": "word_token",
+      "label": "on",
+      "metadata": {
+        "frequency_count": 2,
+        "probability": 0.00851063829787234,
+        "outgoing_transitions": 2
+      }
+    },
+    {
+      "node_id": "spider",
+      "node_type": "word_token",
+      "label": "spider",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "webs",
+      "node_type": "word_token",
+      "label": "webs",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "each",
+      "node_type": "word_token",
+      "label": "each",
+      "metadata": {
+        "frequency_count": 2,
+        "probability": 0.00851063829787234,
+        "outgoing_transitions": 2
+      }
+    },
+    {
+      "node_id": "drop",
+      "node_type": "word_token",
+      "label": "drop",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "a",
+      "node_type": "word_token",
+      "label": "a",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "tiny",
+      "node_type": "word_token",
+      "label": "tiny",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "mirror",
+      "node_type": "word_token",
+      "label": "mirror",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "reflecting",
+      "node_type": "word_token",
+      "label": "reflecting",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "dawn",
+      "node_type": "word_token",
+      "label": "dawn",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "birds",
+      "node_type": "word_token",
+      "label": "birds",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "call",
+      "node_type": "word_token",
+      "label": "call",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "to",
+      "node_type": "word_token",
+      "label": "to",
+      "metadata": {
+        "frequency_count": 3,
+        "probability": 0.01276595744680851,
+        "outgoing_transitions": 3
+      }
+    },
+    {
+      "node_id": "other",
+      "node_type": "word_token",
+      "label": "other",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "across",
+      "node_type": "word_token",
+      "label": "across",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "canopy",
+      "node_type": "word_token",
+      "label": "canopy",
+      "metadata": {
+        "frequency_count": 2,
+        "probability": 0.00851063829787234,
+        "outgoing_transitions": 2
+      }
+    },
+    {
+      "node_id": "carry",
+      "node_type": "word_token",
+      "label": "carry",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "messages",
+      "node_type": "word_token",
+      "label": "messages",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "joy",
+      "node_type": "word_token",
+      "label": "joy",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "and",
+      "node_type": "word_token",
+      "label": "and",
+      "metadata": {
+        "frequency_count": 4,
+        "probability": 0.01702127659574468,
+        "outgoing_transitions": 4
+      }
+    },
+    {
+      "node_id": "warning",
+      "node_type": "word_token",
+      "label": "warning",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "listens",
+      "node_type": "word_token",
+      "label": "listens",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "always",
+      "node_type": "word_token",
+      "label": "always",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "listening",
+      "node_type": "word_token",
+      "label": "listening",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "streams",
+      "node_type": "word_token",
+      "label": "streams",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "flow",
+      "node_type": "word_token",
+      "label": "flow",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "through",
+      "node_type": "word_token",
+      "label": "through",
+      "metadata": {
+        "frequency_count": 3,
+        "probability": 0.01276595744680851,
+        "outgoing_transitions": 2
+      }
+    },
+    {
+      "node_id": "undergrowth",
+      "node_type": "word_token",
+      "label": "undergrowth",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "waters",
+      "node_type": "word_token",
+      "label": "waters",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "clear",
+      "node_type": "word_token",
+      "label": "clear",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "cold",
+      "node_type": "word_token",
+      "label": "cold",
+      "metadata": {
+        "frequency_count": 2,
+        "probability": 0.00851063829787234,
+        "outgoing_transitions": 2
+      }
+    },
+    {
+      "node_id": "fish",
+      "node_type": "word_token",
+      "label": "fish",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "dart",
+      "node_type": "word_token",
+      "label": "dart",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "between",
+      "node_type": "word_token",
+      "label": "between",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "rocks",
+      "node_type": "word_token",
+      "label": "rocks",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "silver",
+      "node_type": "word_token",
+      "label": "silver",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "flashes",
+      "node_type": "word_token",
+      "label": "flashes",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "shadows",
+      "node_type": "word_token",
+      "label": "shadows",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "sunlight",
+      "node_type": "word_token",
+      "label": "sunlight",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "filters",
+      "node_type": "word_token",
+      "label": "filters",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "golden",
+      "node_type": "word_token",
+      "label": "golden",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "shafts",
+      "node_type": "word_token",
+      "label": "shafts",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "dust",
+      "node_type": "word_token",
+      "label": "dust",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "motes",
+      "node_type": "word_token",
+      "label": "motes",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "drift",
+      "node_type": "word_token",
+      "label": "drift",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "lazily",
+      "node_type": "word_token",
+      "label": "lazily",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "warm",
+      "node_type": "word_token",
+      "label": "warm",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "air",
+      "node_type": "word_token",
+      "label": "air",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "smells",
+      "node_type": "word_token",
+      "label": "smells",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "rich",
+      "node_type": "word_token",
+      "label": "rich",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "alive",
+      "node_type": "word_token",
+      "label": "alive",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "mushrooms",
+      "node_type": "word_token",
+      "label": "mushrooms",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "sprout",
+      "node_type": "word_token",
+      "label": "sprout",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "from",
+      "node_type": "word_token",
+      "label": "from",
+      "metadata": {
+        "frequency_count": 3,
+        "probability": 0.01276595744680851,
+        "outgoing_transitions": 3
+      }
+    },
+    {
+      "node_id": "fallen",
+      "node_type": "word_token",
+      "label": "fallen",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "logs",
+      "node_type": "word_token",
+      "label": "logs",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "returning",
+      "node_type": "word_token",
+      "label": "returning",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "wood",
+      "node_type": "word_token",
+      "label": "wood",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "soil",
+      "node_type": "word_token",
+      "label": "soil",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "everything",
+      "node_type": "word_token",
+      "label": "everything",
+      "metadata": {
+        "frequency_count": 3,
+        "probability": 0.01276595744680851,
+        "outgoing_transitions": 3
+      }
+    },
+    {
+      "node_id": "cycles",
+      "node_type": "word_token",
+      "label": "cycles",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "transforms",
+      "node_type": "word_token",
+      "label": "transforms",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "night",
+      "node_type": "word_token",
+      "label": "night",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "falls",
+      "node_type": "word_token",
+      "label": "falls",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "gently",
+      "node_type": "word_token",
+      "label": "gently",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "stars",
+      "node_type": "word_token",
+      "label": "stars",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "emerge",
+      "node_type": "word_token",
+      "label": "emerge",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "one",
+      "node_type": "word_token",
+      "label": "one",
+      "metadata": {
+        "frequency_count": 2,
+        "probability": 0.00851063829787234,
+        "outgoing_transitions": 2
+      }
+    },
+    {
+      "node_id": "by",
+      "node_type": "word_token",
+      "label": "by",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "above",
+      "node_type": "word_token",
+      "label": "above",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "owls",
+      "node_type": "word_token",
+      "label": "owls",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "begin",
+      "node_type": "word_token",
+      "label": "begin",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "hunt",
+      "node_type": "word_token",
+      "label": "hunt",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "silent",
+      "node_type": "word_token",
+      "label": "silent",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "wings",
+      "node_type": "word_token",
+      "label": "wings",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "cutting",
+      "node_type": "word_token",
+      "label": "cutting",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "darkness",
+      "node_type": "word_token",
+      "label": "darkness",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "holds",
+      "node_type": "word_token",
+      "label": "holds",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "its",
+      "node_type": "word_token",
+      "label": "its",
+      "metadata": {
+        "frequency_count": 2,
+        "probability": 0.00851063829787234,
+        "outgoing_transitions": 2
+      }
+    },
+    {
+      "node_id": "breath",
+      "node_type": "word_token",
+      "label": "breath",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "small",
+      "node_type": "word_token",
+      "label": "small",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "creatures",
+      "node_type": "word_token",
+      "label": "creatures",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "huddle",
+      "node_type": "word_token",
+      "label": "huddle",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "burrows",
+      "node_type": "word_token",
+      "label": "burrows",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "safe",
+      "node_type": "word_token",
+      "label": "safe",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "turn",
+      "node_type": "word_token",
+      "label": "turn",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "like",
+      "node_type": "word_token",
+      "label": "like",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "pages",
+      "node_type": "word_token",
+      "label": "pages",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "an",
+      "node_type": "word_token",
+      "label": "an",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "endless",
+      "node_type": "word_token",
+      "label": "endless",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "book",
+      "node_type": "word_token",
+      "label": "book",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "spring",
+      "node_type": "word_token",
+      "label": "spring",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "brings",
+      "node_type": "word_token",
+      "label": "brings",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "new",
+      "node_type": "word_token",
+      "label": "new",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "life",
+      "node_type": "word_token",
+      "label": "life",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "bursting",
+      "node_type": "word_token",
+      "label": "bursting",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "every",
+      "node_type": "word_token",
+      "label": "every",
+      "metadata": {
+        "frequency_count": 2,
+        "probability": 0.00851063829787234,
+        "outgoing_transitions": 2
+      }
+    },
+    {
+      "node_id": "branch",
+      "node_type": "word_token",
+      "label": "branch",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "summer's",
+      "node_type": "word_token",
+      "label": "summer's",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "heat",
+      "node_type": "word_token",
+      "label": "heat",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "intensifies",
+      "node_type": "word_token",
+      "label": "intensifies",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "forest's",
+      "node_type": "word_token",
+      "label": "forest's",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "green",
+      "node_type": "word_token",
+      "label": "green",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "embrace",
+      "node_type": "word_token",
+      "label": "embrace",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "autumn",
+      "node_type": "word_token",
+      "label": "autumn",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "paints",
+      "node_type": "word_token",
+      "label": "paints",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "fire",
+      "node_type": "word_token",
+      "label": "fire",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "colors",
+      "node_type": "word_token",
+      "label": "colors",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "before",
+      "node_type": "word_token",
+      "label": "before",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "they",
+      "node_type": "word_token",
+      "label": "they",
+      "metadata": {
+        "frequency_count": 2,
+        "probability": 0.00851063829787234,
+        "outgoing_transitions": 2
+      }
+    },
+    {
+      "node_id": "fall",
+      "node_type": "word_token",
+      "label": "fall",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "winter",
+      "node_type": "word_token",
+      "label": "winter",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "blankets",
+      "node_type": "word_token",
+      "label": "blankets",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "quiet",
+      "node_type": "word_token",
+      "label": "quiet",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "snow",
+      "node_type": "word_token",
+      "label": "snow",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "remembers",
+      "node_type": "word_token",
+      "label": "remembers",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "all",
+      "node_type": "word_token",
+      "label": "all",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "who",
+      "node_type": "word_token",
+      "label": "who",
+      "metadata": {
+        "frequency_count": 2,
+        "probability": 0.00851063829787234,
+        "outgoing_transitions": 2
+      }
+    },
+    {
+      "node_id": "walk",
+      "node_type": "word_token",
+      "label": "walk",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "paths",
+      "node_type": "word_token",
+      "label": "paths",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "footstep",
+      "node_type": "word_token",
+      "label": "footstep",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "echoes",
+      "node_type": "word_token",
+      "label": "echoes",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "memory",
+      "node_type": "word_token",
+      "label": "memory",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "human",
+      "node_type": "word_token",
+      "label": "human",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "voices",
+      "node_type": "word_token",
+      "label": "voices",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "fade",
+      "node_type": "word_token",
+      "label": "fade",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "but",
+      "node_type": "word_token",
+      "label": "but",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "remain",
+      "node_type": "word_token",
+      "label": "remain",
+      "metadata": {
+        "frequency_count": 2,
+        "probability": 0.00851063829787234,
+        "outgoing_transitions": 2
+      }
+    },
+    {
+      "node_id": "have",
+      "node_type": "word_token",
+      "label": "have",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "witnessed",
+      "node_type": "word_token",
+      "label": "witnessed",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "centuries",
+      "node_type": "word_token",
+      "label": "centuries",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "change",
+      "node_type": "word_token",
+      "label": "change",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "yet",
+      "node_type": "word_token",
+      "label": "yet",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "constant",
+      "node_type": "word_token",
+      "label": "constant",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "is",
+      "node_type": "word_token",
+      "label": "is",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "both",
+      "node_type": "word_token",
+      "label": "both",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "teacher",
+      "node_type": "word_token",
+      "label": "teacher",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "sanctuary",
+      "node_type": "word_token",
+      "label": "sanctuary",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "offering",
+      "node_type": "word_token",
+      "label": "offering",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "those",
+      "node_type": "word_token",
+      "label": "those",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 1
+      }
+    },
+    {
+      "node_id": "listen",
+      "node_type": "word_token",
+      "label": "listen",
+      "metadata": {
+        "frequency_count": 1,
+        "probability": 0.00425531914893617,
+        "outgoing_transitions": 0
+      }
+    }
+  ],
+  "edges": [
+    {
+      "edge_id": "edge_1",
+      "source_node_id": "whispers",
+      "target_node_id": "of",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_2",
+      "source_node_id": "of",
+      "target_node_id": "the",
+      "edge_type": "word_transition",
+      "weight": 0.25,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.25
+      }
+    },
+    {
+      "edge_id": "edge_3",
+      "source_node_id": "of",
+      "target_node_id": "seasons",
+      "edge_type": "word_transition",
+      "weight": 0.25,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.25
+      }
+    },
+    {
+      "edge_id": "edge_4",
+      "source_node_id": "of",
+      "target_node_id": "joy",
+      "edge_type": "word_transition",
+      "weight": 0.25,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.25
+      }
+    },
+    {
+      "edge_id": "edge_5",
+      "source_node_id": "of",
+      "target_node_id": "change",
+      "edge_type": "word_transition",
+      "weight": 0.25,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.25
+      }
+    },
+    {
+      "edge_id": "edge_6",
+      "source_node_id": "the",
+      "target_node_id": "forest",
+      "edge_type": "word_transition",
+      "weight": 0.35,
+      "metadata": {
+        "raw_count": 7,
+        "normalized_weight": 0.35
+      }
+    },
+    {
+      "edge_id": "edge_7",
+      "source_node_id": "the",
+      "target_node_id": "earth",
+      "edge_type": "word_transition",
+      "weight": 0.1,
+      "metadata": {
+        "raw_count": 2,
+        "normalized_weight": 0.1
+      }
+    },
+    {
+      "edge_id": "edge_8",
+      "source_node_id": "the",
+      "target_node_id": "wind",
+      "edge_type": "word_transition",
+      "weight": 0.05,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.05
+      }
+    },
+    {
+      "edge_id": "edge_9",
+      "source_node_id": "the",
+      "target_node_id": "dawn",
+      "edge_type": "word_transition",
+      "weight": 0.05,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.05
+      }
+    },
+    {
+      "edge_id": "edge_10",
+      "source_node_id": "the",
+      "target_node_id": "canopy",
+      "edge_type": "word_transition",
+      "weight": 0.1,
+      "metadata": {
+        "raw_count": 2,
+        "normalized_weight": 0.1
+      }
+    },
+    {
+      "edge_id": "edge_11",
+      "source_node_id": "the",
+      "target_node_id": "undergrowth",
+      "edge_type": "word_transition",
+      "weight": 0.05,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.05
+      }
+    },
+    {
+      "edge_id": "edge_12",
+      "source_node_id": "the",
+      "target_node_id": "shadows",
+      "edge_type": "word_transition",
+      "weight": 0.05,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.05
+      }
+    },
+    {
+      "edge_id": "edge_13",
+      "source_node_id": "the",
+      "target_node_id": "warm",
+      "edge_type": "word_transition",
+      "weight": 0.05,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.05
+      }
+    },
+    {
+      "edge_id": "edge_14",
+      "source_node_id": "the",
+      "target_node_id": "trees",
+      "edge_type": "word_transition",
+      "weight": 0.1,
+      "metadata": {
+        "raw_count": 2,
+        "normalized_weight": 0.1
+      }
+    },
+    {
+      "edge_id": "edge_15",
+      "source_node_id": "the",
+      "target_node_id": "cold",
+      "edge_type": "word_transition",
+      "weight": 0.05,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.05
+      }
+    },
+    {
+      "edge_id": "edge_16",
+      "source_node_id": "the",
+      "target_node_id": "forest's",
+      "edge_type": "word_transition",
+      "weight": 0.05,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.05
+      }
+    },
+    {
+      "edge_id": "edge_17",
+      "source_node_id": "forest",
+      "target_node_id": "the",
+      "edge_type": "word_transition",
+      "weight": 0.14285714285714285,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.14285714285714285
+      }
+    },
+    {
+      "edge_id": "edge_18",
+      "source_node_id": "forest",
+      "target_node_id": "breathes",
+      "edge_type": "word_transition",
+      "weight": 0.14285714285714285,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.14285714285714285
+      }
+    },
+    {
+      "edge_id": "edge_19",
+      "source_node_id": "forest",
+      "target_node_id": "listens",
+      "edge_type": "word_transition",
+      "weight": 0.14285714285714285,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.14285714285714285
+      }
+    },
+    {
+      "edge_id": "edge_20",
+      "source_node_id": "forest",
+      "target_node_id": "stars",
+      "edge_type": "word_transition",
+      "weight": 0.14285714285714285,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.14285714285714285
+      }
+    },
+    {
+      "edge_id": "edge_21",
+      "source_node_id": "forest",
+      "target_node_id": "holds",
+      "edge_type": "word_transition",
+      "weight": 0.14285714285714285,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.14285714285714285
+      }
+    },
+    {
+      "edge_id": "edge_22",
+      "source_node_id": "forest",
+      "target_node_id": "remembers",
+      "edge_type": "word_transition",
+      "weight": 0.14285714285714285,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.14285714285714285
+      }
+    },
+    {
+      "edge_id": "edge_23",
+      "source_node_id": "forest",
+      "target_node_id": "is",
+      "edge_type": "word_transition",
+      "weight": 0.14285714285714285,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.14285714285714285
+      }
+    },
+    {
+      "edge_id": "edge_24",
+      "source_node_id": "breathes",
+      "target_node_id": "with",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_25",
+      "source_node_id": "with",
+      "target_node_id": "ancient",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_26",
+      "source_node_id": "ancient",
+      "target_node_id": "wisdom",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_27",
+      "source_node_id": "wisdom",
+      "target_node_id": "trees",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_28",
+      "source_node_id": "wisdom",
+      "target_node_id": "to",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_29",
+      "source_node_id": "trees",
+      "target_node_id": "stand",
+      "edge_type": "word_transition",
+      "weight": 0.3333333333333333,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.3333333333333333
+      }
+    },
+    {
+      "edge_id": "edge_30",
+      "source_node_id": "trees",
+      "target_node_id": "owls",
+      "edge_type": "word_transition",
+      "weight": 0.3333333333333333,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.3333333333333333
+      }
+    },
+    {
+      "edge_id": "edge_31",
+      "source_node_id": "trees",
+      "target_node_id": "remain",
+      "edge_type": "word_transition",
+      "weight": 0.3333333333333333,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.3333333333333333
+      }
+    },
+    {
+      "edge_id": "edge_32",
+      "source_node_id": "stand",
+      "target_node_id": "tall",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_33",
+      "source_node_id": "tall",
+      "target_node_id": "their",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_34",
+      "source_node_id": "their",
+      "target_node_id": "roots",
+      "edge_type": "word_transition",
+      "weight": 0.25,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.25
+      }
+    },
+    {
+      "edge_id": "edge_35",
+      "source_node_id": "their",
+      "target_node_id": "songs",
+      "edge_type": "word_transition",
+      "weight": 0.25,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.25
+      }
+    },
+    {
+      "edge_id": "edge_36",
+      "source_node_id": "their",
+      "target_node_id": "waters",
+      "edge_type": "word_transition",
+      "weight": 0.25,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.25
+      }
+    },
+    {
+      "edge_id": "edge_37",
+      "source_node_id": "their",
+      "target_node_id": "hunt",
+      "edge_type": "word_transition",
+      "weight": 0.25,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.25
+      }
+    },
+    {
+      "edge_id": "edge_38",
+      "source_node_id": "roots",
+      "target_node_id": "deep",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_39",
+      "source_node_id": "deep",
+      "target_node_id": "in",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_40",
+      "source_node_id": "in",
+      "target_node_id": "the",
+      "edge_type": "word_transition",
+      "weight": 0.4,
+      "metadata": {
+        "raw_count": 4,
+        "normalized_weight": 0.4
+      }
+    },
+    {
+      "edge_id": "edge_41",
+      "source_node_id": "in",
+      "target_node_id": "golden",
+      "edge_type": "word_transition",
+      "weight": 0.1,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.1
+      }
+    },
+    {
+      "edge_id": "edge_42",
+      "source_node_id": "in",
+      "target_node_id": "burrows",
+      "edge_type": "word_transition",
+      "weight": 0.1,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.1
+      }
+    },
+    {
+      "edge_id": "edge_43",
+      "source_node_id": "in",
+      "target_node_id": "an",
+      "edge_type": "word_transition",
+      "weight": 0.1,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.1
+      }
+    },
+    {
+      "edge_id": "edge_44",
+      "source_node_id": "in",
+      "target_node_id": "fire",
+      "edge_type": "word_transition",
+      "weight": 0.1,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.1
+      }
+    },
+    {
+      "edge_id": "edge_45",
+      "source_node_id": "in",
+      "target_node_id": "quiet",
+      "edge_type": "word_transition",
+      "weight": 0.1,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.1
+      }
+    },
+    {
+      "edge_id": "edge_46",
+      "source_node_id": "in",
+      "target_node_id": "memory",
+      "edge_type": "word_transition",
+      "weight": 0.1,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.1
+      }
+    },
+    {
+      "edge_id": "edge_47",
+      "source_node_id": "earth",
+      "target_node_id": "leaves",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_48",
+      "source_node_id": "earth",
+      "target_node_id": "smells",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_49",
+      "source_node_id": "leaves",
+      "target_node_id": "dance",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_50",
+      "source_node_id": "leaves",
+      "target_node_id": "in",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_51",
+      "source_node_id": "dance",
+      "target_node_id": "in",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_52",
+      "source_node_id": "wind",
+      "target_node_id": "singing",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_53",
+      "source_node_id": "singing",
+      "target_node_id": "songs",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_54",
+      "source_node_id": "songs",
+      "target_node_id": "of",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_55",
+      "source_node_id": "songs",
+      "target_node_id": "carry",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_56",
+      "source_node_id": "seasons",
+      "target_node_id": "past",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_57",
+      "source_node_id": "seasons",
+      "target_node_id": "turn",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_58",
+      "source_node_id": "past",
+      "target_node_id": "morning",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_59",
+      "source_node_id": "morning",
+      "target_node_id": "dew",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_60",
+      "source_node_id": "dew",
+      "target_node_id": "glistens",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_61",
+      "source_node_id": "glistens",
+      "target_node_id": "on",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_62",
+      "source_node_id": "on",
+      "target_node_id": "spider",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_63",
+      "source_node_id": "on",
+      "target_node_id": "the",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_64",
+      "source_node_id": "spider",
+      "target_node_id": "webs",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_65",
+      "source_node_id": "webs",
+      "target_node_id": "each",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_66",
+      "source_node_id": "each",
+      "target_node_id": "drop",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_67",
+      "source_node_id": "each",
+      "target_node_id": "other",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_68",
+      "source_node_id": "drop",
+      "target_node_id": "a",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_69",
+      "source_node_id": "a",
+      "target_node_id": "tiny",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_70",
+      "source_node_id": "tiny",
+      "target_node_id": "mirror",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_71",
+      "source_node_id": "mirror",
+      "target_node_id": "reflecting",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_72",
+      "source_node_id": "reflecting",
+      "target_node_id": "the",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_73",
+      "source_node_id": "dawn",
+      "target_node_id": "birds",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_74",
+      "source_node_id": "birds",
+      "target_node_id": "call",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_75",
+      "source_node_id": "call",
+      "target_node_id": "to",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_76",
+      "source_node_id": "to",
+      "target_node_id": "each",
+      "edge_type": "word_transition",
+      "weight": 0.3333333333333333,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.3333333333333333
+      }
+    },
+    {
+      "edge_id": "edge_77",
+      "source_node_id": "to",
+      "target_node_id": "soil",
+      "edge_type": "word_transition",
+      "weight": 0.3333333333333333,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.3333333333333333
+      }
+    },
+    {
+      "edge_id": "edge_78",
+      "source_node_id": "to",
+      "target_node_id": "those",
+      "edge_type": "word_transition",
+      "weight": 0.3333333333333333,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.3333333333333333
+      }
+    },
+    {
+      "edge_id": "edge_79",
+      "source_node_id": "other",
+      "target_node_id": "across",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_80",
+      "source_node_id": "across",
+      "target_node_id": "the",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_81",
+      "source_node_id": "canopy",
+      "target_node_id": "their",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_82",
+      "source_node_id": "canopy",
+      "target_node_id": "in",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_83",
+      "source_node_id": "carry",
+      "target_node_id": "messages",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_84",
+      "source_node_id": "messages",
+      "target_node_id": "of",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_85",
+      "source_node_id": "joy",
+      "target_node_id": "and",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_86",
+      "source_node_id": "and",
+      "target_node_id": "warning",
+      "edge_type": "word_transition",
+      "weight": 0.25,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.25
+      }
+    },
+    {
+      "edge_id": "edge_87",
+      "source_node_id": "and",
+      "target_node_id": "cold",
+      "edge_type": "word_transition",
+      "weight": 0.25,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.25
+      }
+    },
+    {
+      "edge_id": "edge_88",
+      "source_node_id": "and",
+      "target_node_id": "alive",
+      "edge_type": "word_transition",
+      "weight": 0.25,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.25
+      }
+    },
+    {
+      "edge_id": "edge_89",
+      "source_node_id": "and",
+      "target_node_id": "sanctuary",
+      "edge_type": "word_transition",
+      "weight": 0.25,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.25
+      }
+    },
+    {
+      "edge_id": "edge_90",
+      "source_node_id": "warning",
+      "target_node_id": "the",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_91",
+      "source_node_id": "listens",
+      "target_node_id": "always",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_92",
+      "source_node_id": "always",
+      "target_node_id": "listening",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_93",
+      "source_node_id": "listening",
+      "target_node_id": "streams",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_94",
+      "source_node_id": "streams",
+      "target_node_id": "flow",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_95",
+      "source_node_id": "flow",
+      "target_node_id": "through",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_96",
+      "source_node_id": "through",
+      "target_node_id": "the",
+      "edge_type": "word_transition",
+      "weight": 0.6666666666666666,
+      "metadata": {
+        "raw_count": 2,
+        "normalized_weight": 0.6666666666666666
+      }
+    },
+    {
+      "edge_id": "edge_97",
+      "source_node_id": "through",
+      "target_node_id": "darkness",
+      "edge_type": "word_transition",
+      "weight": 0.3333333333333333,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.3333333333333333
+      }
+    },
+    {
+      "edge_id": "edge_98",
+      "source_node_id": "undergrowth",
+      "target_node_id": "their",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_99",
+      "source_node_id": "waters",
+      "target_node_id": "clear",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_100",
+      "source_node_id": "clear",
+      "target_node_id": "and",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_101",
+      "source_node_id": "cold",
+      "target_node_id": "fish",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_102",
+      "source_node_id": "cold",
+      "target_node_id": "seasons",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_103",
+      "source_node_id": "fish",
+      "target_node_id": "dart",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_104",
+      "source_node_id": "dart",
+      "target_node_id": "between",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_105",
+      "source_node_id": "between",
+      "target_node_id": "rocks",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_106",
+      "source_node_id": "rocks",
+      "target_node_id": "silver",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_107",
+      "source_node_id": "silver",
+      "target_node_id": "flashes",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_108",
+      "source_node_id": "flashes",
+      "target_node_id": "in",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_109",
+      "source_node_id": "shadows",
+      "target_node_id": "sunlight",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_110",
+      "source_node_id": "sunlight",
+      "target_node_id": "filters",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_111",
+      "source_node_id": "filters",
+      "target_node_id": "through",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_112",
+      "source_node_id": "golden",
+      "target_node_id": "shafts",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_113",
+      "source_node_id": "shafts",
+      "target_node_id": "dust",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_114",
+      "source_node_id": "dust",
+      "target_node_id": "motes",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_115",
+      "source_node_id": "motes",
+      "target_node_id": "drift",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_116",
+      "source_node_id": "drift",
+      "target_node_id": "lazily",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_117",
+      "source_node_id": "lazily",
+      "target_node_id": "in",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_118",
+      "source_node_id": "warm",
+      "target_node_id": "air",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_119",
+      "source_node_id": "air",
+      "target_node_id": "the",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_120",
+      "source_node_id": "smells",
+      "target_node_id": "rich",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_121",
+      "source_node_id": "rich",
+      "target_node_id": "and",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_122",
+      "source_node_id": "alive",
+      "target_node_id": "mushrooms",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_123",
+      "source_node_id": "mushrooms",
+      "target_node_id": "sprout",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_124",
+      "source_node_id": "sprout",
+      "target_node_id": "from",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_125",
+      "source_node_id": "from",
+      "target_node_id": "fallen",
+      "edge_type": "word_transition",
+      "weight": 0.3333333333333333,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.3333333333333333
+      }
+    },
+    {
+      "edge_id": "edge_126",
+      "source_node_id": "from",
+      "target_node_id": "the",
+      "edge_type": "word_transition",
+      "weight": 0.3333333333333333,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.3333333333333333
+      }
+    },
+    {
+      "edge_id": "edge_127",
+      "source_node_id": "from",
+      "target_node_id": "every",
+      "edge_type": "word_transition",
+      "weight": 0.3333333333333333,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.3333333333333333
+      }
+    },
+    {
+      "edge_id": "edge_128",
+      "source_node_id": "fallen",
+      "target_node_id": "logs",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_129",
+      "source_node_id": "logs",
+      "target_node_id": "returning",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_130",
+      "source_node_id": "returning",
+      "target_node_id": "wood",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_131",
+      "source_node_id": "wood",
+      "target_node_id": "to",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_132",
+      "source_node_id": "soil",
+      "target_node_id": "everything",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_133",
+      "source_node_id": "everything",
+      "target_node_id": "cycles",
+      "edge_type": "word_transition",
+      "weight": 0.3333333333333333,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.3333333333333333
+      }
+    },
+    {
+      "edge_id": "edge_134",
+      "source_node_id": "everything",
+      "target_node_id": "transforms",
+      "edge_type": "word_transition",
+      "weight": 0.3333333333333333,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.3333333333333333
+      }
+    },
+    {
+      "edge_id": "edge_135",
+      "source_node_id": "everything",
+      "target_node_id": "in",
+      "edge_type": "word_transition",
+      "weight": 0.3333333333333333,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.3333333333333333
+      }
+    },
+    {
+      "edge_id": "edge_136",
+      "source_node_id": "cycles",
+      "target_node_id": "everything",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_137",
+      "source_node_id": "transforms",
+      "target_node_id": "night",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_138",
+      "source_node_id": "night",
+      "target_node_id": "falls",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_139",
+      "source_node_id": "falls",
+      "target_node_id": "gently",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_140",
+      "source_node_id": "gently",
+      "target_node_id": "on",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_141",
+      "source_node_id": "stars",
+      "target_node_id": "emerge",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_142",
+      "source_node_id": "emerge",
+      "target_node_id": "one",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_143",
+      "source_node_id": "one",
+      "target_node_id": "by",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_144",
+      "source_node_id": "one",
+      "target_node_id": "above",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_145",
+      "source_node_id": "by",
+      "target_node_id": "one",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_146",
+      "source_node_id": "above",
+      "target_node_id": "the",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_147",
+      "source_node_id": "owls",
+      "target_node_id": "begin",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_148",
+      "source_node_id": "begin",
+      "target_node_id": "their",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_149",
+      "source_node_id": "hunt",
+      "target_node_id": "silent",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_150",
+      "source_node_id": "silent",
+      "target_node_id": "wings",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_151",
+      "source_node_id": "wings",
+      "target_node_id": "cutting",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_152",
+      "source_node_id": "cutting",
+      "target_node_id": "through",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_153",
+      "source_node_id": "darkness",
+      "target_node_id": "the",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_154",
+      "source_node_id": "holds",
+      "target_node_id": "its",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_155",
+      "source_node_id": "its",
+      "target_node_id": "breath",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_156",
+      "source_node_id": "its",
+      "target_node_id": "paths",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_157",
+      "source_node_id": "breath",
+      "target_node_id": "small",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_158",
+      "source_node_id": "small",
+      "target_node_id": "creatures",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_159",
+      "source_node_id": "creatures",
+      "target_node_id": "huddle",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_160",
+      "source_node_id": "huddle",
+      "target_node_id": "in",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_161",
+      "source_node_id": "burrows",
+      "target_node_id": "safe",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_162",
+      "source_node_id": "safe",
+      "target_node_id": "from",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_163",
+      "source_node_id": "turn",
+      "target_node_id": "like",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_164",
+      "source_node_id": "like",
+      "target_node_id": "pages",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_165",
+      "source_node_id": "pages",
+      "target_node_id": "in",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_166",
+      "source_node_id": "an",
+      "target_node_id": "endless",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_167",
+      "source_node_id": "endless",
+      "target_node_id": "book",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_168",
+      "source_node_id": "book",
+      "target_node_id": "spring",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_169",
+      "source_node_id": "spring",
+      "target_node_id": "brings",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_170",
+      "source_node_id": "brings",
+      "target_node_id": "new",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_171",
+      "source_node_id": "new",
+      "target_node_id": "life",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_172",
+      "source_node_id": "life",
+      "target_node_id": "bursting",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_173",
+      "source_node_id": "bursting",
+      "target_node_id": "from",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_174",
+      "source_node_id": "every",
+      "target_node_id": "branch",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_175",
+      "source_node_id": "every",
+      "target_node_id": "footstep",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_176",
+      "source_node_id": "branch",
+      "target_node_id": "summer's",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_177",
+      "source_node_id": "summer's",
+      "target_node_id": "heat",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_178",
+      "source_node_id": "heat",
+      "target_node_id": "intensifies",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_179",
+      "source_node_id": "intensifies",
+      "target_node_id": "the",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_180",
+      "source_node_id": "forest's",
+      "target_node_id": "green",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_181",
+      "source_node_id": "green",
+      "target_node_id": "embrace",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_182",
+      "source_node_id": "embrace",
+      "target_node_id": "autumn",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_183",
+      "source_node_id": "autumn",
+      "target_node_id": "paints",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_184",
+      "source_node_id": "paints",
+      "target_node_id": "leaves",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_185",
+      "source_node_id": "fire",
+      "target_node_id": "colors",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_186",
+      "source_node_id": "colors",
+      "target_node_id": "before",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_187",
+      "source_node_id": "before",
+      "target_node_id": "they",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_188",
+      "source_node_id": "they",
+      "target_node_id": "fall",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_189",
+      "source_node_id": "they",
+      "target_node_id": "have",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_190",
+      "source_node_id": "fall",
+      "target_node_id": "winter",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_191",
+      "source_node_id": "winter",
+      "target_node_id": "blankets",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_192",
+      "source_node_id": "blankets",
+      "target_node_id": "everything",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_193",
+      "source_node_id": "quiet",
+      "target_node_id": "snow",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_194",
+      "source_node_id": "snow",
+      "target_node_id": "the",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_195",
+      "source_node_id": "remembers",
+      "target_node_id": "all",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_196",
+      "source_node_id": "all",
+      "target_node_id": "who",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_197",
+      "source_node_id": "who",
+      "target_node_id": "walk",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_198",
+      "source_node_id": "who",
+      "target_node_id": "listen",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_199",
+      "source_node_id": "walk",
+      "target_node_id": "its",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_200",
+      "source_node_id": "paths",
+      "target_node_id": "every",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_201",
+      "source_node_id": "footstep",
+      "target_node_id": "echoes",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_202",
+      "source_node_id": "echoes",
+      "target_node_id": "in",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_203",
+      "source_node_id": "memory",
+      "target_node_id": "human",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_204",
+      "source_node_id": "human",
+      "target_node_id": "voices",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_205",
+      "source_node_id": "voices",
+      "target_node_id": "fade",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_206",
+      "source_node_id": "fade",
+      "target_node_id": "but",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_207",
+      "source_node_id": "but",
+      "target_node_id": "the",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_208",
+      "source_node_id": "remain",
+      "target_node_id": "they",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_209",
+      "source_node_id": "remain",
+      "target_node_id": "constant",
+      "edge_type": "word_transition",
+      "weight": 0.5,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 0.5
+      }
+    },
+    {
+      "edge_id": "edge_210",
+      "source_node_id": "have",
+      "target_node_id": "witnessed",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_211",
+      "source_node_id": "witnessed",
+      "target_node_id": "centuries",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_212",
+      "source_node_id": "centuries",
+      "target_node_id": "of",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_213",
+      "source_node_id": "change",
+      "target_node_id": "yet",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_214",
+      "source_node_id": "yet",
+      "target_node_id": "remain",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_215",
+      "source_node_id": "constant",
+      "target_node_id": "the",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_216",
+      "source_node_id": "is",
+      "target_node_id": "both",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_217",
+      "source_node_id": "both",
+      "target_node_id": "teacher",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_218",
+      "source_node_id": "teacher",
+      "target_node_id": "and",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_219",
+      "source_node_id": "sanctuary",
+      "target_node_id": "offering",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_220",
+      "source_node_id": "offering",
+      "target_node_id": "wisdom",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    },
+    {
+      "edge_id": "edge_221",
+      "source_node_id": "those",
+      "target_node_id": "who",
+      "edge_type": "word_transition",
+      "weight": 1.0,
+      "metadata": {
+        "raw_count": 1,
+        "normalized_weight": 1.0
+      }
+    }
+  ],
+  "hierarchy": {
+    "levels": [
+      "token",
+      "sentence",
+      "paragraph",
+      "chapter",
+      "book"
+    ],
+    "current_level": "token",
+    "parent_system": null
+  }
+}
